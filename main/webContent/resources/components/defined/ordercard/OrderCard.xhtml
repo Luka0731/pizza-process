@@ -1,0 +1,47 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:cic="jakarta.faces.composite/components/defined/itemcard"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="order" type="ch.frox.pizzaprocess.main.java.domain.order.Order" required="true" shortDescription="the order whose items get listed, read only"/>
+    <cc:attribute name="title" type="java.lang.String" default="Your order"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/defined/ordercard/OrderCard.css"/>
+    <div id="#{cc.clientId}" class="order-card card #{cc.attrs.styleClass}">
+
+
+
+      <div class="card__head">
+        <h2 class="card__title">
+          <h:outputText value="#{cc.attrs.title}"/>
+        </h2>
+      </div>
+
+      <div class="order-card__list">
+        <ui:repeat value="#{cc.attrs.order.items}" var="item" varStatus="loop">
+          <cic:ItemCard
+            item="#{item}"
+            index="#{loop.index}"
+            removable="false"
+            styleClass="order-card__item"
+          />
+        </ui:repeat>
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

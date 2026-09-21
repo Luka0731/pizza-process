@@ -1,0 +1,79 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:rcp="jakarta.faces.composite/components/undefined/receipt"
+  xmlns:prf="jakarta.faces.composite/components/defined/profile"
+  xmlns:dtc="jakarta.faces.composite/components/defined/detailscard"
+  xmlns:odc="jakarta.faces.composite/components/defined/ordercard"
+>
+  <h:outputStylesheet name="pages/orderapizzadialog/DetailsConfirmationPage.css"/>
+
+
+
+  <div class="details-confirmation-page" id="detailsConfirmationPage">
+
+    <hdr:Header
+      title="Is everything right?"
+      subtitle="Check your details and your order before you send it off"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile
+          loginAction="#{orderAPizzaDialogBean.goToLoginPage()}"
+          signupAction="#{orderAPizzaDialogBean.goToSignupPage()}"
+          logoutAction="#{orderAPizzaDialogBean.logout()}"
+          update="form:pageContent form:messages"
+        />
+      </f:facet>
+    </hdr:Header>
+
+    <div class="details-confirmation-page__cards">
+      <dtc:DetailsCard
+        customerProfile="#{orderAPizzaDialogBean.customerProfile}"
+        editAction="#{orderAPizzaDialogBean.goToDetailsInputPage()}"
+        update="form:pageContent form:messages"
+        styleClass="details-confirmation-page__details"
+      />
+
+      <!-- no edit here, the items belong to the SelectAPizzaDialog which is already closed -->
+      <odc:OrderCard
+        order="#{orderAPizzaDialogBean.order}"
+        styleClass="details-confirmation-page__order"
+      />
+
+      <rcp:Receipt
+        itemLabel="Pizzas"
+        itemCount="#{orderAPizzaDialogBean.order.totalPizzasAmount}"
+        total="#{orderAPizzaDialogBean.order.totalPrice}"
+        styleClass="details-confirmation-page__receipt"
+      />
+    </div>
+
+    <ftr:Footer styleClass="details-confirmation-page__footer">
+      <p:commandButton
+        id="backButton"
+        value="Back"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{orderAPizzaDialogBean.goToDetailsInputPage()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="confirmPurchaseButton"
+        value="Confirm purchase"
+        icon="pi pi-check"
+        styleClass="button button--primary"
+        process="@this"
+        action="#{orderAPizzaDialogBean.confirmPurchase()}"
+        update="form:pageContent form:messages"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

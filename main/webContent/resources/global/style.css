@@ -1,0 +1,67 @@
+/* |----- design tokens -----| */
+:root {
+   /* TODO: add collor pallet, spacing scale, type scale!!!!!!!!!!!!!!!! */
+}
+
+
+
+/* |----- base elements -----| */
+
+
+
+/* |----- shared elements -----| */
+.dialog-content {
+}
+
+
+.button {
+}
+.button--primary {
+}
+.button--ghost {
+}
+.button--danger {
+}
+
+
+/* a white box with a title row, used by the detailscard, the ordercard and the login/signup forms */
+.card {
+}
+.card__head {
+}
+.card__title {
+}
+
+
+/* grid for input fields, --wide spans the whole row */
+.input-grid {
+}
+.input-grid__item {
+}
+.input-grid__item--wide {
+}
+.input-grid__item--small {
+}
+
+
+/* "no account yet? sign up" line under the login and signup forms */
+.account-switch {
+}
+.account-switch__text {
+}
+.account-switch__link {
+}
+
+
+.empty-state {
+}
+.empty-state__icon {
+}
+.empty-state__text {
+}
+
+
+.footer__label {
+}
+.footer__value {
+}

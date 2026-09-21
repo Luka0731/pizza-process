@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/databases-1.json
+Databases:
+  PizzaProcessDB:
+    Url: jdbc:postgresql://localhost:5432/pizza-process-db
+    Driver: org.postgresql.Driver
+    UserName: admin
+    Password: ${decrypt:mcGu8OB3Afcu6dj3lt4dLQ==}
+    MaxConnections: 5
+    Name: PizzaProcessDB

@@ -1,0 +1,111 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:tif="jakarta.faces.composite/components/undefined/textinputfield"
+  xmlns:prf="jakarta.faces.composite/components/defined/profile"
+>
+  <h:outputStylesheet name="pages/orderapizzadialog/DetailsInputPage.css"/>
+
+
+
+  <div class="details-input-page" id="detailsInputPage">
+
+    <hdr:Header
+      title="Where should it go?"
+      subtitle="Tell us where we bring your pizza"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile
+          loginAction="#{orderAPizzaDialogBean.goToLoginPage()}"
+          signupAction="#{orderAPizzaDialogBean.goToSignupPage()}"
+          logoutAction="#{orderAPizzaDialogBean.logout()}"
+          update="form:pageContent form:messages"
+        />
+      </f:facet>
+    </hdr:Header>
+
+    <!-- every field checks itself against the annotations in CustomerProfile.java as soon as you leave it -->
+    <div class="details-input-page__form input-grid card">
+      <tif:TextInputField
+        id="fullName"
+        label="Full name"
+        value="#{orderAPizzaDialogBean.customerProfile.fullName}"
+        placeholder="Mustafa Tomman"
+        autocomplete="name"
+        styleClass="input-grid__item input-grid__item--wide"
+      />
+      <tif:TextInputField
+        id="email"
+        label="E-mail"
+        type="email"
+        value="#{orderAPizzaDialogBean.customerProfile.email}"
+        placeholder="you@example.ch"
+        autocomplete="email"
+        styleClass="input-grid__item"
+      />
+      <tif:TextInputField
+        id="phone"
+        label="Phone"
+        type="tel"
+        value="#{orderAPizzaDialogBean.customerProfile.phone}"
+        placeholder="+41 79 000 00 00"
+        autocomplete="tel"
+        styleClass="input-grid__item"
+      />
+      <tif:TextInputField
+        id="street"
+        label="Street and house number"
+        value="#{orderAPizzaDialogBean.customerProfile.street}"
+        placeholder="Bahnhofstrasse 12"
+        autocomplete="address-line1"
+        styleClass="input-grid__item input-grid__item--wide"
+      />
+      <tif:TextInputField
+        id="postalCode"
+        label="Postal code"
+        value="#{orderAPizzaDialogBean.customerProfile.postalCode}"
+        placeholder="8005"
+        autocomplete="postal-code"
+        styleClass="input-grid__item input-grid__item--small"
+      />
+      <tif:TextInputField
+        id="city"
+        label="City"
+        value="#{orderAPizzaDialogBean.customerProfile.city}"
+        placeholder="Zurich"
+        autocomplete="address-level2"
+        styleClass="input-grid__item"
+      />
+    </div>
+
+    <ftr:Footer styleClass="details-input-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">Total</span>
+        <span class="footer__value">
+          <h:outputText value="#{orderAPizzaDialogBean.order.totalPrice}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </f:facet>
+      <!-- the button sends the whole form, jsf checks every field again and only calls the action if all are valid -->
+      <p:commandButton
+        id="nextButton"
+        value="Next"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        styleClass="button button--primary"
+        action="#{orderAPizzaDialogBean.goToDetailsConfirmationPage()}"
+        update="form:pageContent form:messages"
+      />
+      <!-- enter in any field presses this button -->
+      <p:defaultCommand target="nextButton"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

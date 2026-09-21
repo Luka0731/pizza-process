@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/users.json
+Users:
+  - Name: Mustafa
+    Password: '1234'
+    FullName: Mustafa Tomman
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - PizzaCustomer
+  - Name: Admin
+    Password: '1234'
+    FullName: Admin Vollpower
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - Admin
+  - Name: Tamara
+    Password: '1234'
+    FullName: Tamara Jauch
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - PizzaCustomer
+  - Name: Annesa
+    Password: '1234'
+    FullName: Annesa Suleymani
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - PizzaChef
+  - Name: Ayesha
+    Password: '1234'
+    FullName: Ayesha Ericsons
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - Clerk
+  - Name: Sophia
+    Password: '1234'
+    FullName: Sophia Slavic
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - Clerk
+      - PizzaChef
+  - Name: Diana
+    Password: '1234'
+    FullName: Diana Nguyen
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - DeliveryBoy

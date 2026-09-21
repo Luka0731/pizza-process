@@ -1,0 +1,96 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+>
+  <h:outputStylesheet name="pages/selectapizzadialog/PizzaDetailPage.css" />
+
+
+  <div class="detail-page" id="detailPage">
+
+    <hdr:Header
+      title="#{selectAPizzaDialogBean.selectedPizza.name}"
+      subtitle="Choose your size"
+      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
+      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
+      update="form:pageContent form:messages" 
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!-- loaded state -->
+    <h:panelGroup layout="block" styleClass="detail-page__body" rendered="#{selectAPizzaDialogBean.isPizzaSelected()}">
+
+      <div class="detail-page__media">
+        <p:graphicImage value="#{imageStreamerBean.image}" cache="false" styleClass="detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
+          <f:param name="imageId" value="#{selectAPizzaDialogBean.selectedPizza.image.id}"/>
+        </p:graphicImage>
+      </div>
+
+      <div class="detail-page__info">
+        <h2 class="detail-page__name">
+          <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.name}"/>
+        </h2>
+        <p class="detail-page__description">
+          <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.description}"/>
+        </p>
+        <span class="detail-page__price">
+          <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.price}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </div>
+
+      <div class="detail-page__options">
+        <div class="field field--size">
+          <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label" />
+          <p:selectOneButton id="sizeSelect" value="#{selectAPizzaDialogBean.selectedSize}" styleClass="field__input size-select">
+            <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} (#{size.diameterCm} cm)"/>
+          </p:selectOneButton>
+        </div>
+
+        <div class="field field--amount">
+          <p:outputLabel for="amountSpinner" value="Amount" styleClass="field__label" />
+          <p:spinner id="amountSpinner" value="#{selectAPizzaDialogBean.selectedAmount}" min="1" max="20" stepFactor="1" styleClass="field__input amount-spinner"/>
+        </div>
+      </div>
+      
+    </h:panelGroup>
+
+    <!-- empty state -->
+    <h:panelGroup layout="block" styleClass="empty-state" rendered="#{!selectAPizzaDialogBean.isPizzaSelected()}">
+      <span class="empty-state__text">no pizza selected.</span>
+    </h:panelGroup>
+
+    <ftr:Footer styleClass="detail-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">Cart</span>
+        <span class="footer__value">
+          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} item(s)"/>
+        </span>
+      </f:facet>
+      <p:commandButton
+        id="backButton"
+        value="Back to menu"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{selectAPizzaDialogBean.goToMenuPage()}"
+        update="form:pageContent form:messages"/>
+      <p:commandButton
+        id="addToCartButton"
+        value="Add to cart"
+        icon="pi pi-plus"
+        styleClass="button button--primary"
+        disabled="#{!selectAPizzaDialogBean.isPizzaSelected()}"
+        action="#{selectAPizzaDialogBean.addToCart}"
+        update="form:pageContent form:messages"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

@@ -1,0 +1,54 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="title"     type="java.lang.String" required="true" />
+    <cc:attribute name="subtitle"  type="java.lang.String" default="" />
+    <cc:attribute name="cartCount" type="java.lang.Integer" default="0" />
+    <cc:attribute name="showCart"  type="java.lang.Boolean" default="true" />
+    <cc:attribute name="cartAction" method-signature="void action()" />
+    <cc:attribute name="update" type="java.lang.String" default="@form" />
+    <cc:attribute name="styleClass" type="java.lang.String" default="" />
+    <cc:facet name="actions" shortDescription="extra content on the right side, e.g. the profile" />
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/undefined/header/Header.css" />
+    <div id="#{cc.clientId}" class="app-header #{cc.attrs.styleClass}">
+
+
+
+      <div class="app-header__text">
+        <h1 class="app-header__title">
+          <h:outputText value="#{cc.attrs.title}" />
+        </h1>
+        <span class="app-header__subtitle" >
+          <h:outputText value="#{cc.attrs.subtitle}" rendered="#{not empty cc.attrs.subtitle}" />
+        </span>
+      </div>
+
+      <div class="app-header__actions">
+        <p:commandLink styleClass="app-header__cart cart-badge" process="@this" rendered="#{cc.attrs.showCart}" action="#{cc.attrs.cartAction}" update="#{cc.attrs.update}">
+          <i class="pi pi-shopping-cart cart-badge__icon"></i>
+          <span class="cart-badge__count">
+            <h:outputText value="#{cc.attrs.cartCount}"/>
+          </span>
+        </p:commandLink>
+        <cc:renderFacet name="actions" />
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

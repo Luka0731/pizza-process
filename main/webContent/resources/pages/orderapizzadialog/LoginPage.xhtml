@@ -1,0 +1,77 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:tif="jakarta.faces.composite/components/undefined/textinputfield"
+>
+  <h:outputStylesheet name="pages/orderapizzadialog/LoginPage.css"/>
+
+
+
+  <div class="login-page" id="loginPage">
+
+    <hdr:Header
+      title="Log in"
+      subtitle="Your details will be filled in for you"
+      showCart="false"
+    />
+
+    <!-- validateOnBlur="false": the fields are only checked when the login button is pressed -->
+    <div class="login-page__form input-grid card">
+      <tif:TextInputField
+        id="userName"
+        label="Username"
+        value="#{orderAPizzaDialogBean.credentials.userName}"
+        autocomplete="username"
+        validateOnBlur="false"
+        styleClass="input-grid__item input-grid__item--wide"
+      />
+      <tif:TextInputField
+        id="password"
+        label="Password"
+        type="password"
+        value="#{orderAPizzaDialogBean.credentials.password}"
+        autocomplete="current-password"
+        validateOnBlur="false"
+        styleClass="input-grid__item input-grid__item--wide"
+      />
+
+      <div class="account-switch input-grid__item input-grid__item--wide">
+        <span class="account-switch__text">No account yet?</span>
+        <p:commandLink
+          value="Sign up"
+          styleClass="account-switch__link"
+          process="@this"
+          action="#{orderAPizzaDialogBean.goToSignupPage()}"
+          update="form:pageContent form:messages"
+        />
+      </div>
+    </div>
+
+    <ftr:Footer styleClass="login-page__footer">
+      <p:commandButton
+        id="backButton"
+        value="Back"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{orderAPizzaDialogBean.goToPageBeforeAccount()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="loginButton"
+        value="Log in"
+        icon="pi pi-sign-in"
+        styleClass="button button--primary"
+        action="#{orderAPizzaDialogBean.login()}"
+        update="form:pageContent form:messages"
+      />
+      <p:defaultCommand target="loginButton"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

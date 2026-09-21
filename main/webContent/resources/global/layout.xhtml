@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+>
+  
+
+  <!-- TODO: overwork this whole file -->
+  <h:head>
+    <f:attribute name="primefaces.THEME" value="#{ivyFreyaTheme.theme}"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><ui:insert name="title">Ivy Html Dialog</ui:insert></title>
+    <link rel="shortcut icon" href="#{resource['ivy-branding:favicon']}"/>
+    <h:outputScript name="js/layout.js" library="#{ivyFreyaTheme.library}"/>
+    <h:outputStylesheet name="#{ivyFreyaTheme.layout}" library="#{ivyFreyaTheme.library}"/>
+    <h:outputStylesheet name="primeflex-3.min.css" library="primeflex"/>
+    <h:outputStylesheet name="custom.css" library="ivy-branding"/>
+    <h:outputStylesheet name="global/style.css" />
+    <h:outputScript name="global/logic.js" target="head" />
+  </h:head>
+
+
+
+  <h:body class="body-hd #{ivyFreyaTheme.mode}">
+    <ui:include src="/ivy-form/layouts/includes/progress-loader.xhtml"/>
+    <div id="content" class="container frame">
+      <ui:insert name="content">
+        default content
+      </ui:insert>
+    </div>
+
+    <ui:insert name="exception">
+      <ui:include src="/ivy-form/layouts/includes/exception.xhtml"/>
+    </ui:insert>
+
+  </h:body>
+
+</html>

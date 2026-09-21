@@ -1,0 +1,109 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:tif="jakarta.faces.composite/components/undefined/textinputfield"
+>
+  <h:outputStylesheet name="pages/orderapizzadialog/SignupPage.css"/>
+
+
+
+  <div class="signup-page" id="signupPage">
+
+    <hdr:Header
+      title="Create an account"
+      subtitle="Next time your details are already filled in"
+      showCart="false"
+    />
+
+    <!--
+      name and email are the same fields as on the details page, so whatever was typed in there is already filled in here.
+      f:validateBean switches to the OnSignup group, so the extra signup rules of AxonIvyCredentials (password length, allowed characters) are checked too.
+      the password repeat is not bound to one field, the AxonIvySessionService checks it and the message shows up in the growl.
+    -->
+    <f:validateBean validationGroups="ch.frox.pizzaprocess.main.java.core.validationgroup.OnSignup">
+      <div class="signup-page__form input-grid card">
+        <tif:TextInputField
+          id="fullName"
+          label="Full name"
+          value="#{orderAPizzaDialogBean.customerProfile.fullName}"
+          autocomplete="name"
+          validateOnBlur="false"
+          styleClass="input-grid__item input-grid__item--wide"
+        />
+        <tif:TextInputField
+          id="email"
+          label="E-mail"
+          type="email"
+          value="#{orderAPizzaDialogBean.customerProfile.email}"
+          autocomplete="email"
+          validateOnBlur="false"
+          styleClass="input-grid__item input-grid__item--wide"
+        />
+        <tif:TextInputField
+          id="userName"
+          label="Username"
+          value="#{orderAPizzaDialogBean.credentials.userName}"
+          autocomplete="username"
+          validateOnBlur="false"
+          styleClass="input-grid__item input-grid__item--wide"
+        />
+        <tif:TextInputField
+          id="password"
+          label="Password"
+          type="password"
+          value="#{orderAPizzaDialogBean.credentials.password}"
+          autocomplete="new-password"
+          validateOnBlur="false"
+          styleClass="input-grid__item"
+        />
+        <tif:TextInputField
+          id="passwordRepeat"
+          label="Repeat password"
+          type="password"
+          value="#{orderAPizzaDialogBean.credentials.passwordRepeat}"
+          autocomplete="new-password"
+          validateOnBlur="false"
+          styleClass="input-grid__item"
+        />
+
+        <div class="account-switch input-grid__item input-grid__item--wide">
+          <span class="account-switch__text">Already have an account?</span>
+          <p:commandLink
+            value="Log in"
+            styleClass="account-switch__link"
+            process="@this"
+            action="#{orderAPizzaDialogBean.goToLoginPage()}"
+            update="form:pageContent form:messages"
+          />
+        </div>
+      </div>
+    </f:validateBean>
+
+    <ftr:Footer styleClass="signup-page__footer">
+      <p:commandButton
+        id="backButton"
+        value="Back"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{orderAPizzaDialogBean.goToPageBeforeAccount()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="signupButton"
+        value="Sign up"
+        icon="pi pi-user-plus"
+        styleClass="button button--primary"
+        action="#{orderAPizzaDialogBean.signUp()}"
+        update="form:pageContent form:messages"
+      />
+      <p:defaultCommand target="signupButton"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

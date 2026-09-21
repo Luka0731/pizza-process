@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "OrderAPizzaDialogData",
+  "namespace" : "ch.frox.pizzaprocess.OrderAPizzaDialog",
+  "fields" : [ {
+    "name" : "orderId",
+    "type" : "java.util.UUID",
+    "modifiers" : [ ]
+  } ]
+}

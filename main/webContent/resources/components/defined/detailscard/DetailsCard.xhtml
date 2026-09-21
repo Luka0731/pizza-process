@@ -1,0 +1,67 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="customerProfile" type="ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile" required="true" shortDescription="the details to show"/>
+    <cc:attribute name="editAction" method-signature="void action()" shortDescription="leads back to where the details can be changed"/>
+    <cc:attribute name="editable" type="java.lang.Boolean" default="true"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/defined/detailscard/DetailsCard.css"/>
+    <div id="#{cc.clientId}" class="details-card card #{cc.attrs.styleClass}">
+
+
+
+      <div class="card__head">
+        <h2 class="card__title">Delivery details</h2>
+        <p:commandLink
+          value="Edit"
+          styleClass="details-card__edit"
+          process="@this"
+          rendered="#{cc.attrs.editable}"
+          action="#{cc.attrs.editAction}"
+          update="#{cc.attrs.update}"
+        />
+      </div>
+
+      <dl class="details-card__list">
+        <div class="details-card__row">
+          <dt class="details-card__label">Name</dt>
+          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.fullName}"/></dd>
+        </div>
+        <div class="details-card__row">
+          <dt class="details-card__label">E-mail</dt>
+          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.email}"/></dd>
+        </div>
+        <div class="details-card__row">
+          <dt class="details-card__label">Phone</dt>
+          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.phone}"/></dd>
+        </div>
+        <div class="details-card__row">
+          <dt class="details-card__label">Address</dt>
+          <dd class="details-card__value">
+            <h:outputText value="#{cc.attrs.customerProfile.street}"/>
+            <br/>
+            <h:outputText value="#{cc.attrs.customerProfile.postalCode} #{cc.attrs.customerProfile.city}"/>
+          </dd>
+        </div>
+      </dl>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

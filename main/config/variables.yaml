@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/variables.json
+Variables:
+  settings:
+    # If this is true, bevor every testdata generation, all data in PizzaProcessDB get cleaned. Any active processes, cases and tasks also get deleted
+    allowDataReset: "false"
+  config:
+    # The name of the JPA that you are using. You can set up a JPA in the persistence.yaml file. Its needed for every repository class.
+    jpaName: PizzaProcessJPA

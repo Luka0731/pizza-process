@@ -1,0 +1,26 @@
+<ui:composition template="/resources/global/layout.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+>
+
+
+
+  <ui:define name="title">Order a Pizza</ui:define>
+
+  <ui:define name="content">
+    <h:form id="form">
+
+      <p:growl id="messages" showDetail="true" life="3000" />
+
+      <p:outputPanel id="pageContent" layout="block" styleClass="dialog-content">
+        <ui:include src="#{orderAPizzaDialogBean.router()}" />
+      </p:outputPanel>
+
+    </h:form>
+  </ui:define>
+</ui:composition>

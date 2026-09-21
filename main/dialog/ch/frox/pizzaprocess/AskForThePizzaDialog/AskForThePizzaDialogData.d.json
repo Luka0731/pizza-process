@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "AskForThePizzaDialogData",
+  "namespace" : "ch.frox.pizzaprocess.AskForThePizzaDialog",
+  "fields" : [ {
+    "name" : "pizzaCustomerProcess",
+    "type" : "ch.frox.pizzaprocess.PizzaCustomerProcessData",
+    "modifiers" : [ ]
+  } ]
+}

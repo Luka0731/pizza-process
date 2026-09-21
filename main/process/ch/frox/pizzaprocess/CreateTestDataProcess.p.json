@@ -1,0 +1,49 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/process.json",
+  "id" : "1A01EB264DD79B76",
+  "config" : {
+    "data" : "ch.frox.pizzaprocess.CreateTestDataProcessData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "start",
+      "config" : {
+        "signature" : "start"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "create test data",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.frox.pizzaprocess.main.java.entrypoint.TestDataSeeder;",
+            "import ch.frox.pizzaprocess.main.java.entrypoint.DatabaseCleaner;",
+            "",
+            "//DatabaseCleaner.wipeAll();",
+            "TestDataSeeder.seed();"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}

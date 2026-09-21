@@ -1,0 +1,36 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+    <cc:facet name="summary"/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/undefined/footer/Footer.css"/>
+    <div id="#{cc.clientId}" class="app-footer #{cc.attrs.styleClass}">
+
+
+      
+      <div class="app-footer__summary">
+        <cc:renderFacet name="summary"/>
+      </div>
+
+      <div class="app-footer__actions">
+        <cc:insertChildren/>
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

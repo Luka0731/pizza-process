@@ -1,0 +1,73 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="item" type="ch.frox.pizzaprocess.main.java.domain.order.OrderItem" required="true" shortDescription="the order item to render"/>
+    <cc:attribute name="removable" type="java.lang.Boolean" default="true" shortDescription="false hides the remove button, e.g. on the checkout"/>
+    <cc:attribute name="removeAction" method-signature="void action()" shortDescription="called when the remove button is clicked"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+    <cc:attribute name="index" type="java.lang.Integer" default="0"/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/defined/itemcard/ItemCard.css"/>
+    <div id="#{cc.clientId}" class="item-card #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+
+
+
+      <div class="item-card__media">
+        <p:graphicImage value="#{imageStreamerBean.image}" cache="false" styleClass="item-card__image" alt="#{cc.attrs.item.pizza.name}">
+          <f:param name="imageId" value="#{cc.attrs.item.pizza.image.id}"/>
+        </p:graphicImage>
+      </div>
+
+      <div class="item-card__body">
+        <span class="item-card__name">
+          <h:outputText value="#{cc.attrs.item.pizza.name}"/>
+        </span>
+        <span class="item-card__meta">
+          <h:outputText value="#{cc.attrs.item.pizzaSize.label}" styleClass="item-card__size"/>
+          <h:outputText value=" &#183; #{cc.attrs.item.pizzaSize.diameterCm} cm"/>
+        </span>
+      </div>
+
+      <div class="item-card__amount">
+        <span class="item-card__amount-value">
+          <h:outputText value="#{cc.attrs.item.amount}"/>
+        </span>
+        <span class="item-card__amount-unit">x</span>
+      </div>
+
+      <div class="item-card__price">
+        <h:outputText value="#{cc.attrs.item.subtotalPrice}">
+          <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+        </h:outputText>
+      </div>
+
+      <h:panelGroup layout="block" styleClass="item-card__actions" rendered="#{cc.attrs.removable}">
+        <p:commandButton
+          icon="pi pi-trash"
+          title="Remove"
+          styleClass="button button--danger item-card__remove"
+          process="@this"
+          action="#{cc.attrs.removeAction}"
+          update="#{cc.attrs.update}"
+        />
+      </h:panelGroup>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

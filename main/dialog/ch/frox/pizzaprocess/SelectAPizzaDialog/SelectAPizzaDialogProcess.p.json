@@ -1,0 +1,57 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/process.json",
+  "id" : "19FEA60E35DCF805",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "ch.frox.pizzaprocess.SelectAPizzaDialog.SelectAPizzaDialogData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start(orderId)",
+      "config" : {
+        "signature" : "start",
+        "result" : {
+          "params" : [
+            { "name" : "orderId", "type" : "java.util.UUID", "desc" : "" }
+          ],
+          "map" : {
+            "result.orderId" : "in.orderId"
+          }
+        },
+        "guid" : "19FEA60E3664D59D"
+      },
+      "visual" : {
+        "at" : { "x" : 104, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      }
+    }, {
+      "id" : "f4",
+      "type" : "HtmlDialogExit",
+      "visual" : {
+        "at" : { "x" : 224, "y" : 152 }
+      }
+    }, {
+      "id" : "f6",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "close()",
+      "config" : {
+        "signature" : "close",
+        "guid" : "1A0AEB060846C0FD"
+      },
+      "visual" : {
+        "at" : { "x" : 104, "y" : 152 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f4" }
+      ]
+    } ]
+}

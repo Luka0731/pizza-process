@@ -1,0 +1,51 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="total" type="java.math.BigDecimal" required="true"/>
+    <cc:attribute name="itemCount" type="java.lang.Integer" default="0"/>
+    <cc:attribute name="itemLabel" type="java.lang.String" default="Items"/>
+    <cc:attribute name="totalLabel" type="java.lang.String" default="Total"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/undefined/receipt/Receipt.css"/>
+    <div id="#{cc.clientId}" class="receipt #{cc.attrs.styleClass}">
+
+
+
+      <div class="receipt__row">
+        <span class="receipt__label">
+          <h:outputText value="#{cc.attrs.itemLabel}"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.itemCount}"/>
+        </span>
+      </div>
+
+      <div class="receipt__row receipt__row--sum">
+        <span class="receipt__label">
+          <h:outputText value="#{cc.attrs.totalLabel}"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.total}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

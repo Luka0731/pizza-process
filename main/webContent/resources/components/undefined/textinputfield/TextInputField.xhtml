@@ -1,0 +1,62 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:c="jakarta.tags.core"
+  xmlns:p="primefaces"
+>
+
+  <!--
+    label, input and error text in one.
+
+    there is no validation in here. jsf looks at the property that "value" points to (e.g. CustomerProfile.email)
+    and runs its annotations (@NotBlank, @Email, ...). the message of the annotation is shown in the error text.
+
+    validateOnBlur="true": when the user leaves the field, only this one field is sent to the server (ajax)
+    and only this field and its error text are rendered again. no page reload.
+  -->
+
+
+
+  <cc:interface>
+    <cc:attribute name="value" required="true" shortDescription="the property to bind, e.g. #{bean.customerProfile.email}"/>
+    <cc:attribute name="label" type="java.lang.String" required="true"/>
+    <cc:attribute name="type" type="java.lang.String" default="text" shortDescription="text, email, tel or password"/>
+    <cc:attribute name="placeholder" type="java.lang.String" default=""/>
+    <cc:attribute name="autocomplete" type="java.lang.String" default="on" shortDescription="helps the browser to fill in the field, e.g. name, email, username, current-password"/>
+    <cc:attribute name="validateOnBlur" type="java.lang.Boolean" default="true" shortDescription="false validates only when the form is sent"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/undefined/textinputfield/TextInputField.css"/>
+    <div id="#{cc.clientId}" class="text-input-field #{cc.attrs.styleClass}">
+
+
+
+      <p:outputLabel for="input" value="#{cc.attrs.label}" styleClass="text-input-field__label"/>
+
+      <!-- c:if instead of rendered: both inputs need the id "input", so only one of them is allowed to exist in the component tree -->
+      <c:if test="#{cc.attrs.type eq 'password'}">
+        <!-- the password is never sent back to the browser, thats why the input itself is not updated on blur -->
+        <p:password id="input" value="#{cc.attrs.value}" placeholder="#{cc.attrs.placeholder}" autocomplete="#{cc.attrs.autocomplete}" toggleMask="true" styleClass="text-input-field__input">
+          <p:ajax event="blur" update="message" disabled="#{not cc.attrs.validateOnBlur}"/>
+        </p:password>
+      </c:if>
+      <c:if test="#{cc.attrs.type ne 'password'}">
+        <p:inputText id="input" type="#{cc.attrs.type}" value="#{cc.attrs.value}" placeholder="#{cc.attrs.placeholder}" autocomplete="#{cc.attrs.autocomplete}" styleClass="text-input-field__input">
+          <p:ajax event="blur" update="@this message" disabled="#{not cc.attrs.validateOnBlur}"/>
+        </p:inputText>
+      </c:if>
+
+      <p:message id="message" for="input" display="text" styleClass="text-input-field__error"/>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

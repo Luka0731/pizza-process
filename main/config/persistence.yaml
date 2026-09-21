@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/persistence-2.json
+Persistence:
+  PizzaProcessJPA:
+    DataSource: PizzaProcessDB
+    Managed:
+      Classes:
+        - ch.frox.pizzaprocess.main.java.domain.pizza.Pizza
+        - ch.frox.pizzaprocess.main.java.domain.image.Image
+        - ch.frox.pizzaprocess.main.java.domain.order.Order
+        - ch.frox.pizzaprocess.main.java.domain.order.OrderItem
+        - ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile
+    Properties:
+      hibernate.hbm2ddl.auto: create

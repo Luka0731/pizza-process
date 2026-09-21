@@ -1,0 +1,73 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+  <!--
+    the axon ivy user of the session. it reads the user itself over the sessionUserBean,
+    the actions come from the page, because what happens after login/logout depends on the dialog.
+  -->
+
+
+
+  <cc:interface>
+    <cc:attribute name="loginAction" method-signature="void action()"/>
+    <cc:attribute name="signupAction" method-signature="void action()"/>
+    <cc:attribute name="logoutAction" method-signature="void action()"/>
+    <cc:attribute name="showAccountLinks" type="java.lang.Boolean" default="true" shortDescription="false only shows who is logged in, without login, signup and logout"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/defined/profile/Profile.css"/>
+    <div id="#{cc.clientId}" class="profile #{cc.attrs.styleClass}">
+
+
+
+      <!-- logged in state -->
+      <h:panelGroup layout="block" styleClass="profile__user" rendered="#{sessionUserBean.loggedIn}">
+        <p:avatar label="#{sessionUserBean.initials}" shape="circle" styleClass="profile__avatar"/>
+        <span class="profile__name">
+          <h:outputText value="#{sessionUserBean.fullName}"/>
+        </span>
+        <p:commandLink
+          value="Log out"
+          styleClass="profile__link"
+          process="@this"
+          rendered="#{cc.attrs.showAccountLinks}"
+          action="#{cc.attrs.logoutAction}"
+          update="#{cc.attrs.update}"
+        />
+      </h:panelGroup>
+
+      <!-- logged out state -->
+      <h:panelGroup layout="block" styleClass="profile__guest" rendered="#{not sessionUserBean.loggedIn and cc.attrs.showAccountLinks}">
+        <i class="pi pi-user profile__icon"></i>
+        <p:commandLink
+          value="Log in"
+          styleClass="profile__link"
+          process="@this"
+          action="#{cc.attrs.loginAction}"
+          update="#{cc.attrs.update}"
+        />
+        <p:commandLink
+          value="Sign up"
+          styleClass="profile__link profile__link--primary"
+          process="@this"
+          action="#{cc.attrs.signupAction}"
+          update="#{cc.attrs.update}"
+        />
+      </h:panelGroup>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

@@ -1,0 +1,47 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:prf="jakarta.faces.composite/components/defined/profile"
+>
+  <h:outputStylesheet name="pages/orderapizzadialog/FinishPage.css"/>
+
+
+
+  <div class="finish-page" id="finishPage">
+
+    <hdr:Header
+      title="Thank you!"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile showAccountLinks="false"/>
+      </f:facet>
+    </hdr:Header>
+
+    <div class="finish-page__body card">
+      <i class="pi pi-check-circle finish-page__icon"></i>
+      <h2 class="finish-page__title">Thanks for ordering</h2>
+      <p class="finish-page__text">
+        <h:outputText value="We got your order and bring it to #{orderAPizzaDialogBean.customerProfile.street}, #{orderAPizzaDialogBean.customerProfile.postalCode} #{orderAPizzaDialogBean.customerProfile.city}."/>
+      </p>
+    </div>
+
+    <!-- the process only goes on once the dialog is closed, the order itself is already saved at this point -->
+    <ftr:Footer styleClass="finish-page__footer">
+      <p:commandButton
+        id="doneButton"
+        value="Done"
+        icon="pi pi-check"
+        styleClass="button button--primary"
+        process="@this"
+        action="#{orderAPizzaDialogBean.close()}"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "CalmCustomerDownTaskData",
+  "namespace" : "ch.frox.pizzaprocess.CalmCustomerDownTask",
+  "fields" : [ {
+    "name" : "pizzaWorkerProcess",
+    "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,56 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="pizza" type="ch.frox.pizzaprocess.main.java.domain.pizza.Pizza" required="true" shortDescription="the pizza entity to render"/>
+    <cc:attribute name="selectAction" method-signature="void action()" shortDescription="what happens when the card is clicked"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+    <cc:attribute name="index" type="java.lang.Integer" default="0"/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/defined/pizzacard/PizzaCard.css" />
+    <div id="#{cc.clientId}" class="pizza-card #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+
+
+
+      <p:commandLink styleClass="pizza-card__link" process="@this" action="#{cc.attrs.selectAction}" update="#{cc.attrs.update}">
+
+        <div class="pizza-card__media">
+          <p:graphicImage value="#{imageStreamerBean.image}" cache="false" styleClass="pizza-card__image" alt="#{cc.attrs.pizza.name}">
+            <f:param name="imageId" value="#{cc.attrs.pizza.image.id}" />
+          </p:graphicImage>
+        </div>
+
+        <div class="pizza-card__body">
+          <span class="pizza-card__name">
+            <h:outputText value="#{cc.attrs.pizza.name}" />
+          </span>
+          <span class="pizza-card__description">
+            <h:outputText value="#{cc.attrs.pizza.description}" />
+          </span>
+          <span class="pizza-card__price">
+            <h:outputText value="#{cc.attrs.pizza.price}">
+              <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2" />
+            </h:outputText>
+          </span>
+        </div>
+
+      </p:commandLink>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

@@ -1,0 +1,244 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/process.json",
+  "id" : "19FEA23D2C6C7782",
+  "config" : {
+    "data" : "ch.frox.pizzaprocess.PizzaCustomerProcessData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "hungry for pizza",
+      "config" : {
+        "signature" : "startPizzaCustomerProcess"
+      },
+      "visual" : {
+        "at" : { "x" : 88, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "name" : "hunger satisfied",
+      "visual" : {
+        "at" : { "x" : 1128, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "DialogCall",
+      "name" : "select a pizza",
+      "config" : {
+        "dialog" : "ch.frox.pizzaprocess.SelectAPizzaDialog:start()",
+        "output" : {
+          "map" : {
+            "out.orderId" : "result.orderId"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f7",
+      "type" : "TaskSwitchGateway",
+      "config" : {
+        "tasks" : [ {
+            "id" : "TaskA",
+            "name" : "wait for the pizza"
+          }, {
+            "id" : "TaskB",
+            "name" : "ask for the pizza"
+          } ]
+      },
+      "visual" : {
+        "at" : { "x" : 544, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f24", "to" : "f23", "condition" : "ivp==\"TaskA.ivp\"" },
+        { "id" : "f30", "to" : "f32", "via" : [ { "x" : 544, "y" : 168 } ], "condition" : "ivp==\"TaskB.ivp\"" }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "DialogCall",
+      "name" : "order a pizza",
+      "config" : {
+        "dialog" : "ch.frox.pizzaprocess.OrderAPizzaDialog:start(java.util.UUID)",
+        "call" : {
+          "map" : {
+            "param.orderId" : "in.orderId"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out.orderId" : "result.orderId"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 408, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f7", "var" : "in1" }
+      ]
+    }, {
+      "id" : "f14",
+      "type" : "DialogCall",
+      "name" : "ask for the pizza",
+      "config" : {
+        "dialog" : "ch.frox.pizzaprocess.AskForThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
+        "call" : {
+          "map" : {
+            "param.pizzaCustomerProcess" : "in"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "result.pizzaCustomerProcess"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 840, "y" : 168 }
+      },
+      "connect" : [
+        { "id" : "f16", "to" : "f31" }
+      ]
+    }, {
+      "id" : "f31",
+      "type" : "TaskEnd",
+      "name" : "customer asked",
+      "visual" : {
+        "at" : { "x" : 1016, "y" : 168 }
+      }
+    }, {
+      "id" : "f19",
+      "type" : "DialogCall",
+      "name" : "pay the pizza",
+      "config" : {
+        "dialog" : "ch.frox.pizzaprocess.PayThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
+        "call" : {
+          "map" : {
+            "param.pizzaCustomerProcess" : "in"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "result.pizzaCustomerProcess"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 840, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f20", "to" : "f21", "color" : "default" }
+      ]
+    }, {
+      "id" : "f21",
+      "type" : "DialogCall",
+      "name" : "eat the pizza",
+      "config" : {
+        "dialog" : "ch.frox.pizzaprocess.EatThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
+        "call" : {
+          "map" : {
+            "param.pizzaCustomerProcess" : "in"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "result.pizzaCustomerProcess"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 1000, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f22", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f23",
+      "type" : "TaskSwitchEvent",
+      "name" : "pizza recived",
+      "visual" : {
+        "at" : { "x" : 648, "y" : 64 },
+        "icon" : "std:Message"
+      },
+      "connect" : [
+        { "id" : "f25", "to" : "f19" }
+      ]
+    }, {
+      "id" : "f26",
+      "type" : "ProcessAnnotation",
+      "name" : [
+        "* a new empty pizza_order entity gets created",
+        "* you can select pizzas. Every selection gets saved to the order",
+        "* click the done button to save the order in the db and move along to the next order"
+      ],
+      "visual" : {
+        "at" : { "x" : 176, "y" : 326 },
+        "size" : { "width" : 352, "height" : 84 }
+      },
+      "connect" : [
+        { "id" : "f27", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f28",
+      "type" : "ProcessAnnotation",
+      "name" : [
+        "* here you put in your data, like address. It fills the order data",
+        "* press finish buton to send the order off"
+      ],
+      "visual" : {
+        "at" : { "x" : 455, "y" : 407 },
+        "size" : { "width" : 287, "height" : 63 }
+      },
+      "connect" : [
+        { "id" : "f29", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f32",
+      "type" : "TaskSwitchEvent",
+      "name" : "! temp !",
+      "visual" : {
+        "at" : { "x" : 648, "y" : 168 },
+        "icon" : "std:Message"
+      },
+      "connect" : [
+        { "id" : "f33", "to" : "f14", "color" : "default" }
+      ]
+    }, {
+      "id" : "f36",
+      "type" : "ProcessAnnotation",
+      "visual" : {
+        "at" : { "x" : 912, "y" : 400 },
+        "size" : { "width" : 256, "height" : 40 }
+      },
+      "connect" : [
+        { "id" : "f37", "to" : "f21" }
+      ]
+    }, {
+      "id" : "f38",
+      "type" : "ProcessAnnotation",
+      "name" : "these both technically dont need to exist",
+      "visual" : {
+        "at" : { "x" : 912, "y" : 400 },
+        "size" : { "width" : 256, "height" : 40 }
+      },
+      "connect" : [
+        { "id" : "f39", "to" : "f19" }
+      ]
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "Pizza Customer",
+        "offset" : 8,
+        "size" : 248,
+        "lanes" : [ ]
+      } ]
+  }
+}

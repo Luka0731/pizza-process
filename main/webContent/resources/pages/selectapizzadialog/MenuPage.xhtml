@@ -1,0 +1,67 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:pc="jakarta.faces.composite/components/defined/pizzacard"
+>
+  <h:outputStylesheet name="pages/selectapizzadialog/MenuPage.css"/>
+
+
+  <div class="menu-page" id="menuPage">
+
+    <hdr:Header
+      title="The Menu"
+      subtitle="Pick a pizza to see the details"
+      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
+      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
+      update="form:pageContent form:messages"
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!-- loaded state -->
+    <div class="menu-page__grid">
+      <ui:repeat value="#{selectAPizzaDialogBean.catalog}" var="pizza" varStatus="loop">
+        <pc:PizzaCard
+          pizza="#{pizza}"
+          index="#{loop.index}"
+          selectAction="#{selectAPizzaDialogBean.goToDetailPage(pizza)}"
+          update="form:pageContent form:messages"
+          styleClass="menu-page__card" 
+        />
+      </ui:repeat>
+    </div>
+
+    <!-- empty state -->
+    <h:panelGroup layout="block" styleClass="menu-page__empty empty-state" rendered="#{empty selectAPizzaDialogBean.catalog}">
+      <i class="pi pi-inbox empty-state__icon"></i>
+      <span class="empty-state__text">no pizzas in the catalog.</span>
+    </h:panelGroup>
+
+    <ftr:Footer styleClass="menu-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">Cart</span>
+        <span class="footer__value">
+          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} item(s) &#8226;"/>
+          <h:outputText value="#{selectAPizzaDialogBean.cartTotal}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </f:facet>
+      <p:commandButton
+        id="toCartButton"
+        value="Go to cart"
+        icon="pi pi-shopping-cart"
+        styleClass="button button--primary"
+        disabled="#{selectAPizzaDialogBean.isCartEmpty()}"
+        action="#{selectAPizzaDialogBean.goToCartPage()}"
+        update="form:pageContent form:messages"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

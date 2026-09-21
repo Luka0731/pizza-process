@@ -1,0 +1,76 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
+  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:cic="jakarta.faces.composite/components/defined/itemcard"
+  xmlns:rcp="jakarta.faces.composite/components/undefined/receipt"
+>
+  <h:outputStylesheet name="pages/selectapizzadialog/ShoppingCartPage.css"/>
+
+
+  <div class="cart-page" id="cartPage">
+
+    <hdr:Header
+      title="Your Cart"
+      subtitle="Check your order before you send it off"
+      showCart="false"
+      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
+      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
+      update="form:pageContent form:messages"
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!--  shoping cart loaded state -->
+    <div class="cart-page__list">
+      <ui:repeat value="#{selectAPizzaDialogBean.order.items}" var="item" varStatus="loop">
+        <cic:ItemCard
+          item="#{item}"
+          index="#{loop.index}"
+          removeAction="#{selectAPizzaDialogBean.removeFromCart(item)}"
+          update="form:pageContent form:messages"
+          styleClass="cart-page__item"
+        />
+      </ui:repeat>
+    </div>
+
+    <!-- shoping cart empty state -->
+    <h:panelGroup layout="block" styleClass="cart-page__empty empty-state" rendered="#{selectAPizzaDialogBean.cartEmpty}">
+      <i class="pi pi-shopping-cart empty-state__icon"></i>
+      <span class="empty-state__text">Your cart is empty.</span>
+    </h:panelGroup>
+
+    <!-- total amount display -->
+    <rcp:Receipt
+      itemLabel="Pizzas"
+      itemCount="#{selectAPizzaDialogBean.order.totalPizzasAmount}"
+      total="#{selectAPizzaDialogBean.cartTotal}"
+      styleClass="cart-page__totals"
+    />
+
+    <ftr:Footer styleClass="cart-page__footer">
+      <p:commandButton
+        id="continueShoppingButton"
+        value="Add more"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{selectAPizzaDialogBean.goToMenuPage()}"
+        update="form:pageContent form:messages" />
+      <p:commandButton
+        id="checkoutButton"
+        value="Order these"
+        icon="pi pi-check"
+        styleClass="button button--primary"
+        disabled="#{selectAPizzaDialogBean.isCartEmpty()}"
+        action="#{selectAPizzaDialogBean.close()}">
+      </p:commandButton>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>
