@@ -1,34 +1,26 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
-  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
-  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
-  xmlns:pe="primefaces.extensions">
-<h:body>
-  <ui:composition template="/layouts/frame-10.xhtml">
-    <ui:define name="title">AdministerPizzasDialog</ui:define>
-    <ui:define name="content">
+<ui:composition template="/resources/global/layout.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+>
 
-      <h3>
-        This is an 
-        <a href="https://developer.axonivy.com/doc/">Html Dialog</a>
-        implemented with JSF and <a href="http://primefaces.org/">Primefaces</a> as widget library
-      </h3>
 
-      <h:form id="form">
-        <p:messages />
-        <h:panelGrid columns="2">
 
-          
+  <ui:define name="title">Administer Pizzas</ui:define>
 
-        </h:panelGrid>
-        <br />
-        <div class="command-btns">
-          <p:commandLink id="cancel" actionListener="#{ivyWorkflowView.cancel()}" process="@this" value="Cancel" />
-          <p:commandButton id="proceed" actionListener="#{logic.close}" value="Proceed" update="form" icon="pi pi-check" />
-        </div>
-      </h:form>
+  <ui:define name="content">
+    <h:form id="form">
 
-    </ui:define>
-  </ui:composition>
-</h:body>
+      <p:growl id="messages" showDetail="true" life="3000" />
 
-</html>
+      <p:outputPanel id="pageContent" layout="block" styleClass="dialog-content">
+        <ui:include src="#{adminsterPizzasDialogBean.router()}" />
+      </p:outputPanel>
+
+    </h:form>
+  </ui:define>
+</ui:composition>

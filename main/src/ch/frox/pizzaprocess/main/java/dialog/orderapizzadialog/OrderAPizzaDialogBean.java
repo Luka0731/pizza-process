@@ -15,6 +15,8 @@ import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
+import ch.frox.pizzaprocess.main.java.domain.order.OrderStatus;
+import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -42,6 +44,11 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
         fillInPreviouslyFilledInAccountDetails();
     }
 
+    @PreDestroy
+    private void destroy() {
+        if (order.getStatus() == OrderStatus.DRAFT) orderService.deleteById(order.getId());   
+    }
+
 
 
     // |--- actions ---|
@@ -52,6 +59,9 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
         if (guard(() -> {
             order = orderService.placeOrder(order.getId(), customerProfile);
         })) return;
+
+        // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Call the next process tasks and send over id to them
 
         currentPage = FINISH_PAGE;
     }

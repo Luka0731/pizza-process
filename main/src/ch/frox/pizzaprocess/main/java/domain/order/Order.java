@@ -38,10 +38,10 @@ public class Order extends GenericEntity<UUID> {
     @OneToMany(mappedBy = "belongsToOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 
-    @NotNull(groups = OnCheckout.class)
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private OrderStatus status;
+    @Column(name = "status", nullable = false)
+    private OrderStatus status = OrderStatus.DRAFT;
 
     @NotNull(groups = OnCheckout.class)
     @ManyToOne

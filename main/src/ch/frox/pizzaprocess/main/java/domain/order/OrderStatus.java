@@ -1,6 +1,7 @@
 package ch.frox.pizzaprocess.main.java.domain.order;
 
 public enum OrderStatus {
+    DRAFT,
     ORDERED, 
     BAKING,
     OUT_FOR_DELIVERY, 

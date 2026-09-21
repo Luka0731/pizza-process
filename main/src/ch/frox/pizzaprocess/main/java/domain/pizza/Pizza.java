@@ -22,8 +22,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-// TODO IMPORTANT: make it that you cant delete delete pizzas, cause some orders still might have them
-// TODO: diffrent prices for each price
+
+// TODO: diffrent prices for each size
 @Entity
 @Table(name = "pizza")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -52,4 +52,8 @@ public class Pizza extends GenericEntity<UUID> {
     @NotBlank
     @Column(columnDefinition = "text")
     private String recipe;
+
+    @NotBlank
+    @Column(name = "is_active")
+    private Boolean isActive = true;
 }
