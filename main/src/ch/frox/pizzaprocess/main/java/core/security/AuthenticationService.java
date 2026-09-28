@@ -5,7 +5,7 @@ import static ch.frox.pizzaprocess.main.java.core.security.Role.PIZZA_CUSTOMER;
 import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ValidationException;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
-import ch.frox.pizzaprocess.main.java.core.validation.Validater;
+import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnSignup;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
@@ -18,13 +18,13 @@ import ch.ivyteam.ivy.security.user.NewUser;
 public class AuthenticationService {
 
     public void login(Credentials credentials) {
-        Validater.of(credentials).throwIfAny();
+        Validate.of(credentials).throwIfAny();
         boolean loggedIn = Ivy.session().loginSessionUser(credentials.getUserName(), credentials.getPassword(), SessionUtil.getCurrentTaskId());
         if (!loggedIn) throw new ValidationException("The username or the password is wrong.");
     }
 
     public IUser signupCustomer(Credentials credentials, String fullName, String email) {
-        Validater.of(credentials, OnSignup.class).throwIfAny();
+        Validate.of(credentials, OnSignup.class).throwIfAny();
 
         String userName = credentials.getUserName();
         if (Sudo.get(() -> Ivy.security().users().find(userName)) != null) {

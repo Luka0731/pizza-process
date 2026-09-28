@@ -7,11 +7,10 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 
-
-public final class Validater {
+public final class Validate {
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
-    private Validater() {}
+    private Validate() {}
 
 
 
@@ -33,7 +32,7 @@ public final class Validater {
 
     // |----- helper methods -----|
 
-    // "prices[LARGE].<map value>" becomes "prices
+    // "prices[LARGE].<map value>" becomes "prices"
     private static String fieldOf(ConstraintViolation<?> violation) {
         String path = violation.getPropertyPath().toString();
         int end = path.length();

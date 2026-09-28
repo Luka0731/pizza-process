@@ -15,7 +15,7 @@ import java.util.List;
 public enum Permission {
     // |----- pizza -----|
     CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON(
-        "set prices, change if on or off menu and delete pizzas", 
+        "change information visable to the customer and set prices", 
         CLERK
     );
 

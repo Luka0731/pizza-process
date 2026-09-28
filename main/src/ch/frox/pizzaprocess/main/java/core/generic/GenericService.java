@@ -6,7 +6,7 @@ import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityNotFoundException;
 import ch.frox.pizzaprocess.main.java.core.security.AuthorizationService;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
-import ch.frox.pizzaprocess.main.java.core.validation.Validater;
+import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 
 
 
@@ -38,13 +38,13 @@ public class GenericService<E extends GenericEntity<ID>, ID, R extends GenericRe
     }
 
     public E save(E entity) {
-        Validater.of(entity).throwIfAny();
+        Validate.of(entity).throwIfAny();
         return repository.save(entity);
     }
 
     public E update(E entity) {
         reload(entity);
-        Validater.of(entity).throwIfAny();
+        Validate.of(entity).throwIfAny();
         return repository.update(entity);
     }
 

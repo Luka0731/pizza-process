@@ -8,6 +8,7 @@ import java.util.UUID;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityStateException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
+import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;
 
@@ -25,7 +26,13 @@ public class OrderService extends GenericService<Order, UUID, OrderRepository> {
     @Override
     public Order save(Order order) {
         order.setStatus(DRAFT);
-        return super.save(order);
+
+        Validate.of(order).throwIfAny();
+        for (OrderItem orderItem : order.getItems()) {
+            Validate.of(orderItem).throwIfAny();
+        }
+
+        return repository.save(order);
     }
 
     public Order placeOrder(Order order, CustomerProfile customerProfile) {

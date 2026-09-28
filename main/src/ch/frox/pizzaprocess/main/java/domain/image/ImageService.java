@@ -10,7 +10,7 @@ import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityNotFoundException;
 import ch.frox.pizzaprocess.main.java.core.exception.system.TechnicalException;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ValidationException;
-import ch.frox.pizzaprocess.main.java.core.validation.Validater;
+import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.ivyteam.ivy.environment.Ivy;
 
 
@@ -57,7 +57,7 @@ public class ImageService {
         image.setId(id);
         image.setFileExtension(extension);
         image.setData(data);
-        Validater.of(image).throwIfAny();
+        Validate.of(image).throwIfAny();
         return repository.save(image);
     }
 

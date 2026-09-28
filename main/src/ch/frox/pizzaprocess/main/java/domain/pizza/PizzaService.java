@@ -6,12 +6,13 @@ import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.DEACTIVATE
 import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.UP_FOR_DELETION;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
-import ch.frox.pizzaprocess.main.java.core.validation.Validater;
+import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.frox.pizzaprocess.main.java.core.validation.ViolationsStream;
 import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnActivation;
 import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
@@ -43,7 +44,7 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
         pizza.setStatus(DEACTIVATED);
         pizza.setProductId(UUID.randomUUID());
 
-        ViolationsStream violations = Validater.of(pizza);
+        ViolationsStream violations = Validate.of(pizza);
         checkNameIsFree(pizza, violations);
         violations.throwIfAny();
 
@@ -58,8 +59,19 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
         Pizza newVersion = pizza.copyAsNewVersion();
         newVersion.setStatus(oldVersion.getStatus());
 
-        if (!newVersion.hasSamePricesAs(oldVersion)) authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
-        ViolationsStream violations = (newVersion.getStatus() == ACTIVE)? Validater.of(newVersion, OnActivation.class) : Validater.of(newVersion);
+        if (!newVersion.hasSamePricesAs(oldVersion)) {
+            authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
+        } else if (
+            oldVersion.getStatus() == ACTIVE && 
+            (
+            !Objects.equals(newVersion.getName(), oldVersion.getName()) ||
+            !Objects.equals(newVersion.getDescription(), oldVersion.getDescription()) ||
+            !Objects.equals((newVersion.getImage() == null)? null : newVersion.getImage().getId(), (oldVersion.getImage() == null)? null : oldVersion.getImage().getId())
+            )
+        ) {
+            authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
+        }
+        ViolationsStream violations = (newVersion.getStatus() == ACTIVE)? Validate.of(newVersion, OnActivation.class) : Validate.of(newVersion);
         checkNameIsFree(newVersion, violations);
         violations.throwIfAny("'" + newVersion.getName() + "' failed validation");
 
@@ -99,7 +111,7 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
 
         Pizza reloadedPizza = reload(pizza);
         if (pizza.getStatus() != expected) throw new ConflictException("'" + reloadedPizza.getName() + "' was changed by someone else in the meantime.");
-        if (target == ACTIVE) Validater.of(reloadedPizza, OnActivation.class).throwIfAny("'" + reloadedPizza.getName() + "' can't go on the menu yet, not all pizza values are valid yet");
+        if (target == ACTIVE) Validate.of(reloadedPizza, OnActivation.class).throwIfAny("'" + reloadedPizza.getName() + "' can't go on the menu yet, not all pizza values are valid yet");
 
         reloadedPizza.setStatus(target);
         return repository.update(reloadedPizza);
