@@ -15,19 +15,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 
 @Entity
 @Table(name = "order_item")
-@Getter 
-@Setter 
-@NoArgsConstructor 
-@AllArgsConstructor
+@Getter @Setter
 public class OrderItem extends GenericEntity<UUID> {
     @NotNull
     @ManyToOne
@@ -45,13 +40,13 @@ public class OrderItem extends GenericEntity<UUID> {
     private PizzaSize pizzaSize;
 
     @NotNull
-    @Positive 
+    @Positive
     @Column(nullable = false)
     private Integer amount;
 
 
 
     public BigDecimal getSubtotalPrice() {
-        return pizza.getPrice().multiply(BigDecimal.valueOf(amount));
+        return pizza.getPriceOfSize(pizzaSize).multiply(BigDecimal.valueOf(amount));
     }
 }

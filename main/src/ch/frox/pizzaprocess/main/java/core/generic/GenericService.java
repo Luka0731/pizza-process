@@ -3,19 +3,22 @@ package ch.frox.pizzaprocess.main.java.core.generic;
 import java.util.List;
 
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
-import ch.frox.pizzaprocess.main.java.core.exception.EntityNotFoundException;
+import ch.frox.pizzaprocess.main.java.core.exception.system.EntityNotFoundException;
+import ch.frox.pizzaprocess.main.java.core.security.AuthorizationService;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
-import ch.frox.pizzaprocess.main.java.core.util.ValidationUtil;
+import ch.frox.pizzaprocess.main.java.core.validation.Validater;
 
 
 
 public class GenericService<E extends GenericEntity<ID>, ID, R extends GenericRepository<E, ID>> {
     protected final R repository;
     protected final Class<E> entityClass;
+    protected final AuthorizationService authorizationService;
 
     public GenericService() {
         repository = Registry.get(TypesUtil.getGenericTypeCasted(this.getClass(), GenericService.class, 2));
         entityClass = TypesUtil.getGenericTypeCasted(this.getClass(), GenericService.class, 0);
+        authorizationService = Registry.get(AuthorizationService.class);
     }
 
 
@@ -25,29 +28,35 @@ public class GenericService<E extends GenericEntity<ID>, ID, R extends GenericRe
     }
 
     public E getById(ID id) {
-        E entity = repository.findById(id);
+        E entity = findById(id);
         if (entity == null) throw new EntityNotFoundException(entityClass, id);
+        return entity;
+    }
+
+    public E findById(ID id) {
         return repository.findById(id);
     }
 
     public E save(E entity) {
-        ValidationUtil.validateElseThrow(entity);
+        Validater.of(entity).throwIfAny();
         return repository.save(entity);
     }
 
     public E update(E entity) {
-        ID id = entity.getId();
-        if (!repository.existsById(id)) throw new EntityNotFoundException(entityClass, id);
-        ValidationUtil.validateElseThrow(entity);
+        reload(entity);
+        Validater.of(entity).throwIfAny();
         return repository.update(entity);
     }
 
-    public void deleteById(ID id) {
-        if (!repository.existsById(id)) throw new EntityNotFoundException(entityClass, id);
-        repository.deleteById(id);
+    public void delete(E entity) {
+        repository.delete(reload(entity));
     }
 
-    public boolean existsById(ID id) {
-        return repository.existsById(id);
+
+
+    // |----- helper methods -----|
+
+    protected E reload(E entity) {
+        return getById(entity.getId());
     }
 }

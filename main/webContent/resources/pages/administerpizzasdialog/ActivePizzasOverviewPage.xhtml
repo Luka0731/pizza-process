@@ -1,0 +1,87 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:pr="jakarta.faces.composite/components/domain/pizzarow"
+>
+  <h:outputStylesheet name="pages/administerpizzasdialog/ActivePizzasOverviewPage.css"/>
+
+
+
+  <div class="pizza-list-page" id="pizzaListPage">
+
+    <hdr:Header
+      title="The Pizzas"
+      subtitle="everything that is on the menu right now"
+      showCart="false"
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!-- loaded state -->
+    <div class="pizza-list-page__rows">
+      <ui:repeat value="#{administerPizzasDialogBean.activePizzas}" var="pizza" varStatus="loop">
+        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" styleClass="pizza-list-page__row">
+          <f:facet name="actions">
+            <p:commandButton
+              icon="pi pi-pencil"
+              title="Edit"
+              styleClass="button button--ghost"
+              process="@this"
+              action="#{administerPizzasDialogBean.startEditPizzaForm(pizza)}"
+              update="form:pageContent form:messages"
+            />
+            <p:commandButton
+              icon="pi pi-eye-slash"
+              title="Deactivate"
+              styleClass="button button--danger"
+              process="@this"
+              rendered="#{authorizationBean.can('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
+              action="#{administerPizzasDialogBean.deactivate(pizza)}"
+              update="form:pageContent form:messages"
+            />
+          </f:facet>
+        </pr:PizzaRow>
+      </ui:repeat>
+    </div>
+
+    <!-- empty state -->
+    <h:panelGroup layout="block" styleClass="pizza-list-page__empty empty-state" rendered="#{empty administerPizzasDialogBean.activePizzas}">
+      <i class="pi pi-inbox empty-state__icon"></i>
+      <span class="empty-state__text">no pizza is on the menu.</span>
+    </h:panelGroup>
+
+    <ftr:Footer styleClass="pizza-list-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">On the menu</span>
+        <span class="footer__value">
+          <h:outputText value="#{administerPizzasDialogBean.activePizzaCount} pizza(s)"/>
+        </span>
+      </f:facet>
+      <!-- new pizzas always start deactivated, so "Add" lives on the deactivated page where the new pizza shows up -->
+      <p:commandButton
+        id="deactivatedButton"
+        value="Deactivated pizzas"
+        icon="pi pi-eye-slash"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{administerPizzasDialogBean.goToDeactivatedPizzasOverviewPage()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="doneButton"
+        value="Done"
+        icon="pi pi-check"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{administerPizzasDialogBean.close()}"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

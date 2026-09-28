@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import ch.frox.pizzaprocess.main.java.core.exception.CircularDependencyException;
-import ch.frox.pizzaprocess.main.java.core.exception.NoArgConstructorRequiredException;
+import ch.frox.pizzaprocess.main.java.core.exception.crash.CircularDependencyException;
+import ch.frox.pizzaprocess.main.java.core.exception.crash.NoArgConstructorRequiredException;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.process.data.persistence.IIvyEntityManager;
 

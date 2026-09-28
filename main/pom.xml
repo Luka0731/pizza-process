@@ -5,21 +5,18 @@
   <parent>
     <groupId>com.axonivy.ivy.api</groupId>
     <artifactId>ivy-project-parent</artifactId>
-    <version>14.0.0-SNAPSHOT</version>
+    <version>15.1.0-SNAPSHOT</version>
     <relativePath></relativePath>
   </parent>
   <groupId>ch.frox.pizzaprocess</groupId>
   <artifactId>ch.frox.pizzaprocess</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>iar</packaging>
-
   <dependencies>
-    <!--axon ivy api --> <!-- adds lots of other important libaries like: jakarta -->
-    <dependency> 
+    <dependency>
       <groupId>com.axonivy.ivy.api</groupId>
       <artifactId>ivy-api</artifactId>
     </dependency>
-    <!-- lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -27,7 +24,6 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
   <repositories>
     <repository>
       <snapshots>
@@ -44,7 +40,6 @@
       <url>https://maven.axonivy.com</url>
     </repository>
   </repositories>
-
   <build>
     <plugins>
       <plugin>

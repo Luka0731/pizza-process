@@ -3,72 +3,81 @@ package ch.frox.pizzaprocess.main.java.domain.image;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
-import ch.frox.pizzaprocess.main.java.core.exception.EntityNotFoundException;
-import ch.frox.pizzaprocess.main.java.core.exception.TechnicalException;
-import ch.frox.pizzaprocess.main.java.core.exception.ValidationException;
-import ch.frox.pizzaprocess.main.java.core.exception.ValidationException.Violation;
-import ch.frox.pizzaprocess.main.java.core.util.ValidationUtil;
+import ch.frox.pizzaprocess.main.java.core.exception.system.EntityNotFoundException;
+import ch.frox.pizzaprocess.main.java.core.exception.system.TechnicalException;
+import ch.frox.pizzaprocess.main.java.core.exception.user.ValidationException;
+import ch.frox.pizzaprocess.main.java.core.validation.Validater;
 import ch.ivyteam.ivy.environment.Ivy;
 
 
 
-// images are speical data compared ot other, thats the reason for ImageService not inheriting GenericService and taking in pure data in its save method
+
+// NOTE: images are special compared to the other entities, thats why ImageService does not extend GenericService
 public class ImageService {
+    private static final Set<String> ALLOWED_FILE_EXTENSIONS = new TreeSet<>(Set.of("jpg", "jpeg", "png", "gif", "webp"));
+    private static final int MAX_BYTES = 2 * 1024 * 1024;
     private final ImageRepository repository;
 
     public ImageService() {
         repository = Registry.get(ImageRepository.class);
     }
-
-
     
+
+
     public Image getById(String id) {
-        Image entity = repository.findById(id);
-        if (entity == null) throw new EntityNotFoundException(Image.class, id);
-        return repository.findById(id);
+        Image image = repository.findById(id);
+        if (image == null) throw new EntityNotFoundException(Image.class, id);
+        return image;
     }
 
     public Image save(byte[] data, String fileExtension) {
-        // data inside check
         if (data == null || data.length == 0) {
-            throw new ValidationException(new Violation("data", "the image has no data"));
+            throw new ValidationException("image", "The picture is empty.");
         }
-        // image with same data allready in check
-        String id = encodeToSha256(data);
-        if (repository.existsById(id)) {
-            Ivy.log().trace("image '" + id + "." + fileExtension + "' has allready been stored. existing image will get reused");
-            return repository.findById(id);
+        if (data.length > MAX_BYTES) {
+            throw new ValidationException("image", "The picture can be 2 MB at most.");
         }
-        // creat image entity
+        String extension = fileExtension == null ? "" : fileExtension.toLowerCase();
+        if (!ALLOWED_FILE_EXTENSIONS.contains(extension)) {
+            throw new ValidationException("image", "'" + fileExtension + "' pictures are not supported. Use one of: " + String.join(", ", ALLOWED_FILE_EXTENSIONS) + ".");
+        }
+
+        String id = sha256Of(data);
+        Image existing = repository.findById(id);
+        if (existing != null) {
+            Ivy.log().trace("image '" + id + "." + extension + "' has already been stored, the existing one gets reused");
+            return existing;
+        }
+
         Image image = new Image();
         image.setId(id);
-        image.setFileExtension(fileExtension);
+        image.setFileExtension(extension);
         image.setData(data);
-        // validator
-        ValidationUtil.validateElseThrow(image);
-        // save image in db
+        Validater.of(image).throwIfAny();
         return repository.save(image);
     }
 
-    public void deleteByIdIfUnused(String id) {    
-        long usages = repository.countUsages(id);
-        
+    public void deleteIfUnused(Image image) {
+        long usages = repository.countUsages(image.getId());
         if (usages > 0) {
-            Ivy.log().trace("image " + id + " is still used " + usages + " times, it wont be deleted");
+            Ivy.log().trace("image " + image.getId() + " is still used " + usages + " times, it won't be deleted");
             return;
         }
-        
-        repository.deleteById(id);
-        Ivy.log().trace("image " + id + " was unused deleted");
+        Image current = repository.findById(image.getId());
+        if (current == null) return;
+        repository.delete(current);
+        Ivy.log().trace("image " + image.getId() + " was unused and got deleted");
     }
 
 
 
-    // |--- hellper methods ---|
+    // |----- helper methods -----|
 
-    private String encodeToSha256(byte[] data) {
+    private static String sha256Of(byte[] data) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             return HexFormat.of().formatHex(messageDigest.digest(data));

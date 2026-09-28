@@ -4,10 +4,10 @@
   xmlns:h="jakarta.faces.html"
   xmlns:ui="jakarta.faces.facelets"
   xmlns:p="primefaces"
-  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
-  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
-  xmlns:cic="jakarta.faces.composite/components/defined/itemcard"
-  xmlns:rcp="jakarta.faces.composite/components/undefined/receipt"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:cic="jakarta.faces.composite/components/domain/itemcard"
+  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
 >
   <h:outputStylesheet name="pages/selectapizzadialog/ShoppingCartPage.css"/>
 
@@ -68,8 +68,8 @@
         icon="pi pi-check"
         styleClass="button button--primary"
         disabled="#{selectAPizzaDialogBean.isCartEmpty()}"
-        action="#{selectAPizzaDialogBean.close()}">
-      </p:commandButton>
+        action="#{selectAPizzaDialogBean.close()}"
+        update="form:messages"/>
     </ftr:Footer>
 
   </div>

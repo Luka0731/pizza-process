@@ -1,11 +1,7 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/roles.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0/config/roles.json
 Roles:
   - Id: PizzaCustomer
   - Id: PizzaWorker
-    Members:
-      - PizzaCustomer
-      - PizzaChef
-      - DeliveryBoy
   - Id: Clerk
     Parent: PizzaWorker
   - Id: PizzaChef

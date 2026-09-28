@@ -1,12 +1,21 @@
 package ch.frox.pizzaprocess.main.java.domain.pizza;
 
+import static ch.frox.pizzaprocess.main.java.core.security.Permission.CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.ACTIVE;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.DEACTIVATED;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.UP_FOR_DELETION;
+
+import java.util.List;
 import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
-import ch.frox.pizzaprocess.main.java.core.exception.EntityNotFoundException;
+import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
-import ch.frox.pizzaprocess.main.java.core.util.ValidationUtil;
+import ch.frox.pizzaprocess.main.java.core.validation.Validater;
+import ch.frox.pizzaprocess.main.java.core.validation.ViolationsStream;
+import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnActivation;
 import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
+import ch.ivyteam.ivy.environment.Ivy;
 
 
 
@@ -19,27 +28,86 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
 
 
 
-    @Override 
-    public Pizza update(Pizza pizza) {
-        Pizza oldPizza = getById(pizza.getId());
-        ValidationUtil.validateElseThrow(pizza);
+    public List<Pizza> getAllActive() {
+        return repository.findAllByStatus(ACTIVE);
+    }
 
-        Pizza newPizza = repository.update(pizza);
-
-        String oldImageId = oldPizza.getImage().getId();
-        String newImageId = newPizza.getImage().getId();
-        if (!oldImageId.equals(newImageId)) imageService.deleteByIdIfUnused(oldImageId);
-
-        return newPizza;
+    public List<Pizza> getAllDeactivated() {
+        return repository.findAllByStatus(DEACTIVATED);
     }
 
     @Override
-    public void deleteById(UUID id) {
-        Pizza pizza = repository.findById(id);
-        if (pizza == null) throw new EntityNotFoundException(Pizza.class, id);
+    public Pizza save(Pizza pizza) {
+        if (!pizza.getPrices().isEmpty()) authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
 
-        String imageId = pizza.getImage().getId();
-        repository.deleteById(id);
-        imageService.deleteByIdIfUnused(imageId);
+        pizza.setStatus(DEACTIVATED);
+        pizza.setProductId(UUID.randomUUID());
+
+        ViolationsStream violations = Validater.of(pizza);
+        checkNameIsFree(pizza, violations);
+        violations.throwIfAny();
+
+        return repository.save(pizza);
+    }
+
+    @Override
+    public Pizza update(Pizza pizza) {
+        Pizza oldVersion = reload(pizza);
+        if (oldVersion.getStatus() == UP_FOR_DELETION) throw new ConflictException("'" + oldVersion.getName() + "' was changed or deleted by someone else in the meantime.");
+
+        Pizza newVersion = pizza.copyAsNewVersion();
+        newVersion.setStatus(oldVersion.getStatus());
+
+        if (!newVersion.hasSamePricesAs(oldVersion)) authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
+        ViolationsStream violations = (newVersion.getStatus() == ACTIVE)? Validater.of(newVersion, OnActivation.class) : Validater.of(newVersion);
+        checkNameIsFree(newVersion, violations);
+        violations.throwIfAny("'" + newVersion.getName() + "' failed validation");
+
+        oldVersion.setStatus(UP_FOR_DELETION);
+        repository.update(oldVersion);
+        return repository.save(newVersion);
+    }
+
+    public Pizza activate(Pizza pizza) {
+        return changeStatus(pizza, DEACTIVATED, ACTIVE);
+    }
+
+    public Pizza deactivate(Pizza pizza) {
+        return changeStatus(pizza, ACTIVE, DEACTIVATED);
+    }
+
+    @Override
+    public void delete(Pizza pizza) {
+        changeStatus(pizza, DEACTIVATED, UP_FOR_DELETION);
+        prune();
+    }
+
+    public void prune() {
+        for (Pizza pizza : repository.findAllReadyForDeletion()) {
+            repository.delete(pizza);
+            if (pizza.getImage() != null) imageService.deleteIfUnused(pizza.getImage());
+            Ivy.log().trace("pizza version " + pizza.getEntityName() + " ('" + pizza.getName() + "') was deleted, no order references it anymore");
+        }
+    }
+
+
+
+    // |----- helper methods -----|
+
+    private Pizza changeStatus(Pizza pizza, PizzaStatus expected, PizzaStatus target) {
+        authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
+
+        Pizza reloadedPizza = reload(pizza);
+        if (pizza.getStatus() != expected) throw new ConflictException("'" + reloadedPizza.getName() + "' was changed by someone else in the meantime.");
+        if (target == ACTIVE) Validater.of(reloadedPizza, OnActivation.class).throwIfAny("'" + reloadedPizza.getName() + "' can't go on the menu yet, not all pizza values are valid yet");
+
+        reloadedPizza.setStatus(target);
+        return repository.update(reloadedPizza);
+    }
+
+    private void checkNameIsFree(Pizza pizza, ViolationsStream violations) {
+        if (repository.existsByNameOutsideOfProductId(pizza.getName(), pizza.getProductId())) {
+            violations.add("name", "There already is a pizza called '" + pizza.getName() + "'. Deactivated pizzas count too.");
+        }
     }
 }

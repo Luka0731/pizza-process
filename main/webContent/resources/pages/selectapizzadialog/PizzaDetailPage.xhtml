@@ -4,8 +4,8 @@
   xmlns:h="jakarta.faces.html"
   xmlns:ui="jakarta.faces.facelets"
   xmlns:p="primefaces"
-  xmlns:hdr="jakarta.faces.composite/components/undefined/header"
-  xmlns:ftr="jakarta.faces.composite/components/undefined/footer"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
 >
   <h:outputStylesheet name="pages/selectapizzadialog/PizzaDetailPage.css" />
 
@@ -27,7 +27,7 @@
     <h:panelGroup layout="block" styleClass="detail-page__body" rendered="#{selectAPizzaDialogBean.isPizzaSelected()}">
 
       <div class="detail-page__media">
-        <p:graphicImage value="#{imageStreamerBean.image}" cache="false" styleClass="detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
           <f:param name="imageId" value="#{selectAPizzaDialogBean.selectedPizza.image.id}"/>
         </p:graphicImage>
       </div>
@@ -39,8 +39,9 @@
         <p class="detail-page__description">
           <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.description}"/>
         </p>
+        <!-- the price follows the size below, the selector updates this whole page part -->
         <span class="detail-page__price">
-          <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.price}">
+          <h:outputText value="#{selectAPizzaDialogBean.selectedPrice}">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>
         </span>
@@ -51,6 +52,10 @@
           <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label" />
           <p:selectOneButton id="sizeSelect" value="#{selectAPizzaDialogBean.selectedSize}" styleClass="field__input size-select">
             <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} (#{size.diameterCm} cm)"/>
+            <!-- every size costs something else now, so picking one has to redraw the price.
+                 the amount spinner is processed along, otherwise redrawing the page would throw away
+                 an amount the user already set -->
+            <p:ajax event="change" process="@this amountSpinner" update="form:pageContent form:messages"/>
           </p:selectOneButton>
         </div>
 

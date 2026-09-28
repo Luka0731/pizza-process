@@ -1,44 +1,51 @@
 <!DOCTYPE html>
-<html  
+<!--
+  The page frame of every dialog of the pizza process. A dialog uses it with
+  <ui:composition template="/resources/global/layout.xhtml"> and fills the two slots:
+  - title:   the browser tab title
+  - content: the h:form with the growl and the router include
+
+  Based on the ivy default frame (webContent/layouts/frame-10.xhtml), plus our global style.css and logic.js.
+  Load order matters: freya theme first, then primeflex and ivy branding, our style.css last so it wins.
+-->
+<html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:f="jakarta.faces.core"
   xmlns:h="jakarta.faces.html"
   xmlns:ui="jakarta.faces.facelets"
-  xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="primefaces"
-  xmlns:pe="primefaces.extensions"
 >
-  
 
-  <!-- TODO: overwork this whole file -->
   <h:head>
     <f:attribute name="primefaces.THEME" value="#{ivyFreyaTheme.theme}"/>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><ui:insert name="title">Ivy Html Dialog</ui:insert></title>
+    <title><ui:insert name="title">Pizza Process</ui:insert></title>
     <link rel="shortcut icon" href="#{resource['ivy-branding:favicon']}"/>
+
+    <!-- ivy theme -->
     <h:outputScript name="js/layout.js" library="#{ivyFreyaTheme.library}"/>
     <h:outputStylesheet name="#{ivyFreyaTheme.layout}" library="#{ivyFreyaTheme.library}"/>
     <h:outputStylesheet name="primeflex-3.min.css" library="primeflex"/>
     <h:outputStylesheet name="custom.css" library="ivy-branding"/>
-    <h:outputStylesheet name="global/style.css" />
-    <h:outputScript name="global/logic.js" target="head" />
+
+    <!-- pizza process -->
+    <h:outputStylesheet name="global/style.css"/>
+    <h:outputScript name="global/logic.js" target="head"/>
   </h:head>
 
 
 
   <h:body class="body-hd #{ivyFreyaTheme.mode}">
     <ui:include src="/ivy-form/layouts/includes/progress-loader.xhtml"/>
+
     <div id="content" class="container frame">
-      <ui:insert name="content">
-        default content
-      </ui:insert>
+      <ui:insert name="content"/>
     </div>
 
+    <!-- shows unexpected server errors in a dialog instead of a blank page -->
     <ui:insert name="exception">
       <ui:include src="/ivy-form/layouts/includes/exception.xhtml"/>
     </ui:insert>
-
   </h:body>
 
 </html>

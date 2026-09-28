@@ -3,16 +3,15 @@ package ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.MENU_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.PIZZA_DETAIL_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.SHOPPING_CART_PAGE;
-import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 import ch.frox.pizzaprocess.SelectAPizzaDialog.SelectAPizzaDialogData;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
+import ch.frox.pizzaprocess.main.java.core.util.UserNotifier;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderItem;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
@@ -28,70 +27,54 @@ import jakarta.inject.Named;
 @ViewScoped
 public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialogData, SelectAPizzaDialogPage> {
     private static final long serialVersionUID = 1L;
-    private final transient PizzaService pizzaService = Registry.get(PizzaService.class);
-    private final transient OrderService orderService = Registry.get(OrderService.class);
+    private static final PizzaService pizzaService = Registry.get(PizzaService.class);
+    private static final OrderService orderService = Registry.get(OrderService.class);
 
-    private UUID selectedPizzaId;
-    private PizzaSize selectedSize;
-    private Integer selectedAmount;
     private List<Pizza> catalog;
     private Order order;
+    private Pizza selectedPizza;
+    private PizzaSize selectedSize;
+    private Integer selectedAmount;
 
-    @Override 
-    public void init() {
-        catalog = pizzaService.getAll();
+    @Override
+    protected void init() {
+        catalog = pizzaService.getAllActive();
         order = new Order();
         clearSelection();
     }
 
-    @Override 
+    @Override
     public void close() {
-        Order savedOrder = orderService.save(order);
-        dialogData.setOrderId(savedOrder.getId());
-        callProcessMethod("close");
+        if (ExceptionHandler.run(() -> {
+            order = orderService.save(order);
+        })) return;
+        dialogData.setOrderId(order.getId());
+        runProcessMethod("close");
     }
 
 
 
-    // |--- actions ---|
+    // |----- actions -----|
 
     public void addToCart() {
-        Pizza selectedPizza = findPizzaInCatalog(selectedPizzaId);
-        if (selectedPizza == null) return;
-
-        OrderItem newItem = new OrderItem();
-        newItem.setPizza(selectedPizza);
-        newItem.setPizzaSize(selectedSize);
-        newItem.setAmount(selectedAmount);
-
-        boolean existstSameItem = false;
-        for (OrderItem existingItem : order.getItems()) {
-            if (compare(newItem, existingItem)) {
-                existingItem.setAmount(existingItem.getAmount() + selectedAmount);
-                existstSameItem = true;
-                break;
-            }
-        }
-        if (!existstSameItem) {
-            order.addItem(newItem);
-        }
+        order.addItem(selectedPizza, selectedSize, selectedAmount);
+        UserNotifier.message("Added to cart", selectedAmount + "x '" + selectedPizza.getName() + "' " + selectedSize.getLabel());
         clearSelection();
         goToMenuPage();
     }
 
     public void removeFromCart(OrderItem item) {
         order.removeItem(item);
-        message(SEVERITY_INFO, "Item removed", "sucessfully!");
+        UserNotifier.message("Removed", "'" + item.getPizza().getName() + "' is not in your cart anymore.");
     }
 
 
 
-    // |--- routing ---|
+    // |----- routing -----|
 
     public void goToDetailPage(Pizza pizza) {
         if (pizza == null) return;
-
-        selectedPizzaId = pizza.getId();
+        selectedPizza = pizza;
         selectedSize = PizzaSize.MEDIUM;
         selectedAmount = 1;
         currentPage = PIZZA_DETAIL_PAGE;
@@ -107,7 +90,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
 
 
-    // |--- read-only properties ---|
+    // |----- getters & setters -----|
 
     public List<Pizza> getCatalog() {
         return catalog;
@@ -122,15 +105,15 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
     }
 
     public Pizza getSelectedPizza() {
-        return findPizzaInCatalog(selectedPizzaId);
+        return selectedPizza;
+    }
+
+    public BigDecimal getSelectedPrice() {
+        return selectedPizza == null ? null : selectedPizza.getPriceOfSize(selectedSize);
     }
 
     public int getCartItemCount() {
-        int count = 0;
-        for (OrderItem item : order.getItems()) {
-            count += item.getAmount();
-        }
-        return count;
+        return order.getTotalPizzasAmount();
     }
 
     public BigDecimal getCartTotal() {
@@ -142,19 +125,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
     }
 
     public boolean isPizzaSelected() {
-        return getSelectedPizza() != null;
-    }
-
-
-
-    // |--- read/write properties ---|
-
-    public String getSelectedPizzaId() {
-        return selectedPizzaId == null? null : selectedPizzaId.toString();
-    }
-
-    public void setSelectedPizzaId(String selectedPizzaId) {
-        this.selectedPizzaId = UUID.fromString(selectedPizzaId);
+        return selectedPizza != null;
     }
 
     public PizzaSize getSelectedSize() {
@@ -175,24 +146,11 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
 
 
-    // |--- helpers ---|
-
-    private Pizza findPizzaInCatalog(UUID id) {
-        if (id == null) return null;
-        for (Pizza pizza : catalog) {
-            if (pizza.getId().equals(id)) return pizza;
-        }
-        return null;
-    }
+    // |----- helper methods -----|
 
     private void clearSelection() {
-        selectedPizzaId = null;
+        selectedPizza = null;
         selectedSize = PizzaSize.MEDIUM;
         selectedAmount = 1;
-    }
-
-    private static boolean compare(OrderItem item1, OrderItem item2) {
-        return item1.getPizzaSize() == item2.getPizzaSize()
-            && Objects.equals(item1.getPizza().getId(), item2.getPizza().getId());
     }
 }

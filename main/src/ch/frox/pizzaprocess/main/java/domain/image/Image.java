@@ -7,14 +7,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
 
 @Entity
 @Table(name = "image")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
 public class Image extends GenericEntity<String> {
     @NotBlank
     @Size(max = 7)
@@ -24,11 +24,4 @@ public class Image extends GenericEntity<String> {
     @NotEmpty 
     @Column(name = "data", nullable = false, columnDefinition = "bytea")
     private byte[] data;
-
-
-    
-    @Override 
-    public String getName() {
-        return id + "." + fileExtension;
-    }
 }

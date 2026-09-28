@@ -1,0 +1,162 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:tif="jakarta.faces.composite/components/generic/textinputfield"
+>
+  <h:outputStylesheet name="pages/administerpizzasdialog/PizzaFormPage.css"/>
+
+
+
+  <div class="pizza-form-page" id="pizzaFormPage">
+
+    <hdr:Header
+      title="#{administerPizzasDialogBean.formTitle}"
+      subtitle="#{administerPizzasDialogBean.newPizza ? 'a new pizza starts deactivated. it can go on the menu once it has a description, a picture and every price' : 'changes are saved as a new version, orders that already exist keep their price'}"
+      showCart="false"
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!-- loaded state -->
+    <div class="pizza-form-page__body">
+
+      <!-- image -->
+      <div class="pizza-form-page__media card">
+        <div class="card__head">
+          <span class="card__title">Picture</span>
+        </div>
+        <p:outputPanel id="imagePreview" layout="block" styleClass="pizza-form-page__preview">
+          <!-- loaded image state -->
+          <p:graphicImage
+            value="#{imageBean.image}"
+            cache="false"
+            styleClass="pizza-form-page__image"
+            alt="#{administerPizzasDialogBean.formPizza.name}"
+            rendered="#{administerPizzasDialogBean.isFormImagePresent()}"
+          >
+            <f:param name="imageId" value="#{administerPizzasDialogBean.formPizza.image.id}"/>
+          </p:graphicImage>
+          <!-- empty image state -->
+          <h:panelGroup layout="block" styleClass="pizza-form-page__no-image empty-state" rendered="#{not administerPizzasDialogBean.formImagePresent}">
+            <i class="pi pi-image empty-state__icon"></i>
+            <span class="empty-state__text">no picture yet.</span>
+          </h:panelGroup>
+        </p:outputPanel>
+        <!-- image upload -->
+        <p:fileUpload
+          id="imageUpload"
+          mode="advanced"
+          auto="true"
+          skinSimple="true"
+          label="Choose a picture"
+          accept="image/*"
+          listener="#{administerPizzasDialogBean.uploadImage}"
+          process="@this"
+          update="form:imagePreview form:messages"
+          styleClass="pizza-form-page__upload"
+        />
+      </div>
+
+      <!-- name & description -->
+      <div class="pizza-form-page__details card input-grid">
+        <div class="card__head">
+          <span class="card__title">The pizza</span>
+        </div>
+        <tif:TextInputField
+          id="name"
+          label="Name"
+          value="#{administerPizzasDialogBean.formPizza.name}"
+          placeholder="Margherita"
+          autocomplete="off"
+          styleClass="input-grid__item input-grid__item--wide"
+        />
+        <tif:TextInputField
+          id="description"
+          label="Description"
+          value="#{administerPizzasDialogBean.formPizza.description}"
+          placeholder="Tomato sauce, mozzarella, fresh basil"
+          autocomplete="off"
+          styleClass="input-grid__item input-grid__item--wide"
+        />
+      </div>
+
+      <!-- price -->
+      <div class="pizza-form-page__prices card">
+        <div class="card__head">
+          <span class="card__title">Prices</span>
+        </div>
+        <div class="pizza-form-page__price-grid">
+          <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
+            <div class="pizza-form-page__price field">
+              <p:outputLabel for="price" value="#{size.label} (#{size.diameterCm} cm)" styleClass="field__label"/>
+              <p:inputNumber
+                id="price"
+                value="#{administerPizzasDialogBean.formPizza.prices[size]}"
+                symbol="CHF "
+                symbolPosition="p"
+                decimalPlaces="2"
+                minValue="0"
+                maxValue="999999.99"
+                disabled="#{authorizationBean.cannot('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
+                styleClass="field__input"
+              >
+                <f:converter converterId="jakarta.faces.BigDecimal"/>
+              </p:inputNumber>
+            </div>
+          </ui:repeat>
+        </div>
+      </div>
+
+      <!-- recipe -->
+      <div class="pizza-form-page__recipe card">
+        <div class="card__head">
+          <span class="card__title">Recipe</span>
+          <span class="card__hint">only the kitchen sees this, never the customer</span>
+        </div>
+        <p:textEditor
+          id="recipe"
+          value="#{administerPizzasDialogBean.formPizza.recipe}"
+          height="260"
+          placeholder="dough, sauce, toppings, oven temperature, baking time ..."
+          styleClass="pizza-form-page__editor"
+        />
+      </div>
+
+    </div>
+
+    <ftr:Footer styleClass="pizza-form-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">#{administerPizzasDialogBean.newPizza ? 'New' : 'Editing'}</span>
+        <span class="footer__value">
+          <h:outputText value="#{administerPizzasDialogBean.formPizza.name}" rendered="#{not empty administerPizzasDialogBean.formPizza.name}"/>
+        </span>
+      </f:facet>
+      <p:commandButton
+        id="cancelButton"
+        value="Cancel"
+        icon="pi pi-times"
+        styleClass="button button--ghost"
+        process="@this"
+        immediate="true"
+        action="#{administerPizzasDialogBean.cancelForm()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="saveButton"
+        value="Save"
+        icon="pi pi-check"
+        styleClass="button button--primary"
+        action="#{administerPizzasDialogBean.saveForm()}"
+        update="form:pageContent form:messages"
+      />
+      <p:defaultCommand target="saveButton"/>
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process-1.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/process.json",
   "id" : "1A06723CEADC42B2",
   "config" : {
     "data" : "ch.frox.pizzaprocess.PizzaAdministrationProcessData"
@@ -9,7 +9,15 @@
       "type" : "RequestStart",
       "name" : "start",
       "config" : {
-        "signature" : "start"
+        "signature" : "start",
+        "permission" : {
+          "anonymous" : false,
+          "roles" : [
+            "Admin",
+            "PizzaChef",
+            "Clerk"
+          ]
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }

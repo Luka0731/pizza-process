@@ -8,9 +8,11 @@ import static ch.frox.pizzaprocess.main.java.dialog.orderapizzadialog.OrderAPizz
 
 import ch.frox.pizzaprocess.OrderAPizzaDialog.OrderAPizzaDialogData;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
-import ch.frox.pizzaprocess.main.java.core.security.AxonIvyCredentials;
-import ch.frox.pizzaprocess.main.java.core.security.AxonIvySessionService;
+import ch.frox.pizzaprocess.main.java.core.security.AuthenticationService;
+import ch.frox.pizzaprocess.main.java.core.security.Credentials;
+import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
@@ -28,73 +30,71 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     private static final long serialVersionUID = 1L;
     private static final OrderService orderService = Registry.get(OrderService.class);
     private static final CustomerProfileService customerProfileService = Registry.get(CustomerProfileService.class);
-    private static final AxonIvySessionService axonIvySessionService = Registry.get(AxonIvySessionService.class);
+    private static final AuthenticationService authenticationService = Registry.get(AuthenticationService.class);
     
     private Order order;
     private CustomerProfile customerProfile;
-    private AxonIvyCredentials credentials;
-    private OrderAPizzaDialogPage pageBeforeAccount; 
+    private Credentials credentials;
+    private OrderAPizzaDialogPage previousePage; 
 
     @Override
     protected void init() {
         order = orderService.getById(dialogData.getOrderId());
         customerProfile = new CustomerProfile();
-        credentials = new AxonIvyCredentials();
-        pageBeforeAccount = DETAILS_INPUT_PAGE;
-        fillInPreviouslyFilledInAccountDetails();
+        credentials = new Credentials();
+        previousePage = currentPage;
+        pasteInPreviousAccountDetails();
     }
 
     @PreDestroy
     private void destroy() {
-        if (order.getStatus() == OrderStatus.DRAFT) orderService.deleteById(order.getId());   
+        if (order.getStatus() == OrderStatus.DRAFT) orderService.delete(order);
     }
 
 
 
-    // |--- actions ---|
+    // |----- actions -----|
 
-    public void confirmPurchase() {
-        customerProfile.setCustomerReference(axonIvySessionService.findSecurityMemberId().orElse(null));
+    public void placeOrder() {
+        customerProfile.setCustomerReference(SessionUtil.getSecurityMemberIdOrNull());
 
-        if (guard(() -> {
-            order = orderService.placeOrder(order.getId(), customerProfile);
+        if (ExceptionHandler.run(() -> {
+            order = orderService.placeOrder(order, customerProfile);
         })) return;
 
-        // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Call the next process tasks and send over id to them
-
+        // TODO: continue from here on with the PIzzaWorkerProcess
         currentPage = FINISH_PAGE;
     }
 
     public void login() {
-        if (guard(() -> {
-            axonIvySessionService.login(credentials);
+        if (ExceptionHandler.run(() -> {
+            authenticationService.login(credentials);
         })) return;
-        
+
         credentials.clear();
-        fillInPreviouslyFilledInAccountDetails();
+        pasteInPreviousAccountDetails();
         currentPage = DETAILS_INPUT_PAGE;
     }
 
     public void signUp() {
-        if (guard(() -> {
-            axonIvySessionService.signup(credentials, customerProfile.getFullName(), customerProfile.getEmail());
+        if (ExceptionHandler.run(() -> {
+            authenticationService.signupCustomer(credentials, customerProfile.getFullName(), customerProfile.getEmail());
         })) return;
         
         credentials.clear();
-        fillInPreviouslyFilledInAccountDetails();
-        currentPage = pageBeforeAccount;
+        pasteInPreviousAccountDetails();
+        currentPage = previousePage;
     }
 
     public void logout() {
-        axonIvySessionService.logout();
+        authenticationService.logout();
         customerProfile = new CustomerProfile();
         currentPage = DETAILS_INPUT_PAGE;
     }
 
 
 
-    // |--- routing ---|
+    // |----- routing -----|
 
     public void goToDetailsInputPage() {
         currentPage = DETAILS_INPUT_PAGE;
@@ -105,23 +105,21 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     }
 
     public void goToLoginPage() {
-        rememberPageBeforeAccount();
         currentPage = LOGIN_PAGE;
     }
 
     public void goToSignupPage() {
-        rememberPageBeforeAccount();
+        if (currentPage != LOGIN_PAGE && currentPage != SIGNUP_PAGE) previousePage = currentPage;;
         currentPage = SIGNUP_PAGE;
     }
 
-    public void goToPageBeforeAccount() {
-        credentials.clear();
-        currentPage = pageBeforeAccount;
+    public void goToPreviousPage() {
+        currentPage = previousePage;
     }
 
 
 
-    // |--- read only properties ---|
+    // |----- getters & setters -----|
 
     public Order getOrder() {
         return order;
@@ -131,26 +129,22 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
         return customerProfile;
     }
 
-    public AxonIvyCredentials getCredentials() {
+    public Credentials getCredentials() {
         return credentials;
     }
 
 
 
-    // |--- helpers ---|
+    // |----- helper methods -----|
 
-    /**
-     * switching between login and signup should not forget the page the customer originally came from
-    **/
-    private void rememberPageBeforeAccount() {
-        if (currentPage == LOGIN_PAGE || currentPage == SIGNUP_PAGE) return;
-        pageBeforeAccount = currentPage;
-    }
-
-    private void fillInPreviouslyFilledInAccountDetails() {
-        axonIvySessionService
+    private void pasteInPreviousAccountDetails() {
+        SessionUtil
             .findSessionUser()
-            .map(customerProfileService::getByIUser)
-            .ifPresent(customerProfile::fillBlankDetailsFrom);
+            .map(( user ) -> {
+                return customerProfileService.getByIUser(user);
+            })
+            .ifPresent(( existingCustomerProfile ) ->  {
+                customerProfile.pasteInBlanks(existingCustomerProfile);
+            });
     }
 }

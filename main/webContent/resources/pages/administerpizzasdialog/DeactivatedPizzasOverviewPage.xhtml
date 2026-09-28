@@ -1,0 +1,112 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:pr="jakarta.faces.composite/components/domain/pizzarow"
+>
+  <h:outputStylesheet name="pages/administerpizzasdialog/DeactivatedPizzasOverviewPage.css"/>
+
+
+
+  <div class="deactivated-pizzas-page" id="deactivatedPizzasPage">
+
+    <hdr:Header
+      title="Deactivated Pizzas"
+      subtitle="not on the menu. new pizzas start here, put one on the menu once it is ready"
+      showCart="false"
+    />
+
+    <!-- skeleton shimmer -->
+    <!-- none -->
+
+    <!-- loaded state -->
+    <div class="deactivated-pizzas-page__rows">
+      <ui:repeat value="#{administerPizzasDialogBean.deactivatedPizzas}" var="pizza" varStatus="loop">
+        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" muted="true" styleClass="deactivated-pizzas-page__row">
+          <f:facet name="actions">
+            <p:commandButton
+              icon="pi pi-pencil"
+              title="Edit"
+              styleClass="button button--ghost"
+              process="@this"
+              action="#{administerPizzasDialogBean.startEditPizzaForm(pizza)}"
+              update="form:pageContent form:messages"
+            />
+            <p:commandButton
+              icon="pi pi-replay"
+              title="Put back on the menu"
+              styleClass="button button--primary"
+              process="@this"
+              rendered="#{authorizationBean.can('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
+              action="#{administerPizzasDialogBean.activate(pizza)}"
+              update="form:pageContent form:messages"
+            />
+            <p:commandButton
+              icon="pi pi-trash"
+              title="Delete for good"
+              styleClass="button button--danger"
+              process="@this"
+              rendered="#{authorizationBean.can('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
+              action="#{administerPizzasDialogBean.delete(pizza)}"
+              update="form:pageContent form:messages"
+            >
+              <p:confirm header="Delete this pizza?" message="'#{pizza.name}' disappears from the administration for good. orders that already contain it keep working." icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+          </f:facet>
+        </pr:PizzaRow>
+      </ui:repeat>
+    </div>
+
+    <!-- empty state -->
+    <h:panelGroup layout="block" styleClass="deactivated-pizzas-page__empty empty-state" rendered="#{empty administerPizzasDialogBean.deactivatedPizzas}">
+      <i class="pi pi-check-circle empty-state__icon"></i>
+      <span class="empty-state__text">nothing is deactivated.</span>
+    </h:panelGroup>
+
+    <!-- confirm dialog -->
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="420">
+      <p:commandButton value="Cancel" type="button" styleClass="button button--ghost ui-confirmdialog-no"/>
+      <p:commandButton value="Delete" type="button" icon="pi pi-trash" styleClass="button button--danger ui-confirmdialog-yes"/>
+    </p:confirmDialog>
+
+    <ftr:Footer styleClass="deactivated-pizzas-page__footer">
+      <f:facet name="summary">
+        <span class="footer__label">Deactivated</span>
+        <span class="footer__value">
+          <h:outputText value="#{administerPizzasDialogBean.deactivatedPizzaCount} pizza(s)"/>
+        </span>
+      </f:facet>
+      <p:commandButton
+        id="backButton"
+        value="Back to the menu"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{administerPizzasDialogBean.goToActivePizzasOverviewPage()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="addButton"
+        value="Add"
+        icon="pi pi-plus"
+        styleClass="button button--primary"
+        process="@this"
+        action="#{administerPizzasDialogBean.startNewPizzaForm()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="doneButton"
+        value="Done"
+        icon="pi pi-check"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{administerPizzasDialogBean.close()}"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

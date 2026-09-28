@@ -1,0 +1,70 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="pizza" type="ch.frox.pizzaprocess.main.java.domain.pizza.Pizza" required="true" shortDescription="the pizza version to render"/>
+    <cc:attribute name="muted" type="java.lang.Boolean" default="false" shortDescription="true greys the row out, used for the deactivated ones"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+    <cc:attribute name="index" type="java.lang.Integer" default="0"/>
+    <cc:facet name="actions" shortDescription="the buttons on the right side of the row"/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/domain/pizzarow/PizzaRow.css"/>
+    <div id="#{cc.clientId}" class="pizza-row #{cc.attrs.muted ? 'pizza-row--muted' : ''} #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+
+
+
+      <div class="pizza-row__media">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="pizza-row__image" alt="#{cc.attrs.pizza.name}">
+          <f:param name="imageId" value="#{cc.attrs.pizza.image.id}"/>
+        </p:graphicImage>
+      </div>
+
+      <div class="pizza-row__body">
+        <span class="pizza-row__name">
+          <h:outputText value="#{cc.attrs.pizza.name}"/>
+        </span>
+        <span class="pizza-row__description">
+          <h:outputText value="#{cc.attrs.pizza.description}"/>
+        </span>
+        <span class="pizza-row__note" >
+          <h:outputText value="no recipe yet" rendered="#{empty cc.attrs.pizza.recipe}"/>
+        </span>
+      </div>
+
+      <div class="pizza-row__prices">
+        <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
+          <span class="pizza-row__price">
+            <span class="pizza-row__price-size">
+              <h:outputText value="#{size.label}"/>
+            </span>
+            <span class="pizza-row__price-value">
+              <h:outputText value="#{cc.attrs.pizza.prices[size]}" rendered="#{not empty cc.attrs.pizza.prices[size]}">
+                <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+              </h:outputText>
+              <h:outputText value="&#8212;" escape="false" rendered="#{empty cc.attrs.pizza.prices[size]}"/>
+            </span>
+          </span>
+        </ui:repeat>
+      </div>
+
+      <div class="pizza-row__actions">
+        <cc:renderFacet name="actions"/>
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

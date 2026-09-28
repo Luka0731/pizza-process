@@ -3,11 +3,13 @@ package ch.frox.pizzaprocess.main.java.domain.order;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.generic.GenericEntity;
-import ch.frox.pizzaprocess.main.java.core.security.OnCheckout;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
+import ch.frox.pizzaprocess.main.java.domain.pizza.Pizza;
+import ch.frox.pizzaprocess.main.java.domain.pizza.PizzaSize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,39 +20,45 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 
 @Entity
 @Table(name = "order_")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
 public class Order extends GenericEntity<UUID> {
-    @NotEmpty 
+    @NotEmpty(message = "The cart is empty.")
+    @Valid
     @OneToMany(mappedBy = "belongsToOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status = OrderStatus.DRAFT;
+    private OrderStatus status;
 
-    @NotNull(groups = OnCheckout.class)
     @ManyToOne
     @JoinColumn(name = "customer_profile_id")
     private CustomerProfile customerProfile;
 
 
 
-    public void addItem(OrderItem item) {
+    public void addItem(Pizza pizza, PizzaSize pizzaSize, int amount) {
+        for (OrderItem item : items) {
+            if (item.getPizzaSize() == pizzaSize && Objects.equals(item.getPizza().getId(), pizza.getId())) {
+                item.setAmount(item.getAmount() + amount);
+                return;
+            }
+        }
+        OrderItem item = new OrderItem();
+        item.setPizza(pizza);
+        item.setPizzaSize(pizzaSize);
+        item.setAmount(amount);
         item.setBelongsToOrder(this);
         items.add(item);
     }

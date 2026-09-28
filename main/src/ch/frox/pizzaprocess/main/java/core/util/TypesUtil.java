@@ -2,7 +2,7 @@ package ch.frox.pizzaprocess.main.java.core.util;
 
 import java.lang.reflect.ParameterizedType;
 
-import ch.frox.pizzaprocess.main.java.core.exception.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
 
 
 

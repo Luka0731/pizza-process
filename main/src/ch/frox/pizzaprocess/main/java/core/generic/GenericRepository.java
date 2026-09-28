@@ -16,9 +16,9 @@ public class GenericRepository<E extends GenericEntity<ID>, ID> {
         entityManager = Registry.get(IIvyEntityManager.class);
         entityClass = TypesUtil.getGenericTypeCasted(this.getClass(), GenericRepository.class, 0);
     }
-    
 
-    
+
+
     public List<E> findAll() {
         return entityManager.findAll(entityClass);
     }
@@ -35,9 +35,8 @@ public class GenericRepository<E extends GenericEntity<ID>, ID> {
         return entityManager.merge(entity);
     }
 
-    public void deleteById(ID id) {
-        E entity = findById(id);
-        entityManager.remove(entity); 
+    public void delete(E entity) {
+        entityManager.remove(entity);
     }
 
     public boolean existsById(ID id) {

@@ -1,23 +1,18 @@
 package ch.frox.pizzaprocess.main.java.core.config;
 
-import ch.frox.pizzaprocess.main.java.core.exception.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
 import ch.ivyteam.ivy.environment.Ivy;
 
 
 
-// todo somethime: egear loading woulde be nice
-public class AxonivyVariables {
+public final class AxonivyVariables {
 
     private AxonivyVariables() {}
 
 
 
     public static String jpaName() { 
-        return find("config.jpaName", String.class, null); 
-    }
-
-    public static boolean allowDataReset() { 
-        return find("settings.allowDataReset", Boolean.class ,false); 
+        return find("config.jpaName", String.class, new ConfigurationException("required ivy variable 'jpaName' is not set")); 
     }
 
 
@@ -27,11 +22,22 @@ public class AxonivyVariables {
     private static <T> T find(String name, Class<T> type, T fallback) {
         String raw = Ivy.var().get(name);
         if (raw == null || raw.isBlank()) {
-            if (fallback == null) throw new ConfigurationException("required ivy variable '" + name + "' is not set");
             return fallback;
         }
         try {
-            return (T) convert(raw.trim(), type);
+            return type.cast(convert(raw.trim(), type));
+        } catch (IllegalArgumentException ex) {
+            throw new ConfigurationException("ivy variable '" + name + "' = '" + raw + "' is not a valid " + type.getSimpleName(), ex);
+        }
+    }
+
+    private static <T> T find(String name, Class<T> type, RuntimeException fallback) {
+        String raw = Ivy.var().get(name);
+        if (raw == null || raw.isBlank()) {
+            throw fallback;
+        }
+        try {
+            return type.cast(convert(raw.trim(), type));
         } catch (IllegalArgumentException ex) {
             throw new ConfigurationException("ivy variable '" + name + "' = '" + raw + "' is not a valid " + type.getSimpleName(), ex);
         }
@@ -45,6 +51,6 @@ public class AxonivyVariables {
             if (raw.equalsIgnoreCase("true") || raw.equalsIgnoreCase("false")) return Boolean.valueOf(raw);
             throw new IllegalArgumentException("expected 'true' or 'false'");
         }
-        throw new UnsupportedOperationException("IvyVariablesGetter cannot convert to " + type.getName());
+        throw new UnsupportedOperationException("AxonivyVariables cannot convert to " + type.getName());
     }
 }

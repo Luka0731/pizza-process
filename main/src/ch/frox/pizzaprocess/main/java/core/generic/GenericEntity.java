@@ -2,23 +2,17 @@ package ch.frox.pizzaprocess.main.java.core.generic;
 
 import java.util.UUID;
 
-import ch.frox.pizzaprocess.main.java.core.exception.MissingIdException;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 
 @MappedSuperclass
-@Getter
-@Setter
-@NoArgsConstructor 
-@AllArgsConstructor 
+@Getter @Setter
 public abstract class GenericEntity<ID> {
     @Id
     protected ID id;
@@ -29,12 +23,12 @@ public abstract class GenericEntity<ID> {
 
     @PrePersist
     private final void managePersistInitialization() {
-        Class<ID> idType = TypesUtil.getGenericTypeCasted(this.getClass(), GenericEntity.class, 0);
-        if (idType == UUID.class) id = idType.cast(UUID.randomUUID());
+        if (id == null) {
+            Class<ID> idType = TypesUtil.getGenericTypeCasted(this.getClass(), GenericEntity.class, 0);
+            if (idType == UUID.class) id = idType.cast(UUID.randomUUID());
+        }
 
         init();
-
-        if (id == null) throw new MissingIdException(getClassName());
     }
 
     protected void init() {}

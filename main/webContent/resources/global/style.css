@@ -1,6 +1,56 @@
-/* |----- design tokens -----| */
+/* |----- design tokens -----|
+   every color, space and font size in the other css files should come from here, e.g. padding: var(--space-4);
+   so changing the look means changing this block only. */
 :root {
-   /* TODO: add collor pallet, spacing scale, type scale!!!!!!!!!!!!!!!! */
+  /* color palette */
+  --color-primary: #c0392b;          /* tomato red: primary buttons, prices, links */
+  --color-primary-hover: #a93226;
+  --color-primary-soft: #fbeae8;     /* light background behind primary things, e.g. the cart badge */
+  --color-accent: #2e7d32;           /* basil green: success, "on the menu" */
+  --color-accent-soft: #e8f5e9;
+  --color-danger: #b71c1c;
+  --color-danger-soft: #fdecea;
+  --color-warning: #b26a00;
+
+  --color-text: #1f1f1f;
+  --color-text-muted: #6b6b6b;       /* subtitles, hints, descriptions */
+  --color-text-inverted: #ffffff;    /* text on primary / danger buttons */
+  --color-border: #e3ded7;
+  --color-surface: #ffffff;          /* cards */
+  --color-background: #faf7f2;       /* page, a warm flour white */
+  --color-muted-overlay: rgba(255, 255, 255, 0.55); /* greys out deactivated rows */
+
+  /* spacing scale, 4px steps */
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+
+  /* type scale, ~1.25 ratio */
+  --font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-size-xs: 0.75rem;    /* 12px: badges, fine print */
+  --font-size-sm: 0.875rem;   /* 14px: hints, labels */
+  --font-size-md: 1rem;       /* 16px: body */
+  --font-size-lg: 1.25rem;    /* 20px: card titles, prices */
+  --font-size-xl: 1.5rem;     /* 24px: page subtitles, pizza name on the detail page */
+  --font-size-2xl: 2rem;      /* 32px: page titles */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  /* shapes */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-round: 999px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-raised: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --transition-fast: 120ms ease-in-out;
 }
 
 
@@ -30,6 +80,9 @@
 .card__head {
 }
 .card__title {
+}
+/* small grey line next to a card title, e.g. "only the kitchen sees this" */
+.card__hint {
 }
 
 
