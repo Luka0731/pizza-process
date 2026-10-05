@@ -1,4 +1,4 @@
-package ch.frox.pizzaprocess.main.java.core.config;
+package ch.frox.pizzaprocess.main.java.core.workflow;
 
 import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
 import ch.ivyteam.ivy.environment.Ivy;

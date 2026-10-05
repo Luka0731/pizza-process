@@ -3,8 +3,8 @@
   "simpleName" : "EatThePizzaDialogData",
   "namespace" : "ch.frox.pizzaprocess.EatThePizzaDialog",
   "fields" : [ {
-    "name" : "pizzaCustomerProcess",
-    "type" : "ch.frox.pizzaprocess.PizzaCustomerProcessData",
+    "name" : "orderId",
+    "type" : "java.util.UUID",
     "modifiers" : [ ]
   } ]
 }

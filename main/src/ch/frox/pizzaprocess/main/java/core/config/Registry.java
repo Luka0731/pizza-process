@@ -9,6 +9,7 @@ import java.util.Set;
 
 import ch.frox.pizzaprocess.main.java.core.exception.crash.CircularDependencyException;
 import ch.frox.pizzaprocess.main.java.core.exception.crash.NoArgConstructorRequiredException;
+import ch.frox.pizzaprocess.main.java.core.workflow.AxonivyVariables;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.process.data.persistence.IIvyEntityManager;
 

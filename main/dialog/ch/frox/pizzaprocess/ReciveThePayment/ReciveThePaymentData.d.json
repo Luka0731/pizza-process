@@ -3,8 +3,8 @@
   "simpleName" : "ReciveThePaymentData",
   "namespace" : "ch.frox.pizzaprocess.ReciveThePayment",
   "fields" : [ {
-    "name" : "pizzaWorkerProcess",
-    "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData",
+    "name" : "orderId",
+    "type" : "java.util.UUID",
     "modifiers" : [ ]
   } ]
 }

@@ -1,15 +1,26 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
-  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
-  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="primefaces" xmlns:pe="primefaces.extensions">
-<cc:interface componentType="IvyComponent">
-</cc:interface>
+<ui:composition template="/resources/global/layout.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+>
 
-<cc:implementation>
 
-  <!-- fields needs to be inside a h:form tag (which is normaly added by the outer page) -->
-  
 
-</cc:implementation>
+  <ui:define name="title">Eat the Pizza</ui:define>
 
-</html>
+  <ui:define name="content">
+    <h:form id="form">
+
+      <p:growl id="messages" showDetail="true" life="3000" />
+
+      <p:outputPanel id="pageContent" layout="block" styleClass="dialog-content">
+        <ui:include src="#{eatThePizzaDialogBean.router()}" />
+      </p:outputPanel>
+
+    </h:form>
+  </ui:define>
+</ui:composition>

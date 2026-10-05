@@ -1,0 +1,86 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:prf="jakarta.faces.composite/components/domain/profile"
+  xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
+  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
+>
+  <h:outputStylesheet name="pages/paythepizzadialog/Page.css"/>
+
+
+
+  <div class="pay-page" id="payPage">
+
+    <hdr:Header
+      title="#{payThePizzaDialogBean.waiting ? 'Your pizza is coming' : 'Your pizza is here!'}"
+      subtitle="#{payThePizzaDialogBean.statusText}"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile showAccountLinks="false"/>
+      </f:facet>
+    </hdr:Header>
+
+    <!-- while waiting, the page asks every 10 seconds if the driver delivered the pizza -->
+    <p:poll
+      interval="10"
+      listener="#{payThePizzaDialogBean.refresh()}"
+      process="@this"
+      update="form:pageContent form:messages"
+      rendered="#{payThePizzaDialogBean.waiting}"
+    />
+
+    <div class="pay-page__cards">
+      <div class="pay-page__status card">
+        <i class="pi #{payThePizzaDialogBean.waiting ? 'pi-clock' : 'pi-check-circle'} pay-page__status-icon"></i>
+        <span class="pay-page__status-text">
+          <h:outputText value="#{payThePizzaDialogBean.statusText}"/>
+        </span>
+      </div>
+
+      <odc:OrderCard
+        order="#{payThePizzaDialogBean.order}"
+        styleClass="pay-page__order"
+      />
+
+      <rcp:Receipt
+        itemLabel="Pizzas"
+        itemCount="#{payThePizzaDialogBean.order.totalPizzasAmount}"
+        total="#{payThePizzaDialogBean.order.totalPrice}"
+        totalLabel="#{payThePizzaDialogBean.paid ? 'Paid' : 'To pay'}"
+        styleClass="pay-page__receipt"
+      />
+    </div>
+
+    <!-- paying closes the dialog, the process goes on to "eat the pizza" -->
+    <ftr:Footer styleClass="pay-page__footer">
+      <p:commandButton
+        id="refreshButton"
+        value="Refresh"
+        icon="pi pi-refresh"
+        styleClass="button button--ghost"
+        process="@this"
+        rendered="#{payThePizzaDialogBean.waiting}"
+        action="#{payThePizzaDialogBean.refresh()}"
+        update="form:pageContent form:messages"
+      />
+      <p:commandButton
+        id="payButton"
+        value="#{payThePizzaDialogBean.paid ? 'Continue' : 'Pay now'}"
+        icon="#{payThePizzaDialogBean.paid ? 'pi pi-arrow-right' : 'pi pi-credit-card'}"
+        styleClass="button button--primary"
+        process="@this"
+        rendered="#{not payThePizzaDialogBean.waiting}"
+        action="#{payThePizzaDialogBean.close()}"
+        update="form:pageContent form:messages"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

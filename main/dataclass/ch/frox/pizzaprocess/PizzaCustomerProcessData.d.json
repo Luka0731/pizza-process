@@ -4,7 +4,6 @@
   "namespace" : "ch.frox.pizzaprocess",
   "fields" : [ {
     "name" : "orderId",
-    "type" : "java.util.UUID",
-    "modifiers" : [ ]
+    "type" : "java.util.UUID"
   } ]
 }

@@ -157,7 +157,12 @@
       "type" : "DialogCall",
       "name" : "recive payment",
       "config" : {
-        "dialog" : "ch.frox.pizzaprocess.ReciveThePayment:start(ch.frox.pizzaprocess.PizzaWorkerProcessData)"
+        "dialog" : "ch.frox.pizzaprocess.ReciveThePayment:start(java.util.UUID)",
+        "call" : {
+          "map" : {
+            "param.orderId" : "in.orderId"
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 584, "y" : 368 }

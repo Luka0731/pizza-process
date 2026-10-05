@@ -7,13 +7,13 @@ import static ch.frox.pizzaprocess.main.java.dialog.orderapizzadialog.OrderAPizz
 import static ch.frox.pizzaprocess.main.java.dialog.orderapizzadialog.OrderAPizzaDialogPage.SIGNUP_PAGE;
 
 import ch.frox.pizzaprocess.OrderAPizzaDialog.OrderAPizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.AxonivySignals;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.security.AuthenticationService;
 import ch.frox.pizzaprocess.main.java.core.security.Credentials;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
+import ch.frox.pizzaprocess.main.java.core.workflow.Signaler;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
@@ -63,7 +63,7 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
             order = orderService.placeOrder(order, customerProfile);
         })) return;
 
-        AxonivySignals.orderPlaced(order.getId());
+        Signaler.orderPlaced(order.getId());
         
         currentPage = FINISH_PAGE;
     }

@@ -51,7 +51,8 @@
             "name" : "ask for the pizza"
           }, {
             "id" : "TaskA",
-            "name" : "wait for the pizza"
+            "name" : "wait for the pizza",
+            "skipTasklist" : true
           } ]
       },
       "visual" : {
@@ -119,15 +120,10 @@
       "type" : "DialogCall",
       "name" : "pay the pizza",
       "config" : {
-        "dialog" : "ch.frox.pizzaprocess.PayThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
+        "dialog" : "ch.frox.pizzaprocess.PayThePizzaDialog:start(java.util.UUID)",
         "call" : {
           "map" : {
-            "param.pizzaCustomerProcess" : "in"
-          }
-        },
-        "output" : {
-          "map" : {
-            "out" : "result.pizzaCustomerProcess"
+            "param.orderId" : "in.orderId"
           }
         }
       },
@@ -142,15 +138,10 @@
       "type" : "DialogCall",
       "name" : "eat the pizza",
       "config" : {
-        "dialog" : "ch.frox.pizzaprocess.EatThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
+        "dialog" : "ch.frox.pizzaprocess.EatThePizzaDialog:start(java.util.UUID)",
         "call" : {
           "map" : {
-            "param.pizzaCustomerProcess" : "in"
-          }
-        },
-        "output" : {
-          "map" : {
-            "out" : "result.pizzaCustomerProcess"
+            "param.orderId" : "in.orderId"
           }
         }
       },
@@ -225,6 +216,16 @@
       "id" : "f43",
       "type" : "TaskSwitchEvent",
       "name" : "pizza recived",
+      "config" : {
+        "task" : {
+          "name" : "Your pizza is here, please pay",
+          "description" : "Order <%=in1.orderId%>",
+          "delay" : "new Duration(0, 0, 30, 0, 0, 0)",
+          "customFields" : [
+            { "name" : "signalCode", "type" : "STRING", "value" : "\"pizzaprocess:order:delivered:\" + in1.orderId.toString()" }
+          ]
+        }
+      },
       "visual" : {
         "at" : { "x" : 768, "y" : 64 },
         "icon" : "std:Signal"
