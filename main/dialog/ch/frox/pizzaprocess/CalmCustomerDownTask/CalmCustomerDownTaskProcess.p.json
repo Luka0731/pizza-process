@@ -8,23 +8,17 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "HtmlDialogStart",
-      "name" : "start(PizzaWorkerProcessData)",
+      "name" : "start(UUID,String)",
       "config" : {
         "signature" : "start",
         "input" : {
           "params" : [
-            { "name" : "pizzaWorkerProcess", "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData", "desc" : "" }
+            { "name" : "orderId", "type" : "java.util.UUID", "desc" : "" },
+            { "name" : "customerQuestion", "type" : "String", "desc" : "" }
           ],
           "map" : {
-            "out.pizzaWorkerProcess" : "param.pizzaWorkerProcess"
-          }
-        },
-        "result" : {
-          "params" : [
-            { "name" : "pizzaWorkerProcess", "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData", "desc" : "" }
-          ],
-          "map" : {
-            "result.pizzaWorkerProcess" : "in.pizzaWorkerProcess"
+            "out.orderId" : "param.orderId",
+            "out.customerQuestion" : "param.customerQuestion"
           }
         },
         "guid" : "19FEA69C883405A6"
@@ -43,9 +37,10 @@
       }
     }, {
       "id" : "f3",
-      "type" : "HtmlDialogEventStart",
-      "name" : "close",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "close()",
       "config" : {
+        "signature" : "close",
         "guid" : "19FEA69C88D50570"
       },
       "visual" : {

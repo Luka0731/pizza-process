@@ -9,5 +9,7 @@
     "name" : "deliveryRole"
   }, {
     "name" : "deliveryAddress"
+  }, {
+    "name" : "customerQuestion"
   } ]
 }

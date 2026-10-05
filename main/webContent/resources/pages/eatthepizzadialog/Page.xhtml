@@ -6,12 +6,10 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
-  xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
-  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
 >
   <h:outputStylesheet name="pages/eatthepizzadialog/Page.css"/>
+  <h:outputScript name="pages/eatthepizzadialog/Page.js"/>
 
 
 
@@ -19,41 +17,21 @@
 
     <hdr:Header
       title="Buon appetito!"
-      subtitle="Delivered and paid, now the best part"
+      subtitle="Click every pizza to eat it"
       showCart="false"
-    >
-      <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
-      </f:facet>
-    </hdr:Header>
+    />
 
-    <div class="eat-page__body card">
-      <i class="pi pi-heart-fill eat-page__icon"></i>
-      <h2 class="eat-page__title">Enjoy your pizza</h2>
-      <p class="eat-page__text">
-        <h:outputText value="Thanks for ordering, #{eatThePizzaDialogBean.order.customerProfile.fullName}. We hope to see you again soon."/>
-      </p>
-    </div>
-
-    <div class="eat-page__cards">
-      <odc:OrderCard
-        order="#{eatThePizzaDialogBean.order}"
-        title="On your plate"
-        styleClass="eat-page__order"
-      />
+    <!-- Page.js spreads the pizzas over the table, a click eats one. when all are gone it calls eatThePizzaDone() -->
+    <div class="eat-page__table">
+      <ui:repeat value="#{eatThePizzaDialogBean.pizzas}" var="pizza">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="eat-page__pizza" alt="#{pizza.name}" title="#{pizza.name}">
+          <f:param name="imageId" value="#{pizza.image.id}"/>
+        </p:graphicImage>
+      </ui:repeat>
     </div>
 
     <!-- closing the dialog ends the customer process -->
-    <ftr:Footer styleClass="eat-page__footer">
-      <p:commandButton
-        id="doneButton"
-        value="Done"
-        icon="pi pi-check"
-        styleClass="button button--primary"
-        process="@this"
-        action="#{eatThePizzaDialogBean.close()}"
-      />
-    </ftr:Footer>
+    <p:remoteCommand name="eatThePizzaDone" process="@this" action="#{eatThePizzaDialogBean.close()}"/>
 
   </div>
 </ui:composition>

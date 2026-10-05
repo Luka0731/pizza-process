@@ -1,0 +1,87 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:prf="jakarta.faces.composite/components/domain/profile"
+  xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
+  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
+>
+  <h:outputStylesheet name="pages/calmcustomerdowntask/Page.css"/>
+
+
+
+  <div class="calm-page" id="calmPage">
+
+    <hdr:Header
+      title="Calm the customer down"
+      subtitle="The customer asks where the pizza is, answer by mail"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile showAccountLinks="false"/>
+      </f:facet>
+    </hdr:Header>
+
+    <div class="calm-page__cards">
+      <div class="calm-page__question card">
+        <div class="card__head">
+          <h2 class="card__title">The customer wrote</h2>
+        </div>
+        <p class="calm-page__question-text">
+           <h:outputText value="#{calmCustomerDownTaskBean.customerQuestion}"/>
+        </p>
+      </div>
+
+      <div class="calm-page__answer card">
+        <div class="card__head">
+          <h2 class="card__title">Your answer</h2>
+          <span class="card__hint">goes to #{calmCustomerDownTaskBean.order.customerProfile.email}</span>
+        </div>
+        <p:inputTextarea
+          id="answer"
+          value="#{calmCustomerDownTaskBean.answer}"
+          rows="6"
+          maxlength="2000"
+          autoResize="false"
+          placeholder="Sorry for the wait, your pizza ..."
+          styleClass="calm-page__input"
+        />
+        <!-- these lines get added to the mail by themselves, the clerk does not have to type them -->
+        <div class="calm-page__footer-preview">
+          <span class="calm-page__footer-hint">added underneath automatically:</span>
+          <pre class="calm-page__footer-text"><h:outputText value="#{calmCustomerDownTaskBean.automaticFooter}"/></pre>
+        </div>
+      </div>
+
+      <dtc:DetailsCard
+        customerProfile="#{calmCustomerDownTaskBean.order.customerProfile}"
+        editable="false"
+        styleClass="calm-page__details"
+      />
+
+      <odc:OrderCard
+        order="#{calmCustomerDownTaskBean.order}"
+        title="The order"
+        styleClass="calm-page__order"
+      />
+    </div>
+
+    <!-- sending the answer finishes the user task -->
+    <ftr:Footer styleClass="calm-page__footer">
+      <p:commandButton
+        id="sendButton"
+        value="Send answer"
+        icon="pi pi-send"
+        styleClass="button button--primary"
+        process="@form"
+        action="#{calmCustomerDownTaskBean.close()}"
+        update="form:pageContent form:messages"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

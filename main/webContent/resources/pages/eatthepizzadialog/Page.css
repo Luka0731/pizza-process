@@ -1,16 +1,28 @@
 .eat-page {
 }
-.eat-page__body {
+
+/* the pizzas lie on this area. Page.js gives every pizza its place, size and rotation */
+.eat-page__table {
+  position: relative;
+  height: 65vh;
+  min-height: 320px;
+  overflow: hidden;
 }
-.eat-page__icon {
+.eat-page__pizza {
+  position: absolute;
+  object-fit: cover;
+  border-radius: var(--radius-round);
+  box-shadow: var(--shadow-raised);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 350ms ease-in, opacity 350ms ease-in;
 }
-.eat-page__title {
+.eat-page__pizza:hover {
+  filter: brightness(1.08);
 }
-.eat-page__text {
-}
-.eat-page__cards {
-}
-.eat-page__order {
-}
-.eat-page__footer {
+/* a pizza that was clicked shrinks away */
+.eat-page__pizza--eaten {
+  transform: scale(0) rotate(180deg) !important;
+  opacity: 0;
+  pointer-events: none;
 }

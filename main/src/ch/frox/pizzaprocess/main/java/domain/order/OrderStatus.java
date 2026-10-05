@@ -12,4 +12,11 @@ public enum OrderStatus {
     PAID,
     CANCELED,
     ISSUES_WITH_ORDER;
+
+
+    
+    public String getLabel() {
+        String label = name().toLowerCase().replace('_', ' ');
+        return Character.toUpperCase(label.charAt(0)) + label.substring(1);
+    }
 }

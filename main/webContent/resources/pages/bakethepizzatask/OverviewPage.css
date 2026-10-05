@@ -1,0 +1,16 @@
+.bake-page {
+}
+.bake-page__cards {
+}
+.bake-page__order {
+}
+.bake-page__list {
+}
+/* the whole item card is the link to the recipe */
+.bake-page__item {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.bake-page__footer {
+}

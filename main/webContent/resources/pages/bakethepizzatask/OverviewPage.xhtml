@@ -7,9 +7,9 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
-  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
+  xmlns:cic="jakarta.faces.composite/components/domain/itemcard"
 >
-  <h:outputStylesheet name="pages/bakethepizzatask/Page.css"/>
+  <h:outputStylesheet name="pages/bakethepizzatask/OverviewPage.css"/>
 
 
 
@@ -26,11 +26,30 @@
     </hdr:Header>
 
     <div class="bake-page__cards">
-      <odc:OrderCard
-        order="#{bakeThePizzaTaskBean.order}"
-        title="To bake"
-        styleClass="bake-page__order"
-      />
+      <div class="bake-page__order card">
+        <div class="card__head">
+          <h2 class="card__title">To bake</h2>
+          <span class="card__hint">click a pizza to see its recipe</span>
+        </div>
+
+        <div class="bake-page__list">
+          <ui:repeat value="#{bakeThePizzaTaskBean.order.items}" var="item" varStatus="loop">
+            <p:commandLink
+              styleClass="bake-page__item"
+              title="Show the recipe"
+              process="@this"
+              action="#{bakeThePizzaTaskBean.goToRecipePage(item.pizza)}"
+              update="form:pageContent form:messages"
+            >
+              <cic:ItemCard
+                item="#{item}"
+                index="#{loop.index}"
+                removable="false"
+              />
+            </p:commandLink>
+          </ui:repeat>
+        </div>
+      </div>
     </div>
 
     <!-- closing the dialog finishes the user task, the process continues with the delivery -->

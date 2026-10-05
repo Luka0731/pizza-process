@@ -1,0 +1,65 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:prf="jakarta.faces.composite/components/domain/profile"
+>
+  <h:outputStylesheet name="pages/bakethepizzatask/RecipePage.css"/>
+
+
+
+  <div class="recipe-page" id="recipePage">
+
+    <hdr:Header
+      title="#{bakeThePizzaTaskBean.recipePizza.name}"
+      subtitle="#{bakeThePizzaTaskBean.recipePizza.description}"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile showAccountLinks="false"/>
+      </f:facet>
+    </hdr:Header>
+
+    <!-- read only, recipes get changed in the pizza administration -->
+    <div class="recipe-page__body">
+      <div class="recipe-page__media">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="recipe-page__image" alt="#{bakeThePizzaTaskBean.recipePizza.name}">
+          <f:param name="imageId" value="#{bakeThePizzaTaskBean.recipePizza.image.id}"/>
+        </p:graphicImage>
+      </div>
+
+      <div class="recipe-page__recipe card">
+        <div class="card__head">
+          <h2 class="card__title">Recipe</h2>
+        </div>
+        <!-- the recipe is html from the text editor of the pizza administration, thats why it is not escaped -->
+        <h:outputText
+          value="#{bakeThePizzaTaskBean.recipePizza.recipe}"
+          escape="false"
+          styleClass="recipe-page__text"
+          rendered="#{not empty bakeThePizzaTaskBean.recipePizza.recipe}"
+        />
+        <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty bakeThePizzaTaskBean.recipePizza.recipe}">
+          <span class="empty-state__text">no recipe yet.</span>
+        </h:panelGroup>
+      </div>
+    </div>
+
+    <ftr:Footer styleClass="recipe-page__footer">
+      <p:commandButton
+        id="backButton"
+        value="Back to the order"
+        icon="pi pi-arrow-left"
+        styleClass="button button--ghost"
+        process="@this"
+        action="#{bakeThePizzaTaskBean.goToOrderPage()}"
+        update="form:pageContent form:messages"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

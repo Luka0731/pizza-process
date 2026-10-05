@@ -3,17 +3,19 @@ package ch.frox.pizzaprocess.main.java.dialog.bakethepizzatask;
 import static ch.frox.pizzaprocess.main.java.core.security.Role.DELIVERY_EAST;
 import static ch.frox.pizzaprocess.main.java.core.security.Role.DELIVERY_MIDDLE;
 import static ch.frox.pizzaprocess.main.java.core.security.Role.DELIVERY_WEST;
+import static ch.frox.pizzaprocess.main.java.dialog.bakethepizzatask.BakeThePizzaTaskPage.OVERVIEW_PAGE;
+import static ch.frox.pizzaprocess.main.java.dialog.bakethepizzatask.BakeThePizzaTaskPage.RECIPE_PAGE;
 import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.READY_FOR_DELIVERY;
 
 import ch.frox.pizzaprocess.BakeThePizzaTask.BakeThePizzaTaskData;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
-import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.core.security.Role;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
+import ch.frox.pizzaprocess.main.java.domain.pizza.Pizza;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -21,10 +23,11 @@ import jakarta.inject.Named;
 
 @Named("bakeThePizzaTaskBean")
 @ViewScoped
-public class BakeThePizzaTaskBean extends GenericDialogBean<BakeThePizzaTaskData, SingleDialogPage> {
+public class BakeThePizzaTaskBean extends GenericDialogBean<BakeThePizzaTaskData, BakeThePizzaTaskPage> {
     private static final long serialVersionUID = 1L;
     private static final OrderService orderService = Registry.get(OrderService.class);
     private Order order;
+    private Pizza currentPizza;
 
     @Override
     protected void init() {
@@ -51,10 +54,28 @@ public class BakeThePizzaTaskBean extends GenericDialogBean<BakeThePizzaTaskData
 
 
 
+    // |----- routing -----|
+
+    public void goToRecipePage(Pizza pizza) {
+        currentPizza = pizza;
+        currentPage = RECIPE_PAGE;
+    }
+
+    public void goToOrderPage() {
+        currentPizza = null;
+        currentPage = OVERVIEW_PAGE;
+    }
+
+
+
     // |----- getters & setters -----|
 
     public Order getOrder() {
         return order;
+    }
+
+    public Pizza getCurrentPizza() {
+        return currentPizza;
     }
 
 

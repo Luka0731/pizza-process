@@ -1,0 +1,81 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
+  xmlns:hdr="jakarta.faces.composite/components/generic/header"
+  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:prf="jakarta.faces.composite/components/domain/profile"
+  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
+>
+  <h:outputStylesheet name="pages/askforthepizzadialog/Page.css"/>
+
+
+
+  <div class="ask-page" id="askPage">
+
+    <hdr:Header
+      title="Where is my pizza?"
+      subtitle="#{askForThePizzaDialogBean.pizzaHere ? 'Good news, it arrived in the meantime' : 'Ask us, we answer by mail'}"
+      showCart="false"
+    >
+      <f:facet name="actions">
+        <prf:Profile showAccountLinks="false"/>
+      </f:facet>
+    </hdr:Header>
+
+    <div class="ask-page__cards">
+      <div class="ask-page__status card">
+        <div class="card__head">
+          <h2 class="card__title">Your order</h2>
+        </div>
+        <dl class="ask-page__list">
+          <div class="ask-page__row">
+            <dt class="ask-page__label">Status</dt>
+            <dd class="ask-page__value"><h:outputText value="#{askForThePizzaDialogBean.order.status.label}"/></dd>
+          </div>
+          <div class="ask-page__row">
+            <dt class="ask-page__label">Order id</dt>
+            <dd class="ask-page__value"><h:outputText value="#{askForThePizzaDialogBean.order.id}"/></dd>
+          </div>
+        </dl>
+      </div>
+
+      <h:panelGroup layout="block" styleClass="ask-page__question card" rendered="#{not askForThePizzaDialogBean.pizzaHere}">
+        <div class="card__head">
+          <h2 class="card__title">Your question</h2>
+          <span class="card__hint">optional</span>
+        </div>
+        <p:inputTextarea
+          id="question"
+          value="#{askForThePizzaDialogBean.question}"
+          rows="4"
+          maxlength="500"
+          autoResize="false"
+          placeholder="Where is my pizza?"
+          styleClass="ask-page__input"
+        />
+      </h:panelGroup>
+
+      <odc:OrderCard
+        order="#{askForThePizzaDialogBean.order}"
+        styleClass="ask-page__order"
+      />
+    </div>
+
+    <!-- sending the question gives the clerk the task "calm customer down" -->
+    <ftr:Footer styleClass="ask-page__footer">
+      <p:commandButton
+        id="askButton"
+        value="#{askForThePizzaDialogBean.pizzaHere ? 'Close' : 'Ask the pizzeria'}"
+        icon="#{askForThePizzaDialogBean.pizzaHere ? 'pi pi-check' : 'pi pi-send'}"
+        styleClass="button button--primary"
+        process="@form"
+        action="#{askForThePizzaDialogBean.close()}"
+        update="form:pageContent form:messages"
+      />
+    </ftr:Footer>
+
+  </div>
+</ui:composition>

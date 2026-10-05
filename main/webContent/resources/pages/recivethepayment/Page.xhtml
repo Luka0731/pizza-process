@@ -6,10 +6,9 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
+  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
-  xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
 >
   <h:outputStylesheet name="pages/recivethepayment/Page.css"/>
 
@@ -19,22 +18,13 @@
 
     <hdr:Header
       title="Receive the payment"
-      subtitle="#{reciveThePaymentBean.paid ? 'The customer already paid online' : 'Collect the money at the door'}"
+      subtitle="Let the customer pay on your payment device, then confirm it here"
       showCart="false"
     >
       <f:facet name="actions">
         <prf:Profile showAccountLinks="false"/>
       </f:facet>
     </hdr:Header>
-
-    <!-- until it is paid, the page asks every 10 seconds if the customer paid online -->
-    <p:poll
-      interval="10"
-      listener="#{reciveThePaymentBean.refresh()}"
-      process="@this"
-      update="form:pageContent form:messages"
-      rendered="#{not reciveThePaymentBean.paid}"
-    />
 
     <div class="payment-page__cards">
       <dtc:DetailsCard
@@ -47,23 +37,16 @@
         itemLabel="Pizzas"
         itemCount="#{reciveThePaymentBean.order.totalPizzasAmount}"
         total="#{reciveThePaymentBean.order.totalPrice}"
-        totalLabel="#{reciveThePaymentBean.paid ? 'Paid' : 'To collect'}"
+        totalLabel="To collect"
         styleClass="payment-page__receipt"
       />
-
-      <div class="payment-page__hint card">
-        <i class="pi #{reciveThePaymentBean.paid ? 'pi-check-circle' : 'pi-info-circle'} payment-page__hint-icon"></i>
-        <span class="payment-page__hint-text">
-          <h:outputText value="#{reciveThePaymentBean.paid ? 'The customer paid online, nothing to collect.' : 'The customer can also pay online, this page will show it.'}"/>
-        </span>
-      </div>
     </div>
 
     <!-- closing the dialog ends the worker process -->
     <ftr:Footer styleClass="payment-page__footer">
       <p:commandButton
         id="paidButton"
-        value="#{reciveThePaymentBean.paid ? 'Done' : 'Paid in cash'}"
+        value="Customer paid"
         icon="pi pi-check"
         styleClass="button button--primary"
         process="@this"

@@ -8,23 +8,15 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "HtmlDialogStart",
-      "name" : "start(PizzaCustomerProcessData)",
+      "name" : "start(UUID)",
       "config" : {
         "signature" : "start",
         "input" : {
           "params" : [
-            { "name" : "pizzaCustomerProcess", "type" : "ch.frox.pizzaprocess.PizzaCustomerProcessData", "desc" : "" }
+            { "name" : "orderId", "type" : "java.util.UUID", "desc" : "" }
           ],
           "map" : {
-            "out.pizzaCustomerProcess" : "param.pizzaCustomerProcess"
-          }
-        },
-        "result" : {
-          "params" : [
-            { "name" : "pizzaCustomerProcess", "type" : "ch.frox.pizzaprocess.PizzaCustomerProcessData", "desc" : "" }
-          ],
-          "map" : {
-            "result.pizzaCustomerProcess" : "in.pizzaCustomerProcess"
+            "out.orderId" : "param.orderId"
           }
         },
         "guid" : "19FEA64D0986E2C7"
@@ -43,9 +35,10 @@
       }
     }, {
       "id" : "f3",
-      "type" : "HtmlDialogEventStart",
-      "name" : "close",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "close()",
       "config" : {
+        "signature" : "close",
         "guid" : "19FEA64D09A15744"
       },
       "visual" : {

@@ -1,8 +1,9 @@
-package ch.frox.pizzaprocess.main.java.dialog.recivethepayment;
+package ch.frox.pizzaprocess.main.java.dialog.askforthepizzadialog;
 
+import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.DELIVERED;
 import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.PAID;
 
-import ch.frox.pizzaprocess.ReciveThePayment.ReciveThePaymentData;
+import ch.frox.pizzaprocess.AskForThePizzaDialog.AskForThePizzaDialogData;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
@@ -15,12 +16,14 @@ import jakarta.inject.Named;
 
 
 
-@Named("reciveThePaymentBean")
+@Named("askForThePizzaDialogBean")
 @ViewScoped
-public class ReciveThePaymentBean extends GenericDialogBean<ReciveThePaymentData, SingleDialogPage> {
+public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDialogData, SingleDialogPage> {
     private static final long serialVersionUID = 1L;
+    private static final String DEFAULT_QUESTION = "Where is my pizza?";
     private static final OrderService orderService = Registry.get(OrderService.class);
     private Order order;
+    private String question;
 
     @Override
     protected void init() {
@@ -34,11 +37,11 @@ public class ReciveThePaymentBean extends GenericDialogBean<ReciveThePaymentData
     @Override
     public void close() {
         if (ExceptionHandler.run(() -> {
-            order.setStatus(PAID);
-            order = orderService.update(order);
-        })) return;
+            order = orderService.getById(order.getId());
+            if (isPizzaHere()) return; // TODO: maybe tell the user the pizza is here?
 
-        Signaler.orderPaid(order.getId());
+            Signaler.orderAsked(order.getId(), (question == null || question.isBlank())? DEFAULT_QUESTION : question.trim());
+        })) return;
 
         runProcessMethod("close");
     }
@@ -49,5 +52,17 @@ public class ReciveThePaymentBean extends GenericDialogBean<ReciveThePaymentData
 
     public Order getOrder() {
         return order;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public boolean isPizzaHere() {
+        return order.getStatus() == DELIVERED || order.getStatus() == PAID;
     }
 }

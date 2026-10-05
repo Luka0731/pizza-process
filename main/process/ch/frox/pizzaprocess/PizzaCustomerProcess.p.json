@@ -12,7 +12,7 @@
         "signature" : "startPizzaCustomerProcess"
       },
       "visual" : {
-        "at" : { "x" : 88, "y" : 64 }
+        "at" : { "x" : 136, "y" : 64 }
       },
       "connect" : [
         { "id" : "f2", "to" : "f3" }
@@ -22,7 +22,7 @@
       "type" : "TaskEnd",
       "name" : "hunger satisfied",
       "visual" : {
-        "at" : { "x" : 1248, "y" : 64 }
+        "at" : { "x" : 1080, "y" : 64 }
       }
     }, {
       "id" : "f3",
@@ -37,7 +37,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 224, "y" : 64 }
+        "at" : { "x" : 296, "y" : 64 }
       },
       "connect" : [
         { "id" : "f10", "to" : "f9" }
@@ -48,7 +48,12 @@
       "config" : {
         "tasks" : [ {
             "id" : "TaskB",
-            "name" : "ask for the pizza"
+            "name" : "ask for the pizza",
+            "responsible" : {
+              "roles" : [
+                "SYSTEM"
+              ]
+            }
           }, {
             "id" : "TaskA",
             "name" : "wait for the pizza",
@@ -80,7 +85,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 408, "y" : 64 }
+        "at" : { "x" : 496, "y" : 64 }
       },
       "connect" : [
         { "id" : "f40", "to" : "f7", "var" : "in1" }
@@ -90,37 +95,7 @@
       "type" : "DialogCall",
       "name" : "ask for the pizza",
       "config" : {
-        "dialog" : "ch.frox.pizzaprocess.AskForThePizzaDialog:start(ch.frox.pizzaprocess.PizzaCustomerProcessData)",
-        "call" : {
-          "map" : {
-            "param.pizzaCustomerProcess" : "in"
-          }
-        },
-        "output" : {
-          "map" : {
-            "out" : "result.pizzaCustomerProcess"
-          }
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 960, "y" : 168 }
-      },
-      "connect" : [
-        { "id" : "f16", "to" : "f31" }
-      ]
-    }, {
-      "id" : "f31",
-      "type" : "TaskEnd",
-      "name" : "customer asked",
-      "visual" : {
-        "at" : { "x" : 1136, "y" : 168 }
-      }
-    }, {
-      "id" : "f19",
-      "type" : "DialogCall",
-      "name" : "pay the pizza",
-      "config" : {
-        "dialog" : "ch.frox.pizzaprocess.PayThePizzaDialog:start(java.util.UUID)",
+        "dialog" : "ch.frox.pizzaprocess.AskForThePizzaDialog:start(java.util.UUID)",
         "call" : {
           "map" : {
             "param.orderId" : "in.orderId"
@@ -128,10 +103,10 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 960, "y" : 64 }
+        "at" : { "x" : 920, "y" : 168 }
       },
       "connect" : [
-        { "id" : "f20", "to" : "f21", "color" : "default" }
+        { "id" : "f45", "to" : "f32", "via" : [ { "x" : 920, "y" : 120 }, { "x" : 768, "y" : 120 } ] }
       ]
     }, {
       "id" : "f21",
@@ -146,7 +121,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 1120, "y" : 64 }
+        "at" : { "x" : 920, "y" : 64 }
       },
       "connect" : [
         { "id" : "f22", "to" : "f1", "color" : "default" }
@@ -160,7 +135,7 @@
         "* click the done button to save the order in the db and move along to the next order"
       ],
       "visual" : {
-        "at" : { "x" : 176, "y" : 326 },
+        "at" : { "x" : 216, "y" : 328 },
         "size" : { "width" : 352, "height" : 84 }
       },
       "connect" : [
@@ -174,7 +149,7 @@
         "* press finish buton to send the order off"
       ],
       "visual" : {
-        "at" : { "x" : 455, "y" : 407 },
+        "at" : { "x" : 543, "y" : 359 },
         "size" : { "width" : 287, "height" : 63 }
       },
       "connect" : [
@@ -184,6 +159,16 @@
       "id" : "f32",
       "type" : "TaskSwitchEvent",
       "name" : "60 minuts",
+      "config" : {
+        "task" : {
+          "name" : "Where is my pizza?",
+          "description" : "Order <%=in1.orderId%>",
+          "delay" : "new Duration(0, 0, 0, 0, 1, 0)",
+          "customFields" : [
+            { "name" : "signalCode", "type" : "STRING", "value" : "\"pizzaprocess:order:askable:\" + in1.orderId.toString()" }
+          ]
+        }
+      },
       "visual" : {
         "at" : { "x" : 768, "y" : 168 },
         "icon" : "std:Timer"
@@ -192,33 +177,12 @@
         { "id" : "f33", "to" : "f14", "color" : "default" }
       ]
     }, {
-      "id" : "f36",
-      "type" : "ProcessAnnotation",
-      "visual" : {
-        "at" : { "x" : 912, "y" : 400 },
-        "size" : { "width" : 256, "height" : 40 }
-      },
-      "connect" : [
-        { "id" : "f37", "to" : "f21" }
-      ]
-    }, {
-      "id" : "f38",
-      "type" : "ProcessAnnotation",
-      "name" : "these both technically dont need to exist",
-      "visual" : {
-        "at" : { "x" : 912, "y" : 400 },
-        "size" : { "width" : 256, "height" : 40 }
-      },
-      "connect" : [
-        { "id" : "f39", "to" : "f19" }
-      ]
-    }, {
       "id" : "f43",
       "type" : "TaskSwitchEvent",
       "name" : "pizza recived",
       "config" : {
         "task" : {
-          "name" : "Your pizza is here, please pay",
+          "name" : "Your pizza is here, enjoy it",
           "description" : "Order <%=in1.orderId%>",
           "delay" : "new Duration(0, 0, 30, 0, 0, 0)",
           "customFields" : [
@@ -231,7 +195,7 @@
         "icon" : "std:Signal"
       },
       "connect" : [
-        { "id" : "f44", "to" : "f19", "color" : "default" }
+        { "id" : "f44", "to" : "f21", "color" : "default" }
       ]
     } ],
   "layout" : {
