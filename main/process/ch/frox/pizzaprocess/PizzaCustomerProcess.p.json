@@ -22,7 +22,7 @@
       "type" : "TaskEnd",
       "name" : "hunger satisfied",
       "visual" : {
-        "at" : { "x" : 1128, "y" : 64 }
+        "at" : { "x" : 1248, "y" : 64 }
       }
     }, {
       "id" : "f3",
@@ -47,19 +47,19 @@
       "type" : "TaskSwitchGateway",
       "config" : {
         "tasks" : [ {
-            "id" : "TaskA",
-            "name" : "wait for the pizza"
-          }, {
             "id" : "TaskB",
             "name" : "ask for the pizza"
+          }, {
+            "id" : "TaskA",
+            "name" : "wait for the pizza"
           } ]
       },
       "visual" : {
-        "at" : { "x" : 544, "y" : 64 }
+        "at" : { "x" : 664, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f24", "to" : "f23", "condition" : "ivp==\"TaskA.ivp\"" },
-        { "id" : "f30", "to" : "f32", "via" : [ { "x" : 544, "y" : 168 } ], "condition" : "ivp==\"TaskB.ivp\"" }
+        { "id" : "f30", "to" : "f32", "via" : [ { "x" : 664, "y" : 168 } ], "condition" : "ivp==\"TaskB.ivp\"" },
+        { "id" : "f42", "to" : "f43", "condition" : "ivp==\"TaskA.ivp\"" }
       ]
     }, {
       "id" : "f9",
@@ -82,7 +82,7 @@
         "at" : { "x" : 408, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f11", "to" : "f7", "var" : "in1" }
+        { "id" : "f40", "to" : "f7", "var" : "in1" }
       ]
     }, {
       "id" : "f14",
@@ -102,7 +102,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 840, "y" : 168 }
+        "at" : { "x" : 960, "y" : 168 }
       },
       "connect" : [
         { "id" : "f16", "to" : "f31" }
@@ -112,7 +112,7 @@
       "type" : "TaskEnd",
       "name" : "customer asked",
       "visual" : {
-        "at" : { "x" : 1016, "y" : 168 }
+        "at" : { "x" : 1136, "y" : 168 }
       }
     }, {
       "id" : "f19",
@@ -132,7 +132,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 840, "y" : 64 }
+        "at" : { "x" : 960, "y" : 64 }
       },
       "connect" : [
         { "id" : "f20", "to" : "f21", "color" : "default" }
@@ -155,21 +155,10 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 1000, "y" : 64 }
+        "at" : { "x" : 1120, "y" : 64 }
       },
       "connect" : [
         { "id" : "f22", "to" : "f1", "color" : "default" }
-      ]
-    }, {
-      "id" : "f23",
-      "type" : "TaskSwitchEvent",
-      "name" : "pizza recived",
-      "visual" : {
-        "at" : { "x" : 648, "y" : 64 },
-        "icon" : "std:Message"
-      },
-      "connect" : [
-        { "id" : "f25", "to" : "f19" }
       ]
     }, {
       "id" : "f26",
@@ -203,10 +192,10 @@
     }, {
       "id" : "f32",
       "type" : "TaskSwitchEvent",
-      "name" : "! temp !",
+      "name" : "60 minuts",
       "visual" : {
-        "at" : { "x" : 648, "y" : 168 },
-        "icon" : "std:Message"
+        "at" : { "x" : 768, "y" : 168 },
+        "icon" : "std:Timer"
       },
       "connect" : [
         { "id" : "f33", "to" : "f14", "color" : "default" }
@@ -231,6 +220,17 @@
       },
       "connect" : [
         { "id" : "f39", "to" : "f19" }
+      ]
+    }, {
+      "id" : "f43",
+      "type" : "TaskSwitchEvent",
+      "name" : "pizza recived",
+      "visual" : {
+        "at" : { "x" : 768, "y" : 64 },
+        "icon" : "std:Signal"
+      },
+      "connect" : [
+        { "id" : "f44", "to" : "f19", "color" : "default" }
       ]
     } ],
   "layout" : {

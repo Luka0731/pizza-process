@@ -21,6 +21,9 @@ public enum Role {
     CLERK,
     PIZZA_CHEF,
     DELIVERY_BOY,
+    DELIVERY_WEST,
+    DELIVERY_MIDDLE,
+    DELIVERY_EAST,
     ADMIN;
 
 

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/15.1/config/users.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0/config/users.json
 Users:
   - Name: Mustafa
     Password: '1234'
@@ -42,4 +42,16 @@ Users:
     FullName: Diana Nguyen
     Mail: luka.grujic@frox.ch
     Roles:
-      - DeliveryBoy
+      - DeliveryWest
+  - Name: Marco
+    Password: '1234'
+    FullName: Marco Kawalski
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - DeliveryMiddle
+  - Name: Elena
+    Password: '1234'
+    FullName: Elena Brunner
+    Mail: luka.grujic@frox.ch
+    Roles:
+      - DeliveryEast

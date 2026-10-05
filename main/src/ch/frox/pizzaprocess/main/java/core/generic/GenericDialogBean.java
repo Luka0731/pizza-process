@@ -62,7 +62,9 @@ public abstract class GenericDialogBean<D extends CompositeObject, P extends Enu
     // |----- routing -----|
 
     public final String router() {
-        return currentPage.getPath();
+        String packageName = getClass().getPackageName();
+        String folderName = packageName.substring(packageName.lastIndexOf('.') + 1);
+        return "/resources/pages/" + folderName + "/" + currentPage.getFile() + ".xhtml";
     }
 
 

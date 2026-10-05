@@ -24,17 +24,10 @@ package ch.frox.pizzaprocess.main.java.core.generic;
  * - dialog folder: flatcase
 **/
 public interface GenericDialogPage {
-    // NOTE: both methods are already implemented by every enum
+    // NOTE: already implemented by every enum
     String name();
-    Class<?> getDeclaringClass();
 
 
-
-    default String getPath() {
-        String packageName = getDeclaringClass().getPackageName();
-        String folderName = packageName.substring(packageName.lastIndexOf('.') + 1);
-        return "/resources/pages/" + folderName + "/" + getFile() + ".xhtml";
-    }
 
     default String getFile() {
         StringBuilder file = new StringBuilder();

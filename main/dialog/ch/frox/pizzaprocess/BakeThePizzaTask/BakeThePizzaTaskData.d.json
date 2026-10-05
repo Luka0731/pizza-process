@@ -3,8 +3,14 @@
   "simpleName" : "BakeThePizzaTaskData",
   "namespace" : "ch.frox.pizzaprocess.BakeThePizzaTask",
   "fields" : [ {
-    "name" : "pizzaWorkerProcess",
-    "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData",
+    "name" : "orderId",
+    "type" : "java.util.UUID",
+    "modifiers" : [ ]
+  }, {
+    "name" : "deliveryRole",
+    "modifiers" : [ ]
+  }, {
+    "name" : "deliveryAddress",
     "modifiers" : [ ]
   } ]
 }

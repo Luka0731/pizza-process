@@ -8,4 +8,11 @@ Roles:
     Parent: PizzaWorker
   - Id: DeliveryBoy
     Parent: PizzaWorker
+  # delivery regions, chosen by the decision table (src/.../resource/decisiontable/delivery-region.csv)
+  - Id: DeliveryWest
+    Parent: DeliveryBoy
+  - Id: DeliveryMiddle
+    Parent: DeliveryBoy
+  - Id: DeliveryEast
+    Parent: DeliveryBoy
   - Id: Admin

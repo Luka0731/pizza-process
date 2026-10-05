@@ -8,23 +8,31 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "HtmlDialogStart",
-      "name" : "start(PizzaWorkerProcessData)",
+      "name" : "start(UUID,String,String)",
       "config" : {
         "signature" : "start",
         "input" : {
           "params" : [
-            { "name" : "pizzaWorkerProcess", "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData", "desc" : "" }
+            { "name" : "orderId", "type" : "java.util.UUID", "desc" : "" },
+            { "name" : "deliveryRole", "type" : "String", "desc" : "" },
+            { "name" : "deliveryAddress", "type" : "String", "desc" : "" }
           ],
           "map" : {
-            "out.pizzaWorkerProcess" : "param.pizzaWorkerProcess"
+            "out.deliveryAddress" : "param.deliveryAddress",
+            "out.deliveryRole" : "param.deliveryRole",
+            "out.orderId" : "param.orderId"
           }
         },
         "result" : {
           "params" : [
-            { "name" : "pizzaWorkerProcess", "type" : "ch.frox.pizzaprocess.PizzaWorkerProcessData", "desc" : "" }
+            { "name" : "orderId", "type" : "java.util.UUID", "desc" : "" },
+            { "name" : "deliveryRole", "type" : "String", "desc" : "" },
+            { "name" : "deliveryAddress", "type" : "String", "desc" : "" }
           ],
           "map" : {
-            "result.pizzaWorkerProcess" : "in.pizzaWorkerProcess"
+            "result.orderId" : "in.orderId",
+            "result.deliveryRole" : "in.deliveryRole",
+            "result.deliveryAddress" : "in.deliveryAddress"
           }
         },
         "guid" : "19FEA6A9CC52BD4F"
@@ -43,9 +51,10 @@
       }
     }, {
       "id" : "f3",
-      "type" : "HtmlDialogEventStart",
-      "name" : "close",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "close()",
       "config" : {
+        "signature" : "close",
         "guid" : "19FEA6A9CC77E4A9"
       },
       "visual" : {
