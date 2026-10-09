@@ -30,8 +30,17 @@
         "at" : { "x" : 280, "y" : 136 }
       },
       "connect" : [
-        { "id" : "f6", "to" : "f5", "condition" : "ivp==\"TaskB.ivp\"" },
+        { "id" : "f6", "to" : "f50", "condition" : "ivp==\"TaskB.ivp\"" },
         { "id" : "f9", "to" : "f8", "via" : [ { "x" : 280, "y" : 248 } ], "condition" : "ivp==\"TaskA.ivp\"" }
+      ]
+    }, {
+      "id" : "f50",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 332, "y" : 136 }
+      },
+      "connect" : [
+        { "id" : "f51", "to" : "f5" }
       ]
     }, {
       "id" : "f5",
@@ -128,7 +137,7 @@
         "at" : { "x" : 536, "y" : 136 }
       },
       "connect" : [
-        { "id" : "f11", "to" : "f5", "via" : [ { "x" : 544, "y" : 80 }, { "x" : 384, "y" : 80 } ] }
+        { "id" : "f11", "to" : "f50", "via" : [ { "x" : 544, "y" : 80 }, { "x" : 332, "y" : 80 } ] }
       ]
     }, {
       "id" : "f16",

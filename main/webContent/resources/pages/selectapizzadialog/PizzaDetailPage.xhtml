@@ -7,7 +7,7 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
 >
-  <h:outputStylesheet name="pages/selectapizzadialog/PizzaDetailPage.css" />
+  <h:outputStylesheet name="resources/pages/selectapizzadialog/PizzaDetailPage.css" />
 
 
   <div class="detail-page" id="detailPage">
@@ -39,9 +39,9 @@
         <p class="detail-page__description">
           <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.description}"/>
         </p>
-        <!-- the price follows the size below, the selector updates this whole page part -->
+        <!-- the price follows the size below. the size buttons only redraw this one element -->
         <span class="detail-page__price">
-          <h:outputText value="#{selectAPizzaDialogBean.selectedPrice}">
+          <h:outputText id="selectedPrice" value="#{selectAPizzaDialogBean.selectedPrice}">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>
         </span>
@@ -52,10 +52,9 @@
           <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label" />
           <p:selectOneButton id="sizeSelect" value="#{selectAPizzaDialogBean.selectedSize}" styleClass="field__input size-select">
             <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} (#{size.diameterCm} cm)"/>
-            <!-- every size costs something else now, so picking one has to redraw the price.
-                 the amount spinner is processed along, otherwise redrawing the page would throw away
-                 an amount the user already set -->
-            <p:ajax event="change" process="@this amountSpinner" update="form:pageContent form:messages"/>
+            <!-- every size costs something else, so picking one sends the size to the bean and redraws only the price.
+                 the rest of the page (picture, amount) stays as it is -->
+            <p:ajax event="change" process="@this" update="selectedPrice form:messages"/>
           </p:selectOneButton>
         </div>
 

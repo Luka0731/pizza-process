@@ -11,13 +11,13 @@ import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderItem;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
 import ch.frox.pizzaprocess.main.java.domain.pizza.Pizza;
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.ConversationScoped;
 import jakarta.inject.Named;
 
 
 
 @Named("eatThePizzaDialogBean")
-@ViewScoped
+@ConversationScoped	
 public class EatThePizzaDialogBean extends GenericDialogBean<EatThePizzaDialogData, SingleDialogPage> {
     private static final long serialVersionUID = 1L;
     private static final int MAX_PIZZAS_ON_THE_PAGE = 30;

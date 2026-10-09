@@ -5,11 +5,9 @@
   xmlns:ui="jakarta.faces.facelets"
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
-  xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
-  <h:outputStylesheet name="pages/eatthepizzadialog/Page.css"/>
-  <h:outputScript name="pages/eatthepizzadialog/Page.js"/>
+  <h:outputScript name="resources/pages/eatthepizzadialog/Page.js" target="head"/>
+  <h:outputStylesheet name="resources/pages/eatthepizzadialog/Page.css" target="head"/>
 
 
 
@@ -21,8 +19,8 @@
       showCart="false"
     />
 
-    <!-- Page.js spreads the pizzas over the table, a click eats one. when all are gone it calls eatThePizzaDone() -->
-    <div class="eat-page__table">
+    <!-- ordered pizzas -->
+    <div class="eat-page__table" data-eat-sound="#{resource['resources/assets/audio/eat.mp3']}">
       <ui:repeat value="#{eatThePizzaDialogBean.pizzas}" var="pizza">
         <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="eat-page__pizza" alt="#{pizza.name}" title="#{pizza.name}">
           <f:param name="imageId" value="#{pizza.image.id}"/>
@@ -30,8 +28,20 @@
       </ui:repeat>
     </div>
 
-    <!-- closing the dialog ends the customer process -->
-    <p:remoteCommand name="eatThePizzaDone" process="@this" action="#{eatThePizzaDialogBean.close()}"/>
+    <!-- thanks message -->
+    <div class="eat-page__thanks card">
+      <i class="pi pi-heart-fill eat-page__thanks-icon"></i>
+      <h2 class="eat-page__thanks-title">Grazie mille!</h2>
+      <p class="eat-page__thanks-text">Thank you for supporting Mama's Pizzeria.</p>
+      <p:commandButton
+        id="doneButton"
+        value="Arrivederci"
+        icon="pi pi-check"
+        styleClass="button button--primary"
+        process="@this"
+        action="#{eatThePizzaDialogBean.close()}"
+      />
+    </div>
 
   </div>
 </ui:composition>

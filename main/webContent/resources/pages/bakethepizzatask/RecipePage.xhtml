@@ -15,8 +15,8 @@
   <div class="recipe-page" id="recipePage">
 
     <hdr:Header
-      title="#{bakeThePizzaTaskBean.recipePizza.name}"
-      subtitle="#{bakeThePizzaTaskBean.recipePizza.description}"
+      title="#{bakeThePizzaTaskBean.currentPizza.name}"
+      subtitle="#{bakeThePizzaTaskBean.currentPizza.description}"
       showCart="false"
     >
       <f:facet name="actions">
@@ -27,8 +27,8 @@
     <!-- read only, recipes get changed in the pizza administration -->
     <div class="recipe-page__body">
       <div class="recipe-page__media">
-        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="recipe-page__image" alt="#{bakeThePizzaTaskBean.recipePizza.name}">
-          <f:param name="imageId" value="#{bakeThePizzaTaskBean.recipePizza.image.id}"/>
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="recipe-page__image" alt="#{bakeThePizzaTaskBean.currentPizza.name}">
+          <f:param name="imageId" value="#{bakeThePizzaTaskBean.currentPizza.image.id}"/>
         </p:graphicImage>
       </div>
 
@@ -38,12 +38,12 @@
         </div>
         <!-- the recipe is html from the text editor of the pizza administration, thats why it is not escaped -->
         <h:outputText
-          value="#{bakeThePizzaTaskBean.recipePizza.recipe}"
+          value="#{bakeThePizzaTaskBean.currentPizza.recipe}"
           escape="false"
           styleClass="recipe-page__text"
-          rendered="#{not empty bakeThePizzaTaskBean.recipePizza.recipe}"
+          rendered="#{not empty bakeThePizzaTaskBean.currentPizza.recipe}"
         />
-        <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty bakeThePizzaTaskBean.recipePizza.recipe}">
+        <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty bakeThePizzaTaskBean.currentPizza.recipe}">
           <span class="empty-state__text">no recipe yet.</span>
         </h:panelGroup>
       </div>

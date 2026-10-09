@@ -1,6 +1,4 @@
-/* |----- design tokens -----|
-   every color, space and font size in the other css files should come from here, e.g. padding: var(--space-4);
-   so changing the look means changing this block only. */
+/* |----- design tokens -----| */
 :root {
   /* color palette */
   --color-primary: #c0392b;          /* tomato red: primary buttons, prices, links */

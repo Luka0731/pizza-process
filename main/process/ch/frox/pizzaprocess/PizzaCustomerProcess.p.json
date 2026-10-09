@@ -22,7 +22,8 @@
       "type" : "TaskEnd",
       "name" : "hunger satisfied",
       "visual" : {
-        "at" : { "x" : 1080, "y" : 64 }
+        "at" : { "x" : 1080, "y" : 64 },
+        "icon" : "std:Terminate"
       }
     }, {
       "id" : "f3",
@@ -64,7 +65,7 @@
         "at" : { "x" : 664, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f30", "to" : "f32", "via" : [ { "x" : 664, "y" : 168 } ], "condition" : "ivp==\"TaskB.ivp\"" },
+        { "id" : "f30", "to" : "f50", "via" : [ { "x" : 664, "y" : 168 } ], "condition" : "ivp==\"TaskB.ivp\"" },
         { "id" : "f42", "to" : "f43", "condition" : "ivp==\"TaskA.ivp\"" }
       ]
     }, {
@@ -106,7 +107,7 @@
         "at" : { "x" : 920, "y" : 168 }
       },
       "connect" : [
-        { "id" : "f45", "to" : "f32", "via" : [ { "x" : 920, "y" : 120 }, { "x" : 768, "y" : 120 } ] }
+        { "id" : "f45", "to" : "f50", "via" : [ { "x" : 920, "y" : 120 }, { "x" : 712, "y" : 120 } ] }
       ]
     }, {
       "id" : "f21",
@@ -154,6 +155,15 @@
       },
       "connect" : [
         { "id" : "f29", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f50",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 712, "y" : 168 }
+      },
+      "connect" : [
+        { "id" : "f51", "to" : "f32" }
       ]
     }, {
       "id" : "f32",

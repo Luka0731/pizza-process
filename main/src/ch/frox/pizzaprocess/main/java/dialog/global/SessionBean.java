@@ -11,8 +11,6 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class SessionBean {
 
-
-
     public boolean isLoggedIn() {
         return SessionUtil.isLoggedIn();
     }
