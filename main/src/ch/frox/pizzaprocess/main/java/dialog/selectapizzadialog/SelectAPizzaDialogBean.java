@@ -3,6 +3,7 @@ package ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.MENU_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.PIZZA_DETAIL_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.selectapizzadialog.SelectAPizzaDialogPage.SHOPPING_CART_PAGE;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.ACTIVE;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,7 @@ import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
 import ch.frox.pizzaprocess.main.java.domain.pizza.Pizza;
 import ch.frox.pizzaprocess.main.java.domain.pizza.PizzaService;
 import ch.frox.pizzaprocess.main.java.domain.pizza.PizzaSize;
+import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -29,7 +31,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
     private static final long serialVersionUID = 1L;
     private static final PizzaService pizzaService = Registry.get(PizzaService.class);
     private static final OrderService orderService = Registry.get(OrderService.class);
-
+    private PizzaFilter filter;
     private List<Pizza> catalog;
     private Order order;
     private Pizza selectedPizza;
@@ -38,9 +40,10 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
     @Override
     protected void init() {
-        catalog = pizzaService.getAllActive();
+        filter = new PizzaFilter();
         order = new Order();
         clearSelection();
+        search();
     }
 
     @Override
@@ -70,6 +73,21 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
 
 
+    // |----- catalog -----|
+
+    public void search() {
+        ExceptionHandler.run(() -> {
+            catalog = pizzaService.getAll(filter, ACTIVE);
+        });
+    }
+
+    public void clearFilter() {
+        filter = new PizzaFilter();
+        search();
+    }
+
+
+
     // |----- routing -----|
 
     public void goToDetailPage(Pizza pizza) {
@@ -94,6 +112,10 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
     public List<Pizza> getCatalog() {
         return catalog;
+    }
+
+    public PizzaFilter getFilter() {
+        return filter;
     }
 
     public PizzaSize[] getPossiblePizzaSizes() {

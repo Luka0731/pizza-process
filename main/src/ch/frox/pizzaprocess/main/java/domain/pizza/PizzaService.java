@@ -13,9 +13,9 @@ import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;
-import ch.frox.pizzaprocess.main.java.core.validation.ViolationsStream;
 import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnActivation;
 import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
+import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
 import ch.ivyteam.ivy.environment.Ivy;
 
 
@@ -29,12 +29,9 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
 
 
 
-    public List<Pizza> getAllActive() {
-        return repository.findAllByStatus(ACTIVE);
-    }
-
-    public List<Pizza> getAllDeactivated() {
-        return repository.findAllByStatus(DEACTIVATED);
+    public List<Pizza> getAll(PizzaFilter filter, PizzaStatus status) {
+        Validate.of(filter).throwIfAny("The search doesn't work like that");
+        return repository.findAllByStatus(status, filter);
     }
 
     @Override
@@ -44,7 +41,7 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
         pizza.setStatus(DEACTIVATED);
         pizza.setProductId(UUID.randomUUID());
 
-        ViolationsStream violations = Validate.of(pizza);
+        Validate violations = Validate.of(pizza);
         checkNameIsFree(pizza, violations);
         violations.throwIfAny();
 
@@ -71,7 +68,7 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
         ) {
             authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
         }
-        ViolationsStream violations = (newVersion.getStatus() == ACTIVE)? Validate.of(newVersion, OnActivation.class) : Validate.of(newVersion);
+        Validate violations = (newVersion.getStatus() == ACTIVE)? Validate.of(newVersion, OnActivation.class) : Validate.of(newVersion);
         checkNameIsFree(newVersion, violations);
         violations.throwIfAny("'" + newVersion.getName() + "' failed validation");
 
@@ -110,14 +107,14 @@ public class PizzaService extends GenericService<Pizza, UUID, PizzaRepository> {
         authorizationService.requiresPermisson(CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
 
         Pizza reloadedPizza = reload(pizza);
-        if (pizza.getStatus() != expected) throw new ConflictException("'" + reloadedPizza.getName() + "' was changed by someone else in the meantime.");
+        if (reloadedPizza.getStatus() != expected) throw new ConflictException("'" + reloadedPizza.getName() + "' was changed by someone else in the meantime.");
         if (target == ACTIVE) Validate.of(reloadedPizza, OnActivation.class).throwIfAny("'" + reloadedPizza.getName() + "' can't go on the menu yet, not all pizza values are valid yet");
 
         reloadedPizza.setStatus(target);
         return repository.update(reloadedPizza);
     }
 
-    private void checkNameIsFree(Pizza pizza, ViolationsStream violations) {
+    private void checkNameIsFree(Pizza pizza, Validate violations) {
         if (repository.existsByNameOutsideOfProductId(pizza.getName(), pizza.getProductId())) {
             violations.add("name", "There already is a pizza called '" + pizza.getName() + "'. Deactivated pizzas count too.");
         }

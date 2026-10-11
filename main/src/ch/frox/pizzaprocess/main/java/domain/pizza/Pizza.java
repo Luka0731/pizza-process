@@ -27,6 +27,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -71,6 +72,11 @@ public class Pizza extends GenericEntity<UUID> {
         BigDecimal
         >
     prices = new EnumMap<>(PizzaSize.class);
+    
+    // Only exists so the db can filter and sort by price
+    @Setter(AccessLevel.NONE)
+    @Column(name = "lowest_price", nullable = false)
+    private BigDecimal lowestPrice;
 
     @NotNull(groups = OnActivation.class, message = "It needs a picture!")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -81,22 +87,22 @@ public class Pizza extends GenericEntity<UUID> {
     @Column(columnDefinition = "text")
     private String recipe;
 
+    @Override
+    protected void init() {
+        lowestPrice = prices
+            .values()
+            .stream()
+            .filter(Objects::nonNull)
+            .min(BigDecimal::compareTo)
+            .orElse(BigDecimal.ZERO);
+    }
+
 
 
     // |----- price methods -----|
 
     public BigDecimal getPriceOfSize(PizzaSize pizzaSize) {
         return prices.get(pizzaSize);
-    }
-
-    // ?
-    public BigDecimal getLowestPrice() {
-        return prices
-            .values()
-            .stream()
-            .filter(Objects::nonNull)
-            .min(BigDecimal::compareTo)
-            .orElse(null);
     }
 
     public boolean hasSamePricesAs(Pizza other) {

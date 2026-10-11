@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.generic.GenericRepository;
+import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
 
 
 
@@ -20,6 +21,22 @@ public class PizzaRepository extends GenericRepository<Pizza, UUID> {
                 WHERE p.status = :status ORDER BY p.name ASC
             """)
             .setParameter("status", status)
+            .getResults();
+    }
+
+    public List<Pizza> findAllByStatus(PizzaStatus status, PizzaFilter filter) {
+        return entityManager
+            .createQuery("""
+                SELECT p FROM Pizza p
+                WHERE p.status = :status
+                AND LOWER(p.name) LIKE :name
+                AND p.lowestPrice BETWEEN :minPrice AND :maxPrice
+                ORDER BY """ + filter.getSort().getQuery()
+            )
+            .setParameter("status", status)
+            .setParameter("name", filter.queryName())
+            .setParameter("minPrice", filter.queryMinPrice())
+            .setParameter("maxPrice", filter.queryMaxPrice())
             .getResults();
     }
 

@@ -7,6 +7,7 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:pr="jakarta.faces.composite/components/domain/pizzarow"
+  xmlns:fb="jakarta.faces.composite/components/generic/filterbar"
 >
   <h:outputStylesheet name="pages/administerpizzasdialog/ActivePizzasOverviewPage.css"/>
 
@@ -19,6 +20,18 @@
       subtitle="everything that is on the menu right now"
       showCart="false"
     />
+
+    <fb:FilterBar
+      filter="#{administerPizzasDialogBean.filter}"
+      searchAction="#{administerPizzasDialogBean.search()}"
+      resetAction="#{administerPizzasDialogBean.clearFilter()}"
+      update="form:pageContent form:messages"
+    >
+      <div class="filter-bar__item filter-bar__item--wide">
+        <p:outputLabel for="name" value="Search" styleClass="filter-bar__label"/>
+        <p:inputText id="name" value="#{administerPizzasDialogBean.filter.name}" placeholder="e.g. Margherita" maxlength="31" autocomplete="off" styleClass="filter-bar__input"/>
+      </div>
+    </fb:FilterBar>
 
     <!-- skeleton shimmer -->
     <!-- none -->

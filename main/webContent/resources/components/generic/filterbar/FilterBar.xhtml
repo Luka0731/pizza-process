@@ -1,0 +1,69 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="filter" type="ch.frox.pizzaprocess.main.java.core.query.GenericFilter" required="true" shortDescription="the filter object, the sort dropdown is built from it"/>
+    <cc:attribute name="searchAction" method-signature="void action()" required="true"/>
+    <cc:attribute name="resetAction" method-signature="void action()" required="true" shortDescription="should replace the filter with a new one"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form" shortDescription="what shows the results, e.g. the list. the filter bar updates itself anyway"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="components/generic/filterbar/FilterBar.css"/>
+    <div id="#{cc.clientId}" class="filter-bar #{cc.attrs.styleClass}">
+
+
+
+      <!-- the domain specific fields come in as children, the sort is the same for every filter -->
+      <h:panelGroup id="fields" layout="block" styleClass="filter-bar__fields">
+        <cc:insertChildren/>
+
+        <div class="filter-bar__item">
+          <p:outputLabel for="sort" value="Sort by" styleClass="filter-bar__label"/>
+          <p:selectOneMenu id="sort" value="#{cc.attrs.filter.sortName}" styleClass="filter-bar__input">
+            <f:selectItems value="#{cc.attrs.filter.possibleSorts}" var="sort" itemValue="#{sort.name()}" itemLabel="#{sort.label}"/>
+          </p:selectOneMenu>
+        </div>
+      </h:panelGroup>
+
+      <div class="filter-bar__actions">
+        <!-- process @composite: only the filter inputs are sent, not the whole form -->
+        <p:commandButton
+          id="searchButton"
+          value="Search"
+          icon="pi pi-search"
+          styleClass="button button--primary"
+          process="@composite"
+          action="#{cc.attrs.searchAction}"
+          update="@composite #{cc.attrs.update}"/>
+        <!-- process @this + resetValues: nothing is validated and the inputs forget what was typed in, so they show the new empty filter -->
+        <p:commandButton
+          id="resetButton"
+          value="Reset"
+          icon="pi pi-filter-slash"
+          styleClass="button button--ghost"
+          process="@this"
+          resetValues="true"
+          action="#{cc.attrs.resetAction}"
+          update="@composite #{cc.attrs.update}"/>
+      </div>
+
+      <!-- enter inside the filter fields searches, instead of pressing the first button in the form -->
+      <p:defaultCommand target="searchButton" scope="fields"/>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

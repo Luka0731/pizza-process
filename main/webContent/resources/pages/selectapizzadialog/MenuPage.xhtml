@@ -6,12 +6,15 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:fb="jakarta.faces.composite/components/generic/filterbar"
   xmlns:pc="jakarta.faces.composite/components/domain/pizzacard"
 >
   <h:outputStylesheet name="pages/selectapizzadialog/MenuPage.css"/>
 
 
   <div class="menu-page" id="menuPage">
+
+
 
     <hdr:Header
       title="The Menu"
@@ -21,27 +24,53 @@
       update="form:pageContent form:messages"
     />
 
-    <!-- skeleton shimmer -->
-    <!-- none -->
 
-    <!-- loaded state -->
-    <div class="menu-page__grid">
-      <ui:repeat value="#{selectAPizzaDialogBean.catalog}" var="pizza" varStatus="loop">
-        <pc:PizzaCard
-          pizza="#{pizza}"
-          index="#{loop.index}"
-          selectAction="#{selectAPizzaDialogBean.goToDetailPage(pizza)}"
-          update="form:pageContent form:messages"
-          styleClass="menu-page__card" 
-        />
-      </ui:repeat>
-    </div>
 
-    <!-- empty state -->
-    <h:panelGroup layout="block" styleClass="menu-page__empty empty-state" rendered="#{empty selectAPizzaDialogBean.catalog}">
-      <i class="pi pi-inbox empty-state__icon"></i>
-      <span class="empty-state__text">no pizzas in the catalog.</span>
-    </h:panelGroup>
+    <fb:FilterBar
+      filter="#{selectAPizzaDialogBean.filter}"
+      searchAction="#{selectAPizzaDialogBean.search()}"
+      resetAction="#{selectAPizzaDialogBean.clearFilter()}"
+      update="form:catalog form:messages"
+    >
+      <div class="filter-bar__item filter-bar__item--wide">
+        <p:outputLabel for="name" value="Search" styleClass="filter-bar__label"/>
+        <p:inputText id="name" value="#{selectAPizzaDialogBean.filter.name}" placeholder="e.g. Margherita" maxlength="31" autocomplete="off" styleClass="filter-bar__input"/>
+      </div>
+      <div class="filter-bar__item">
+        <p:outputLabel for="minPrice" value="Price from" styleClass="filter-bar__label"/>
+        <p:inputNumber id="minPrice" value="#{selectAPizzaDialogBean.filter.minPrice}" symbol="CHF " minValue="0" maxValue="999999.99" decimalPlaces="2" emptyValue="null" styleClass="filter-bar__input"/>      </div>
+      <div class="filter-bar__item">
+        <p:outputLabel for="maxPrice" value="Price up to" styleClass="filter-bar__label"/>
+        <p:inputNumber id="maxPrice" value="#{selectAPizzaDialogBean.filter.maxPrice}" symbol="CHF " minValue="0" maxValue="999999.99" decimalPlaces="2" emptyValue="null" styleClass="filter-bar__input"/>
+      </div>
+    </fb:FilterBar>
+
+    <p:outputPanel id="catalog" layout="block">
+
+      <!-- loaded state -->
+      <div class="menu-page__grid">
+        <ui:repeat value="#{selectAPizzaDialogBean.catalog}" var="pizza" varStatus="loop">
+          <pc:PizzaCard
+            pizza="#{pizza}"
+            index="#{loop.index}"
+            selectAction="#{selectAPizzaDialogBean.goToDetailPage(pizza)}"
+            update="form:pageContent form:messages"
+            styleClass="menu-page__card"
+          />
+        </ui:repeat>
+      </div>
+
+      <!-- empty state -->
+      <h:panelGroup layout="block" styleClass="menu-page__empty empty-state" rendered="#{empty selectAPizzaDialogBean.catalog}">
+        <i class="pi pi-search empty-state__icon"></i>
+        <span class="empty-state__text">
+          <h:outputText value="no pizza found."/>
+        </span>
+      </h:panelGroup>
+
+    </p:outputPanel>
+
+
 
     <ftr:Footer styleClass="menu-page__footer">
       <f:facet name="summary">
@@ -63,5 +92,7 @@
         update="form:pageContent form:messages"/>
     </ftr:Footer>
 
+
+    
   </div>
 </ui:composition>

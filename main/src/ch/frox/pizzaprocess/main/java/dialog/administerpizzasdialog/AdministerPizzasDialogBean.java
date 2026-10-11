@@ -3,6 +3,8 @@ package ch.frox.pizzaprocess.main.java.dialog.administerpizzasdialog;
 import static ch.frox.pizzaprocess.main.java.dialog.administerpizzasdialog.AdministerPizzasDialogPage.ACTIVE_PIZZAS_OVERVIEW_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.administerpizzasdialog.AdministerPizzasDialogPage.DEACTIVATED_PIZZAS_OVERVIEW_PAGE;
 import static ch.frox.pizzaprocess.main.java.dialog.administerpizzasdialog.AdministerPizzasDialogPage.PIZZA_FORM_PAGE;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.ACTIVE;
+import static ch.frox.pizzaprocess.main.java.domain.pizza.PizzaStatus.DEACTIVATED;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
 import ch.frox.pizzaprocess.main.java.domain.pizza.Pizza;
 import ch.frox.pizzaprocess.main.java.domain.pizza.PizzaService;
 import ch.frox.pizzaprocess.main.java.domain.pizza.PizzaSize;
+import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -36,7 +39,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     private static final long serialVersionUID = 1L;
     private static final PizzaService pizzaService = Registry.get(PizzaService.class);
     private static final ImageService imageService = Registry.get(ImageService.class);
-
+    private PizzaFilter filter;
     private List<Pizza> activePizzas;
     private List<Pizza> deactivatedPizzas;
     private Pizza formPizza;
@@ -46,6 +49,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     @Override
     protected void init() {
         previousePage = currentPage;
+        filter = new PizzaFilter();
         reloadLists();
     }
 
@@ -132,6 +136,19 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
 
 
 
+    // |----- search -----|
+
+    public void search() {
+        reloadLists();
+    }
+
+    public void clearFilter() {
+        filter = new PizzaFilter();
+        reloadLists();
+    }
+
+
+
     // |----- routing -----|
 
     public void goToActivePizzasOverviewPage() {
@@ -147,6 +164,10 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
 
 
     // |----- getters & setters -----|
+
+    public PizzaFilter getFilter() {
+        return filter;
+    }
 
     public List<Pizza> getActivePizzas() {
         return activePizzas;
@@ -189,8 +210,10 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     // |----- helper methods -----|
 
     private void reloadLists() {
-        activePizzas = pizzaService.getAllActive();
-        deactivatedPizzas = pizzaService.getAllDeactivated();
+        ExceptionHandler.run(() -> {
+            activePizzas = pizzaService.getAll(filter, ACTIVE);
+            deactivatedPizzas = pizzaService.getAll(filter, DEACTIVATED);
+        });
     }
 
     private void openForm(Pizza pizza, boolean isNew) {
