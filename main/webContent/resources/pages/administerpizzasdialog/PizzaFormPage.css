@@ -4,8 +4,14 @@
   gap: var(--space-5);
   align-items: start;
 }
-.pizza-form-page__media {
-  grid-row: span 2;
+/* name/description and prices belong together: 6px apart, without the margin freya gives every card */
+.pizza-form-page__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+:is(.pizza-process, #pizza-process) .pizza-form-page__fields > .card {
+  margin: 0;
 }
 .pizza-form-page__recipe {
   grid-column: 1 / -1;
@@ -34,8 +40,5 @@
 @media (max-width: 52rem) {
   .pizza-form-page__body {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .pizza-form-page__media {
-    grid-row: auto;
   }
 }

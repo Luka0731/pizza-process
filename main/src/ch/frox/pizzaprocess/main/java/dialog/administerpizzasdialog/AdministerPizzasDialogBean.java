@@ -15,6 +15,8 @@ import ch.frox.pizzaprocess.AdministerPizzasDialog.AdministerPizzasDialogData;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
+import ch.frox.pizzaprocess.main.java.core.security.AuthorizationService;
+import ch.frox.pizzaprocess.main.java.core.security.Permission;
 import ch.frox.pizzaprocess.main.java.core.util.FileUtil;
 import ch.frox.pizzaprocess.main.java.core.util.UserNotifier;
 import ch.frox.pizzaprocess.main.java.domain.image.Image;
@@ -39,6 +41,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     private static final long serialVersionUID = 1L;
     private static final PizzaService pizzaService = Registry.get(PizzaService.class);
     private static final ImageService imageService = Registry.get(ImageService.class);
+    private static final AuthorizationService authorizationService = Registry.get(AuthorizationService.class);
     private PizzaFilter filter;
     private List<Pizza> activePizzas;
     private List<Pizza> deactivatedPizzas;
@@ -199,6 +202,12 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
 
     public String getFormTitle() {
         return isNewPizza ? "New pizza" : "Edit pizza";
+    }
+
+    public boolean isCustomerDataLocked() {
+        return formPizza != null
+            && formPizza.getStatus() == ACTIVE
+            && !authorizationService.hasPermission(Permission.CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON);
     }
 
     public boolean isFormImagePresent() {

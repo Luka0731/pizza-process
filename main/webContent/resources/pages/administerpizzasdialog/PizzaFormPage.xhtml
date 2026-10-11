@@ -52,60 +52,69 @@
           label="Choose a picture"
           accept="image/*"
           listener="#{administerPizzasDialogBean.uploadImage}"
+          rendered="#{not administerPizzasDialogBean.customerDataLocked}"
           process="@this"
           update="form:imagePreview form:messages"
           styleClass="pizza-form-page__upload"
         />
       </div>
 
-      <!-- name & description -->
-      <div class="pizza-form-page__details card input-grid">
-        <div class="card__head">
-          <span class="card__title">The pizza</span>
-        </div>
-        <tif:TextInputField
-          id="name"
-          label="Name"
-          value="#{administerPizzasDialogBean.formPizza.name}"
-          placeholder="Margherita"
-          autocomplete="off"
-          styleClass="input-grid__item input-grid__item--wide"
-        />
-        <tif:TextInputField
-          id="description"
-          label="Description"
-          value="#{administerPizzasDialogBean.formPizza.description}"
-          placeholder="Tomato sauce, mozzarella, fresh basil"
-          autocomplete="off"
-          styleClass="input-grid__item input-grid__item--wide"
-        />
-      </div>
+      <!-- name, description and prices stack right next to each other, beside the picture -->
+      <div class="pizza-form-page__fields">
 
-      <!-- price -->
-      <div class="pizza-form-page__prices card">
-        <div class="card__head">
-          <span class="card__title">Prices</span>
+        <!-- name & description -->
+        <div class="pizza-form-page__details card input-grid">
+          <div class="card__head">
+            <span class="card__title">The pizza</span>
+            <h:outputText styleClass="card__hint" value="On the menu, only a clerk can change this" rendered="#{administerPizzasDialogBean.customerDataLocked}"/>
+          </div>
+          <tif:TextInputField
+            id="name"
+            label="Name"
+            value="#{administerPizzasDialogBean.formPizza.name}"
+            placeholder="Margherita"
+            autocomplete="off"
+            disabled="#{administerPizzasDialogBean.customerDataLocked}"
+            styleClass="input-grid__item input-grid__item--wide"
+          />
+          <tif:TextInputField
+            id="description"
+            label="Description"
+            value="#{administerPizzasDialogBean.formPizza.description}"
+            placeholder="Tomato sauce, mozzarella, fresh basil"
+            autocomplete="off"
+            disabled="#{administerPizzasDialogBean.customerDataLocked}"
+            styleClass="input-grid__item input-grid__item--wide"
+          />
         </div>
-        <div class="pizza-form-page__price-grid">
-          <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
-            <div class="field">
-              <p:outputLabel for="price" value="#{size.label} (#{size.diameterCm} cm)" styleClass="field__label"/>
-              <p:inputNumber
-                id="price"
-                value="#{administerPizzasDialogBean.formPizza.prices[size]}"
-                symbol="CHF "
-                symbolPosition="p"
-                decimalPlaces="2"
-                minValue="0"
-                maxValue="999999.99"
-                disabled="#{authorizationBean.cannot('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
-                styleClass="field__input"
-              >
-                <f:converter converterId="jakarta.faces.BigDecimal"/>
-              </p:inputNumber>
-            </div>
-          </ui:repeat>
+
+        <!-- price -->
+        <div class="pizza-form-page__prices card">
+          <div class="card__head">
+            <span class="card__title">Prices</span>
+          </div>
+          <div class="pizza-form-page__price-grid">
+            <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
+              <div class="field">
+                <p:outputLabel for="price" value="#{size.label} (#{size.diameterCm} cm)" styleClass="field__label"/>
+                <p:inputNumber
+                  id="price"
+                  value="#{administerPizzasDialogBean.formPizza.prices[size]}"
+                  symbol="CHF "
+                  symbolPosition="p"
+                  decimalPlaces="2"
+                  minValue="0"
+                  maxValue="999999.99"
+                  disabled="#{authorizationBean.cannot('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
+                  styleClass="field__input"
+                >
+                  <f:converter converterId="jakarta.faces.BigDecimal"/>
+                </p:inputNumber>
+              </div>
+            </ui:repeat>
+          </div>
         </div>
+
       </div>
 
       <!-- recipe -->

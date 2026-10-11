@@ -112,15 +112,31 @@
   color: var(--color-on-primary);
 }
 
-/* danger: outlined until hovered, so it never looks like the main action */
+/* icon only buttons stay square with the icon in the middle, also as primary */
+:is(.pizza-process, #pizza-process) .ui-button.ui-button-icon-only.button--primary {
+  padding: 0;
+}
+
+/* outline: orange frame, filled on hover. e.g. put on the menu and take off the menu */
+:is(.pizza-process, #pizza-process) .ui-button.button--outline {
+  border-color: var(--ochre);
+  color: var(--ochre);
+}
+:is(.pizza-process, #pizza-process) .ui-button.button--outline:enabled:hover {
+  border-color: var(--ochre);
+  background: var(--ochre);
+  color: var(--color-on-primary);
+}
+
+/* danger: red frame until hovered, so it never looks like the main action. e.g. delete */
 :is(.pizza-process, #pizza-process) .ui-button.button--danger {
-  border-color: var(--brick);
-  color: var(--color-danger);
+  border-color: var(--terracotta);
+  color: var(--terracotta);
 }
 :is(.pizza-process, #pizza-process) .ui-button.button--danger:enabled:hover {
-  border-color: var(--brick);
-  background: var(--brick);
-  color: var(--bone);
+  border-color: var(--terracotta);
+  background: var(--terracotta);
+  color: var(--color-on-primary);
 }
 
 :is(.pizza-process, #pizza-process) .ui-button.button--ghost {

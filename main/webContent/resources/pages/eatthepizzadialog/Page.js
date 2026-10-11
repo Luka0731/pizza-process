@@ -42,7 +42,6 @@ class EatThePizzaDialogPage {
 
   static #eat(pizza, table) {
     EatThePizzaDialogPage.#crumbs(pizza, table);
-    pizza.style.setProperty('--eat-spin', `${EatThePizzaDialogPage.#between(-260, 260)}deg`);
     pizza.classList.add('eat-page__pizza--eaten');
     EatThePizzaDialogPage.#munch(table.dataset.eatSound);
 

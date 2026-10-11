@@ -46,7 +46,7 @@
             <p:commandButton
               icon="pi pi-eye-slash"
               title="Deactivate"
-              styleClass="button button--danger"
+              styleClass="button button--outline"
               process="@this"
               rendered="#{authorizationBean.can('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
               action="#{administerPizzasDialogBean.deactivate(pizza)}"

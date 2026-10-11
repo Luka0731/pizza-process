@@ -16,6 +16,7 @@ package ch.frox.pizzaprocess.main.java.core.generic;
  * - enum.java:  src/.../dialog/exampledialog/ExampleDialogPage.java
  * - page.xhtml: webContent/resources/pages/exampledialog/ExamplePage.xhtml
  * - page.css:   webContent/resources/pages/exampledialog/ExamplePage.css
+ * 
  * NAMING CONVENTION:
  * - enum.java:     PascalCase
  * - enum constant: SCREAMING_SNAKE_CASE

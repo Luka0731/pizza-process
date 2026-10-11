@@ -54,10 +54,6 @@ public class DeliverThePizzaTaskBean extends GenericDialogBean<DeliverThePizzaTa
         return order;
     }
 
-    public String getDeliveryRegion() {
-        return dialogData.getDeliveryRole();
-    }
-
 
 
     // |----- helper methods -----|

@@ -20,15 +20,15 @@
   box-shadow: 6px 8px 0 rgba(23, 19, 15, 0.35);
   cursor: pointer;
   user-select: none;
-  transition: transform 450ms cubic-bezier(0.5, 0, 0.75, 0), opacity 450ms ease-in;
-  will-change: transform;
+
 }
 .eat-page__pizza:hover {
   filter: brightness(1.08) saturate(1.1);
 }
-/* Page.js picks a new spin for every pizza */
+/* eaten: it shrinks and fades where it lies, no spinning. "scale" keeps the rotation Page.js gave it */
 .eat-page__pizza--eaten {
-  transform: scale(0) rotate(var(--eat-spin, 180deg)) !important;
+  scale: 0;
+  transition: scale 450ms cubic-bezier(0.5, 0, 0.75, 0), opacity 450ms ease-in;
   opacity: 0;
   pointer-events: none;
 }
@@ -65,9 +65,6 @@
 :is(.pizza-process, #pizza-process) .eat-page__thanks-title {
   font-size: var(--font-size-xl);
   font-weight: 800;
-}
-.eat-page__thanks-text {
-  color: var(--color-text-muted);
 }
 
 @keyframes eat-thanks-in {
