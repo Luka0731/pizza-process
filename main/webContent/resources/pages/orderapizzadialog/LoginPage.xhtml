@@ -8,7 +8,6 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:tif="jakarta.faces.composite/components/generic/textinputfield"
 >
-  <h:outputStylesheet name="pages/orderapizzadialog/LoginPage.css"/>
 
 
 
@@ -17,11 +16,10 @@
     <hdr:Header
       title="Log in"
       subtitle="Your details will be filled in for you"
-      showCart="false"
     />
 
     <!-- validateOnBlur="false": the fields are only checked when the login button is pressed -->
-    <div class="login-page__form input-grid card">
+    <div class="input-grid card narrow">
       <tif:TextInputField
         id="userName"
         label="Username"
@@ -52,7 +50,7 @@
       </div>
     </div>
 
-    <ftr:Footer styleClass="login-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="backButton"
         value="Back"

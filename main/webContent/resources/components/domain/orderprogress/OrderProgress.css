@@ -1,0 +1,83 @@
+/* four diamonds on a line. done ones are emerald, the current one blinks in hard steps */
+.order-progress {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.order-progress__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+/* the line to the previous step */
+.order-progress__step + .order-progress__step::before {
+  content: "";
+  position: absolute;
+  top: 0.875rem;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--ink-4);
+  z-index: 0;
+}
+.order-progress__step--done + .order-progress__step--done::before {
+  background: var(--color-success);
+  transform-origin: left;
+  animation: progress-line-in 260ms steps(6, end) both;
+  animation-delay: calc(var(--i) * 120ms);
+}
+.order-progress__marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--ink-1);
+  border: 2px solid var(--ink-4);
+  transform: rotate(45deg);
+}
+.order-progress__marker .pi {
+  transform: rotate(-45deg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0;
+}
+.order-progress__step--done .order-progress__marker {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--bone);
+}
+.order-progress__step--done .order-progress__marker .pi {
+  opacity: 1;
+}
+.order-progress__step--current .order-progress__marker {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--color-on-primary);
+  animation: progress-current 1.6s steps(2, jump-none) infinite;
+}
+.order-progress__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+.order-progress__step--done .order-progress__label {
+  color: var(--color-text);
+}
+.order-progress__step--current .order-progress__label {
+  font-weight: 700;
+}
+
+@keyframes progress-line-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes progress-current {
+  from { box-shadow: 0 0 0 0 transparent; }
+  to   { box-shadow: 0 0 0 5px rgba(227, 83, 54, 0.35); }
+}

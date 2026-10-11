@@ -6,12 +6,12 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
   xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
+  xmlns:op="jakarta.faces.composite/components/domain/orderprogress"
 >
-  <h:outputStylesheet name="pages/paythepizzadialog/Page.css"/>
 
 
 
@@ -20,49 +20,40 @@
     <hdr:Header
       title="#{payThePizzaDialogBean.waiting ? 'Your pizza is coming' : 'Your pizza is here!'}"
       subtitle="#{payThePizzaDialogBean.statusText}"
-      showCart="false"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
-    <!-- while waiting, the page asks every 10 seconds if the driver delivered the pizza -->
+    <!-- while waiting, the page asks every 10 seconds if the driver delivered the pizza. global="false" keeps the loading bar quiet -->
     <p:poll
       interval="10"
+      global="false"
       listener="#{payThePizzaDialogBean.refresh()}"
       process="@this"
       update="form:pageContent form:messages"
       rendered="#{payThePizzaDialogBean.waiting}"
     />
 
-    <div class="pay-page__cards">
-      <div class="pay-page__status card">
-        <i class="pi #{payThePizzaDialogBean.waiting ? 'pi-clock' : 'pi-check-circle'} pay-page__status-icon"></i>
-        <span class="pay-page__status-text">
-          <h:outputText value="#{payThePizzaDialogBean.statusText}"/>
-        </span>
+    <div class="split">
+      <div class="split__main">
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Where it is</h2>
+            <h:panelGroup styleClass="card__hint" rendered="#{payThePizzaDialogBean.waiting}">updates by itself</h:panelGroup>
+          </div>
+          <op:OrderProgress order="#{payThePizzaDialogBean.order}"/>
+        </div>
+        <odc:OrderCard order="#{payThePizzaDialogBean.order}"/>
       </div>
-
-      <odc:OrderCard
-        order="#{payThePizzaDialogBean.order}"
-        styleClass="pay-page__order"
-      />
-
-      <rcp:Receipt
-        itemLabel="Pizzas"
-        itemCount="#{payThePizzaDialogBean.order.totalPizzasAmount}"
-        total="#{payThePizzaDialogBean.order.totalPrice}"
-        subtotal="#{payThePizzaDialogBean.order.subtotalPrice}"
-        discount="#{payThePizzaDialogBean.order.discountAmount}"
-        discountLabel="Member discount (#{payThePizzaDialogBean.order.discountPercent} %)"
-        totalLabel="#{payThePizzaDialogBean.paid ? 'Paid' : 'To pay'}"
-        styleClass="pay-page__receipt"
-      />
+      <div class="split__side">
+        <rcp:Receipt order="#{payThePizzaDialogBean.order}" totalLabel="#{payThePizzaDialogBean.paid ? 'Paid' : 'To pay'}"/>
+      </div>
     </div>
 
     <!-- paying closes the dialog, the process goes on to "eat the pizza" -->
-    <ftr:Footer styleClass="pay-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="refreshButton"
         value="Refresh"

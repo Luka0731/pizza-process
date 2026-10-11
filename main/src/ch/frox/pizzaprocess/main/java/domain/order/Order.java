@@ -99,4 +99,13 @@ public class Order extends GenericEntity<UUID> {
         }
         return total;
     }
+
+    public boolean hasReached(OrderStatus step) {
+        if (status == null || status.compareTo(OrderStatus.PAID) > 0) return false;
+        return status.compareTo(step) >= 0;
+    }
+
+    public List<OrderStatus> getProgressSteps() {
+        return OrderStatus.PROGRESS_STEPS;
+    }
 }

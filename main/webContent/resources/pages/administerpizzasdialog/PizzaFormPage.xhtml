@@ -8,7 +8,7 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:tif="jakarta.faces.composite/components/generic/textinputfield"
 >
-  <h:outputStylesheet name="pages/administerpizzasdialog/PizzaFormPage.css"/>
+  <h:outputStylesheet name="resources/pages/administerpizzasdialog/PizzaFormPage.css"/>
 
 
 
@@ -16,12 +16,8 @@
 
     <hdr:Header
       title="#{administerPizzasDialogBean.formTitle}"
-      subtitle="#{administerPizzasDialogBean.newPizza ? 'a new pizza starts deactivated. it can go on the menu once it has a description, a picture and every price' : 'changes are saved as a new version, orders that already exist keep their price'}"
-      showCart="false"
+      subtitle="#{administerPizzasDialogBean.newPizza ? 'A new pizza starts deactivated. It can go on the menu once it has a description, a picture and every price' : 'Changes are saved as a new version, orders that already exist keep their price'}"
     />
-
-    <!-- skeleton shimmer -->
-    <!-- none -->
 
     <!-- loaded state -->
     <div class="pizza-form-page__body">
@@ -45,7 +41,7 @@
           <!-- empty image state -->
           <h:panelGroup layout="block" styleClass="pizza-form-page__no-image empty-state" rendered="#{not administerPizzasDialogBean.formImagePresent}">
             <i class="pi pi-image empty-state__icon"></i>
-            <span class="empty-state__text">no picture yet.</span>
+            <span class="empty-state__text">No picture yet</span>
           </h:panelGroup>
         </p:outputPanel>
         <!-- image upload -->
@@ -93,7 +89,7 @@
         </div>
         <div class="pizza-form-page__price-grid">
           <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
-            <div class="pizza-form-page__price field">
+            <div class="field">
               <p:outputLabel for="price" value="#{size.label} (#{size.diameterCm} cm)" styleClass="field__label"/>
               <p:inputNumber
                 id="price"
@@ -117,7 +113,7 @@
       <div class="pizza-form-page__recipe card">
         <div class="card__head">
           <span class="card__title">Recipe</span>
-          <span class="card__hint">only the kitchen sees this, never the customer</span>
+          <span class="card__hint">Only the kitchen sees this, never the customer</span>
         </div>
         <p:textEditor
           id="recipe"
@@ -130,7 +126,7 @@
 
     </div>
 
-    <ftr:Footer styleClass="pizza-form-page__footer">
+    <ftr:Footer>
       <f:facet name="summary">
         <span class="footer__label">#{administerPizzasDialogBean.newPizza ? 'New' : 'Editing'}</span>
         <span class="footer__value">

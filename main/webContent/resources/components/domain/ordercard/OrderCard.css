@@ -1,6 +1,5 @@
-.order-card {
-}
 .order-card__list {
-}
-.order-card__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }

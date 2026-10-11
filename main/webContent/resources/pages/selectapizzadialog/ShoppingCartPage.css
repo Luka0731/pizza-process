@@ -1,12 +1,16 @@
-.cart-page {
+.cart-page__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+  gap: var(--space-5);
+  align-items: start;
 }
-.cart-page__list {
+.cart-page__receipt {
+  position: sticky;
+  top: var(--space-4);
 }
-.cart-page__item {
-}
-.cart-page__empty {
-}
-.cart-page__totals {
-}
-.cart-page__footer {
+
+@media (max-width: 56rem) {
+  .cart-page__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

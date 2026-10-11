@@ -7,56 +7,44 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:cic="jakarta.faces.composite/components/domain/itemcard"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
 >
-  <h:outputStylesheet name="pages/selectapizzadialog/ShoppingCartPage.css"/>
+  <h:outputStylesheet name="resources/pages/selectapizzadialog/ShoppingCartPage.css"/>
+
 
 
   <div class="cart-page" id="cartPage">
 
     <hdr:Header
       title="Your Cart"
-      subtitle="Check your order before you send it off"
-      showCart="false"
-      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
-      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
-      update="form:pageContent form:messages"
+      subtitle="Check your pizzas before you order them"
     />
 
-    <!-- skeleton shimmer -->
-    <!-- none -->
+    <div class="cart-page__body">
 
-    <!--  shoping cart loaded state -->
-    <div class="cart-page__list">
-      <ui:repeat value="#{selectAPizzaDialogBean.order.items}" var="item" varStatus="loop">
-        <cic:ItemCard
-          item="#{item}"
-          index="#{loop.index}"
-          removeAction="#{selectAPizzaDialogBean.removeFromCart(item)}"
-          update="form:pageContent form:messages"
-          styleClass="cart-page__item"
-        />
-      </ui:repeat>
+      <!-- loaded state -->
+      <h:panelGroup layout="block" styleClass="stack" rendered="#{not selectAPizzaDialogBean.cartEmpty}">
+        <ui:repeat value="#{selectAPizzaDialogBean.order.items}" var="item" varStatus="loop">
+          <cic:ItemCard
+            item="#{item}"
+            index="#{loop.index}"
+            removeAction="#{selectAPizzaDialogBean.removeFromCart(item)}"
+            update="form:pageContent form:messages"
+          />
+        </ui:repeat>
+      </h:panelGroup>
+
+      <!-- empty state -->
+      <h:panelGroup layout="block" styleClass="empty-state" rendered="#{selectAPizzaDialogBean.cartEmpty}">
+        <i class="pi pi-shopping-cart empty-state__icon"></i>
+        <span class="empty-state__text">Your cart is empty. Add a pizza from the menu first.</span>
+      </h:panelGroup>
+
+      <rcp:Receipt order="#{selectAPizzaDialogBean.order}" styleClass="cart-page__receipt"/>
+
     </div>
 
-    <!-- shoping cart empty state -->
-    <h:panelGroup layout="block" styleClass="cart-page__empty empty-state" rendered="#{selectAPizzaDialogBean.cartEmpty}">
-      <i class="pi pi-shopping-cart empty-state__icon"></i>
-      <span class="empty-state__text">Your cart is empty.</span>
-    </h:panelGroup>
-
-    <!-- total amount display -->
-    <rcp:Receipt
-      itemLabel="Pizzas"
-      itemCount="#{selectAPizzaDialogBean.order.totalPizzasAmount}"
-      total="#{selectAPizzaDialogBean.cartTotal}"
-      subtotal="#{selectAPizzaDialogBean.order.subtotalPrice}"
-      discount="#{selectAPizzaDialogBean.order.discountAmount}"
-      discountLabel="Member discount (#{selectAPizzaDialogBean.order.discountPercent} %)"
-      styleClass="cart-page__totals"
-    />
-
-    <ftr:Footer styleClass="cart-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="continueShoppingButton"
         value="Add more"
@@ -64,15 +52,18 @@
         styleClass="button button--ghost"
         process="@this"
         action="#{selectAPizzaDialogBean.goToMenuPage()}"
-        update="form:pageContent form:messages" />
+        update="form:pageContent form:messages"
+      />
       <p:commandButton
         id="checkoutButton"
         value="Order these"
         icon="pi pi-check"
         styleClass="button button--primary"
-        disabled="#{selectAPizzaDialogBean.isCartEmpty()}"
+        process="@this"
+        disabled="#{selectAPizzaDialogBean.cartEmpty}"
         action="#{selectAPizzaDialogBean.close()}"
-        update="form:messages"/>
+        update="form:messages"
+      />
     </ftr:Footer>
 
   </div>

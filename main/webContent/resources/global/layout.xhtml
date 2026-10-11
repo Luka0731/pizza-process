@@ -5,9 +5,14 @@
   xmlns:f="jakarta.faces.core"
   xmlns:h="jakarta.faces.html"
   xmlns:ui="jakarta.faces.facelets"
+  xmlns:p="primefaces"
 >
 
-
+<!--
+  every dialog uses this template and only sets two things:
+  - ui:param "page":   the page to show, e.g. #{exampleDialogBean.router()}
+  - ui:define "title": the tab title
+-->
 
   <h:head>
     <!-- meta -->
@@ -21,20 +26,39 @@
     <h:outputStylesheet name="#{ivyFreyaTheme.layout}" library="#{ivyFreyaTheme.library}"/>
     <h:outputStylesheet name="primeflex-3.min.css" library="primeflex"/>
     <h:outputStylesheet name="custom.css" library="ivy-branding"/>
+    <!-- fonts, without internet the system fonts take over -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"/>
     <!-- pizza process theme -->
     <h:outputStylesheet name="resources/global/style.css"/>
+    <h:outputStylesheet name="resources/global/primefaces.css"/>
     <h:outputScript name="resources/global/logic.js" target="head"/>
+    <h:outputScript name="resources/global/effects.js" target="head"/>
   </h:head>
 
 
 
-  <h:body class="body-hd #{ivyFreyaTheme.mode}">
-    <!-- simple skeleton -->
+  <h:body class="body-hd #{ivyFreyaTheme.mode} pizza-process">
     <ui:include src="/ivy-form/layouts/includes/progress-loader.xhtml"/>
-    <!-- content -->
-    <div id="content" class="container frame">
-      <ui:insert name="content"/>
-    </div>
+
+    <!-- brand bar, the logo hides itself if the file does not exist yet (see docs/LOGO.txt) -->
+    <header class="brand">
+      <img class="brand__logo" src="#{resource['resources/assets/image/logo.png']}" alt="" onerror="this.remove()"/>
+      <span class="brand__name">Mama's Pizzeria</span>
+      <span class="brand__dialog"><ui:insert name="title"/></span>
+    </header>
+
+    <main id="content" class="frame">
+      <h:form id="form">
+        <p:growl id="messages" showDetail="true" life="4000"/>
+
+        <p:outputPanel id="pageContent" layout="block" styleClass="dialog-content">
+          <ui:include src="#{page}"/>
+        </p:outputPanel>
+      </h:form>
+    </main>
+
     <!-- server error page -->
     <ui:insert name="exception">
       <ui:include src="/ivy-form/layouts/includes/exception.xhtml"/>

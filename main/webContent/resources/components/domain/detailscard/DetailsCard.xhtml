@@ -20,16 +20,16 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/detailscard/DetailsCard.css"/>
+    <h:outputStylesheet name="resources/components/domain/detailscard/DetailsCard.css"/>
     <div id="#{cc.clientId}" class="details-card card #{cc.attrs.styleClass}">
 
 
 
       <div class="card__head">
-        <h2 class="card__title">Delivery details</h2>
+        <h2 class="card__title">Delivery address</h2>
         <p:commandLink
           value="Edit"
-          styleClass="details-card__edit"
+          styleClass="card__link"
           process="@this"
           rendered="#{cc.attrs.editable}"
           action="#{cc.attrs.editAction}"
@@ -37,22 +37,22 @@
         />
       </div>
 
-      <dl class="details-card__list">
-        <div class="details-card__row">
-          <dt class="details-card__label">Name</dt>
-          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.fullName}"/></dd>
+      <dl class="data-list">
+        <div class="data-list__row">
+          <dt class="data-list__label">Name</dt>
+          <dd class="data-list__value"><h:outputText value="#{cc.attrs.customerProfile.fullName}"/></dd>
         </div>
-        <div class="details-card__row">
-          <dt class="details-card__label">E-mail</dt>
-          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.email}"/></dd>
+        <div class="data-list__row">
+          <dt class="data-list__label">E-mail</dt>
+          <dd class="data-list__value"><h:outputText value="#{cc.attrs.customerProfile.email}"/></dd>
         </div>
-        <div class="details-card__row">
-          <dt class="details-card__label">Phone</dt>
-          <dd class="details-card__value"><h:outputText value="#{cc.attrs.customerProfile.phone}"/></dd>
+        <div class="data-list__row">
+          <dt class="data-list__label">Phone</dt>
+          <dd class="data-list__value"><h:outputText value="#{cc.attrs.customerProfile.phone}"/></dd>
         </div>
-        <div class="details-card__row">
-          <dt class="details-card__label">Address</dt>
-          <dd class="details-card__value">
+        <div class="data-list__row">
+          <dt class="data-list__label">Address</dt>
+          <dd class="data-list__value">
             <h:outputText value="#{cc.attrs.customerProfile.street}"/>
             <br/>
             <h:outputText value="#{cc.attrs.customerProfile.postalCode} #{cc.attrs.customerProfile.city}"/>

@@ -1,5 +1,23 @@
 /**
- * TODO: add description
+ * Small module registry, so page scripts survive the ajax page changes of jsf.
+ *
+ * Every dialog only reloads parts of the page (form:pageContent), so DOMContentLoaded fires only once.
+ * A module registers itself once and gets init(roots) called:
+ * - on the first page load, with roots = [document]
+ * - after every primefaces ajax update, with roots = the elements that were just replaced
+ *
+ * HOW TO USE:
+ *   class ExamplePage {
+ *     static init(roots) {
+ *       for (const root of roots) {
+ *         for (const element of root.querySelectorAll('.example:not([data-ready])')) {
+ *           element.dataset.ready = 'true';   // init can run more than once, so mark what is done
+ *           ...
+ *         }
+ *       }
+ *     }
+ *   }
+ *   PizzaProcess.register('ExamplePage', ExamplePage);
 **/
 class PizzaProcess {
   static #modules = {};

@@ -7,10 +7,9 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
 >
-  <h:outputStylesheet name="pages/recivethepayment/Page.css"/>
 
 
 
@@ -19,34 +18,23 @@
     <hdr:Header
       title="Receive the payment"
       subtitle="Let the customer pay on your payment device, then confirm it here"
-      showCart="false"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
-    <div class="payment-page__cards">
-      <dtc:DetailsCard
-        customerProfile="#{reciveThePaymentBean.order.customerProfile}"
-        editable="false"
-        styleClass="payment-page__details"
-      />
-
-      <rcp:Receipt
-        itemLabel="Pizzas"
-        itemCount="#{reciveThePaymentBean.order.totalPizzasAmount}"
-        total="#{reciveThePaymentBean.order.totalPrice}"
-        subtotal="#{reciveThePaymentBean.order.subtotalPrice}"
-        discount="#{reciveThePaymentBean.order.discountAmount}"
-        discountLabel="Member discount (#{reciveThePaymentBean.order.discountPercent} %)"
-        totalLabel="To collect"
-        styleClass="payment-page__receipt"
-      />
+    <div class="split">
+      <div class="split__main">
+        <dtc:DetailsCard customerProfile="#{reciveThePaymentBean.order.customerProfile}" editable="false"/>
+      </div>
+      <div class="split__side">
+        <rcp:Receipt order="#{reciveThePaymentBean.order}" totalLabel="To collect"/>
+      </div>
     </div>
 
     <!-- closing the dialog ends the worker process -->
-    <ftr:Footer styleClass="payment-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="paidButton"
         value="Customer paid"

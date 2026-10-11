@@ -1,0 +1,47 @@
+/* the only light surface: a paper slip with a torn bottom edge */
+.receipt {
+  --tooth: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-5) calc(var(--space-5) + var(--tooth) / 2);
+  background: var(--bone);
+  color: #2a221b;
+  font-variant-numeric: tabular-nums;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+}
+.receipt__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.receipt__label {
+  color: #6b5d4f;
+}
+.receipt__value {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.receipt__row--discount .receipt__label,
+.receipt__row--discount .receipt__value {
+  color: var(--olive);
+  font-weight: 600;
+}
+.receipt__row--sum {
+  align-items: baseline;
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 2px dashed #b9ad98;
+}
+.receipt__row--sum .receipt__label {
+  color: #2a221b;
+  font-weight: 600;
+}
+.receipt__row--sum .receipt__value {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--brick);
+}

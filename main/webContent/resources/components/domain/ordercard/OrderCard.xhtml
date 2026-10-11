@@ -18,7 +18,7 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/ordercard/OrderCard.css"/>
+    <h:outputStylesheet name="resources/components/domain/ordercard/OrderCard.css"/>
     <div id="#{cc.clientId}" class="order-card card #{cc.attrs.styleClass}">
 
 
@@ -35,7 +35,6 @@
             item="#{item}"
             index="#{loop.index}"
             removable="false"
-            styleClass="order-card__item"
           />
         </ui:repeat>
       </div>

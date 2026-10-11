@@ -9,7 +9,6 @@
   xmlns:pr="jakarta.faces.composite/components/domain/pizzarow"
   xmlns:fb="jakarta.faces.composite/components/generic/filterbar"
 >
-  <h:outputStylesheet name="pages/administerpizzasdialog/ActivePizzasOverviewPage.css"/>
 
 
 
@@ -17,8 +16,7 @@
 
     <hdr:Header
       title="The Pizzas"
-      subtitle="everything that is on the menu right now"
-      showCart="false"
+      subtitle="Everything that is on the menu right now"
     />
 
     <fb:FilterBar
@@ -33,13 +31,10 @@
       </div>
     </fb:FilterBar>
 
-    <!-- skeleton shimmer -->
-    <!-- none -->
-
     <!-- loaded state -->
-    <div class="pizza-list-page__rows">
+    <div class="stack">
       <ui:repeat value="#{administerPizzasDialogBean.activePizzas}" var="pizza" varStatus="loop">
-        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" styleClass="pizza-list-page__row">
+        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" sizes="#{administerPizzasDialogBean.possiblePizzaSizes}">
           <f:facet name="actions">
             <p:commandButton
               icon="pi pi-pencil"
@@ -64,12 +59,12 @@
     </div>
 
     <!-- empty state -->
-    <h:panelGroup layout="block" styleClass="pizza-list-page__empty empty-state" rendered="#{empty administerPizzasDialogBean.activePizzas}">
+    <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty administerPizzasDialogBean.activePizzas}">
       <i class="pi pi-inbox empty-state__icon"></i>
-      <span class="empty-state__text">no pizza is on the menu.</span>
+      <span class="empty-state__text">No pizza is on the menu. Put one back from the deactivated pizzas.</span>
     </h:panelGroup>
 
-    <ftr:Footer styleClass="pizza-list-page__footer">
+    <ftr:Footer>
       <f:facet name="summary">
         <span class="footer__label">On the menu</span>
         <span class="footer__value">

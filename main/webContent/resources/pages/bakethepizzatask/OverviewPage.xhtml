@@ -9,7 +9,7 @@
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:cic="jakarta.faces.composite/components/domain/itemcard"
 >
-  <h:outputStylesheet name="pages/bakethepizzatask/OverviewPage.css"/>
+  <h:outputStylesheet name="resources/pages/bakethepizzatask/OverviewPage.css"/>
 
 
 
@@ -18,42 +18,35 @@
     <hdr:Header
       title="Bake the pizza"
       subtitle="Bake everything on this order, then send it off to the delivery"
-      showCart="false"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
-    <div class="bake-page__cards">
-      <div class="bake-page__order card">
-        <div class="card__head">
-          <h2 class="card__title">To bake</h2>
-          <span class="card__hint">click a pizza to see its recipe</span>
-        </div>
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__title">To bake</h2>
+        <span class="card__hint">Click a pizza to see its recipe</span>
+      </div>
 
-        <div class="bake-page__list">
-          <ui:repeat value="#{bakeThePizzaTaskBean.order.items}" var="item" varStatus="loop">
-            <p:commandLink
-              styleClass="bake-page__item"
-              title="Show the recipe"
-              process="@this"
-              action="#{bakeThePizzaTaskBean.goToRecipePage(item.pizza)}"
-              update="form:pageContent form:messages"
-            >
-              <cic:ItemCard
-                item="#{item}"
-                index="#{loop.index}"
-                removable="false"
-              />
-            </p:commandLink>
-          </ui:repeat>
-        </div>
+      <div class="stack">
+        <ui:repeat value="#{bakeThePizzaTaskBean.order.items}" var="item" varStatus="loop">
+          <p:commandLink
+            styleClass="bake-page__item"
+            title="Show the recipe"
+            process="@this"
+            action="#{bakeThePizzaTaskBean.goToRecipePage(item.pizza)}"
+            update="form:pageContent form:messages"
+          >
+            <cic:ItemCard item="#{item}" index="#{loop.index}" removable="false"/>
+          </p:commandLink>
+        </ui:repeat>
       </div>
     </div>
 
     <!-- closing the dialog finishes the user task, the process continues with the delivery -->
-    <ftr:Footer styleClass="bake-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="readyButton"
         value="Pizza is ready"

@@ -9,16 +9,14 @@
   xmlns:pr="jakarta.faces.composite/components/domain/pizzarow"
   xmlns:fb="jakarta.faces.composite/components/generic/filterbar"
 >
-  <h:outputStylesheet name="pages/administerpizzasdialog/DeactivatedPizzasOverviewPage.css"/>
 
 
 
-  <div class="deactivated-pizzas-page" id="deactivatedPizzasPage">
+  <div class="pizza-list-page" id="deactivatedPizzasPage">
 
     <hdr:Header
       title="Deactivated Pizzas"
-      subtitle="not on the menu. new pizzas start here, put one on the menu once it is ready"
-      showCart="false"
+      subtitle="Not on the menu. New pizzas start here, put one on the menu once it is ready"
     />
 
     <fb:FilterBar
@@ -33,13 +31,10 @@
       </div>
     </fb:FilterBar>
 
-    <!-- skeleton shimmer -->
-    <!-- none -->
-
     <!-- loaded state -->
-    <div class="deactivated-pizzas-page__rows">
+    <div class="stack">
       <ui:repeat value="#{administerPizzasDialogBean.deactivatedPizzas}" var="pizza" varStatus="loop">
-        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" muted="true" styleClass="deactivated-pizzas-page__row">
+        <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" sizes="#{administerPizzasDialogBean.possiblePizzaSizes}" muted="true">
           <f:facet name="actions">
             <p:commandButton
               icon="pi pi-pencil"
@@ -67,7 +62,7 @@
               action="#{administerPizzasDialogBean.delete(pizza)}"
               update="form:pageContent form:messages"
             >
-              <p:confirm header="Delete this pizza?" message="'#{pizza.name}' disappears from the administration for good. orders that already contain it keep working." icon="pi pi-exclamation-triangle"/>
+              <p:confirm header="Delete this pizza?" message="'#{pizza.name}' disappears from the administration for good. Orders that already contain it keep working." icon="pi pi-exclamation-triangle"/>
             </p:commandButton>
           </f:facet>
         </pr:PizzaRow>
@@ -75,9 +70,9 @@
     </div>
 
     <!-- empty state -->
-    <h:panelGroup layout="block" styleClass="deactivated-pizzas-page__empty empty-state" rendered="#{empty administerPizzasDialogBean.deactivatedPizzas}">
+    <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty administerPizzasDialogBean.deactivatedPizzas}">
       <i class="pi pi-check-circle empty-state__icon"></i>
-      <span class="empty-state__text">nothing is deactivated.</span>
+      <span class="empty-state__text">Nothing is deactivated. New pizzas you add show up here first.</span>
     </h:panelGroup>
 
     <!-- confirm dialog -->
@@ -86,7 +81,7 @@
       <p:commandButton value="Delete" type="button" icon="pi pi-trash" styleClass="button button--danger ui-confirmdialog-yes"/>
     </p:confirmDialog>
 
-    <ftr:Footer styleClass="deactivated-pizzas-page__footer">
+    <ftr:Footer>
       <f:facet name="summary">
         <span class="footer__label">Deactivated</span>
         <span class="footer__value">

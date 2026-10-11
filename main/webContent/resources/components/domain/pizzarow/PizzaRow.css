@@ -1,26 +1,99 @@
 .pizza-row {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  animation: pizza-row-in 180ms var(--ease-snap) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 25ms);
 }
-.pizza-row--muted {
+.pizza-row--muted .pizza-row__media,
+.pizza-row--muted .pizza-row__body,
+.pizza-row--muted .pizza-row__prices {
+  opacity: 0.55;
+}
+.pizza-row--muted .pizza-row__image {
+  filter: grayscale(1);
 }
 .pizza-row__media {
+  width: 5rem;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--ink-2);
 }
 .pizza-row__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .pizza-row__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .pizza-row__name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
 }
 .pizza-row__description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 .pizza-row__note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--ochre);
 }
 .pizza-row__prices {
+  display: flex;
+  gap: var(--space-4);
 }
 .pizza-row__price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 4.5rem;
 }
 .pizza-row__price-size {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
 }
 .pizza-row__price-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 .pizza-row__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+@media (max-width: 52rem) {
+  .pizza-row {
+    grid-template-columns: 4rem minmax(0, 1fr) auto;
+  }
+  .pizza-row__media {
+    width: 4rem;
+  }
+  .pizza-row__prices {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+  .pizza-row__actions {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+@keyframes pizza-row-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
 }

@@ -8,7 +8,7 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
-  <h:outputStylesheet name="pages/bakethepizzatask/RecipePage.css"/>
+  <h:outputStylesheet name="resources/pages/bakethepizzatask/RecipePage.css"/>
 
 
 
@@ -17,10 +17,9 @@
     <hdr:Header
       title="#{bakeThePizzaTaskBean.currentPizza.name}"
       subtitle="#{bakeThePizzaTaskBean.currentPizza.description}"
-      showCart="false"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
@@ -44,12 +43,12 @@
           rendered="#{not empty bakeThePizzaTaskBean.currentPizza.recipe}"
         />
         <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty bakeThePizzaTaskBean.currentPizza.recipe}">
-          <span class="empty-state__text">no recipe yet.</span>
+          <span class="empty-state__text">No recipe yet. Add one in the pizza administration.</span>
         </h:panelGroup>
       </div>
     </div>
 
-    <ftr:Footer styleClass="recipe-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="backButton"
         value="Back to the order"

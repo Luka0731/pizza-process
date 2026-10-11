@@ -2,25 +2,40 @@
   position: relative;
 }
 
+/* a gingham tablecloth: two stripe layers, where they cross the square gets darker */
 .eat-page__table {
   position: relative;
   height: 65vh;
   min-height: 320px;
   overflow: hidden;
+  border: 1px solid var(--ink-4);
+  background:
+    repeating-linear-gradient(0deg, rgba(227, 83, 54, 0.5) 0 32px, transparent 32px 64px),
+    repeating-linear-gradient(90deg, rgba(227, 83, 54, 0.5) 0 32px, transparent 32px 64px),
+    var(--bone);
 }
 .eat-page__pizza {
   position: absolute;
-  border-radius: var(--radius-round);
-  box-shadow: var(--shadow-raised);
+  border-radius: 50%;              /* pizzas are round, the only round thing in here */
+  box-shadow: 6px 8px 0 rgba(23, 19, 15, 0.35);
   cursor: pointer;
   user-select: none;
+  transition: transform 260ms steps(5, end), opacity 260ms steps(5, end);
 }
 .eat-page__pizza:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.08) saturate(1.1);
 }
 .eat-page__pizza--eaten {
   transform: scale(0) rotate(180deg) !important;
   opacity: 0;
+  pointer-events: none;
+}
+
+/* crumbs that fly off when a pizza gets eaten, made by Page.js */
+.eat-page__crumb {
+  position: absolute;
+  width: 7px;
+  height: 7px;
   pointer-events: none;
 }
 
@@ -29,19 +44,29 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 100;
+  width: min(26rem, calc(100% - 2rem));
+  align-items: center;
   text-align: center;
-  padding: var(--space-6);
+  transform: translate(-50%, -50%);
 }
 .eat-page__thanks--visible {
-  display: block;
+  display: flex;
+  animation: eat-thanks-in 300ms steps(5, end) both;
 }
 .eat-page__thanks-icon {
-  font-size: var(--font-size-2xl);
-  color: var(--color-primary);
+  font-size: 2.25rem;
+  color: var(--terracotta);
 }
-.eat-page__thanks-title {
+.pizza-process .eat-page__thanks-title {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
 }
 .eat-page__thanks-text {
+  color: var(--color-text-muted);
+}
+
+@keyframes eat-thanks-in {
+  from { opacity: 0; transform: translate(-50%, -40%) rotate(-3deg); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
 }

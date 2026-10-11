@@ -7,24 +7,23 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
 >
-  <h:outputStylesheet name="resources/pages/selectapizzadialog/PizzaDetailPage.css" />
+  <h:outputStylesheet name="resources/pages/selectapizzadialog/PizzaDetailPage.css"/>
+
 
 
   <div class="detail-page" id="detailPage">
 
     <hdr:Header
       title="#{selectAPizzaDialogBean.selectedPizza.name}"
-      subtitle="Choose your size"
+      subtitle="Choose a size and how many you want"
+      showCart="true"
       cartCount="#{selectAPizzaDialogBean.cartItemCount}"
       cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
-      update="form:pageContent form:messages" 
+      update="form:pageContent form:messages"
     />
 
-    <!-- skeleton shimmer -->
-    <!-- none -->
-
     <!-- loaded state -->
-    <h:panelGroup layout="block" styleClass="detail-page__body" rendered="#{selectAPizzaDialogBean.isPizzaSelected()}">
+    <h:panelGroup layout="block" styleClass="detail-page__body" rendered="#{selectAPizzaDialogBean.pizzaSelected}">
 
       <div class="detail-page__media">
         <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
@@ -33,49 +32,44 @@
       </div>
 
       <div class="detail-page__info">
-        <h2 class="detail-page__name">
-          <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.name}"/>
-        </h2>
         <p class="detail-page__description">
           <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.description}"/>
         </p>
-        <!-- the price follows the size below. the size buttons only redraw this one element -->
-        <span class="detail-page__price">
-          <h:outputText id="selectedPrice" value="#{selectAPizzaDialogBean.selectedPrice}">
+
+        <!-- the price follows the size, the size buttons only redraw this one element -->
+        <div class="detail-page__price">
+          <h:outputText id="selectedPrice" value="#{selectAPizzaDialogBean.selectedPrice}" styleClass="fx-scramble">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>
-        </span>
-      </div>
+        </div>
 
-      <div class="detail-page__options">
-        <div class="field field--size">
-          <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label" />
+        <div class="field">
+          <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label"/>
           <p:selectOneButton id="sizeSelect" value="#{selectAPizzaDialogBean.selectedSize}" styleClass="field__input size-select">
-            <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} (#{size.diameterCm} cm)"/>
-            <!-- every size costs something else, so picking one sends the size to the bean and redraws only the price.
-                 the rest of the page (picture, amount) stays as it is -->
+            <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} #{size.diameterCm} cm"/>
             <p:ajax event="change" process="@this" update="selectedPrice form:messages"/>
           </p:selectOneButton>
         </div>
 
-        <div class="field field--amount">
-          <p:outputLabel for="amountSpinner" value="Amount" styleClass="field__label" />
-          <p:spinner id="amountSpinner" value="#{selectAPizzaDialogBean.selectedAmount}" min="1" max="20" stepFactor="1" styleClass="field__input amount-spinner"/>
+        <div class="field">
+          <p:outputLabel for="amountSpinner" value="Amount" styleClass="field__label"/>
+          <p:spinner id="amountSpinner" value="#{selectAPizzaDialogBean.selectedAmount}" min="1" max="20" stepFactor="1" buttons="horizontal" styleClass="field__input amount-spinner"/>
         </div>
       </div>
-      
+
     </h:panelGroup>
 
     <!-- empty state -->
-    <h:panelGroup layout="block" styleClass="empty-state" rendered="#{!selectAPizzaDialogBean.isPizzaSelected()}">
-      <span class="empty-state__text">no pizza selected.</span>
+    <h:panelGroup layout="block" styleClass="empty-state" rendered="#{not selectAPizzaDialogBean.pizzaSelected}">
+      <i class="pi pi-question-circle empty-state__icon"></i>
+      <span class="empty-state__text">No pizza selected. Go back to the menu and pick one.</span>
     </h:panelGroup>
 
-    <ftr:Footer styleClass="detail-page__footer">
+    <ftr:Footer>
       <f:facet name="summary">
         <span class="footer__label">Cart</span>
         <span class="footer__value">
-          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} item(s)"/>
+          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} pizza(s)"/>
         </span>
       </f:facet>
       <p:commandButton
@@ -85,15 +79,17 @@
         styleClass="button button--ghost"
         process="@this"
         action="#{selectAPizzaDialogBean.goToMenuPage()}"
-        update="form:pageContent form:messages"/>
+        update="form:pageContent form:messages"
+      />
       <p:commandButton
         id="addToCartButton"
         value="Add to cart"
         icon="pi pi-plus"
         styleClass="button button--primary"
-        disabled="#{!selectAPizzaDialogBean.isPizzaSelected()}"
+        disabled="#{not selectAPizzaDialogBean.pizzaSelected}"
         action="#{selectAPizzaDialogBean.addToCart}"
-        update="form:pageContent form:messages"/>
+        update="form:pageContent form:messages"
+      />
     </ftr:Footer>
 
   </div>

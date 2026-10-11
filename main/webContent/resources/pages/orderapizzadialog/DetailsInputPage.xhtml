@@ -9,7 +9,6 @@
   xmlns:tif="jakarta.faces.composite/components/generic/textinputfield"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
-  <h:outputStylesheet name="pages/orderapizzadialog/DetailsInputPage.css"/>
 
 
 
@@ -18,10 +17,10 @@
     <hdr:Header
       title="Where should it go?"
       subtitle="Tell us where we bring your pizza"
-      showCart="false"
     >
       <f:facet name="actions">
         <prf:Profile
+          showAccountLinks="true"
           loginAction="#{orderAPizzaDialogBean.goToLoginPage()}"
           signupAction="#{orderAPizzaDialogBean.goToSignupPage()}"
           logoutAction="#{orderAPizzaDialogBean.logout()}"
@@ -31,7 +30,7 @@
     </hdr:Header>
 
     <!-- every field checks itself against the annotations in CustomerProfile.java as soon as you leave it -->
-    <div class="details-input-page__form input-grid card">
+    <div class="input-grid card">
       <tif:TextInputField
         id="fullName"
         label="Full name"
@@ -84,7 +83,7 @@
       />
     </div>
 
-    <ftr:Footer styleClass="details-input-page__footer">
+    <ftr:Footer>
       <f:facet name="summary">
         <span class="footer__label">Total</span>
         <span class="footer__value">

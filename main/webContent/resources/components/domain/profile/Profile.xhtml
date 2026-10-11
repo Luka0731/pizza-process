@@ -13,7 +13,7 @@
     <cc:attribute name="loginAction" method-signature="void action()"/>
     <cc:attribute name="signupAction" method-signature="void action()"/>
     <cc:attribute name="logoutAction" method-signature="void action()"/>
-    <cc:attribute name="showAccountLinks" type="java.lang.Boolean" default="true" shortDescription="false only shows who is logged in, without login, signup and logout"/>
+    <cc:attribute name="showAccountLinks" type="java.lang.Boolean" default="false" shortDescription="true adds log in, sign up and log out. false only shows who is logged in"/>
     <cc:attribute name="update" type="java.lang.String" default="@form"/>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
   </cc:interface>
@@ -21,14 +21,14 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/profile/Profile.css"/>
+    <h:outputStylesheet name="resources/components/domain/profile/Profile.css"/>
     <div id="#{cc.clientId}" class="profile #{cc.attrs.styleClass}">
 
 
 
       <!-- logged in state -->
       <h:panelGroup layout="block" styleClass="profile__user" rendered="#{sessionBean.loggedIn}">
-        <p:avatar label="#{sessionBean.initials}" shape="circle" styleClass="profile__avatar"/>
+        <p:avatar label="#{sessionBean.initials}" shape="square" styleClass="profile__avatar"/>
         <span class="profile__name">
           <h:outputText value="#{sessionBean.fullName}"/>
         </span>

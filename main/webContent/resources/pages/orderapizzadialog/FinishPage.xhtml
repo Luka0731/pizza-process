@@ -8,7 +8,7 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
-  <h:outputStylesheet name="pages/orderapizzadialog/FinishPage.css"/>
+  <h:outputStylesheet name="resources/pages/orderapizzadialog/FinishPage.css"/>
 
 
 
@@ -16,23 +16,30 @@
 
     <hdr:Header
       title="Thank you!"
-      showCart="false"
+      subtitle="The kitchen has your order"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
     <div class="finish-page__body card">
-      <i class="pi pi-check-circle finish-page__icon"></i>
-      <h2 class="finish-page__title">Thanks for ordering</h2>
+      <!-- the stamp lands once when the page opens -->
+      <span class="finish-page__stamp" aria-hidden="true">Ordered</span>
+      <h2 class="finish-page__title">Your pizza is on the list</h2>
       <p class="finish-page__text">
-        <h:outputText value="We got your order and bring it to #{orderAPizzaDialogBean.customerProfile.street}, #{orderAPizzaDialogBean.customerProfile.postalCode} #{orderAPizzaDialogBean.customerProfile.city}."/>
+        <h:outputText value="We bring it to #{orderAPizzaDialogBean.customerProfile.street}, #{orderAPizzaDialogBean.customerProfile.postalCode} #{orderAPizzaDialogBean.customerProfile.city}."/>
       </p>
+      <dl class="data-list finish-page__reference">
+        <div class="data-list__row">
+          <dt class="data-list__label">Order number</dt>
+          <dd class="data-list__value"><h:outputText value="#{orderAPizzaDialogBean.order.id}"/></dd>
+        </div>
+      </dl>
     </div>
 
     <!-- the process only goes on once the dialog is closed, the order itself is already saved at this point -->
-    <ftr:Footer styleClass="finish-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="doneButton"
         value="Done"

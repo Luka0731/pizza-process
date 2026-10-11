@@ -10,20 +10,20 @@
 
   <cc:interface>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
-    <cc:facet name="summary"/>
+    <cc:facet name="summary" shortDescription="left side, use footer__label and footer__value inside"/>
   </cc:interface>
 
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/generic/footer/Footer.css"/>
+    <h:outputStylesheet name="resources/components/generic/footer/Footer.css"/>
     <div id="#{cc.clientId}" class="app-footer #{cc.attrs.styleClass}">
 
 
-      
-      <div class="app-footer__summary">
+
+      <h:panelGroup layout="block" styleClass="app-footer__summary" rendered="#{not empty cc.facets.summary}">
         <cc:renderFacet name="summary"/>
-      </div>
+      </h:panelGroup>
 
       <div class="app-footer__actions">
         <cc:insertChildren/>

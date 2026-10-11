@@ -1,12 +1,21 @@
 .text-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
 }
 .text-input-field--disabled {
+  opacity: 0.6;
 }
-.text-input-field__label {
+.pizza-process .text-input-field__label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
 }
-.text-input-field__input {
+.text-input-field__input,
+.text-input-field__input input {
+  width: 100%;
 }
-.text-input-field__input.ui-state-error {
-}
-.text-input-field__error {
+.text-input-field__error:empty {
+  display: none;
 }

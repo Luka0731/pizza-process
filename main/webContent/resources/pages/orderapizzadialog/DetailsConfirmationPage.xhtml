@@ -6,12 +6,11 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
   xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
 >
-  <h:outputStylesheet name="pages/orderapizzadialog/DetailsConfirmationPage.css"/>
 
 
 
@@ -20,10 +19,10 @@
     <hdr:Header
       title="Is everything right?"
       subtitle="Check your details and your order before you send it off"
-      showCart="false"
     >
       <f:facet name="actions">
         <prf:Profile
+          showAccountLinks="true"
           loginAction="#{orderAPizzaDialogBean.goToLoginPage()}"
           signupAction="#{orderAPizzaDialogBean.goToSignupPage()}"
           logoutAction="#{orderAPizzaDialogBean.logout()}"
@@ -32,32 +31,22 @@
       </f:facet>
     </hdr:Header>
 
-    <div class="details-confirmation-page__cards">
-      <dtc:DetailsCard
-        customerProfile="#{orderAPizzaDialogBean.customerProfile}"
-        editAction="#{orderAPizzaDialogBean.goToDetailsInputPage()}"
-        update="form:pageContent form:messages"
-        styleClass="details-confirmation-page__details"
-      />
-
-      <!-- no edit here, the items belong to the SelectAPizzaDialog which is already closed -->
-      <odc:OrderCard
-        order="#{orderAPizzaDialogBean.order}"
-        styleClass="details-confirmation-page__order"
-      />
-
-      <rcp:Receipt
-        itemLabel="Pizzas"
-        itemCount="#{orderAPizzaDialogBean.order.totalPizzasAmount}"
-        total="#{orderAPizzaDialogBean.order.totalPrice}"
-        subtotal="#{orderAPizzaDialogBean.order.subtotalPrice}"
-        discount="#{orderAPizzaDialogBean.order.discountAmount}"
-        discountLabel="Member discount (#{orderAPizzaDialogBean.order.discountPercent} %)"
-        styleClass="details-confirmation-page__receipt"
-      />
+    <div class="split">
+      <div class="split__main">
+        <dtc:DetailsCard
+          customerProfile="#{orderAPizzaDialogBean.customerProfile}"
+          editAction="#{orderAPizzaDialogBean.goToDetailsInputPage()}"
+          update="form:pageContent form:messages"
+        />
+        <!-- no edit here, the items belong to the SelectAPizzaDialog which is already closed -->
+        <odc:OrderCard order="#{orderAPizzaDialogBean.order}"/>
+      </div>
+      <div class="split__side">
+        <rcp:Receipt order="#{orderAPizzaDialogBean.order}"/>
+      </div>
     </div>
 
-    <ftr:Footer styleClass="details-confirmation-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="backButton"
         value="Back"

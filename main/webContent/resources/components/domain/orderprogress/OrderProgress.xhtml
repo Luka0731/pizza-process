@@ -1,0 +1,39 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="order" type="ch.frox.pizzaprocess.main.java.domain.order.Order" required="true" shortDescription="shows how far this order is on its way to the customer"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="resources/components/domain/orderprogress/OrderProgress.css"/>
+    <ol id="#{cc.clientId}" class="order-progress #{cc.attrs.styleClass}">
+
+
+
+      <ui:repeat value="#{cc.attrs.order.progressSteps}" var="step" varStatus="loop">
+        <li class="order-progress__step #{cc.attrs.order.hasReached(step) ? 'order-progress__step--done' : ''} #{cc.attrs.order.status eq step ? 'order-progress__step--current' : ''}" style="--i: #{loop.index}">
+          <span class="order-progress__marker">
+            <i class="pi pi-check"></i>
+          </span>
+          <span class="order-progress__label">
+            <h:outputText value="#{step.progressLabel}"/>
+          </span>
+        </li>
+      </ui:repeat>
+
+
+
+    </ol>
+  </cc:implementation>
+</ui:component>

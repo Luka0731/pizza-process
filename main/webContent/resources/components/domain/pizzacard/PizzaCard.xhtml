@@ -20,20 +20,20 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/pizzacard/PizzaCard.css" />
-    <div id="#{cc.clientId}" class="pizza-card #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+    <h:outputStylesheet name="resources/components/domain/pizzacard/PizzaCard.css" />
+    <div id="#{cc.clientId}" class="pizza-card #{cc.attrs.styleClass}" style="--i: #{cc.attrs.index}">
 
 
 
       <p:commandLink styleClass="pizza-card__link" process="@this" action="#{cc.attrs.selectAction}" update="#{cc.attrs.update}">
 
-        <div class="pizza-card__media">
+        <span class="pizza-card__media">
           <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="pizza-card__image" alt="#{cc.attrs.pizza.name}">
             <f:param name="imageId" value="#{cc.attrs.pizza.image.id}" />
           </p:graphicImage>
-        </div>
+        </span>
 
-        <div class="pizza-card__body">
+        <span class="pizza-card__body">
           <span class="pizza-card__name">
             <h:outputText value="#{cc.attrs.pizza.name}" />
           </span>
@@ -42,12 +42,12 @@
           </span>
           <!-- every size has its own price, so the card shows the cheapest one -->
           <h:panelGroup styleClass="pizza-card__price" rendered="#{not empty cc.attrs.pizza.lowestPrice}">
-            <span class="pizza-card__price-prefix">from </span>
+            <span class="pizza-card__price-prefix">from</span>
             <h:outputText value="#{cc.attrs.pizza.lowestPrice}">
               <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2" />
             </h:outputText>
           </h:panelGroup>
-        </div>
+        </span>
 
       </p:commandLink>
 

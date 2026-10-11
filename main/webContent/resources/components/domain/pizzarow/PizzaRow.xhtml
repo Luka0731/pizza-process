@@ -11,6 +11,7 @@
 
   <cc:interface>
     <cc:attribute name="pizza" type="ch.frox.pizzaprocess.main.java.domain.pizza.Pizza" required="true" shortDescription="the pizza version to render"/>
+    <cc:attribute name="sizes" required="true" shortDescription="the sizes to show a price for, e.g. #{bean.possiblePizzaSizes}"/>
     <cc:attribute name="muted" type="java.lang.Boolean" default="false" shortDescription="true greys the row out, used for the deactivated ones"/>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
     <cc:attribute name="index" type="java.lang.Integer" default="0"/>
@@ -20,8 +21,8 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/pizzarow/PizzaRow.css"/>
-    <div id="#{cc.clientId}" class="pizza-row #{cc.attrs.muted ? 'pizza-row--muted' : ''} #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+    <h:outputStylesheet name="resources/components/domain/pizzarow/PizzaRow.css"/>
+    <div id="#{cc.clientId}" class="pizza-row #{cc.attrs.muted ? 'pizza-row--muted' : ''} #{cc.attrs.styleClass}" style="--i: #{cc.attrs.index}">
 
 
 
@@ -38,13 +39,13 @@
         <span class="pizza-row__description">
           <h:outputText value="#{cc.attrs.pizza.description}"/>
         </span>
-        <span class="pizza-row__note" >
-          <h:outputText value="no recipe yet" rendered="#{empty cc.attrs.pizza.recipe}"/>
-        </span>
+        <h:panelGroup styleClass="pizza-row__note" rendered="#{empty cc.attrs.pizza.recipe}">
+          <i class="pi pi-exclamation-circle"></i> No recipe yet
+        </h:panelGroup>
       </div>
 
       <div class="pizza-row__prices">
-        <ui:repeat value="#{administerPizzasDialogBean.possiblePizzaSizes}" var="size">
+        <ui:repeat value="#{cc.attrs.sizes}" var="size">
           <span class="pizza-row__price">
             <span class="pizza-row__price-size">
               <h:outputText value="#{size.label}"/>
@@ -53,7 +54,7 @@
               <h:outputText value="#{cc.attrs.pizza.prices[size]}" rendered="#{not empty cc.attrs.pizza.prices[size]}">
                 <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
               </h:outputText>
-              <h:outputText value="&#8212;" escape="false" rendered="#{empty cc.attrs.pizza.prices[size]}"/>
+              <h:outputText value="&#8212;" rendered="#{empty cc.attrs.pizza.prices[size]}"/>
             </span>
           </span>
         </ui:repeat>

@@ -1,34 +1,57 @@
-.detail-page {
-}
 .detail-page__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
 }
+/* the picture sits on an offset color block, like the overlapping swatches of the moodboard */
 .detail-page__media {
+  position: relative;
+  margin: 0 var(--space-4) var(--space-4) 0;
+}
+.detail-page__media::before {
+  content: "";
+  position: absolute;
+  inset: var(--space-4) calc(var(--space-4) * -1) calc(var(--space-4) * -1) var(--space-4);
+  background: var(--ochre);
+  animation: detail-block-in 260ms steps(4, end) both;
+  animation-delay: 120ms;
 }
 .detail-page__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--ink-2);
 }
 .detail-page__info {
-}
-.detail-page__name {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 .detail-page__description {
+  font-size: var(--font-size-lg);
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  max-width: 34rem;
 }
 .detail-page__price {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ochre);
+  font-variant-numeric: tabular-nums;
 }
-.detail-page__options {
+
+@media (max-width: 52rem) {
+  .detail-page__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
-.detail-page__footer {
-}
-.field {
-}
-.field__label {
-}
-.field__input {
-}
-.field--size {
-}
-.field--amount {
-}
-.size-select {
-}
-.amount-spinner {
+
+@keyframes detail-block-in {
+  from { transform: translate(calc(var(--space-4) * -1), calc(var(--space-4) * -1)); opacity: 0; }
+  to   { transform: none; opacity: 1; }
 }

@@ -1,28 +1,41 @@
-.pizza-form-page {
-}
 .pizza-form-page__body {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
 }
 .pizza-form-page__media {
-}
-.pizza-form-page__preview {
-}
-.pizza-form-page__image {
-}
-.pizza-form-page__no-image {
-}
-.pizza-form-page__upload {
-}
-.pizza-form-page__details {
-}
-.pizza-form-page__prices {
-}
-.pizza-form-page__price-grid {
-}
-.pizza-form-page__price {
+  grid-row: span 2;
 }
 .pizza-form-page__recipe {
+  grid-column: 1 / -1;
 }
-.pizza-form-page__editor {
+.pizza-form-page__preview {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--ink-2);
 }
-.pizza-form-page__footer {
+.pizza-form-page__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pizza-form-page__no-image {
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+.pizza-form-page__price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-4);
+}
+
+@media (max-width: 52rem) {
+  .pizza-form-page__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pizza-form-page__media {
+    grid-row: auto;
+  }
 }

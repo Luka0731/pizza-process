@@ -1,18 +1,83 @@
+/* every card takes the next palette color for its price block, like the swatches on the moodboard */
 .pizza-card {
+  --accent: var(--terracotta);
+  --accent-text: var(--color-on-primary);
+  animation: pizza-card-in 200ms var(--ease-snap) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 35ms);
 }
-.pizza-card__link {
+.pizza-card:nth-child(4n + 2) { --accent: var(--ochre);   --accent-text: var(--color-on-primary); }
+.pizza-card:nth-child(4n + 3) { --accent: var(--olive);   --accent-text: var(--bone); }
+.pizza-card:nth-child(4n + 4) { --accent: var(--emerald); --accent-text: var(--bone); }
+
+.pizza-process .pizza-card__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) linear, transform var(--duration-fast) linear;
+}
+.pizza-process .pizza-card__link:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
 }
 .pizza-card__media {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ink-2);
 }
 .pizza-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--ease-snap);
+}
+.pizza-card__link:hover .pizza-card__image {
+  transform: scale(1.05) rotate(-1deg);
 }
 .pizza-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
 }
 .pizza-card__name {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
 }
 .pizza-card__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 .pizza-card__price {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding: var(--space-1) var(--space-2);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 .pizza-card__price-prefix {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+@keyframes pizza-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }

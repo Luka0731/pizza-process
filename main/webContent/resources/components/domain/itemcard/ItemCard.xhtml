@@ -21,8 +21,8 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="components/domain/itemcard/ItemCard.css"/>
-    <div id="#{cc.clientId}" class="item-card #{cc.attrs.styleClass}" data-index="#{cc.attrs.index}">
+    <h:outputStylesheet name="resources/components/domain/itemcard/ItemCard.css"/>
+    <div id="#{cc.clientId}" class="item-card #{cc.attrs.styleClass}" style="--i: #{cc.attrs.index}">
 
 
 
@@ -37,8 +37,10 @@
           <h:outputText value="#{cc.attrs.item.pizza.name}"/>
         </span>
         <span class="item-card__meta">
-          <h:outputText value="#{cc.attrs.item.pizzaSize.label}" styleClass="item-card__size"/>
-          <h:outputText value=" &#183; #{cc.attrs.item.pizzaSize.diameterCm} cm"/>
+          <span class="item-card__size">
+            <h:outputText value="#{cc.attrs.item.pizzaSize.label}"/>
+          </span>
+          <h:outputText value="#{cc.attrs.item.pizzaSize.diameterCm} cm"/>
         </span>
       </div>
 
@@ -46,7 +48,7 @@
         <span class="item-card__amount-value">
           <h:outputText value="#{cc.attrs.item.amount}"/>
         </span>
-        <span class="item-card__amount-unit">x</span>
+        <span class="item-card__amount-unit">&#215;</span>
       </div>
 
       <div class="item-card__price">
@@ -58,7 +60,7 @@
       <h:panelGroup layout="block" styleClass="item-card__actions" rendered="#{cc.attrs.removable}">
         <p:commandButton
           icon="pi pi-trash"
-          title="Remove"
+          title="Remove from cart"
           styleClass="button button--danger item-card__remove"
           process="@this"
           action="#{cc.attrs.removeAction}"

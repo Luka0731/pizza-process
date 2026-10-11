@@ -1,0 +1,69 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="order" type="ch.frox.pizzaprocess.main.java.domain.order.Order" required="true" shortDescription="the order whose prices get summed up"/>
+    <cc:attribute name="totalLabel" type="java.lang.String" default="Total" shortDescription="e.g. 'To pay' or 'To collect'"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="resources/components/domain/receipt/Receipt.css"/>
+    <div id="#{cc.clientId}" class="receipt #{cc.attrs.styleClass}">
+
+
+
+      <div class="receipt__row">
+        <span class="receipt__label">Pizzas</span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.order.totalPizzasAmount}"/>
+        </span>
+      </div>
+
+      <!-- subtotal and discount only appear when there is a discount, otherwise the subtotal would just repeat the total -->
+      <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{cc.attrs.order.discountAmount gt 0}">
+        <span class="receipt__label">Subtotal</span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.order.subtotalPrice}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </h:panelGroup>
+
+      <h:panelGroup layout="block" styleClass="receipt__row receipt__row--discount" rendered="#{cc.attrs.order.discountAmount gt 0}">
+        <span class="receipt__label">
+          <h:outputText value="Member discount #{cc.attrs.order.discountPercent}%"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="- "/>
+          <h:outputText value="#{cc.attrs.order.discountAmount}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </h:panelGroup>
+
+      <div class="receipt__row receipt__row--sum">
+        <span class="receipt__label">
+          <h:outputText value="#{cc.attrs.totalLabel}"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.order.totalPrice}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </div>
+
+
+
+    </div>
+  </cc:implementation>
+</ui:component>

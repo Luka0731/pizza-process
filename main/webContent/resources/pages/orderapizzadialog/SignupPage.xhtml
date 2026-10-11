@@ -8,7 +8,6 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:tif="jakarta.faces.composite/components/generic/textinputfield"
 >
-  <h:outputStylesheet name="pages/orderapizzadialog/SignupPage.css"/>
 
 
 
@@ -17,7 +16,6 @@
     <hdr:Header
       title="Create an account"
       subtitle="Next time your details are already filled in"
-      showCart="false"
     />
 
     <!--
@@ -26,7 +24,7 @@
       the password repeat is not bound to one field, the AuthenticationService checks it and the message shows up in the growl.
     -->
     <f:validateBean validationGroups="ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnSignup">
-      <div class="signup-page__form input-grid card">
+      <div class="input-grid card narrow">
         <tif:TextInputField
           id="fullName"
           label="Full name"
@@ -84,7 +82,7 @@
       </div>
     </f:validateBean>
 
-    <ftr:Footer styleClass="signup-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="backButton"
         value="Back"

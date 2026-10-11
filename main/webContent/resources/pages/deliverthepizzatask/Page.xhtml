@@ -6,12 +6,11 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/generic/receipt"
+  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
   xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
   xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
 >
-  <h:outputStylesheet name="pages/deliverthepizzatask/Page.css"/>
 
 
 
@@ -20,41 +19,25 @@
     <hdr:Header
       title="Deliver the pizza"
       subtitle="Region: #{deliverThePizzaTaskBean.deliveryRegion}"
-      showCart="false"
     >
       <f:facet name="actions">
-        <prf:Profile showAccountLinks="false"/>
+        <prf:Profile/>
       </f:facet>
     </hdr:Header>
 
-    <div class="delivery-page__cards">
-      <!-- read only, the driver can not change the customer's address -->
-      <dtc:DetailsCard
-        customerProfile="#{deliverThePizzaTaskBean.order.customerProfile}"
-        editable="false"
-        styleClass="delivery-page__details"
-      />
-
-      <odc:OrderCard
-        order="#{deliverThePizzaTaskBean.order}"
-        title="In the bag"
-        styleClass="delivery-page__order"
-      />
-
-      <rcp:Receipt
-        itemLabel="Pizzas"
-        itemCount="#{deliverThePizzaTaskBean.order.totalPizzasAmount}"
-        total="#{deliverThePizzaTaskBean.order.totalPrice}"
-        subtotal="#{deliverThePizzaTaskBean.order.subtotalPrice}"
-        discount="#{deliverThePizzaTaskBean.order.discountAmount}"
-        discountLabel="Member discount (#{deliverThePizzaTaskBean.order.discountPercent} %)"
-        totalLabel="To collect"
-        styleClass="delivery-page__receipt"
-      />
+    <div class="split">
+      <div class="split__main">
+        <!-- read only, the driver can not change the customer's address -->
+        <dtc:DetailsCard customerProfile="#{deliverThePizzaTaskBean.order.customerProfile}" editable="false"/>
+        <odc:OrderCard order="#{deliverThePizzaTaskBean.order}" title="In the bag"/>
+      </div>
+      <div class="split__side">
+        <rcp:Receipt order="#{deliverThePizzaTaskBean.order}" totalLabel="To collect"/>
+      </div>
     </div>
 
     <!-- closing the dialog finishes the user task -->
-    <ftr:Footer styleClass="delivery-page__footer">
+    <ftr:Footer>
       <p:commandButton
         id="deliveredButton"
         value="Pizza delivered"
