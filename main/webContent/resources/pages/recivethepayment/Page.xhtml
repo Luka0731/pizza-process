@@ -37,6 +37,9 @@
         itemLabel="Pizzas"
         itemCount="#{reciveThePaymentBean.order.totalPizzasAmount}"
         total="#{reciveThePaymentBean.order.totalPrice}"
+        subtotal="#{reciveThePaymentBean.order.subtotalPrice}"
+        discount="#{reciveThePaymentBean.order.discountAmount}"
+        discountLabel="Member discount (#{reciveThePaymentBean.order.discountPercent} %)"
         totalLabel="To collect"
         styleClass="payment-page__receipt"
       />

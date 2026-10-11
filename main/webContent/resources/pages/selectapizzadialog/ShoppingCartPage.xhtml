@@ -50,6 +50,9 @@
       itemLabel="Pizzas"
       itemCount="#{selectAPizzaDialogBean.order.totalPizzasAmount}"
       total="#{selectAPizzaDialogBean.cartTotal}"
+      subtotal="#{selectAPizzaDialogBean.order.subtotalPrice}"
+      discount="#{selectAPizzaDialogBean.order.discountAmount}"
+      discountLabel="Member discount (#{selectAPizzaDialogBean.order.discountPercent} %)"
       styleClass="cart-page__totals"
     />
 

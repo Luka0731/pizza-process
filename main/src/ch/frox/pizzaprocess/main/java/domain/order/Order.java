@@ -1,6 +1,7 @@
 package ch.frox.pizzaprocess.main.java.domain.order;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -44,6 +47,11 @@ public class Order extends GenericEntity<UUID> {
     @JoinColumn(name = "customer_profile_id")
     private CustomerProfile customerProfile;
 
+    @Min(0) 
+    @Max(100)
+    @Column(name = "discount_percent", nullable = false)
+    private Integer discountPercent;
+
 
 
     public void addItem(Pizza pizza, PizzaSize pizzaSize, int amount) {
@@ -66,12 +74,22 @@ public class Order extends GenericEntity<UUID> {
         item.setBelongsToOrder(null);
     }
 
-    public BigDecimal getTotalPrice() {
-        BigDecimal total = BigDecimal.ZERO;
+    public BigDecimal getSubtotalPrice() {
+        BigDecimal subtotal = BigDecimal.ZERO;
         for (OrderItem item : items) {
-            total = total.add(item.getSubtotalPrice());
+            subtotal = subtotal.add(item.getSubtotalPrice());
         }
-        return total;
+        return subtotal;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return getSubtotalPrice()
+            .multiply(BigDecimal.valueOf(discountPercent))
+            .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getTotalPrice() {
+        return getSubtotalPrice().subtract(getDiscountAmount());
     }
 
     public int getTotalPizzasAmount() {

@@ -8,6 +8,7 @@ import java.util.UUID;
 import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityStateException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
+import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;
@@ -26,6 +27,7 @@ public class OrderService extends GenericService<Order, UUID, OrderRepository> {
     @Override
     public Order save(Order order) {
         order.setStatus(DRAFT);
+        applyMemberDiscount(order);
 
         Validate.of(order).throwIfAny();
         for (OrderItem orderItem : order.getItems()) {
@@ -39,8 +41,13 @@ public class OrderService extends GenericService<Order, UUID, OrderRepository> {
         if (order.getStatus() != DRAFT) throw new EntityStateException("This order has already been placed.");
 
         order.setCustomerProfile(customerProfileService.save(customerProfile));
+        applyMemberDiscount(order);
         order.setStatus(ORDERED);
 
         return super.update(order);
+    }
+
+    public void applyMemberDiscount(Order order) {
+        order.setDiscountPercent(SessionUtil.isLoggedIn()? 10 : 0);
     }
 }

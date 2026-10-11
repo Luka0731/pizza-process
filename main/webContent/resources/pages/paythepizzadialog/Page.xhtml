@@ -53,6 +53,9 @@
         itemLabel="Pizzas"
         itemCount="#{payThePizzaDialogBean.order.totalPizzasAmount}"
         total="#{payThePizzaDialogBean.order.totalPrice}"
+        subtotal="#{payThePizzaDialogBean.order.subtotalPrice}"
+        discount="#{payThePizzaDialogBean.order.discountAmount}"
+        discountLabel="Member discount (#{payThePizzaDialogBean.order.discountPercent} %)"
         totalLabel="#{payThePizzaDialogBean.paid ? 'Paid' : 'To pay'}"
         styleClass="pay-page__receipt"
       />

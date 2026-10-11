@@ -50,6 +50,9 @@
         itemLabel="Pizzas"
         itemCount="#{orderAPizzaDialogBean.order.totalPizzasAmount}"
         total="#{orderAPizzaDialogBean.order.totalPrice}"
+        subtotal="#{orderAPizzaDialogBean.order.subtotalPrice}"
+        discount="#{orderAPizzaDialogBean.order.discountAmount}"
+        discountLabel="Member discount (#{orderAPizzaDialogBean.order.discountPercent} %)"
         styleClass="details-confirmation-page__receipt"
       />
     </div>

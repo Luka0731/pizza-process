@@ -74,6 +74,7 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
         })) return;
 
         credentials.clear();
+        orderService.applyMemberDiscount(order);
         pasteInPreviousAccountDetails();
         currentPage = DETAILS_INPUT_PAGE;
     }
@@ -84,12 +85,14 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
         })) return;
         
         credentials.clear();
+        orderService.applyMemberDiscount(order);
         pasteInPreviousAccountDetails();
         currentPage = previousePage;
     }
 
     public void logout() {
         authenticationService.logout();
+        orderService.applyMemberDiscount(order);
         customerProfile = new CustomerProfile();
         currentPage = DETAILS_INPUT_PAGE;
     }

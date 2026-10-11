@@ -42,6 +42,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
     protected void init() {
         filter = new PizzaFilter();
         order = new Order();
+        orderService.applyMemberDiscount(order);
         clearSelection();
         search();
     }

@@ -9,9 +9,13 @@
 
 
   <cc:interface>
-    <cc:attribute name="total" type="java.math.BigDecimal" required="true"/>
+    <cc:attribute name="total" type="java.math.BigDecimal" required="true" shortDescription="what has to be paid, after the discount"/>
+    <cc:attribute name="subtotal" type="java.math.BigDecimal" shortDescription="the price before the discount. only shown together with a discount"/>
+    <cc:attribute name="discount" type="java.math.BigDecimal" shortDescription="the subtotal and discount rows are only shown if this is more than 0"/>
     <cc:attribute name="itemCount" type="java.lang.Integer" default="0"/>
     <cc:attribute name="itemLabel" type="java.lang.String" default="Items"/>
+    <cc:attribute name="subtotalLabel" type="java.lang.String" default="Subtotal"/>
+    <cc:attribute name="discountLabel" type="java.lang.String" default="Discount"/>
     <cc:attribute name="totalLabel" type="java.lang.String" default="Total"/>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
   </cc:interface>
@@ -32,6 +36,30 @@
           <h:outputText value="#{cc.attrs.itemCount}"/>
         </span>
       </div>
+
+      <!-- subtotal and discount only appear when there is a discount, otherwise the subtotal would just repeat the total -->
+      <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{cc.attrs.discount gt 0}">
+        <span class="receipt__label">
+          <h:outputText value="#{cc.attrs.subtotalLabel}"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="#{cc.attrs.subtotal}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </h:panelGroup>
+
+      <h:panelGroup layout="block" styleClass="receipt__row receipt__row--discount" rendered="#{cc.attrs.discount gt 0}">
+        <span class="receipt__label">
+          <h:outputText value="#{cc.attrs.discountLabel}"/>
+        </span>
+        <span class="receipt__value">
+          <h:outputText value="- "/>
+          <h:outputText value="#{cc.attrs.discount}">
+            <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
+          </h:outputText>
+        </span>
+      </h:panelGroup>
 
       <div class="receipt__row receipt__row--sum">
         <span class="receipt__label">

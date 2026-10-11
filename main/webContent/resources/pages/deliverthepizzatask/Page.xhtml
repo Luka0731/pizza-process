@@ -45,6 +45,9 @@
         itemLabel="Pizzas"
         itemCount="#{deliverThePizzaTaskBean.order.totalPizzasAmount}"
         total="#{deliverThePizzaTaskBean.order.totalPrice}"
+        subtotal="#{deliverThePizzaTaskBean.order.subtotalPrice}"
+        discount="#{deliverThePizzaTaskBean.order.discountAmount}"
+        discountLabel="Member discount (#{deliverThePizzaTaskBean.order.discountPercent} %)"
         totalLabel="To collect"
         styleClass="delivery-page__receipt"
       />
