@@ -6,7 +6,6 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
   <h:outputStylesheet name="resources/pages/orderapizzadialog/FinishPage.css"/>
 
@@ -16,12 +15,7 @@
 
     <hdr:Header
       title="Thank you!"
-      subtitle="The kitchen has your order"
-    >
-      <f:facet name="actions">
-        <prf:Profile/>
-      </f:facet>
-    </hdr:Header>
+    />
 
     <div class="finish-page__body card">
       <!-- the stamp lands once when the page opens -->

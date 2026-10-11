@@ -6,7 +6,6 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
 >
   <h:outputStylesheet name="resources/pages/bakethepizzatask/RecipePage.css"/>
 
@@ -16,12 +15,7 @@
 
     <hdr:Header
       title="#{bakeThePizzaTaskBean.currentPizza.name}"
-      subtitle="#{bakeThePizzaTaskBean.currentPizza.description}"
-    >
-      <f:facet name="actions">
-        <prf:Profile/>
-      </f:facet>
-    </hdr:Header>
+    />
 
     <!-- read only, recipes get changed in the pizza administration -->
     <div class="recipe-page__body">

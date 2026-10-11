@@ -13,18 +13,18 @@ import lombok.Setter;
 
 @Getter @Setter
 public class PizzaFilter extends GenericFilter<PizzaSort> {
-    @Size(max = 31, message = "A pizza name is 31 characters long at most, so the search can't be longer either!")
+    @Size(max = 31, message = "The search can have 31 characters at most, no pizza name is longer.")
     private String name;
 
-    @PositiveOrZero(message = "The minimum price can't be negative!")
+    @PositiveOrZero(message = "The lowest price can't be negative.")
     private BigDecimal minPrice;
 
-    @PositiveOrZero(message = "The maximum price can't be negative!")
+    @PositiveOrZero(message = "The highest price can't be negative.")
     private BigDecimal maxPrice;
 
 
 
-    @AssertTrue(message = "The minimum price can't be higher than the maximum price!")
+    @AssertTrue(message = "The lowest price can't be higher than the highest price.")
     public boolean isPriceRangeValid() {
         return minPrice == null || maxPrice == null || minPrice.compareTo(maxPrice) <= 0;
     }

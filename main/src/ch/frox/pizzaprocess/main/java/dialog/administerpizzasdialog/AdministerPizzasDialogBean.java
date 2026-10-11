@@ -70,7 +70,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
             reloadLists();
         })) return;
     
-        UserNotifier.message("Deactivated", "'" + pizza.getName() + "' is not on the menu anymore.");
+        UserNotifier.message("Off the menu", "'" + pizza.getName() + "' is not on the menu anymore.");
     }
 
     public void activate(Pizza pizza) {
@@ -81,7 +81,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
         })) return;
 
         reloadLists();
-        UserNotifier.message("Activated", "'" + pizza.getName() + "' is on the menu again.");
+        UserNotifier.message("On the menu", "'" + pizza.getName() + "' is on the menu now.");
     }
 
     public void delete(Pizza pizza) {

@@ -15,22 +15,22 @@
 
     <hdr:Header
       title="Create an account"
-      subtitle="Next time your details are already filled in"
     />
 
     <!--
       name and email are the same fields as on the details page, so whatever was typed in there is already filled in here.
-      f:validateBean switches to the OnSignup group, so the extra signup rules of Credentials (password length, allowed characters) are checked too.
-      the password repeat is not bound to one field, the AuthenticationService checks it and the message shows up in the growl.
+      f:validateBean switches to the OnSignup group, so the extra signup rules of Credentials are checked too,
+      as soon as a field is left: password length, allowed characters and if the username is still free (@AvailableUserName).
+      the password repeat is checked by the AuthenticationService on sign up, the id "passwordRepeated" matches
+      Credentials.isPasswordRepeated(), so the UserNotifier puts that message under the repeat field.
     -->
     <f:validateBean validationGroups="ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnSignup">
-      <div class="input-grid card narrow">
+      <div class="input-grid card narrow centered">
         <tif:TextInputField
           id="fullName"
           label="Full name"
           value="#{orderAPizzaDialogBean.customerProfile.fullName}"
           autocomplete="name"
-          validateOnBlur="false"
           styleClass="input-grid__item input-grid__item--wide"
         />
         <tif:TextInputField
@@ -39,7 +39,6 @@
           type="email"
           value="#{orderAPizzaDialogBean.customerProfile.email}"
           autocomplete="email"
-          validateOnBlur="false"
           styleClass="input-grid__item input-grid__item--wide"
         />
         <tif:TextInputField
@@ -47,7 +46,6 @@
           label="Username"
           value="#{orderAPizzaDialogBean.credentials.userName}"
           autocomplete="username"
-          validateOnBlur="false"
           styleClass="input-grid__item input-grid__item--wide"
         />
         <tif:TextInputField
@@ -56,17 +54,24 @@
           type="password"
           value="#{orderAPizzaDialogBean.credentials.password}"
           autocomplete="new-password"
-          validateOnBlur="false"
           styleClass="input-grid__item"
         />
         <tif:TextInputField
-          id="passwordRepeat"
+          id="passwordRepeated"
           label="Repeat password"
           type="password"
           value="#{orderAPizzaDialogBean.credentials.passwordRepeat}"
           autocomplete="new-password"
-          validateOnBlur="false"
           styleClass="input-grid__item"
+        />
+
+        <p:commandButton
+          id="signupButton"
+          value="Sign up"
+          icon="pi pi-user-plus"
+          styleClass="button button--primary form-submit"
+          action="#{orderAPizzaDialogBean.signUp()}"
+          update="form:pageContent form:messages"
         />
 
         <div class="account-switch input-grid__item input-grid__item--wide">
@@ -92,15 +97,6 @@
         action="#{orderAPizzaDialogBean.goToPreviousPage()}"
         update="form:pageContent form:messages"
       />
-      <p:commandButton
-        id="signupButton"
-        value="Sign up"
-        icon="pi pi-user-plus"
-        styleClass="button button--primary"
-        action="#{orderAPizzaDialogBean.signUp()}"
-        update="form:pageContent form:messages"
-      />
-      <p:defaultCommand target="signupButton"/>
     </ftr:Footer>
 
   </div>

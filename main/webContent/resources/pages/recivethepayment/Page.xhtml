@@ -6,9 +6,7 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
-  xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
 >
 
 
@@ -17,21 +15,9 @@
 
     <hdr:Header
       title="Receive the payment"
-      subtitle="Let the customer pay on your payment device, then confirm it here"
-    >
-      <f:facet name="actions">
-        <prf:Profile/>
-      </f:facet>
-    </hdr:Header>
+    />
 
-    <div class="split">
-      <div class="split__main">
-        <dtc:DetailsCard customerProfile="#{reciveThePaymentBean.order.customerProfile}" editable="false"/>
-      </div>
-      <div class="split__side">
-        <rcp:Receipt order="#{reciveThePaymentBean.order}" totalLabel="To collect"/>
-      </div>
-    </div>
+    <rcp:Receipt order="#{reciveThePaymentBean.order}" totalLabel="To collect" onlyTotal="true" styleClass="narrow"/>
 
     <!-- closing the dialog ends the worker process -->
     <ftr:Footer>

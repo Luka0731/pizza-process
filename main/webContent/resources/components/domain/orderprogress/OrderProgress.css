@@ -28,8 +28,11 @@
 .order-progress__step--done + .order-progress__step--done::before {
   background: var(--color-success);
   transform-origin: left;
-  animation: progress-line-in 260ms steps(6, end) both;
   animation-delay: calc(var(--i) * 120ms);
+}
+/* the way from the last finished step to the current one: green turning into the orange of "now" */
+.order-progress__step--done + .order-progress__step--current::before {
+  background: linear-gradient(90deg, var(--color-success), var(--terracotta));
 }
 .order-progress__marker {
   position: relative;
@@ -80,4 +83,9 @@
 @keyframes progress-current {
   from { box-shadow: 0 0 0 0 transparent; }
   to   { box-shadow: 0 0 0 5px rgba(227, 83, 54, 0.35); }
+}
+
+/* entrance, only when the page is new (see effects.js) */
+.fx-enter .order-progress__step--done + .order-progress__step--done::before {
+  animation: progress-line-in 260ms steps(6, end) both;
 }

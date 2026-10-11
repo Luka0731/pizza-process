@@ -8,6 +8,7 @@
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:fb="jakarta.faces.composite/components/generic/filterbar"
   xmlns:pc="jakarta.faces.composite/components/domain/pizzacard"
+  xmlns:cb="jakarta.faces.composite/components/domain/cartbutton"
 >
   <h:outputStylesheet name="resources/pages/selectapizzadialog/MenuPage.css"/>
 
@@ -17,11 +18,6 @@
 
     <hdr:Header
       title="The Menu"
-      subtitle="Pick a pizza to choose its size"
-      showCart="true"
-      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
-      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
-      update="form:pageContent form:messages"
     />
 
     <fb:FilterBar
@@ -68,21 +64,15 @@
 
     <ftr:Footer>
       <f:facet name="summary">
-        <span class="footer__label">Cart</span>
+        <span class="footer__label">Cart total</span>
         <span class="footer__value">
-          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} pizza(s), "/>
           <h:outputText value="#{selectAPizzaDialogBean.cartTotal}">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>
         </span>
       </f:facet>
-      <p:commandButton
-        id="toCartButton"
-        value="Go to cart"
-        icon="pi pi-shopping-cart"
-        styleClass="button button--primary"
-        process="@this"
-        disabled="#{selectAPizzaDialogBean.cartEmpty}"
+      <cb:CartButton
+        count="#{selectAPizzaDialogBean.cartItemCount}"
         action="#{selectAPizzaDialogBean.goToCartPage()}"
         update="form:pageContent form:messages"
       />

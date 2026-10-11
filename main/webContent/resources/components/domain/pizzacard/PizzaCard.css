@@ -2,14 +2,13 @@
 .pizza-card {
   --accent: var(--terracotta);
   --accent-text: var(--color-on-primary);
-  animation: pizza-card-in 200ms var(--ease-snap) both;
   animation-delay: calc(min(var(--i, 0), 12) * 35ms);
 }
 .pizza-card:nth-child(4n + 2) { --accent: var(--ochre);   --accent-text: var(--color-on-primary); }
 .pizza-card:nth-child(4n + 3) { --accent: var(--olive);   --accent-text: var(--bone); }
 .pizza-card:nth-child(4n + 4) { --accent: var(--emerald); --accent-text: var(--bone); }
 
-.pizza-process .pizza-card__link {
+:is(.pizza-process, #pizza-process) .pizza-card__link {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -19,7 +18,7 @@
   text-decoration: none;
   transition: border-color var(--duration-fast) linear, transform var(--duration-fast) linear;
 }
-.pizza-process .pizza-card__link:hover {
+:is(.pizza-process, #pizza-process) .pizza-card__link:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
 }
@@ -80,4 +79,9 @@
 @keyframes pizza-card-in {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
+}
+
+/* entrance, only when the page is new (see effects.js) */
+.fx-enter .pizza-card {
+  animation: pizza-card-in 200ms var(--ease-snap) both;
 }

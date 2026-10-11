@@ -16,17 +16,17 @@
   justify-content: space-between;
   gap: var(--space-4);
 }
+/* one ink color for every line except the discount, size and weight make the difference */
 .receipt__label {
-  color: #6b5d4f;
+  font-weight: 500;
 }
 .receipt__value {
   font-weight: 600;
   white-space: nowrap;
 }
-.receipt__row--discount .receipt__label,
-.receipt__row--discount .receipt__value {
+/* the discount is the one line in color: money you save */
+.receipt__row--discount {
   color: var(--olive);
-  font-weight: 600;
 }
 .receipt__row--sum {
   align-items: baseline;
@@ -35,7 +35,6 @@
   border-top: 2px dashed #b9ad98;
 }
 .receipt__row--sum .receipt__label {
-  color: #2a221b;
   font-weight: 600;
 }
 .receipt__row--sum .receipt__value {
@@ -43,5 +42,17 @@
   font-size: var(--font-size-xl);
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--brick);
+}
+
+/* only the total, e.g. for the payment: no line above it, the amount gets big */
+.receipt--only-total .receipt__row--sum {
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.receipt--only-total .receipt__row--sum .receipt__value {
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 1;
 }

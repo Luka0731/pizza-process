@@ -1,7 +1,9 @@
-/* the whole item card is the link to the recipe */
-.pizza-process .bake-page__item {
+/* the whole item card is the link to the recipe, the text keeps its colors on hover */
+:is(.pizza-process, #pizza-process) .bake-page__item,
+:is(.pizza-process, #pizza-process) .bake-page__item:hover,
+:is(.pizza-process, #pizza-process) .bake-page__item:focus {
   display: block;
-  color: inherit;
+  color: var(--bone);
   text-decoration: none;
 }
 .bake-page__item .item-card {

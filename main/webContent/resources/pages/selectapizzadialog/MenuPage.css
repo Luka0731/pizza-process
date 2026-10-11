@@ -1,5 +1,17 @@
+/* 4, 2 or 1 columns: the four price colors of the pizza cards repeat every 4, so they always line up in columns */
 .menu-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-4);
+}
+
+@media (max-width: 64rem) {
+  .menu-page__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 34rem) {
+  .menu-page__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

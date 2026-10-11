@@ -13,6 +13,7 @@
     <cc:attribute name="item" type="ch.frox.pizzaprocess.main.java.domain.order.OrderItem" required="true" shortDescription="the order item to render"/>
     <cc:attribute name="removable" type="java.lang.Boolean" default="true" shortDescription="false hides the remove button, e.g. on the checkout"/>
     <cc:attribute name="removeAction" method-signature="void action()" shortDescription="called when the remove button is clicked"/>
+    <cc:attribute name="showPrice" type="java.lang.Boolean" default="true" shortDescription="false hides the price, e.g. for the driver"/>
     <cc:attribute name="update" type="java.lang.String" default="@form"/>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
     <cc:attribute name="index" type="java.lang.Integer" default="0"/>
@@ -51,11 +52,11 @@
         <span class="item-card__amount-unit">&#215;</span>
       </div>
 
-      <div class="item-card__price">
+      <h:panelGroup layout="block" styleClass="item-card__price" rendered="#{cc.attrs.showPrice}">
         <h:outputText value="#{cc.attrs.item.subtotalPrice}">
           <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
         </h:outputText>
-      </div>
+      </h:panelGroup>
 
       <h:panelGroup layout="block" styleClass="item-card__actions" rendered="#{cc.attrs.removable}">
         <p:commandButton

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 
 public abstract class GenericFilter<S extends Enum<S> & GenericSort> {
-    @NotNull(message = "Please choose how the list should be sorted!")
+    @NotNull(message = "Please choose how to sort the list.")
     private S sort;
     private final Class<S> sortType;
 

@@ -33,14 +33,16 @@
 
       <!-- c:if instead of rendered: both inputs need the id "input", so only one of them is allowed to exist in the component tree -->
       <c:if test="#{cc.attrs.type eq 'password'}">
-        <!-- the password is never sent back to the browser, thats why the input itself is not updated on blur -->
+        <!-- the password is never sent back to the browser, thats why the input itself is not updated on blur.
+             global="false" on both: checking one field is not "loading", so no loading bar.
+             that also skips the global ajax events, so oncomplete runs the page scripts itself (see logic.js) -->
         <p:password id="input" value="#{cc.attrs.value}" placeholder="#{cc.attrs.placeholder}" autocomplete="#{cc.attrs.autocomplete}" disabled="#{cc.attrs.disabled}" toggleMask="true" styleClass="text-input-field__input">
-          <p:ajax event="blur" update="message" disabled="#{not cc.attrs.validateOnBlur}"/>
+          <p:ajax event="blur" global="false" oncomplete="PizzaProcess.initAll([document.getElementById('#{cc.clientId}')])" update="message" disabled="#{not cc.attrs.validateOnBlur}"/>
         </p:password>
       </c:if>
       <c:if test="#{cc.attrs.type ne 'password'}">
         <p:inputText id="input" type="#{cc.attrs.type}" value="#{cc.attrs.value}" placeholder="#{cc.attrs.placeholder}" autocomplete="#{cc.attrs.autocomplete}" disabled="#{cc.attrs.disabled}" styleClass="text-input-field__input">
-          <p:ajax event="blur" update="@this message" disabled="#{not cc.attrs.validateOnBlur}"/>
+          <p:ajax event="blur" global="false" oncomplete="PizzaProcess.initAll([document.getElementById('#{cc.clientId}')])" update="@this message" disabled="#{not cc.attrs.validateOnBlur}"/>
         </p:inputText>
       </c:if>
 

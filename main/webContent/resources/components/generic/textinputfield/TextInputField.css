@@ -7,7 +7,7 @@
 .text-input-field--disabled {
   opacity: 0.6;
 }
-.pizza-process .text-input-field__label {
+:is(.pizza-process, #pizza-process) .text-input-field__label {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-text-muted);

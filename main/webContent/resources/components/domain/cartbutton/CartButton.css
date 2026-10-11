@@ -1,0 +1,44 @@
+/* outlined like the secondary buttons, so it never competes with the main action next to it. the count is an ochre block */
+:is(.pizza-process, #pizza-process) .cart-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 2.75rem;
+  padding: 0 var(--space-3) 0 var(--space-4);
+  border: 1px solid var(--ink-4);
+  color: var(--bone);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) linear, background-color var(--duration-fast) linear;
+}
+:is(.pizza-process, #pizza-process) .cart-button:hover {
+  border-color: var(--bone);
+  background: var(--ink-2);
+  color: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .cart-button--empty,
+:is(.pizza-process, #pizza-process) .cart-button.ui-state-disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.cart-button__icon {
+  font-size: 1.25rem;
+}
+.cart-button__count {
+  min-width: 1.75rem;
+  padding: 0 var(--space-1);
+  background: var(--ochre);
+  color: var(--color-on-primary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.cart-button--bumped .cart-button__count {
+  animation: cart-bump 360ms steps(6, end);
+}
+
+@keyframes cart-bump {
+  0%   { transform: none; }
+  30%  { transform: translateY(-6px) rotate(-8deg); background: var(--terracotta); }
+  60%  { transform: translateY(1px) rotate(4deg); }
+  100% { transform: none; }
+}

@@ -23,34 +23,34 @@ import lombok.Setter;
 @Table(name = "customer_profile")
 @Getter @Setter
 public class CustomerProfile extends GenericEntity<UUID> {
-    @NotBlank(message = "Please enter your email address!")
-    @Email(message = "Please enter a valid email address!")
-    @Size(max = 80, message = "An email address can have 80 characters at most!")
+    @NotBlank(message = "Please enter your e-mail address.")
+    @Email(message = "That doesn't look like an e-mail address, e.g. you@example.ch.")
+    @Size(max = 80, message = "An e-mail address can have 80 characters at most.")
     @Column(length = 80, nullable = false)
     private String email;
 
-    @NotBlank(message = "Please enter your name!")
-    @Size(max = 80, message = "A name can have 80 characters at most!")
+    @NotBlank(message = "Please enter your full name.")
+    @Size(max = 80, message = "A name can have 80 characters at most.")
     @Column(name = "full_name", length = 80, nullable = false)
     private String fullName;
 
-    @NotBlank(message = "Please enter a phone number so the driver can call you!")
-    @Pattern(regexp = "^[+0-9][0-9 ()/-]{5,24}$", message = "This does not look like a phone number!")
+    @NotBlank(message = "Please enter a phone number, so the driver can call you.")
+    @Pattern(regexp = "^[+0-9][0-9 ()/-]{5,24}$", message = "That doesn't look like a phone number, e.g. +41 79 000 00 00.")
     @Column(length = 25, nullable = false)
     private String phone;
 
-    @NotBlank(message = "Please enter street and house number!")
-    @Size(max = 120, message = "The street can have 120 characters at most!")
+    @NotBlank(message = "Please enter your street and house number.")
+    @Size(max = 120, message = "The street can have 120 characters at most.")
     @Column(length = 120, nullable = false)
     private String street;
 
-    @NotBlank(message = "Please enter the postal code!")
-    @Pattern(regexp = "^[1-9][0-9]{3}$", message = "A swiss postal code has 4 digits!")
+    @NotBlank(message = "Please enter your postal code.")
+    @Pattern(regexp = "^[1-9][0-9]{3}$", message = "A Swiss postal code has 4 digits, e.g. 8005.")
     @Column(name = "postal_code", length = 4, nullable = false)
     private String postalCode;
 
-    @NotBlank(message = "Please enter the city!")
-    @Size(max = 80, message = "A city can have 80 characters at most!")
+    @NotBlank(message = "Please enter your city.")
+    @Size(max = 80, message = "A city can have 80 characters at most.")
     @Column(length = 80, nullable = false)
     private String city;
 

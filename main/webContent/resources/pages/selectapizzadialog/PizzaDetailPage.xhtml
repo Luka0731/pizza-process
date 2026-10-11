@@ -6,6 +6,7 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
+  xmlns:cb="jakarta.faces.composite/components/domain/cartbutton"
 >
   <h:outputStylesheet name="resources/pages/selectapizzadialog/PizzaDetailPage.css"/>
 
@@ -15,11 +16,6 @@
 
     <hdr:Header
       title="#{selectAPizzaDialogBean.selectedPizza.name}"
-      subtitle="Choose a size and how many you want"
-      showCart="true"
-      cartCount="#{selectAPizzaDialogBean.cartItemCount}"
-      cartAction="#{selectAPizzaDialogBean.goToCartPage()}"
-      update="form:pageContent form:messages"
     />
 
     <!-- loaded state -->
@@ -47,7 +43,7 @@
           <p:outputLabel for="sizeSelect" value="Size" styleClass="field__label"/>
           <p:selectOneButton id="sizeSelect" value="#{selectAPizzaDialogBean.selectedSize}" styleClass="field__input size-select">
             <f:selectItems value="#{selectAPizzaDialogBean.possiblePizzaSizes}" var="size" itemValue="#{size}" itemLabel="#{size.label} #{size.diameterCm} cm"/>
-            <p:ajax event="change" process="@this" update="selectedPrice form:messages"/>
+            <p:ajax event="change" global="false" process="@this" update="selectedPrice form:messages"/>
           </p:selectOneButton>
         </div>
 
@@ -66,12 +62,6 @@
     </h:panelGroup>
 
     <ftr:Footer>
-      <f:facet name="summary">
-        <span class="footer__label">Cart</span>
-        <span class="footer__value">
-          <h:outputText value="#{selectAPizzaDialogBean.cartItemCount} pizza(s)"/>
-        </span>
-      </f:facet>
       <p:commandButton
         id="backButton"
         value="Back to menu"
@@ -88,6 +78,11 @@
         styleClass="button button--primary"
         disabled="#{not selectAPizzaDialogBean.pizzaSelected}"
         action="#{selectAPizzaDialogBean.addToCart}"
+        update="form:pageContent form:messages"
+      />
+      <cb:CartButton
+        count="#{selectAPizzaDialogBean.cartItemCount}"
+        action="#{selectAPizzaDialogBean.goToCartPage()}"
         update="form:pageContent form:messages"
       />
     </ftr:Footer>

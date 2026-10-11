@@ -2,6 +2,7 @@ package ch.frox.pizzaprocess.main.java.core.security;
 
 import java.util.Objects;
 
+import ch.frox.pizzaprocess.main.java.core.validation.constraint.AvailableUserName;
 import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnSignup;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -18,20 +19,21 @@ import lombok.Setter;
 **/
 @Getter @Setter
 public class Credentials {
-    @NotBlank(message = "please enter your username")
-    @Size(max = 40, message = "a username can have 40 characters at most")
-    @Pattern(regexp = "^[A-Za-z0-9._-]*$", message = "only letters, digits, '.', '_' and '-' are allowed", groups = OnSignup.class)
+    @NotBlank(message = "Please enter your username.")
+    @Size(max = 40, message = "A username can have 40 characters at most.")
+    @Pattern(regexp = "^[A-Za-z0-9._-]*$", message = "A username can only have letters, digits, '.', '_' and '-'.", groups = OnSignup.class)
+    @AvailableUserName(groups = OnSignup.class)
     private String userName;
 
-    @NotBlank(message = "please enter your password")
-    @Size(min = 4, max = 64, message = "a password needs 4 to 64 characters", groups = OnSignup.class)
+    @NotBlank(message = "Please enter your password.")
+    @Size(min = 4, max = 64, message = "A password needs 4 to 64 characters.", groups = OnSignup.class)
     private String password;
 
     private String passwordRepeat;
 
 
 
-    @AssertTrue(message = "the password and the repeated passwords must match", groups = OnSignup.class)
+    @AssertTrue(message = "The two passwords don't match.", groups = OnSignup.class)
     public boolean isPasswordRepeated() {
         return Objects.equals(password, passwordRepeat);
     }

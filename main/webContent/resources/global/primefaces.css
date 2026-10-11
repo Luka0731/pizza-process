@@ -1,14 +1,17 @@
 /*
  * Overrides for the PrimeFaces widgets of the ivy freya theme, so they match style.css.
- * Freya styles with selectors like "body .ui-button", so everything here starts with
- * ".pizza-process" (the body class) to win without !important.
- * Widgets that primefaces appends to the body (growl, dialogs, dropdown panels) use the same prefix.
+ *
+ * Every selector starts with ":is(.pizza-process, #pizza-process)".
+ * It matches the body class (an element with the id "pizza-process" does not exist), but :is() takes
+ * the specificity of its strongest argument, an id. So these rules beat every class based freya rule
+ * without !important. The component and page css files use the same prefix where they style primefaces parts.
+ * It also covers widgets that primefaces appends to the body (growl, dialogs, dropdown panels).
  */
 
 
 
 /* |----- variables freya reads -----| */
-.pizza-process {
+:is(.pizza-process, #pizza-process) {
   --primary-color: var(--terracotta);
   --primary-color-text: var(--color-on-primary);
   --surface-ground: var(--ink-0);
@@ -20,19 +23,19 @@
   --border-radius: 0;
 }
 
-.pizza-process .ui-widget,
-.pizza-process .ui-widget input,
-.pizza-process .ui-widget select,
-.pizza-process .ui-widget textarea,
-.pizza-process .ui-widget button {
+:is(.pizza-process, #pizza-process) .ui-widget,
+:is(.pizza-process, #pizza-process) .ui-widget input,
+:is(.pizza-process, #pizza-process) .ui-widget select,
+:is(.pizza-process, #pizza-process) .ui-widget textarea,
+:is(.pizza-process, #pizza-process) .ui-widget button {
   font-family: var(--font-body);
   font-size: var(--font-size-md);
 }
 
-.pizza-process .ui-corner-all,
-.pizza-process .ui-widget,
-.pizza-process .ui-widget-content,
-.pizza-process .ui-widget-header {
+:is(.pizza-process, #pizza-process) .ui-corner-all,
+:is(.pizza-process, #pizza-process) .ui-widget,
+:is(.pizza-process, #pizza-process) .ui-widget-content,
+:is(.pizza-process, #pizza-process) .ui-widget-header {
   border-radius: 0;
 }
 
@@ -40,7 +43,7 @@
 
 /* |----- buttons -----| */
 
-.pizza-process .ui-button {
+:is(.pizza-process, #pizza-process) .ui-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,68 +62,68 @@
     color var(--duration-fast) linear,
     transform var(--duration-fast) linear;
 }
-.pizza-process .ui-button .ui-button-text {
+:is(.pizza-process, #pizza-process) .ui-button .ui-button-text {
   padding: 0;
   line-height: 1;
 }
-.pizza-process .ui-button .ui-button-icon-left,
-.pizza-process .ui-button .ui-button-icon-right {
+:is(.pizza-process, #pizza-process) .ui-button .ui-button-icon-left,
+:is(.pizza-process, #pizza-process) .ui-button .ui-button-icon-right {
   position: static;
   margin: 0;
   font-size: 0.95em;
 }
-.pizza-process .ui-button.ui-button-icon-only {
+:is(.pizza-process, #pizza-process) .ui-button.ui-button-icon-only {
   width: 2.75rem;
   padding: 0;
 }
-.pizza-process .ui-button.ui-button-icon-only .ui-button-text {
+:is(.pizza-process, #pizza-process) .ui-button.ui-button-icon-only .ui-button-text {
   display: none;
 }
-.pizza-process .ui-button:enabled:hover,
-.pizza-process .ui-button.ui-state-hover {
+:is(.pizza-process, #pizza-process) .ui-button:enabled:hover,
+:is(.pizza-process, #pizza-process) .ui-button.ui-state-hover {
   border-color: var(--bone);
   background: var(--ink-2);
   color: var(--color-text);
 }
-.pizza-process .ui-button:enabled:active {
+:is(.pizza-process, #pizza-process) .ui-button:enabled:active {
   transform: translateY(1px);
 }
-.pizza-process .ui-button:focus-visible,
-.pizza-process .ui-button.ui-state-focus {
+:is(.pizza-process, #pizza-process) .ui-button:focus-visible,
+:is(.pizza-process, #pizza-process) .ui-button.ui-state-focus {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
   box-shadow: none;
 }
-.pizza-process .ui-button.ui-state-disabled,
-.pizza-process .ui-button:disabled {
+:is(.pizza-process, #pizza-process) .ui-button.ui-state-disabled,
+:is(.pizza-process, #pizza-process) .ui-button:disabled {
   opacity: 0.4;
 }
 
 /* primary: terracotta block, dark text, one cut corner (clip-path in style.css) */
-.pizza-process .ui-button.button--primary {
+:is(.pizza-process, #pizza-process) .ui-button.button--primary {
   border-color: var(--terracotta);
   background: var(--terracotta);
   color: var(--color-on-primary);
   padding-right: calc(var(--space-5) + var(--notch) / 2);
 }
-.pizza-process .ui-button.button--primary:enabled:hover {
+:is(.pizza-process, #pizza-process) .ui-button.button--primary:enabled:hover {
   border-color: var(--color-primary-hover);
   background: var(--color-primary-hover);
   color: var(--color-on-primary);
 }
 
 /* danger: outlined until hovered, so it never looks like the main action */
-.pizza-process .ui-button.button--danger {
+:is(.pizza-process, #pizza-process) .ui-button.button--danger {
   border-color: var(--brick);
   color: var(--color-danger);
 }
-.pizza-process .ui-button.button--danger:enabled:hover {
+:is(.pizza-process, #pizza-process) .ui-button.button--danger:enabled:hover {
   border-color: var(--brick);
   background: var(--brick);
   color: var(--bone);
 }
 
-.pizza-process .ui-button.button--ghost {
+:is(.pizza-process, #pizza-process) .ui-button.button--ghost {
   border-color: var(--ink-4);
 }
 
@@ -128,11 +131,12 @@
 
 /* |----- inputs -----| */
 
-.pizza-process .ui-inputfield,
-.pizza-process .ui-inputtext,
-.pizza-process .ui-inputtextarea {
+:is(.pizza-process, #pizza-process) .ui-inputfield,
+:is(.pizza-process, #pizza-process) .ui-inputtext,
+:is(.pizza-process, #pizza-process) .ui-inputtextarea {
   box-sizing: border-box;
   width: 100%;
+  font: inherit;
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--ink-4);
@@ -142,60 +146,77 @@
   box-shadow: none;
   transition: border-color var(--duration-fast) linear;
 }
-.pizza-process .ui-inputfield::placeholder {
+:is(.pizza-process, #pizza-process) .ui-inputfield::placeholder {
   color: #7c705f;
 }
-.pizza-process .ui-inputfield:enabled:hover {
+:is(.pizza-process, #pizza-process) .ui-inputfield:enabled:hover {
   border-color: var(--color-text-muted);
 }
-.pizza-process .ui-inputfield:focus,
-.pizza-process .ui-inputfield.ui-state-focus {
+:is(.pizza-process, #pizza-process) .ui-inputfield:focus,
+:is(.pizza-process, #pizza-process) .ui-inputfield.ui-state-focus {
   border-color: var(--color-focus);
   box-shadow: inset 0 -2px 0 var(--color-focus);
   outline: 0;
 }
-.pizza-process .ui-inputfield.ui-state-error,
-.pizza-process .ui-state-error .ui-inputfield {
+:is(.pizza-process, #pizza-process) .ui-inputfield.ui-state-error,
+:is(.pizza-process, #pizza-process) .ui-state-error .ui-inputfield {
   border-color: var(--color-danger);
   box-shadow: inset 0 -2px 0 var(--color-danger);
 }
-.pizza-process .ui-inputfield.ui-state-disabled,
-.pizza-process .ui-inputfield:disabled {
+:is(.pizza-process, #pizza-process) .ui-inputfield.ui-state-disabled,
+:is(.pizza-process, #pizza-process) .ui-inputfield:disabled {
   opacity: 0.5;
 }
 
-/* password with the eye */
-.pizza-process .ui-password {
+/* password with the eye: the eye sits inside the field on the right, centered */
+:is(.pizza-process, #pizza-process) .ui-password {
   display: block;
   position: relative;
+  width: 100%;
 }
-.pizza-process .ui-password .ui-password-icon {
+:is(.pizza-process, #pizza-process) .ui-password .ui-inputfield {
+  padding-right: 2.75rem;
+}
+:is(.pizza-process, #pizza-process) .ui-password .ui-password-icon {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  left: auto;
+  margin: 0;
+  transform: translateY(-50%);
+  line-height: 1;
   color: var(--color-text-muted);
+  cursor: pointer;
+}
+:is(.pizza-process, #pizza-process) .ui-password .ui-password-icon:hover {
+  color: var(--bone);
 }
 
 /* input number */
-.pizza-process .ui-inputnumber {
+:is(.pizza-process, #pizza-process) .ui-inputnumber {
   display: block;
 }
-.pizza-process .ui-inputnumber input {
+:is(.pizza-process, #pizza-process) .ui-inputnumber input {
   font-variant-numeric: tabular-nums;
 }
 
 /* labels and validation text */
-.pizza-process .ui-outputlabel {
+:is(.pizza-process, #pizza-process) .ui-outputlabel {
   color: inherit;
 }
-.pizza-process .ui-outputlabel .ui-outputlabel-rfi {
+:is(.pizza-process, #pizza-process) .ui-outputlabel .ui-outputlabel-rfi {
   color: var(--color-accent);
 }
-.pizza-process .ui-message {
+:is(.pizza-process, #pizza-process) .ui-message {
   margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
 }
-.pizza-process .ui-message-error,
-.pizza-process .ui-message-error .ui-message-error-detail {
+:is(.pizza-process, #pizza-process) .ui-message-error,
+:is(.pizza-process, #pizza-process) .ui-message-error .ui-message-error-detail,
+:is(.pizza-process, #pizza-process) .text-input-field__error,
+:is(.pizza-process, #pizza-process) .text-input-field__error [class*="ui-message-"] {
   color: var(--color-danger);
   font-size: var(--font-size-sm);
 }
@@ -204,7 +225,7 @@
 
 /* |----- dropdown -----| */
 
-.pizza-process .ui-selectonemenu {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu {
   display: flex;
   width: 100%;
   min-height: 2.75rem;
@@ -213,38 +234,38 @@
   background: var(--ink-2);
   box-shadow: none;
 }
-.pizza-process .ui-selectonemenu.ui-state-focus {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu.ui-state-focus {
   border-color: var(--color-focus);
   box-shadow: inset 0 -2px 0 var(--color-focus);
 }
-.pizza-process .ui-selectonemenu .ui-selectonemenu-label {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu .ui-selectonemenu-label {
   padding: var(--space-2) var(--space-3);
   background: transparent;
   color: var(--color-text);
   border: 0;
 }
-.pizza-process .ui-selectonemenu .ui-selectonemenu-trigger {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu .ui-selectonemenu-trigger {
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
 }
-.pizza-process .ui-selectonemenu-panel {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu-panel {
   border: 1px solid var(--ink-4);
   border-radius: 0;
   background: var(--ink-2);
   box-shadow: none;
 }
-.pizza-process .ui-selectonemenu-panel .ui-selectonemenu-item {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu-panel .ui-selectonemenu-item {
   margin: 0;
   padding: var(--space-2) var(--space-3);
   border-radius: 0;
   color: var(--color-text);
 }
-.pizza-process .ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-hover {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-hover {
   background: var(--ink-3);
   color: var(--color-text);
 }
-.pizza-process .ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-highlight {
+:is(.pizza-process, #pizza-process) .ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-highlight {
   background: var(--terracotta);
   color: var(--color-on-primary);
 }
@@ -253,18 +274,27 @@
 
 /* |----- select one button, e.g. the pizza sizes -----| */
 
-.pizza-process .ui-selectonebutton {
+:is(.pizza-process, #pizza-process) .ui-selectonebutton {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
 }
-.pizza-process .ui-selectonebutton .ui-button {
+:is(.pizza-process, #pizza-process) .ui-selectonebutton .ui-button {
   flex: 1 1 auto;
   margin: 0 -1px 0 0;
   padding: 0 var(--space-4);
-  background: var(--ink-2);
+  border-color: var(--ink-4);
+  background: var(--ink-3);
+  color: var(--bone);
 }
-.pizza-process .ui-selectonebutton .ui-button.ui-state-active {
+:is(.pizza-process, #pizza-process) .ui-selectonebutton .ui-button:not(.ui-state-active):hover {
+  position: relative;
+  z-index: 2;
+  border-color: var(--ochre);
+  background: var(--ink-4);
+  color: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ui-selectonebutton .ui-button.ui-state-active {
   position: relative;
   z-index: 1;
   border-color: var(--terracotta);
@@ -276,120 +306,181 @@
 
 /* |----- spinner -----| */
 
-.pizza-process .ui-spinner {
+/* the buttons sit next to the input: [-] [ 3 ] [+]. freya places them absolutely, so that gets undone here */
+:is(.pizza-process, #pizza-process) .ui-spinner {
   display: inline-flex;
+  align-items: stretch;
+  width: auto;
   border: 0;
   background: transparent;
 }
-.pizza-process .ui-spinner .ui-spinner-input {
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-input {
+  order: 2;
+  box-sizing: border-box;
   width: 4.5rem;
+  min-height: 2.75rem;
+  margin: 0 -1px;
+  padding: 0 var(--space-2);
   text-align: center;
+  color: var(--bone);
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
-.pizza-process .ui-spinner .ui-spinner-button {
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-button {
   position: static;
+  display: grid;
+  place-items: center;
   width: 2.75rem;
   height: auto;
   min-height: 2.75rem;
+  margin: 0;
   border: 1px solid var(--ink-4);
   border-radius: 0;
-  background: var(--ink-1);
-  color: var(--color-text);
-}
-.pizza-process .ui-spinner .ui-spinner-button:hover {
   background: var(--ink-3);
+  color: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-down {
+  order: 1;
+}
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-up {
+  order: 3;
+}
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-button:hover {
+  border-color: var(--ochre);
+  background: var(--ink-4);
+}
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-button .ui-icon,
+:is(.pizza-process, #pizza-process) .ui-spinner .ui-spinner-button .ui-button-text {
+  position: static;
+  margin: 0;
+  color: var(--bone);
 }
 
 
 
 /* |----- growl -----| */
 
-.pizza-process .ui-growl {
+/* one block per message: colored edge and icon by severity, bold title, text below */
+:is(.pizza-process, #pizza-process) .ui-growl {
   top: var(--space-4);
   right: var(--space-4);
   width: min(24rem, calc(100vw - 2rem));
 }
-.pizza-process .ui-growl .ui-growl-item-container {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-item-container {
+  position: relative;
   margin-bottom: var(--space-2);
   border: 1px solid var(--ink-4);
-  border-left: 4px solid var(--color-success);
+  border-left: 5px solid var(--color-success);
   border-radius: 0;
   background: var(--ink-2);
-  color: var(--color-text);
+  color: var(--bone);
   box-shadow: none;
   opacity: 1;
+  animation: growl-in 220ms steps(4, end) both;
 }
-.pizza-process .ui-growl .ui-growl-item-container.ui-growl-warn {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-item-container.ui-growl-warn {
   border-left-color: var(--ochre);
 }
-.pizza-process .ui-growl .ui-growl-item-container.ui-growl-error,
-.pizza-process .ui-growl .ui-growl-item-container.ui-growl-fatal {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-item-container.ui-growl-error,
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-item-container.ui-growl-fatal {
   border-left-color: var(--terracotta);
 }
-.pizza-process .ui-growl .ui-growl-item {
-  padding: var(--space-3) var(--space-4);
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6) var(--space-3) var(--space-4);
+  border: 0;
   background: transparent;
   color: inherit;
 }
-.pizza-process .ui-growl .ui-growl-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-text);
-}
-.pizza-process .ui-growl .ui-growl-message p {
-  color: var(--color-text-muted);
-}
-.pizza-process .ui-growl .ui-growl-image {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-image {
+  flex: none;
+  margin: 2px 0 0;
+  font-size: 1.25rem;
   color: var(--color-success);
 }
-.pizza-process .ui-growl .ui-growl-warn .ui-growl-image {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-warn .ui-growl-image {
   color: var(--ochre);
 }
-.pizza-process .ui-growl .ui-growl-error .ui-growl-image,
-.pizza-process .ui-growl .ui-growl-fatal .ui-growl-image {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-error .ui-growl-image,
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-fatal .ui-growl-image {
   color: var(--terracotta);
 }
-.pizza-process .ui-growl .ui-growl-icon-close {
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-title {
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-message p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
   color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-icon-close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  color: var(--color-text-muted);
+}
+:is(.pizza-process, #pizza-process) .ui-growl .ui-growl-icon-close:hover {
+  color: var(--bone);
+}
+
+@keyframes growl-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: none; }
 }
 
 
 
 /* |----- dialogs -----| */
 
-.pizza-process .ui-widget-overlay {
+:is(.pizza-process, #pizza-process) .ui-widget-overlay {
   background: rgba(10, 8, 6, 0.75);
 }
-.pizza-process .ui-dialog {
+:is(.pizza-process, #pizza-process) .ui-dialog {
   border: 1px solid var(--ink-4);
   border-top: 4px solid var(--brick);
   border-radius: 0;
   background: var(--ink-1);
   box-shadow: none;
 }
-.pizza-process .ui-dialog .ui-dialog-titlebar,
-.pizza-process .ui-dialog .ui-dialog-content,
-.pizza-process .ui-dialog .ui-dialog-buttonpane,
-.pizza-process .ui-dialog .ui-dialog-footer {
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-titlebar,
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-content,
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-buttonpane,
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-footer {
   border: 0;
   background: transparent;
   color: var(--color-text);
 }
-.pizza-process .ui-dialog .ui-dialog-title {
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-title {
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
   font-weight: 700;
 }
-.pizza-process .ui-dialog .ui-dialog-buttonpane,
-.pizza-process .ui-dialog .ui-dialog-footer {
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-buttonpane,
+:is(.pizza-process, #pizza-process) .ui-dialog .ui-dialog-footer {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-2);
 }
-.pizza-process .ui-confirm-dialog .ui-confirm-dialog-severity {
+:is(.pizza-process, #pizza-process) .ui-confirm-dialog .ui-confirm-dialog-severity {
   color: var(--ochre);
 }
 
@@ -397,14 +488,14 @@
 
 /* |----- file upload -----| */
 
-.pizza-process .ui-fileupload,
-.pizza-process .ui-fileupload .ui-fileupload-buttonbar,
-.pizza-process .ui-fileupload .ui-fileupload-content {
+:is(.pizza-process, #pizza-process) .ui-fileupload,
+:is(.pizza-process, #pizza-process) .ui-fileupload .ui-fileupload-buttonbar,
+:is(.pizza-process, #pizza-process) .ui-fileupload .ui-fileupload-content {
   padding: 0;
   border: 0;
   background: transparent;
 }
-.pizza-process .ui-fileupload .ui-fileupload-content {
+:is(.pizza-process, #pizza-process) .ui-fileupload .ui-fileupload-content {
   display: none;
 }
 
@@ -412,51 +503,83 @@
 
 /* |----- text editor (quill) -----| */
 
-.pizza-process .ql-toolbar.ql-snow,
-.pizza-process .ql-container.ql-snow {
+:is(.pizza-process, #pizza-process) .ui-texteditor,
+:is(.pizza-process, #pizza-process) .ql-toolbar.ql-snow,
+:is(.pizza-process, #pizza-process) .ql-container.ql-snow {
   border-color: var(--ink-4);
   border-radius: 0;
 }
-.pizza-process .ql-toolbar.ql-snow {
-  background: var(--ink-2);
+:is(.pizza-process, #pizza-process) .ql-toolbar.ql-snow {
+  background: var(--ink-3);
 }
-.pizza-process .ql-container.ql-snow {
-  background: var(--ink-0);
-  color: var(--color-text);
+:is(.pizza-process, #pizza-process) .ql-container.ql-snow,
+:is(.pizza-process, #pizza-process) .ql-container .ql-editor {
+  background: var(--ink-2);
+  color: var(--bone);
   font-family: var(--font-body);
   font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
 }
-.pizza-process .ql-snow .ql-stroke {
-  stroke: var(--color-text-muted);
+:is(.pizza-process, #pizza-process) .ql-container .ql-editor:focus {
+  box-shadow: inset 0 -2px 0 var(--color-focus);
 }
-.pizza-process .ql-snow .ql-fill {
-  fill: var(--color-text-muted);
+:is(.pizza-process, #pizza-process) .ql-editor h1,
+:is(.pizza-process, #pizza-process) .ql-editor h2,
+:is(.pizza-process, #pizza-process) .ql-editor h3 {
+  color: var(--bone);
+  font-family: var(--font-display);
 }
-.pizza-process .ql-snow .ql-picker {
+:is(.pizza-process, #pizza-process) .ql-editor a {
+  color: var(--ochre);
+}
+:is(.pizza-process, #pizza-process) .ql-editor li::marker {
+  color: var(--ochre);
+}
+:is(.pizza-process, #pizza-process) .ql-editor.ql-blank::before {
   color: var(--color-text-muted);
+  font-style: normal;
 }
-.pizza-process .ql-snow .ql-picker-options {
+:is(.pizza-process, #pizza-process) .ql-snow .ql-stroke {
+  stroke: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ql-snow .ql-fill,
+:is(.pizza-process, #pizza-process) .ql-snow .ql-stroke.ql-fill {
+  fill: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker,
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-label {
+  color: var(--bone);
+}
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-options {
   background: var(--ink-2);
   border-color: var(--ink-4);
 }
-.pizza-process .ql-snow button:hover .ql-stroke,
-.pizza-process .ql-snow button.ql-active .ql-stroke {
+:is(.pizza-process, #pizza-process) .ql-snow button:hover .ql-stroke,
+:is(.pizza-process, #pizza-process) .ql-snow button.ql-active .ql-stroke,
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-label:hover .ql-stroke {
   stroke: var(--ochre);
 }
-.pizza-process .ql-snow button:hover .ql-fill,
-.pizza-process .ql-snow button.ql-active .ql-fill {
+:is(.pizza-process, #pizza-process) .ql-snow button:hover .ql-fill,
+:is(.pizza-process, #pizza-process) .ql-snow button.ql-active .ql-fill {
   fill: var(--ochre);
 }
-.pizza-process .ql-editor.ql-blank::before {
-  color: #7c705f;
-  font-style: normal;
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-label:hover,
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-item:hover,
+:is(.pizza-process, #pizza-process) .ql-snow .ql-picker-item.ql-selected {
+  color: var(--ochre);
+}
+:is(.pizza-process, #pizza-process) .ql-snow .ql-tooltip {
+  border: 1px solid var(--ink-4);
+  background: var(--ink-2);
+  color: var(--bone);
+  box-shadow: none;
 }
 
 
 
 /* |----- avatar -----| */
 
-.pizza-process .ui-avatar {
+:is(.pizza-process, #pizza-process) .ui-avatar {
   border-radius: 0;
   background: var(--olive);
   color: var(--bone);

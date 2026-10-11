@@ -5,7 +5,7 @@
   padding: var(--space-6);
   overflow: hidden;
 }
-.pizza-process .finish-page__title {
+:is(.pizza-process, #pizza-process) .finish-page__title {
   font-size: var(--font-size-xl);
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -32,7 +32,6 @@
   font-weight: 800;
   letter-spacing: 0.02em;
   transform: rotate(-9deg);
-  animation: stamp-in 320ms steps(4, end) both;
   animation-delay: 260ms;
 }
 
@@ -47,4 +46,9 @@
   0%   { opacity: 0; transform: rotate(-9deg) scale(2.4); }
   60%  { opacity: 1; transform: rotate(-6deg) scale(0.92); }
   100% { opacity: 1; transform: rotate(-9deg) scale(1); }
+}
+
+/* entrance, only when the page is new (see effects.js) */
+.fx-enter .finish-page__stamp {
+  animation: stamp-in 320ms steps(4, end) both;
 }

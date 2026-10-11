@@ -8,6 +8,7 @@ import ch.frox.pizzaprocess.main.java.core.config.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
+import ch.frox.pizzaprocess.main.java.core.util.UserNotifier;
 import ch.frox.pizzaprocess.main.java.core.workflow.Signaler;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
@@ -34,16 +35,24 @@ public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDi
 
     // |----- actions -----|
 
-    @Override
-    public void close() {
+    /**
+     * Sends the question to the pizzeria, the dialog stays open. Leaving is the normal close().
+     * Only one question per order, the OrderService refuses a second one.
+    **/
+    public void ask() {
         if (ExceptionHandler.run(() -> {
             order = orderService.getById(order.getId());
-            if (isPizzaHere()) return; // TODO: maybe tell the user the pizza is here?
+            if (isPizzaHere()) return;
 
+            order = orderService.markQuestionAsked(order);
             Signaler.orderAsked(order.getId(), (question == null || question.isBlank())? DEFAULT_QUESTION : question.trim());
+        }, () -> {
+            order = orderService.getById(order.getId());
         })) return;
+        if (isPizzaHere()) return;
 
-        runProcessMethod("close");
+        question = null;
+        UserNotifier.message("Sent", "We got your question and answer by e-mail.");
     }
 
 
@@ -60,6 +69,10 @@ public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDi
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public boolean isQuestionAsked() {
+        return order.isQuestionAsked();
     }
 
     public boolean isPizzaHere() {

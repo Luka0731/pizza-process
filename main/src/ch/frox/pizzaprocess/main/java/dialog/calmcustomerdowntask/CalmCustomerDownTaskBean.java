@@ -35,7 +35,7 @@ public class CalmCustomerDownTaskBean extends GenericDialogBean<CalmCustomerDown
     @Override
     public void close() {
         if (answer == null || answer.isBlank()) {
-            UserNotifier.message("No answer yet", "Please write the customer a few words.");
+            UserNotifier.warning("No answer yet", "Please write the customer a few words.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class CalmCustomerDownTaskBean extends GenericDialogBean<CalmCustomerDown
             );
         } catch (Exception ex) {
             Ivy.log().error("could not send the answer for " + order.getEntityName() + " to the customer", ex);
-            UserNotifier.message("Not sent", "The mail could not be sent. Please check the mail settings and try again.");
+            UserNotifier.warning("Not sent", "The mail could not be sent. Check the mail settings and try again.");
             return;
         }
 

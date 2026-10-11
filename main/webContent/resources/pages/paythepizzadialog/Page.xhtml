@@ -7,7 +7,6 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
   xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
   xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
   xmlns:op="jakarta.faces.composite/components/domain/orderprogress"
@@ -19,12 +18,7 @@
 
     <hdr:Header
       title="#{payThePizzaDialogBean.waiting ? 'Your pizza is coming' : 'Your pizza is here!'}"
-      subtitle="#{payThePizzaDialogBean.statusText}"
-    >
-      <f:facet name="actions">
-        <prf:Profile/>
-      </f:facet>
-    </hdr:Header>
+    />
 
     <!-- while waiting, the page asks every 10 seconds if the driver delivered the pizza. global="false" keeps the loading bar quiet -->
     <p:poll

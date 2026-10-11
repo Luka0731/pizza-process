@@ -34,7 +34,7 @@ import lombok.Setter;
 @Table(name = "order_")
 @Getter @Setter
 public class Order extends GenericEntity<UUID> {
-    @NotEmpty(message = "The cart is empty.")
+    @NotEmpty(message = "Your cart is empty.")
     @OneToMany(mappedBy = "belongsToOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 
@@ -51,6 +51,10 @@ public class Order extends GenericEntity<UUID> {
     @Max(100)
     @Column(name = "discount_percent", nullable = false)
     private Integer discountPercent;
+
+    // a customer can ask "where is my pizza" once per order, after that only by e-mail
+    @Column(name = "question_asked", nullable = false)
+    private boolean questionAsked;
 
 
 
@@ -101,8 +105,7 @@ public class Order extends GenericEntity<UUID> {
     }
 
     public boolean hasReached(OrderStatus step) {
-        if (status == null || status.compareTo(OrderStatus.PAID) > 0) return false;
-        return status.compareTo(step) >= 0;
+        return status != null && status.compareTo(step) >= 0;
     }
 
     public List<OrderStatus> getProgressSteps() {

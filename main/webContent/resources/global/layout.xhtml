@@ -9,9 +9,10 @@
 >
 
 <!--
-  every dialog uses this template and only sets two things:
+  every dialog uses this template and only sets three things:
   - ui:param "page":   the page to show, e.g. #{exampleDialogBean.router()}
-  - ui:define "title": the tab title
+  - ui:define "title": the name of the dialog, shown in the tab and the top bar
+  - ui:define "info":  what the user does in this dialog, opens with the (i) next to the name
 -->
 
   <h:head>
@@ -42,11 +43,21 @@
   <h:body class="body-hd #{ivyFreyaTheme.mode} pizza-process">
     <ui:include src="/ivy-form/layouts/includes/progress-loader.xhtml"/>
 
-    <!-- brand bar, the logo hides itself if the file does not exist yet (see docs/LOGO.txt) -->
+    <!-- brand bar, the logo hides itself if the file does not exist (see docs/LOGO.txt) -->
     <header class="brand">
-      <img class="brand__logo" src="#{resource['resources/assets/image/logo.png']}" alt="" onerror="this.remove()"/>
-      <span class="brand__name">Mama's Pizzeria</span>
-      <span class="brand__dialog"><ui:insert name="title"/></span>
+      <img class="brand__logo" src="#{resource['resources/assets/images/logo.jpg']}" alt="" onerror="this.remove()"/>
+      <span class="brand__name">Babajabuka's Pizzeria</span>
+      <span class="brand__dialog">
+        <ui:insert name="title"/>
+        <!-- the browser opens and closes the popover by itself, no script needed -->
+        <button type="button" class="brand__info" popovertarget="dialogInfo" title="What happens here?" aria-label="What happens here?">
+          <i class="pi pi-info"></i>
+        </button>
+      </span>
+      <div id="dialogInfo" class="dialog-info" popover="auto">
+        <strong class="dialog-info__title"><ui:insert name="title"/></strong>
+        <p class="dialog-info__text"><ui:insert name="info"/></p>
+      </div>
     </header>
 
     <main id="content" class="frame">

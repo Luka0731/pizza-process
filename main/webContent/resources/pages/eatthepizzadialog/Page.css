@@ -2,7 +2,7 @@
   position: relative;
 }
 
-/* a gingham tablecloth: two stripe layers, where they cross the square gets darker */
+/* a linen tablecloth in the neutral tones: two taupe stripe layers on bone, where they cross it gets darker */
 .eat-page__table {
   position: relative;
   height: 65vh;
@@ -10,9 +10,9 @@
   overflow: hidden;
   border: 1px solid var(--ink-4);
   background:
-    repeating-linear-gradient(0deg, rgba(227, 83, 54, 0.5) 0 32px, transparent 32px 64px),
-    repeating-linear-gradient(90deg, rgba(227, 83, 54, 0.5) 0 32px, transparent 32px 64px),
-    var(--bone);
+    repeating-linear-gradient(0deg, rgba(84, 70, 58, 0.22) 0 32px, transparent 32px 64px),
+    repeating-linear-gradient(90deg, rgba(84, 70, 58, 0.22) 0 32px, transparent 32px 64px),
+    #d8cdb8;
 }
 .eat-page__pizza {
   position: absolute;
@@ -20,23 +20,27 @@
   box-shadow: 6px 8px 0 rgba(23, 19, 15, 0.35);
   cursor: pointer;
   user-select: none;
-  transition: transform 260ms steps(5, end), opacity 260ms steps(5, end);
+  transition: transform 450ms cubic-bezier(0.5, 0, 0.75, 0), opacity 450ms ease-in;
+  will-change: transform;
 }
 .eat-page__pizza:hover {
   filter: brightness(1.08) saturate(1.1);
 }
+/* Page.js picks a new spin for every pizza */
 .eat-page__pizza--eaten {
-  transform: scale(0) rotate(180deg) !important;
+  transform: scale(0) rotate(var(--eat-spin, 180deg)) !important;
   opacity: 0;
   pointer-events: none;
 }
 
-/* crumbs that fly off when a pizza gets eaten, made by Page.js */
+/* crumbs that fly off when a pizza gets eaten, size and shape come from Page.js */
 .eat-page__crumb {
   position: absolute;
-  width: 7px;
-  height: 7px;
   pointer-events: none;
+  will-change: transform, opacity;
+}
+.eat-page__crumb--triangle {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
 .eat-page__thanks {
@@ -52,13 +56,13 @@
 }
 .eat-page__thanks--visible {
   display: flex;
-  animation: eat-thanks-in 300ms steps(5, end) both;
+  animation: eat-thanks-in 280ms cubic-bezier(0.2, 0.9, 0.1, 1) both;
 }
 .eat-page__thanks-icon {
   font-size: 2.25rem;
   color: var(--terracotta);
 }
-.pizza-process .eat-page__thanks-title {
+:is(.pizza-process, #pizza-process) .eat-page__thanks-title {
   font-size: var(--font-size-xl);
   font-weight: 800;
 }

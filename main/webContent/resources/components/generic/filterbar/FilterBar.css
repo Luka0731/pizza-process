@@ -23,7 +23,7 @@
 .filter-bar__item--wide {
   flex: 2 1 16rem;
 }
-.pizza-process .filter-bar__label {
+:is(.pizza-process, #pizza-process) .filter-bar__label {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-text-muted);

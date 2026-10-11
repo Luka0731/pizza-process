@@ -16,7 +16,6 @@
 
     <hdr:Header
       title="Deactivated Pizzas"
-      subtitle="Not on the menu. New pizzas start here, put one on the menu once it is ready"
     />
 
     <fb:FilterBar
@@ -33,6 +32,17 @@
 
     <!-- loaded state -->
     <div class="stack">
+      <!-- adding is not navigation, so it is not in the footer. it sits on top of the list, where the new pizza shows up -->
+      <p:commandLink
+        id="addButton"
+        styleClass="add-row"
+        process="@this"
+        action="#{administerPizzasDialogBean.startNewPizzaForm()}"
+        update="form:pageContent form:messages"
+      >
+        <i class="pi pi-plus add-row__icon"></i>
+        <span class="add-row__text">New pizza</span>
+      </p:commandLink>
       <ui:repeat value="#{administerPizzasDialogBean.deactivatedPizzas}" var="pizza" varStatus="loop">
         <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" sizes="#{administerPizzasDialogBean.possiblePizzaSizes}" muted="true">
           <f:facet name="actions">
@@ -45,8 +55,8 @@
               update="form:pageContent form:messages"
             />
             <p:commandButton
-              icon="pi pi-replay"
-              title="Put back on the menu"
+              icon="pi pi-eye"
+              title="Put on the menu"
               styleClass="button button--primary"
               process="@this"
               rendered="#{authorizationBean.can('CHANGE_IMPORTANT_PIZZA_DATA_PERMISSON')}"
@@ -90,20 +100,11 @@
       </f:facet>
       <p:commandButton
         id="backButton"
-        value="Back to the menu"
+        value="Activated pizzas"
         icon="pi pi-arrow-left"
         styleClass="button button--ghost"
         process="@this"
         action="#{administerPizzasDialogBean.goToActivePizzasOverviewPage()}"
-        update="form:pageContent form:messages"
-      />
-      <p:commandButton
-        id="addButton"
-        value="Add"
-        icon="pi pi-plus"
-        styleClass="button button--primary"
-        process="@this"
-        action="#{administerPizzasDialogBean.startNewPizzaForm()}"
         update="form:pageContent form:messages"
       />
       <p:commandButton

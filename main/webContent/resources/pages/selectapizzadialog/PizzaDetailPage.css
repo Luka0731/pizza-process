@@ -1,6 +1,7 @@
+/* the picture column is never wider than the screen is high (minus header and footer), so the page fits without scrolling */
 .detail-page__body {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-columns: min(55%, max(17rem, calc(100vh - 24rem))) minmax(0, 1fr);
   gap: var(--space-6);
   align-items: start;
 }
@@ -14,7 +15,6 @@
   position: absolute;
   inset: var(--space-4) calc(var(--space-4) * -1) calc(var(--space-4) * -1) var(--space-4);
   background: var(--ochre);
-  animation: detail-block-in 260ms steps(4, end) both;
   animation-delay: 120ms;
 }
 .detail-page__image {
@@ -54,4 +54,9 @@
 @keyframes detail-block-in {
   from { transform: translate(calc(var(--space-4) * -1), calc(var(--space-4) * -1)); opacity: 0; }
   to   { transform: none; opacity: 1; }
+}
+
+/* entrance, only when the page is new (see effects.js) */
+.fx-enter .detail-page__media::before {
+  animation: detail-block-in 260ms steps(4, end) both;
 }

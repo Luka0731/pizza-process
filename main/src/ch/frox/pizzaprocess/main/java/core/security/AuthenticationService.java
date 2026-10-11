@@ -20,16 +20,13 @@ public class AuthenticationService {
     public void login(Credentials credentials) {
         Validate.of(credentials).throwIfAny();
         boolean loggedIn = Ivy.session().loginSessionUser(credentials.getUserName(), credentials.getPassword(), SessionUtil.getCurrentTaskId());
-        if (!loggedIn) throw new ValidationException("The username or the password is wrong.");
+        if (!loggedIn) throw new ValidationException("password", "The username or the password is wrong.");
     }
 
     public IUser signupCustomer(Credentials credentials, String fullName, String email) {
-        Validate.of(credentials, OnSignup.class).throwIfAny();
+        Validate.of(credentials, OnSignup.class).throwIfAny(); // also checks that the username is free, see @AvailableUserName
 
         String userName = credentials.getUserName();
-        if (Sudo.get(() -> Ivy.security().users().find(userName)) != null) {
-            throw new ValidationException("userName", "This username is already taken.");
-        }
         IRole customerRole = Sudo.get(() -> Ivy.security().roles().find(PIZZA_CUSTOMER.getRoleName()));
         if (customerRole == null) throw new ConfigurationException("the role '" + PIZZA_CUSTOMER.getRoleName() + "' does not exist.");
 
@@ -47,6 +44,10 @@ public class AuthenticationService {
 
         login(credentials);
         return user;
+    }
+
+    public boolean isUserNameTaken(String userName) {
+        return Sudo.get(() -> Ivy.security().users().find(userName)) != null;
     }
 
     public void logout() {

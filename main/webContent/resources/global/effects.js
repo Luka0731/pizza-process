@@ -1,26 +1,35 @@
 /**
  * Visual effects for every dialog. Everything in here is decoration: if it breaks, the pages still work.
  *
- * - page change:  the entrance animations (style.css) run whenever a page lands in the dom.
- *                 when the same page only reloads (poll, validation error, removing a cart item) they are switched off.
- * - loading bar:  thin terracotta bar on top while an ajax request runs. requests with global="false" do not show it.
- * - cart badge:   jumps when the number in it goes up.
+ * - page change:  the entrance animations only run inside an element with the class "fx-enter".
+ *                 it is added when a different page arrives, or a list (e.g. the search results) gets new content.
+ *                 the same page coming back (validation error, poll, removing a cart item) never animates.
+ * - loading bar:  thin terracotta bar on top, only if a request takes longer than LOADING_DELAY.
+ *                 quick requests never show it, requests with global="false" (e.g. checking a field) neither.
+ * - cart button:  the number jumps when it goes up.
  * - scramble:     text with the class "fx-scramble" rolls through random digits before it settles, e.g. the price.
+ * - field errors: jsf writes "Label: message" under a field, the label is already right above, so it gets cut off.
+ * - enter:        enter in a field of a card presses the "form-submit" button of that card, e.g. log in.
  *
  * Registered at the bottom with PizzaProcess.register(), see logic.js.
 **/
 class Effects {
+  static LOADING_DELAY = 300;
   static #pageId = null;
   static #cartCount = null;
   static #bar = null;
+  static #barTimer = null;
+  static #enterReady = false;
   static #reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   static init(roots) {
     Effects.#mountLoadingBar();
+    Effects.#mountEnterSubmit();
     for (const root of roots) {
-      Effects.#quietSamePage(root);
+      Effects.#markEntrance(root);
       Effects.#bumpCart(root);
       Effects.#scramble(root);
+      Effects.#trimFieldErrors(root);
     }
   }
 
@@ -28,15 +37,22 @@ class Effects {
 
   // |----- page change -----|
 
-  static #quietSamePage(root) {
+  static #markEntrance(root) {
+    if (Effects.#reducedMotion) return;
+
+    // a whole page: animate only if it is another page than before
     const container = root === document ? document.querySelector('.dialog-content') : root;
-    if (!container || !container.classList || !container.classList.contains('dialog-content')) return;
+    if (container && container.classList && container.classList.contains('dialog-content')) {
+      const page = container.querySelector(':scope > div[id]');
+      if (page && page.id !== Effects.#pageId) page.classList.add('fx-enter');
+      if (page) Effects.#pageId = page.id;
+      return;
+    }
 
-    const page = container.querySelector(':scope > div[id]');
-    if (!page) return;
-
-    if (page.id === Effects.#pageId) page.classList.add('fx-quiet');
-    Effects.#pageId = page.id;
+    // a part of a page that shows a list, e.g. the menu after a search
+    if (root !== document && root.querySelector && root.querySelector('.pizza-card, .pizza-row, .item-card')) {
+      root.classList.add('fx-enter');
+    }
   }
 
 
@@ -51,13 +67,18 @@ class Effects {
     document.body.appendChild(Effects.#bar);
 
     $(document).on('pfAjaxSend', () => {
-      const bar = Effects.#bar;
-      bar.classList.remove('fx-loading-bar--done', 'fx-loading-bar--running');
-      void bar.offsetWidth; // restart from 0
-      bar.classList.add('fx-loading-bar--running');
+      clearTimeout(Effects.#barTimer);
+      Effects.#barTimer = setTimeout(() => {
+        const bar = Effects.#bar;
+        bar.classList.remove('fx-loading-bar--done', 'fx-loading-bar--running');
+        void bar.offsetWidth; // restart from 0
+        bar.classList.add('fx-loading-bar--running');
+      }, Effects.LOADING_DELAY);
     });
     $(document).on('pfAjaxComplete', () => {
+      clearTimeout(Effects.#barTimer);
       const bar = Effects.#bar;
+      if (!bar.classList.contains('fx-loading-bar--running')) return;
       bar.classList.add('fx-loading-bar--done');
       setTimeout(() => bar.classList.remove('fx-loading-bar--running', 'fx-loading-bar--done'), 400);
     });
@@ -65,17 +86,59 @@ class Effects {
 
 
 
-  // |----- cart badge -----|
+  // |----- cart button -----|
 
   static #bumpCart(root) {
-    const count = (root === document ? document : root.ownerDocument).querySelector('.cart-badge__count');
+    const count = (root === document ? document : root.ownerDocument).querySelector('.cart-button__count');
     if (!count) return;
 
     const value = Number(count.dataset.count);
     if (Effects.#cartCount !== null && value > Effects.#cartCount && !Effects.#reducedMotion) {
-      count.closest('.cart-badge').classList.add('cart-badge--bumped');
+      count.closest('.cart-button').classList.add('cart-button--bumped');
     }
     Effects.#cartCount = value;
+  }
+
+
+
+  // |----- enter -----|
+
+  // capture phase, so it runs before primefaces and the browser pick some other button
+  static #mountEnterSubmit() {
+    if (Effects.#enterReady) return;
+    Effects.#enterReady = true;
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.target.tagName !== 'INPUT') return;
+      const card = event.target.closest('.card');
+      const button = card && card.querySelector('.form-submit:not([disabled]):not(.ui-state-disabled)');
+      if (!button) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      button.click();
+    }, true);
+  }
+
+
+
+  // |----- field errors -----|
+
+  static #trimFieldErrors(root) {
+    const scope = root === document ? document : root;
+    const fields = scope.classList && scope.classList.contains('text-input-field') ? [scope] : scope.querySelectorAll('.text-input-field');
+
+    for (const field of fields) {
+      const label = field.querySelector('.text-input-field__label');
+      const message = field.querySelector('.text-input-field__error .ui-message-error-detail');
+      if (!label || !message) continue;
+
+      const prefix = label.textContent.replace('*', '').trim() + ':';
+      const text = message.textContent.trim();
+      if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
+        message.textContent = text.slice(prefix.length).trim();
+      }
+    }
   }
 
 

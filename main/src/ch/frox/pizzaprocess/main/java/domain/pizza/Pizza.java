@@ -46,13 +46,13 @@ public class Pizza extends GenericEntity<UUID> {
     @Column(nullable = false)
     private PizzaStatus status;
 
-    @NotBlank(groups = OnActivation.class, message = "Please give the pizza a name!")
-    @Size(max = 31, message = "The name can be 31 characters long at most!")
+    @NotBlank(groups = OnActivation.class, message = "Please give the pizza a name.")
+    @Size(max = 31, message = "A name can have 31 characters at most.")
     @Column(length = 31, nullable = false)
     private String name;
 
-    @NotBlank(groups = OnActivation.class, message = "It needs a description, that's what the customer reads on the menu!")
-    @Size(max = 255, message = "The description can be 255 characters long at most!")
+    @NotBlank(groups = OnActivation.class, message = "Please add a description, it's what customers read on the menu.")
+    @Size(max = 255, message = "A description can have 255 characters at most.")
     @Column(length = 255)
     private String description;
 
@@ -65,10 +65,10 @@ public class Pizza extends GenericEntity<UUID> {
         <
         PizzaSize,
 
-        @NotNull(groups = OnActivation.class, message = "The Pizza needs a price for every size!")
-        @PositiveOrZero(message = "A price can't be negative!")
-        @DecimalMax(value = "999999.99", message = "A price can be CHF 999'999.99 at most!")
-        @Digits(integer = 6, fraction = 2, message = "A price can have 2 decimal places at most!")
+        @NotNull(groups = OnActivation.class, message = "Please set a price for every size.")
+        @PositiveOrZero(message = "A price can't be negative.")
+        @DecimalMax(value = "999999.99", message = "A price can be CHF 999'999.99 at most.")
+        @Digits(integer = 6, fraction = 2, message = "A price can have 2 decimal places at most.")
         BigDecimal
         >
     prices = new EnumMap<>(PizzaSize.class);
@@ -78,12 +78,12 @@ public class Pizza extends GenericEntity<UUID> {
     @Column(name = "lowest_price", nullable = false)
     private BigDecimal lowestPrice;
 
-    @NotNull(groups = OnActivation.class, message = "It needs a picture!")
+    @NotNull(groups = OnActivation.class, message = "Please add a picture.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @Size(max = 80000, message = "The recipe is too long!")
+    @Size(max = 80000, message = "The recipe is too long.")
     @Column(columnDefinition = "text")
     private String recipe;
 

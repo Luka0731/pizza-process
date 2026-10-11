@@ -15,8 +15,7 @@
   <div class="pizza-list-page" id="pizzaListPage">
 
     <hdr:Header
-      title="The Pizzas"
-      subtitle="Everything that is on the menu right now"
+      title="Activated Pizzas"
     />
 
     <fb:FilterBar
@@ -71,7 +70,7 @@
           <h:outputText value="#{administerPizzasDialogBean.activePizzaCount} pizza(s)"/>
         </span>
       </f:facet>
-      <!-- new pizzas always start deactivated, so "Add" lives on the deactivated page where the new pizza shows up -->
+      <!-- new pizzas always start deactivated, so "New pizza" lives on the deactivated page where the new pizza shows up -->
       <p:commandButton
         id="deactivatedButton"
         value="Deactivated pizzas"

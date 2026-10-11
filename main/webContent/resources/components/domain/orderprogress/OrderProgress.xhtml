@@ -21,13 +21,14 @@
 
 
 
+      <!-- the current step is the first one that is not reached yet, e.g. "Baking" while the order waits in the kitchen -->
       <ui:repeat value="#{cc.attrs.order.progressSteps}" var="step" varStatus="loop">
-        <li class="order-progress__step #{cc.attrs.order.hasReached(step) ? 'order-progress__step--done' : ''} #{cc.attrs.order.status eq step ? 'order-progress__step--current' : ''}" style="--i: #{loop.index}">
+        <li class="order-progress__step #{cc.attrs.order.hasReached(step) ? 'order-progress__step--done' : ((loop.first or cc.attrs.order.hasReached(cc.attrs.order.progressSteps[loop.index - 1])) ? 'order-progress__step--current' : '')}" style="--i: #{loop.index}">
           <span class="order-progress__marker">
             <i class="pi pi-check"></i>
           </span>
           <span class="order-progress__label">
-            <h:outputText value="#{step.progressLabel}"/>
+            <h:outputText value="#{step.label}"/>
           </span>
         </li>
       </ui:repeat>

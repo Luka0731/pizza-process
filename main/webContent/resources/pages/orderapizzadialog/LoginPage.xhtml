@@ -15,17 +15,15 @@
 
     <hdr:Header
       title="Log in"
-      subtitle="Your details will be filled in for you"
     />
 
-    <!-- validateOnBlur="false": the fields are only checked when the login button is pressed -->
-    <div class="input-grid card narrow">
+    <!-- every field is checked as soon as it is left. a wrong password comes back from the server and lands under the password field -->
+    <div class="input-grid card narrow centered">
       <tif:TextInputField
         id="userName"
         label="Username"
         value="#{orderAPizzaDialogBean.credentials.userName}"
         autocomplete="username"
-        validateOnBlur="false"
         styleClass="input-grid__item input-grid__item--wide"
       />
       <tif:TextInputField
@@ -34,8 +32,16 @@
         type="password"
         value="#{orderAPizzaDialogBean.credentials.password}"
         autocomplete="current-password"
-        validateOnBlur="false"
         styleClass="input-grid__item input-grid__item--wide"
+      />
+
+      <p:commandButton
+        id="loginButton"
+        value="Log in"
+        icon="pi pi-sign-in"
+        styleClass="button button--primary form-submit"
+        action="#{orderAPizzaDialogBean.login()}"
+        update="form:pageContent form:messages"
       />
 
       <div class="account-switch input-grid__item input-grid__item--wide">
@@ -60,15 +66,6 @@
         action="#{orderAPizzaDialogBean.goToDetailsInputPage()}"
         update="form:pageContent form:messages"
       />
-      <p:commandButton
-        id="loginButton"
-        value="Log in"
-        icon="pi pi-sign-in"
-        styleClass="button button--primary"
-        action="#{orderAPizzaDialogBean.login()}"
-        update="form:pageContent form:messages"
-      />
-      <p:defaultCommand target="loginButton"/>
     </ftr:Footer>
 
   </div>

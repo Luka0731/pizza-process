@@ -1,0 +1,39 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces"
+>
+
+
+
+  <cc:interface>
+    <cc:attribute name="count" type="java.lang.Integer" required="true" shortDescription="how many pizzas are in the cart"/>
+    <cc:attribute name="action" method-signature="void action()" required="true"/>
+    <cc:attribute name="update" type="java.lang.String" default="@form"/>
+    <cc:attribute name="styleClass" type="java.lang.String" default=""/>
+  </cc:interface>
+
+
+
+  <cc:implementation>
+    <h:outputStylesheet name="resources/components/domain/cartbutton/CartButton.css"/>
+    <!-- the count jumps when it goes up, see effects.js -->
+    <p:commandLink
+      id="cartButton"
+      styleClass="cart-button #{cc.attrs.count eq 0 ? 'cart-button--empty' : ''} #{cc.attrs.styleClass}"
+      title="Open the cart"
+      process="@this"
+      disabled="#{cc.attrs.count eq 0}"
+      action="#{cc.attrs.action}"
+      update="#{cc.attrs.update}"
+    >
+      <i class="pi pi-shopping-cart cart-button__icon"></i>
+      <span class="cart-button__count" data-count="#{cc.attrs.count}">
+        <h:outputText value="#{cc.attrs.count}"/>
+      </span>
+    </p:commandLink>
+  </cc:implementation>
+</ui:component>

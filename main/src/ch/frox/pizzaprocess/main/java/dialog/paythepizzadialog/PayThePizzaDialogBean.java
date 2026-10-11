@@ -49,7 +49,7 @@ public class PayThePizzaDialogBean extends GenericDialogBean<PayThePizzaDialogDa
         })) return;
 
         if (!isPaid()) {
-            UserNotifier.message("Not here yet", "You can pay as soon as the driver handed over your pizza.");
+            UserNotifier.warning("Not here yet", "You can pay as soon as the driver handed over your pizza.");
             return;
         }
 

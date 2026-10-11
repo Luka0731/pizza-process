@@ -13,6 +13,7 @@
   --charcoal: #4a4a4a;
   --bone: #e3dac9;
   --brass: #b5a642;
+  --plum: #5e3a55;             /* deep matte plum, the last swatch of the header strip */
 
   /* dark ground, every step is a bit lighter taupe */
   --ink-0: #17130f;            /* page */
@@ -98,8 +99,12 @@ html body.pizza-process {
   margin: 0;
 }
 
-.pizza-process a {
+.pizza-process a,
+.pizza-process a:visited {
   color: var(--color-accent);
+}
+.pizza-process a:hover {
+  color: var(--color-primary);
 }
 
 .pizza-process img {
@@ -129,9 +134,14 @@ html body.pizza-process {
   margin: 0 auto;
   padding: var(--space-4) var(--space-4) 0;
 }
+/* any picture works: it gets cropped to a square with a thin palette frame */
 .brand__logo {
-  height: 2.25rem;
-  width: auto;
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  border: 2px solid var(--terracotta);
+  outline: 2px solid var(--ink-0);
+  outline-offset: -4px;
 }
 .brand__name {
   font-family: var(--font-display);
@@ -140,9 +150,69 @@ html body.pizza-process {
   letter-spacing: -0.02em;
 }
 .brand__dialog {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   margin-left: auto;
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
+}
+
+/* the (i) next to the dialog name, a little diamond like the progress markers */
+.brand__info {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 1px solid var(--ink-4);
+  background: transparent;
+  color: var(--bone);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transform: rotate(45deg);
+  transition: border-color var(--duration-fast) linear, background-color var(--duration-fast) linear;
+}
+.brand__info .pi {
+  transform: rotate(-45deg);
+}
+.brand__info:hover,
+.brand__info:focus-visible {
+  border-color: var(--ochre);
+  background: var(--ochre);
+  color: var(--color-on-primary);
+}
+
+/* opened by the (i), top right under the bar */
+.dialog-info {
+  position: fixed;
+  inset: 4.5rem var(--space-4) auto auto;
+  width: min(24rem, calc(100vw - 2rem));
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--ink-4);
+  border-top: 4px solid var(--ochre);
+  background: var(--ink-2);
+  color: var(--bone);
+}
+.dialog-info:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: dialog-info-in 160ms steps(4, end);
+}
+.dialog-info__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+}
+.dialog-info__text {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+@keyframes dialog-info-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
 }
 
 #content.frame {
@@ -172,7 +242,7 @@ html body.pizza-process {
 .split__side {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 6px;
   min-width: 0;
 }
 .split__side {
@@ -185,11 +255,24 @@ html body.pizza-process {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  container-type: inline-size;
 }
 
 /* forms that should not stretch over the whole page, e.g. login */
 .narrow {
   max-width: 34rem;
+}
+.centered {
+  width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* the main button at the end of a form, over the whole width */
+:is(.pizza-process, #pizza-process) .form-submit {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: var(--space-2);
 }
 
 @media (max-width: 56rem) {
@@ -206,7 +289,7 @@ html body.pizza-process {
 /* |----- shared elements -----| */
 
 /* buttons: the primefaces part lives in primefaces.css, these are the variants */
-.pizza-process .button--primary {
+:is(.pizza-process, #pizza-process) .button--primary {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%);
 }
 
@@ -227,7 +310,7 @@ html body.pizza-process {
   gap: var(--space-2) var(--space-4);
   grid-column: 1 / -1;
 }
-.pizza-process .card__title {
+:is(.pizza-process, #pizza-process) .card__title {
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
   font-weight: 700;
@@ -240,7 +323,7 @@ html body.pizza-process {
   color: var(--color-text-muted);
 }
 /* e.g. "Edit" on the details card */
-.pizza-process .card__link {
+:is(.pizza-process, #pizza-process) .card__link {
   margin-left: auto;
   font-size: var(--font-size-sm);
   font-weight: 600;
@@ -248,7 +331,7 @@ html body.pizza-process {
   text-decoration: none;
   border-bottom: 1px solid currentColor;
 }
-.pizza-process .card__link:hover {
+:is(.pizza-process, #pizza-process) .card__link:hover {
   color: var(--color-primary);
 }
 
@@ -286,7 +369,7 @@ html body.pizza-process {
   flex-direction: column;
   gap: var(--space-2);
 }
-.pizza-process .field__label {
+:is(.pizza-process, #pizza-process) .field__label {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-text-muted);
@@ -321,7 +404,7 @@ html body.pizza-process {
 
 
 /* full width textarea inside a card */
-.pizza-process .textarea {
+:is(.pizza-process, #pizza-process) .textarea {
   width: 100%;
   resize: vertical;
 }
@@ -339,7 +422,7 @@ html body.pizza-process {
 .account-switch__text {
   color: var(--color-text-muted);
 }
-.pizza-process .account-switch__link {
+:is(.pizza-process, #pizza-process) .account-switch__link {
   font-weight: 600;
   color: var(--color-accent);
 }
@@ -380,17 +463,10 @@ html body.pizza-process {
 
 /* |----- page change -----| */
 
-/*
- * runs whenever a page is put into the dom. effects.js switches it off when the same page only reloads.
- * :where() keeps the specificity at 0, so any animation of a component or page wins over this one.
- */
-:where(.dialog-content > div > :not(.app-header, .app-footer)) {
+/* the content below the header fades in when a new page arrives. effects.js adds fx-enter, :where() keeps it easy to override */
+:where(.fx-enter > :not(.app-header, .app-footer)) {
   animation: fx-content-in var(--duration-medium) linear both;
   animation-delay: 80ms;
-}
-.fx-quiet,
-.fx-quiet * {
-  animation: none !important;
 }
 
 @keyframes fx-content-in {
@@ -422,11 +498,64 @@ html body.pizza-process {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pizza-process *,
-  .pizza-process *::before,
-  .pizza-process *::after {
+  :is(.pizza-process, #pizza-process) *,
+  :is(.pizza-process, #pizza-process) *::before,
+  :is(.pizza-process, #pizza-process) *::after {
     animation-duration: 1ms !important;
     animation-delay: 0ms !important;
     transition-duration: 1ms !important;
   }
+}
+
+
+
+/* |----- tag -----| */
+
+/* a small fact next to a title, e.g. the delivery region */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--plum);
+  color: var(--bone);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+
+
+/* |----- add row -----| */
+
+/* an empty dashed slot on top of a list, e.g. "New pizza". same height as a pizza row */
+:is(.pizza-process, #pizza-process) .add-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 5rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px dashed var(--ink-4);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) linear, color var(--duration-fast) linear, background-color var(--duration-fast) linear;
+}
+:is(.pizza-process, #pizza-process) .add-row:hover,
+:is(.pizza-process, #pizza-process) .add-row:focus-visible {
+  border-color: var(--terracotta);
+  background: var(--ink-1);
+  color: var(--bone);
+}
+.add-row__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--terracotta);
+  color: var(--color-on-primary);
+  font-size: 1rem;
+}
+.add-row__text {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
 }

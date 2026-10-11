@@ -6,8 +6,6 @@
   xmlns:p="primefaces"
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
   xmlns:ftr="jakarta.faces.composite/components/generic/footer"
-  xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
-  xmlns:prf="jakarta.faces.composite/components/domain/profile"
   xmlns:dtc="jakarta.faces.composite/components/domain/detailscard"
   xmlns:odc="jakarta.faces.composite/components/domain/ordercard"
 >
@@ -16,23 +14,22 @@
 
   <div class="delivery-page" id="deliveryPage">
 
-    <hdr:Header
-      title="Deliver the pizza"
-      subtitle="Region: #{deliverThePizzaTaskBean.deliveryRegion}"
-    >
+    <hdr:Header title="Deliver the pizza">
       <f:facet name="actions">
-        <prf:Profile/>
+        <span class="tag">
+          <i class="pi pi-map-marker"></i>
+          <h:outputText value="#{deliverThePizzaTaskBean.deliveryRegion}"/>
+        </span>
       </f:facet>
     </hdr:Header>
 
+    <!-- read only and without prices, the money comes in the "receive the payment" task -->
     <div class="split">
       <div class="split__main">
-        <!-- read only, the driver can not change the customer's address -->
         <dtc:DetailsCard customerProfile="#{deliverThePizzaTaskBean.order.customerProfile}" editable="false"/>
-        <odc:OrderCard order="#{deliverThePizzaTaskBean.order}" title="In the bag"/>
       </div>
       <div class="split__side">
-        <rcp:Receipt order="#{deliverThePizzaTaskBean.order}" totalLabel="To collect"/>
+        <odc:OrderCard order="#{deliverThePizzaTaskBean.order}" title="In the bag" showPrices="false"/>
       </div>
     </div>
 
