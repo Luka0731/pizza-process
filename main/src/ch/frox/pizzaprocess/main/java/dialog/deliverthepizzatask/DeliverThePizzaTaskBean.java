@@ -10,9 +10,6 @@ import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.core.workflow.Signaler;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
-import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.security.IUser;
-import ch.ivyteam.ivy.security.exec.Sudo;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -41,7 +38,7 @@ public class DeliverThePizzaTaskBean extends GenericDialogBean<DeliverThePizzaTa
             order = orderService.update(order);
         })) return;
 
-        Signaler.orderDelivered(order.getId(), findCustomerUser());
+        Signaler.orderDelivered(order.getId());
 
         runProcessMethod("close");
     }
@@ -54,14 +51,4 @@ public class DeliverThePizzaTaskBean extends GenericDialogBean<DeliverThePizzaTa
         return order;
     }
 
-
-
-    // |----- helper methods -----|
-
-    // TODO: ? maby outsource
-    private IUser findCustomerUser() {
-        String customerReference = order.getCustomerProfile().getCustomerReference();
-        if (customerReference == null) return null;
-        return Sudo.get(() -> Ivy.security().users().findById(customerReference));
-    }
 }

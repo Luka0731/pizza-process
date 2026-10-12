@@ -15,7 +15,10 @@
               "roles" : [
                 "SYSTEM"
               ]
-            }
+            },
+            "customFields" : [
+              { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+            ]
           }, {
             "id" : "TaskB",
             "name" : "listen for questions",
@@ -23,7 +26,10 @@
               "roles" : [
                 "SYSTEM"
               ]
-            }
+            },
+            "customFields" : [
+              { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+            ]
           } ]
       },
       "visual" : {
@@ -45,26 +51,20 @@
     }, {
       "id" : "f5",
       "type" : "TaskSwitchEvent",
-      "name" : "ask for pizza",
+      "name" : "wait for a question",
       "config" : {
         "task" : {
-          "name" : "Wait for the customer to ask for the pizza",
+          "name" : "Calm the customer down",
           "description" : "Order <%=in1.orderId%>",
           "responsible" : {
             "roles" : [
-              "SYSTEM"
+              "Clerk"
             ]
           },
           "delay" : "new Duration(0, 0, 30, 0, 0, 0)",
           "customFields" : [
             { "name" : "signalCode", "type" : "STRING", "value" : "\"pizzaprocess:order:asked:\" + in1.orderId.toString()" }
           ]
-        },
-        "output" : {
-          "map" : {
-            "out" : "in1",
-            "out.customerQuestion" : "ivy.task.customFields().stringField(\"signalPayload\").getOrNull()"
-          }
         }
       },
       "visual" : {
@@ -113,23 +113,14 @@
       ]
     }, {
       "id" : "f10",
-      "type" : "UserTask",
+      "type" : "DialogCall",
       "name" : "calm customer down",
       "config" : {
         "dialog" : "ch.frox.pizzaprocess.CalmCustomerDownTask:start(java.util.UUID,String)",
         "call" : {
           "map" : {
             "param.orderId" : "in.orderId",
-            "param.customerQuestion" : "in.customerQuestion"
-          }
-        },
-        "task" : {
-          "name" : "Calm the customer down",
-          "description" : "Order <%=in.orderId%>",
-          "responsible" : {
-            "roles" : [
-              "Clerk"
-            ]
+            "param.customerQuestion" : "ivy.task.customFields().stringField(\"signalPayload\").getOrNull()"
           }
         }
       },

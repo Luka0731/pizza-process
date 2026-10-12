@@ -54,11 +54,21 @@
               "roles" : [
                 "SYSTEM"
               ]
-            }
+            },
+            "customFields" : [
+              { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+            ]
           }, {
             "id" : "TaskA",
             "name" : "wait for the pizza",
-            "skipTasklist" : true
+            "responsible" : {
+              "roles" : [
+                "SYSTEM"
+              ]
+            },
+            "customFields" : [
+              { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+            ]
           } ]
       },
       "visual" : {
@@ -81,7 +91,8 @@
         },
         "output" : {
           "map" : {
-            "out.orderId" : "result.orderId"
+            "out.orderId" : "result.orderId",
+            "out.customerUserName" : "ivy.session.getSessionUserName()"
           }
         }
       },
@@ -168,11 +179,15 @@
     }, {
       "id" : "f32",
       "type" : "TaskSwitchEvent",
-      "name" : "60 minuts",
+      "name" : "wait 60 minutes",
       "config" : {
         "task" : {
           "name" : "Where is my pizza?",
           "description" : "Order <%=in1.orderId%>",
+          "responsible" : {
+            "type" : "USER_FROM_ATTRIBUTE",
+            "script" : "in1.customerUserName"
+          },
           "delay" : "new Duration(0, 0, 0, 0, 1, 0)",
           "customFields" : [
             { "name" : "signalCode", "type" : "STRING", "value" : "\"pizzaprocess:order:askable:\" + in1.orderId.toString()" }
@@ -189,11 +204,15 @@
     }, {
       "id" : "f43",
       "type" : "TaskSwitchEvent",
-      "name" : "pizza recived",
+      "name" : "wait for the pizza",
       "config" : {
         "task" : {
           "name" : "Your pizza is here, enjoy it",
           "description" : "Order <%=in1.orderId%>",
+          "responsible" : {
+            "type" : "USER_FROM_ATTRIBUTE",
+            "script" : "in1.customerUserName"
+          },
           "delay" : "new Duration(0, 0, 30, 0, 0, 0)",
           "customFields" : [
             { "name" : "signalCode", "type" : "STRING", "value" : "\"pizzaprocess:order:delivered:\" + in1.orderId.toString()" }

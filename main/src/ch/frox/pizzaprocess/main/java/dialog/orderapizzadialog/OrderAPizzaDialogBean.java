@@ -12,6 +12,7 @@ import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.security.AuthenticationService;
 import ch.frox.pizzaprocess.main.java.core.security.Credentials;
+import ch.frox.pizzaprocess.main.java.core.security.GuestAccount;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.frox.pizzaprocess.main.java.core.workflow.Signaler;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
@@ -57,10 +58,27 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     // |----- actions -----|
 
     public void placeOrder() {
-        customerProfile.setCustomerReference(SessionUtil.getSecurityMemberIdOrNull());
+        GuestAccount[] guest = { null };
 
         if (ExceptionHandler.run(() -> {
-            order = orderService.placeOrder(order, customerProfile);
+            if (!SessionUtil.isLoggedIn()) {
+                guest[0] = authenticationService.createGuest(customerProfile.getFullName(), customerProfile.getEmail());
+                customerProfile.setCustomerReference(guest[0].user().getSecurityMemberId());
+            } else {
+                customerProfile.setCustomerReference(SessionUtil.getSecurityMemberIdOrNull());
+            }
+
+            try {
+                order = orderService.placeOrder(order, customerProfile);
+            } catch (RuntimeException ex) {
+                if (guest[0] != null) {
+                    authenticationService.deleteGuest(guest[0]);
+                    customerProfile.setCustomerReference(null);
+                }
+                throw ex;
+            }
+
+            if (guest[0] != null) authenticationService.loginGuest(guest[0]);
         })) return;
 
         Signaler.orderPlaced(order.getId());

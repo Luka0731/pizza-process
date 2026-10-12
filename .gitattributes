@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# shell scripts run inside Linux containers: never convert them to CRLF on Windows
+*.sh text eol=lf
+docker/** text eol=lf

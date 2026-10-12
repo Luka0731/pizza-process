@@ -9,13 +9,7 @@
       "type" : "RequestStart",
       "name" : "start",
       "config" : {
-        "signature" : "start",
-        "permission" : {
-          "anonymous" : false,
-          "roles" : [
-            "Admin"
-          ]
-        }
+        "signature" : "start"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }

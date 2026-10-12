@@ -5,5 +5,7 @@
   "fields" : [ {
     "name" : "orderId",
     "type" : "java.util.UUID"
+  }, {
+    "name" : "customerUserName"
   } ]
 }

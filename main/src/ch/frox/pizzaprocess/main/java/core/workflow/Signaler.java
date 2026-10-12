@@ -1,9 +1,9 @@
 package ch.frox.pizzaprocess.main.java.core.workflow;
 
+import java.util.List;
 import java.util.UUID;
 
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.exec.Sudo;
 import ch.ivyteam.ivy.workflow.ITask;
 import ch.ivyteam.ivy.workflow.TaskState;
@@ -13,12 +13,10 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 /**
  * Signals from Axonivy.
- * 
- * NAMING: 
+ *
+ * NAMING:
  * - <prefix>:<domain>:<event>
  * - <prefix>:<domain>:<event>:<objectId>
- * 
- * TODO: make explentation for watingEVents
 **/
 public final class Signaler {
     private static final String PREFIX = "pizzaprocess:";
@@ -29,21 +27,23 @@ public final class Signaler {
 
 
 
-    public static void orderPlaced(UUID orderId) { 
-        signalStartEvent("order:placed", orderId); 
+    public static void orderPlaced(UUID orderId) {
+        signalStartEvent("order:placed", orderId);
     }
 
     public static void orderAsked(UUID orderId, String question) {
-        signalWaitingEvent("order:asked:" + orderId, null, question);
+        signalWaitingEvent("order:asked:" + orderId, question);
     }
 
-    public static void orderDelivered(UUID orderId, ISecurityMember customer) {
-        signalWaitingEvent("order:delivered:" + orderId, customer, null);
-        cancelWaitingEvent("order:askable:" + orderId);
+    public static void orderDelivered(UUID orderId) {
+        signalWaitingEvent("order:delivered:" + orderId, null);
+        // "Where is my pizza?" is gone after delivery, also when it is already in the customer's task list
+        cancelWaitingEvent("order:askable:" + orderId, TaskState.DELAYED, TaskState.SUSPENDED);
     }
 
     public static void orderPaid(UUID orderId) {
-        cancelWaitingEvent("order:asked:" + orderId);
+        // only the clerk task that is still waiting. a question that was already asked must stay with the clerk
+        cancelWaitingEvent("order:asked:" + orderId, TaskState.DELAYED);
     }
 
 
@@ -54,40 +54,44 @@ public final class Signaler {
         Ivy.wf().signals().create().data(payload).send(PREFIX + signalCode);
     }
 
-    private static int signalWaitingEvent(String signalCode, ISecurityMember responsible, String payload) {
+    private static int signalWaitingEvent(String signalCode, String payload) {
         String fullSignalCode = PREFIX + signalCode;
-        int[] released = { 0 };
-        Sudo.run(() -> {
-            for (ITask task : TaskQuery.create().where().state().isEqual(TaskState.DELAYED).executor().results()) {
-                if (!fullSignalCode.equals(task.customFields().stringField(SIGNALCODE_FIELD_NAME).getOrNull())) continue; // TODO: error throw?
-                
-                if (responsible != null) task.responsibles().set(responsible);
+        int released = Sudo.get(() -> {
+            int count = 0;
+            for (ITask task : findTasks(fullSignalCode, TaskState.DELAYED)) {
                 if (payload != null) task.customFields().stringField(PAYLOAD_FIELD_NAME).set(payload);
                 task.setDelayTimestamp(null);
-                released[0]++;
+                count++;
             }
+            return count;
         });
-        return released[0];
+        if (released == 0) Ivy.log().warn("signal '" + fullSignalCode + "' was sent, but no task was waiting for it");
+        return released;
     }
 
-    private static int cancelWaitingEvent(String signalCode) {
+    private static int cancelWaitingEvent(String signalCode, TaskState... states) {
         String fullSignalCode = PREFIX + signalCode;
-        int[] canceled = { 0 };
         try {
-            Sudo.run(() -> {
-                for (TaskState state : new TaskState[] { TaskState.DELAYED, TaskState.SUSPENDED }) {
-                    for (ITask task : TaskQuery.create().where().state().isEqual(state).executor().results()) {
-                        if (!fullSignalCode.equals(task.customFields().stringField(SIGNALCODE_FIELD_NAME).getOrNull())) continue;
-
+            return Sudo.get(() -> {
+                int count = 0;
+                for (TaskState state : states) {
+                    for (ITask task : findTasks(fullSignalCode, state)) {
                         task.destroy();
-                        canceled[0]++;
+                        count++;
                     }
                 }
+                return count;
             });
         } catch (RuntimeException ex) {
-            // TODO: is this good error handling?
-            Ivy.log().fatal("could not cancel the waiting event '" + fullSignalCode + "'", ex);
+            Ivy.log().error("could not cancel the waiting event '" + fullSignalCode + "'", ex);
+            return 0;
         }
-        return canceled[0];
+    }
+
+    private static List<ITask> findTasks(String fullSignalCode, TaskState state) {
+        return TaskQuery.create()
+            .where().state().isEqual(state)
+            .and().customField().stringField(SIGNALCODE_FIELD_NAME).isEqual(fullSignalCode)
+            .executor().results();
     }
 }
