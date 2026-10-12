@@ -1,0 +1,13 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "PageHeaderAndFooterData",
+  "namespace" : "portalkit",
+  "fields" : [ {
+    "name" : "pageHeader"
+  }, {
+    "name" : "pageFooter"
+  }, {
+    "name" : "hasCustomProcess",
+    "type" : "Boolean"
+  } ]
+}

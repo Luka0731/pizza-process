@@ -1,0 +1,58 @@
+package ch.ivy.addon.portalkit.bean;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
+import ch.ivy.addon.portalkit.dto.dashboard.FullProcessDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.process.DashboardProcess;
+import ch.ivy.addon.portalkit.jsf.ManagedBeans;
+import ch.ivy.addon.portalkit.util.DashboardWidgetUtils;
+
+@Named
+@ViewScoped
+public class FullDashboardProcessBean implements DashboardProcessBeanHandler<FullProcessDashboardWidget>, Serializable {
+
+  private static final long serialVersionUID = 1L;
+  private DashboardProcessBean dashboardProcessBean;
+
+  @PostConstruct
+  public void init() {
+    dashboardProcessBean = ManagedBeans.get("dashboardProcessBean");
+  }
+
+  public List<DashboardProcess> completeProcesses(String query) {
+    return dashboardProcessBean.getPortalDashboardProcesses().stream()
+        .filter(process -> Strings.CI.contains(process.getName(), query)).collect(Collectors.toList());
+  }
+
+  @Override
+  public void preRender(FullProcessDashboardWidget widget) {
+    dashboardProcessBean.preRender(widget);
+  }
+
+  @Override
+  public void onChangeDisplayMode() {
+    FullProcessDashboardWidget newWidget = new FullProcessDashboardWidget(dashboardProcessBean.getWidget());
+    newWidget.buildFilterableColumns(DashboardWidgetUtils.initProcessFilterableColumns());
+    dashboardProcessBean.updateWidget(newWidget);
+    newWidget.setName(StringUtils.EMPTY);
+  }
+
+  @Override
+  public void preview() {
+    dashboardProcessBean.preview();
+  }
+
+  @Override
+  public void onChangeApplications(List<String> applications) {
+    dashboardProcessBean.setApplications(applications);
+  }
+}

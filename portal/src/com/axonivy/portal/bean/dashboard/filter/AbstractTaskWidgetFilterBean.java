@@ -1,0 +1,193 @@
+package com.axonivy.portal.bean.dashboard.filter;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.axonivy.portal.components.dto.SecurityMemberDTO;
+import com.axonivy.portal.dto.dashboard.filter.BaseFilter;
+import com.axonivy.portal.dto.dashboard.filter.DashboardFilter;
+import com.axonivy.portal.enums.dashboard.filter.FilterOperator;
+import com.axonivy.portal.service.filter.operatorpolicy.service.OperatorPolicyService;
+import com.axonivy.portal.util.filter.field.FilterField;
+import com.axonivy.portal.util.filter.field.TaskFilterFieldFactory;
+import com.axonivy.portal.util.filter.field.task.custom.TaskFilterFieldCustomNumber;
+
+import ch.ivy.addon.portalkit.constant.PortalConstants;
+import ch.ivy.addon.portalkit.dto.dashboard.CaseDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.ColumnModel;
+import ch.ivy.addon.portalkit.dto.dashboard.DashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.taskcolumn.TaskColumnModel;
+import ch.ivy.addon.portalkit.enums.DashboardColumnType;
+import ch.ivy.addon.portalkit.enums.DashboardWidgetType;
+import ch.ivy.addon.portalkit.service.WidgetFilterService;
+import ch.ivy.addon.portalkit.util.SecurityMemberUtils;
+
+public abstract class AbstractTaskWidgetFilterBean implements Serializable {
+
+  private static final long serialVersionUID = -7603133281018922252L;
+
+  protected TaskDashboardWidget widget;
+  protected List<FilterField> filterFields;
+  protected Map<String, TaskColumnModel> mapHeaders;
+  private OperatorPolicyService operatorPolicyService;
+  public void preRender(TaskDashboardWidget widget) {
+    this.widget = widget;
+    this.widget.setInConfiguration(true);
+    this.mapHeaders = widget.getColumns().stream().filter(item -> item.getType().equals(DashboardColumnType.STANDARD)).collect(Collectors.toMap(TaskColumnModel::getField, Function.identity()));
+    initFilterFields();
+    initFilters();
+    this.operatorPolicyService = new OperatorPolicyService(this.widget.getFilterableColumns());
+  }
+
+  private void initFilterFields() {
+    List<ColumnModel> effectiveColumns = WidgetFilterService.getEnabledFilterableColumns(this.widget);
+    Set<String> enabledFilterFieldNames = effectiveColumns.stream()
+      .map(ColumnModel::getField)
+      .collect(Collectors.toSet());
+
+    this.filterFields = new ArrayList<>();
+    this.filterFields.add(TaskFilterFieldFactory.getDefaultFilterField());
+    this.filterFields.addAll(TaskFilterFieldFactory.getStandardFilterableFields(this.widget.getId()).stream()
+      .filter(field -> enabledFilterFieldNames.contains(field.getName()))
+      .collect(Collectors.toList()));
+
+    updateFilterLabels();
+    // Add custom fields which are selected by user.
+    effectiveColumns.stream().filter(column -> column.getType() != DashboardColumnType.STANDARD)
+        .map(column -> TaskFilterFieldFactory.findBy(this.widget.getId(),column.getField(), column.getType()))
+        .filter(Objects::nonNull)
+        .forEach(this.filterFields::add);
+  }
+  
+  private void updateFilterLabels() {
+    for (FilterField filter : filterFields) {
+      TaskColumnModel taskColumnModel = this.mapHeaders.get(filter.getName());
+      if (taskColumnModel != null) {
+        filter.setLabel(taskColumnModel.getHeaderText());
+      }
+    }
+  }
+  
+  private void initFilters() {
+    if (CollectionUtils.isEmpty(Optional.ofNullable(this.widget).map(TaskDashboardWidget::getFilters).get())) {
+      return;
+    }
+
+    // If the filter available in the filter list, initialize it
+    for (DashboardFilter filter : this.widget.getFilters()) {
+      if (isFilterAvailable(filter)) {
+        FilterField filterField = TaskFilterFieldFactory
+            .findBy(this.widget.getId(), Optional.ofNullable(filter).map(DashboardFilter::getField).orElse(""),
+                Optional.ofNullable(filter).map(DashboardFilter::getFilterType).orElse(null));
+        if (filterField != null) {
+          TaskColumnModel taskColumnModel = this.mapHeaders.get(filterField.getName());
+          if (taskColumnModel != null) {
+            filter.setLabel(taskColumnModel.getHeaderText());
+          }
+          filterField.initFilter(filter);
+        }
+      }
+    }
+  }
+
+  /**
+   * Check if the filter is existing in the filter list or not
+   * 
+   * @param filter
+   */
+  private boolean isFilterAvailable(DashboardFilter filter) {
+    return Optional.ofNullable(filter).map(DashboardFilter::getField).isPresent() && filterFields.stream()
+        .filter(field -> filter.getField().contentEquals(field.getName())).findFirst().isPresent();
+  }
+
+  public List<FilterField> getFilterFields() {
+    return filterFields;
+  }
+
+  public List<FilterOperator> resolveEffectiveOperatorsByPolicy(DashboardFilter filter) {
+    if (widget == null) {
+      return List.of();
+    }
+    return operatorPolicyService.resolveEffectiveOperators(filter);
+  }
+
+  public void onSelectFilter(DashboardFilter filter) {
+    String field = Optional.ofNullable(filter).map(DashboardFilter::getFilterField).map(FilterField::getName)
+        .orElse(StringUtils.EMPTY);
+
+    FilterField filterField = TaskFilterFieldFactory.findBy(this.widget.getId(), field);
+
+    if (filterField.getName()
+        .contentEquals(BaseFilter.DEFAULT)) {
+      filterField.addNewFilter(filter);
+      return;
+    }
+    filter.setLabel(filterField.getLabel());
+    filter.getFilterField().addNewFilter(filter);
+    // Override the operator with the first enabled operator according to the global and widget policy if the default one is not allowed
+    operatorPolicyService.findFirstEnabledOp(filter, filter.getOperator()).ifPresent(filter::setOperator);
+    initCustomFieldNumberPattern(filter, field, filter.getFilterField());
+  }
+
+  private void initCustomFieldNumberPattern(DashboardFilter filter, String field, FilterField filterField) {
+    if (filterField instanceof TaskFilterFieldCustomNumber) {
+      ColumnModel column = widget.getFilterableColumns().stream().filter(col -> col.getField().contentEquals(field))
+          .findFirst().orElse(new ColumnModel());
+      filter.setNumberPattern(column.getPattern());
+    }
+  }
+
+  public abstract void removeFilter(TaskDashboardWidget widget, DashboardFilter filter);
+
+  public abstract void addNewFilter(TaskDashboardWidget widget);
+
+  public List<SecurityMemberDTO> completeUsers(String query) {
+    return SecurityMemberUtils.findSecurityMembers(query, 0, PortalConstants.MAX_USERS_IN_AUTOCOMPLETE).stream()
+        .filter(SecurityMemberDTO::isUser).collect(Collectors.toList());
+  }
+
+  public List<SecurityMemberDTO> completeOwners(String query) {
+    return SecurityMemberUtils.findSecurityMembers(query, 0, PortalConstants.MAX_USERS_IN_AUTOCOMPLETE);
+  }
+
+  public abstract void resetTaskWidgetFilter(TaskDashboardWidget widget);
+
+  public abstract void resetCaseWidgetFilter(CaseDashboardWidget widget);
+
+  public void resetFilter(DashboardWidget widget) {
+    if (DashboardWidgetType.TASK.getLabel().equals(widget.getType().getLabel())) {
+      resetTaskWidgetFilter((TaskDashboardWidget) widget);
+      return;
+    }
+    resetCaseWidgetFilter((CaseDashboardWidget) widget);
+  }
+
+  public void updateWidgetFilterBeforeApply(DashboardWidget widget) {
+    if (widget instanceof TaskDashboardWidget) {
+      TaskDashboardWidget taskWidget = (TaskDashboardWidget) widget;
+      removeEmptyFilters(taskWidget.getFilters());
+    } else {
+      CaseDashboardWidget caseWidget = (CaseDashboardWidget) widget;
+      removeEmptyFilters(caseWidget.getFilters());
+    }
+  }
+
+  private void removeEmptyFilters(List<DashboardFilter> filters) {
+    if (CollectionUtils.isNotEmpty(filters)) {
+      filters.removeAll(filters.stream()
+          .filter(filter -> StringUtils.isBlank(filter.getField()))
+          .collect(Collectors.toList()));
+    }
+  }
+}

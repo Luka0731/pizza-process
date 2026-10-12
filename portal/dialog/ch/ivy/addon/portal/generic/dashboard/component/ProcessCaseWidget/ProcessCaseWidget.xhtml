@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core" xmlns:fn="jakarta.tags.functions" xmlns:pt="jakarta.faces.passthrough"
+  xmlns:pc="jakarta.faces.composite/components">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="widget" type="ch.ivy.addon.portalkit.dto.dashboard.ProcessDashboardWidget" required="true" />
+  <cc:attribute name="isReadOnlyMode" type="java.lang.Boolean" default="false"/>
+  <cc:attribute name="isPreviewMode" type="java.lang.Boolean" default="false"/>
+  <cc:attribute name="onCompleteLoadWidget" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="widget" value="#{cc.attrs.widget}" />
+  <c:set var="isReadOnlyMode" value="#{cc.attrs.isReadOnlyMode}" />
+  <c:set var="isPreviewMode" value="#{cc.attrs.isPreviewMode}" />
+
+  <p:remoteCommand id="rcLoadCaseFirstTime" autoRun="true" actionListener="#{widget.caseDataModel.loadFirstTime()}"
+    update="dashboard-process-cases-container" global="false" async="true" process="@this"
+    oncomplete="loadCaseFirstTime('#{widget.id}'); #{cc.attrs.onCompleteLoadWidget}" />
+  <div class="ui-g">
+    <h:panelGroup id="loading" styleClass="js-loading-#{widget.id}">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/loading')}</h:panelGroup>
+
+    <h:panelGroup id="dashboard-process-cases-container" layout="block"
+      styleClass="ui-g-12 u-padding-0 js-dashboard-cases-container-#{widget.id} hidden">
+      <p:dataTable cellNavigation="false" id="dashboard-process-cases" widgetVar="dashboard-cases-#{widget.id}" value="#{widget.caseDataModel}" var="caseItem"
+        paginatorAlwaysVisible="true" rows="#{widget.rowsPerPage}" paginator="true" paginatorPosition="bottom" lazy="true"
+        paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}" pageLinks="5"
+        rowsPerPageTemplate="5,10,20,50"
+        sortBy="#{widget.sortByName}"
+        rowIndexVar="rowIndex" rowHover="#{isReadOnlyMode}" selectionMode="single"
+        styleClass="dashboard-cases--table #{isReadOnlyMode ? '' : 'dashboard__table--edit'} #{isPreviewMode ? 'dashboard__table--preview' : ''}">
+        <p:ajax event="rowSelect" listener="#{dashboardCaseWidgetBean.handleRowSelectEventOnCaseWidget}" disabled="#{!isReadOnlyMode or isPreviewMode}" />
+
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/name')}" sortable="true" sortBy="#{name}" field="name" filterable="false"
+          styleClass="relevant-cases__name">
+          <span class="u-hidden-sm-down"><h:outputText value="#{caseItem.names().current()}" /></span>
+          <h:panelGroup layout="block" styleClass="u-hidden-md-up">
+            <h:outputText value="#{caseItem.names().current()}" title="#{caseItem.names().current()}" styleClass="dashboard-cases__column-small-screen-name"/>
+            <h:outputText value="#{dashboardBean.createExtractedTextFromHtml(caseItem.descriptions().current())}" styleClass="dashboard-cases__column-small-screen-description"/>
+          </h:panelGroup>
+        </p:column>
+        
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/description')}" styleClass="relevant-cases__description u-hidden-sm-down">
+          <span><h:outputText value="#{caseItem.descriptions().current()}" /></span>
+        </p:column>
+        
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/STATE')}" sortable="true" sortBy="#{state}" field="state" filterable="false"
+          styleClass="dashboard-cases__state text-center u-hidden-sm-down" width="120">
+          <ic:ch.ivy.addon.portalkit.component.cases.column.CaseState case="#{caseItem}" alwaysShowState="true" />
+        </p:column>
+        
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/CREATOR')}" sortable="true" sortBy="#{creator}" field="creator" filterable="false"
+          styleClass="dashboard-cases__creator u-hidden-sm-down" width="150">
+          <pc:securityMemberNameAndAvatar
+            securityMember="#{caseItem.creatorUser}"
+            displayName="#{securityMemberDisplayNameFormatBean.generateBriefDisplayNameForSecurityMember(caseItem.creatorUser, caseItem.creatorUser.memberName)}" />
+        </p:column>
+      </p:dataTable>
+    </h:panelGroup>
+  </div>
+
+  <script type="text/javascript">
+    function loadCaseFirstTime(widgetId) {
+      var loadingId = '.js-loading-' + widgetId;
+      var widgetContainer = '.js-dashboard-cases-container-' + widgetId;
+      $(loadingId).addClass('hidden');
+      $(widgetContainer).removeClass('hidden');
+    }
+  </script>
+</cc:implementation>
+</html>

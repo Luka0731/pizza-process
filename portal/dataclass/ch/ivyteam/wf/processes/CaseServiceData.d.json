@@ -1,0 +1,65 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaseServiceData",
+  "namespace" : "ch.ivyteam.wf.processes",
+  "fields" : [ {
+    "name" : "caseCategorySearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.CaseCategorySearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "cases",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ICase>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseSearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.CaseSearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseStateStatistic",
+    "type" : "ch.ivy.addon.portalkit.bo.CaseStateStatistic",
+    "modifiers" : [ ]
+  }, {
+    "name" : "categoryTree",
+    "type" : "ch.ivyteam.ivy.workflow.category.CategoryTree",
+    "modifiers" : [ ]
+  }, {
+    "name" : "count",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "elapsedTimeStatistic",
+    "type" : "ch.ivy.addon.portalkit.bo.ElapsedTimeStatistic",
+    "modifiers" : [ ]
+  }, {
+    "name" : "startIndex",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "totalCases",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseCustomFieldSearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.CaseCustomFieldSearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "customFields",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseCategoryStatistic",
+    "type" : "ch.ivy.addon.portalkit.bo.CaseCategoryStatistic",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedCategories",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedCategory",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseByCategoryStatistic",
+    "type" : "List<com.axonivy.portal.bo.ItemByCategoryStatistic>",
+    "modifiers" : [ ]
+  } ]
+}

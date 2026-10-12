@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:fn="jakarta.tags.functions"
+  xmlns:cc="jakarta.faces.composite" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="title" default="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/welcomeToPortal')}" />
+</cc:interface>
+
+<cc:implementation>
+  <h:form id="login-form">
+    <div class="login-wrapper layout-wrapper">
+      <div class="login-panel">
+        <div class="login-panel-header">
+          <p:graphicImage name="#{themeBean.themeMode eq 'dark' ? 'logo_light': 'logo'}" library="ivy-branding"
+            alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/loginLogo')}" />
+        </div>
+        <p:focus for="username" />
+        <p class="text-style-h4">#{cc.attrs.title}</p>
+
+        <p:messages id="login-message" showIcon="false"/>
+
+        <p:inputText id="username" autocomplete="off" value="#{data.username}" required="true"
+          placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/username')}"
+          requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/UsernameRequiredMessage')}" />
+
+        <p:password id="password" autocomplete="off" value="#{data.password}" required="true"
+          placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/password')}"
+          requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/PasswordRequiredMessage')}" />
+
+        <p:commandButton id="login-command" actionListener="#{logic.login}" ajax="false"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/login')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/login')}"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-login-2')}"/>
+
+        <h:panelGroup styleClass="forgot-link" rendered="#{forgotPasswordBean.isForgotPasswordRendered()}" layout="block">
+          <p:link id="forgot-password-link" href="#{forgotPasswordBean.getForgotPasswordUrl()}">
+            <i class="ti ti-help-circle u-mar-right-5" />
+            <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/forgotPassword/forgotPassword')}" />
+          </p:link>
+        </h:panelGroup>
+        
+        <div class="login-oauth-providers" jsf:rendered="#{not empty data.oauthProviders}">
+          <ul>
+            <c:forEach var="authProvider" items="#{data.oauthProviders}">
+              <li>
+                <h:outputLink value="${authProvider.link}">
+                  <h:outputText escape="false" value="${htmlSanitizerBean.sanitizeIgnoredWithAwareness(authProvider.image)}" />
+                    <span>
+                      #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/LoginWith')} <h:outputText value="${authProvider.displayName}" />
+                    </span>
+                </h:outputLink>
+              </li>
+            </c:forEach>
+          </ul>
+        </div>
+      </div>
+      <h:panelGroup layout="block" class="login-footer" rendered="#{visibilityBean.showLoginFooter}">
+        <p class="text-style-h4">#{ivy.cms.co('/Labels/Login/CompanyName')}</p>
+        <p class="text-style-h6">#{ivy.cms.co('/Labels/Login/Copyright')}</p>
+      </h:panelGroup>
+    </div>
+  </h:form>
+</cc:implementation>
+</html>

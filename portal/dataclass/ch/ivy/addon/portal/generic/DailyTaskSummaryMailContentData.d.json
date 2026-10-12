@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "DailyTaskSummaryMailContentData",
+  "namespace" : "ch.ivy.addon.portal.generic",
+  "fields" : [ {
+    "name" : "user",
+    "type" : "ch.ivyteam.ivy.security.IUser",
+    "modifiers" : [ ]
+  }, {
+    "name" : "tasks",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  } ]
+}

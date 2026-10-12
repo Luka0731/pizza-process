@@ -1,0 +1,2143 @@
+ch.ivy.addon.portal.generic:
+  CaseDetailsTemplate:
+    noCaseFound: Vorgang nicht gefunden oder Sie haben keine Berechtigung, diesen Vorgang zu sehen.
+    requestTabTitle: Anfrage
+    statusTabTitle: Vorgangsinformationen
+  OpenTaskTemplate:
+    browserTabClosingWarning: Durch diese Aktion gehen ungespeicherte Änderungen verloren. Möchten Sie wirklich fortfahren?
+    goToSidestepWarning: Bei starten eines Sidestep Prozesses werden die aktuelle Eingaben nicht gespeichert. Möchten Sie sich trotzdem fortsetzen?
+  PortalName:
+    PortalName: Portal
+ch.ivy.addon.portalkit.ui.jsf:
+  AbsenceAndDeputy:
+    Messages:
+      errorSelectInvalidDeputy: Stellvertreter ist bereits ausgewählt oder ungültig
+      errorSelectedInPersonalTaskPermanentDeputies: Ersetzen ist bereits in "{0}" ausgewählt
+      fromBiggerThanTill: Das 'bis' Datum muss nach dem 'von' Datum liegen.
+      overlappingAbsence: Die Abwesenheit überschneidet sich mit einer anderen Abwesenheit.
+      userNameRequired: '''Benutzername'' darf nicht leer sein.'
+    SelectedSubtitutes: Auswahl Stellvertreter:in
+    Substitutes: 'Stellvertreter:'
+    absences: Abwesenheiten
+    addAbsence: Abwesenheit erfassen
+    addSubstitute: Stellvertreter hinzufügen
+    deputies: Stellvertreter
+    description: Während meiner Abwesenheit werden Workflow Aufgaben automatisch den definierten Stellvertretern zugeteilt.
+    disableAbsencesInThePast: Vergangene Abwesenheiten ausblenden
+    editAbsence: Abwesenheiten bearbeiten
+    editSubstitute: Ersatz bearbeiten
+    from: Von
+    noDeputy: Kein Stellvertreter
+    noPermissionToSeeThisArea: Fehlende Berechtigung für diesen Bereich.
+    period: Zeitraum
+    personalTaskDuringAbsenceDeputies: Vertretungen für persönlich zugewiesene Aufgaben während der Abwesenheit
+    personalTaskPermanentDeputies: Ständige Stellvertreter für persönlich zugewiesene Aufgaben
+    selectDeputies: Stellvertreter auswählen
+    selectSubstitute: Stellvertreter auswählen
+    selectedDeputies: Ausgewählte Stellvertreter
+    setAsPermanent: Als dauerhaft festlegen
+    showAbsencesInThePast: Vergangene Abwesenheiten anzeigen
+    substituteName: Stellvertretername
+    substituteType: Stellvertretertyp
+    substitutedUser: Vertretener Benutzer
+    taskForRole: 'Aufgabe für Rolle: '
+    till: Bis
+  AbsenceManagement:
+    Messages:
+      addNewAbsence: Neue Abwesenheit ist für {0} hinzugefügt worden
+      removedAbsences: Abwesenheit ist für {0} entfernt worden
+      saveAbsenceSetting: Abwesenheitseinstellungen erfolgreich gespeichert.
+      updateAbsence: Abwesenheit erfolgreich aktualisiert
+    absenceAndDeputy: Abwesenheiten und Vertretungen
+    activeAbsence: Aktive abwesenheit
+    allAbsences: Abwesenheiten aller Benutzer
+    applicationAndRole: Applikation und Rolle
+    definedDeputies: Definierte Stellvertreter
+    deputyFor: Ich bin Stellvertreter:in für
+    myAbsences: Meine Abwesenheit
+    myDeputies: Meine Stellvertreter
+    nextAbsence: Bevorstehende Abwesenheit
+    noSubstitutesDefined: Keine Stellvertreter definiert
+    notSubstitutingAnybody: Derzeit kein Stellvertreter für andere
+    requestAbsences: Abwesenheiten beantragen
+    selectedDeputyFor: Ausgewählter Benutzer ist Stellvertreter für
+    selectedUser: Ausgewählter Benutzer
+    substitutes: Stellvertreter
+  AccessibilityShortcuts:
+    processName: Barrierefreiheit Tastenkombinationen Widgets
+  AllTasks:
+    caseDescription: Beschreibung des Vorgangs
+    taskDescription: Aufgabenbeschreibung
+    taskState: Aufgabenstatus
+  CaseDocuments:
+    CaseDocumentsPageTitle: Dokumente zum Fall
+  Enums:
+    ActivityState:
+      ACTIVE: Aktiv
+      INACTIVE: Inaktiv
+    BasicDocumentType:
+      CONTRACT: Vertrag
+      DOCUMENTATION: Dokumentation
+      EMAIL: Email
+      INFORMATION: Information
+      OTHERS: Andere Dateiformate
+    BehaviourWhenClickingOnLineInCaseList:
+      ACCESS_BUSINESS_DETAILS: Geschäftsdaten abrufen
+      ACCESS_CASE_DETAILS: Falldaten abrufen
+    BehaviourWhenClickingOnLineInTaskList:
+      ACCESS_TASK_DETAILS: Auf Aufgabendetails zugreifen
+      RUN_TASK: Ausführen der Aufgabe
+    DashboardCustomWidgetType:
+      EXTERNAL_URL: Externe URL
+      PROCESS: Axon Ivy Prozess
+    DashboardDisplayType:
+      HIDDEN: Versteckt
+      SUB_MENU: Untermenü
+      TOP_MENU: Seitenleiste
+    DashboardWidgetType:
+      CASE: Vorgangs-Widget
+      CUSTOM: Benutzerdefiniertes Widget
+      NAVIGATION_DASHBOARD: Navigation dashboard widget
+      NEW: Neues Widget
+      NEWS: Nachrichten
+      NOTIFICATION: Benachrichtigungen
+      PROCESS: Prozess-Widget
+      PROCESS_VIEWER: Prozess-Viewer-Widget
+      STATISTIC: Statistik-Widget
+      TASK: Aufgaben-Widget
+      WELCOME: Willkommens-Widget
+    DelegationAppendOption:
+      NONE: Keine
+      PARENT_NAME: Übergeordneter Rollenname
+    GlobalVariable:
+      Option:
+        DISPLAY_NAME: Anzeigename
+        DISPLAY_NAME_USERNAME: Anzeigename (Benutzername)
+        'FALSE': 'False'
+        'TRUE': 'True'
+        USERNAME: Benutzername
+        USERNAME_DISPLAY_NAME: Benutzername (Anzeigename)
+    ProcessMode:
+      COMPACT: Kompakt
+      GRID: Raster
+      IMAGE: Bild
+    ProcessSorting:
+      BY_ALPHABETICALLY: Alphabetisch
+      BY_CUSTOM_ORDER: Benutzerdefinierte Reihenfolge
+      BY_INDEX: Sortierindex
+      BY_SMART_ORDER: Meistgenutzt
+    ProcessType:
+      EXTERNAL_LINK: External Link
+      IVY_PROCESS: Geschäftsprozess
+    ProcessWidgetMode:
+      COMBINED_MODE: Kombinierter Modus
+      COMPACT_MODE: Kompakt-Modus
+      FULL_MODE: Voller Modus
+      IMAGE_MODE: Bild-Modus
+    ProjectMode:
+      MISSING: Fehlt
+      OK: OK
+      OUTDATED: Veraltet
+      TOO_NEW: Zu neu
+      TOO_OLD: Zu alt
+      UNKNOWN: Unbekannt
+    ReleaseState:
+      ARCHIVED: Archiviert
+      CREATED: Erstellt
+      DEPRECATED: Verworfen
+      PREPARED: Vorbereitet
+      RELEASED: Veröffentlicht
+    SortDirection:
+      ASC: Aufsteigend sortieren
+      DESC: Absteigend sortieren
+    WeekDay:
+      FRIDAY: Fr
+      MONDAY: Mo
+      SATURDAY: Sa
+      SUNDAY: So
+      THURSDAY: Do
+      TUESDAY: Di
+      WEDNESDAY: Mi
+    WelcomeImageFit:
+      CONTAIN: Enthält
+      COVER: Abdeckung
+      FILL: Füllen
+      NONE: Keine
+    WelcomeTextPosition:
+      BOTTOM_LEFT: Linke untere Ecke
+      BOTTOM_RIGHT: Rechte untere Ecke
+      CENTER: Zentrum
+      TOP_LEFT: Linke obere Ecke
+      TOP_RIGHT: Rechte obere Ecke
+    WelcomeTextSize:
+      HEADING_1: Rubrik 1
+      HEADING_2: Rubrik 2
+      HEADING_3: Rubrik 3
+      NORMAL_TEXT: Normaler Text
+  MyProfile:
+    Accessibility: Erreichbarkeit
+    CaseList: Fallliste
+    DateFormat: Datum Format
+    FormattingLanguage: Sprache der Formatierung
+    General: Allgemeine
+    Homepage: Homepage
+    KeyboardShorcutsNavigationInfor: Umschalten, um Tastenkombinationen für die Navigation zu aktivieren oder zu deaktivieren.
+    KeyboardShortcutsNavigation: Tastenkombinationen für die Navigation
+    KeyboardShortcutsTooltip: Diese Schaltfläche ist derzeit nicht verfügbar und kann aufgrund der Einstellungen nicht verwendet werden.
+    Language: Sprache
+    ProcessList: Prozess-Liste
+    TaskList: Aufgabenliste
+    byDefault: '  standardmäßig'
+    defaultOption: Standard ({0})
+    defaultViewMode: Standardanzeige
+    event: Veranstaltung
+    notSubscribed: Nicht abonniert
+    notificationChannels: Benachrichtigungskanäle
+    notificationChannelsReset: Benachrichtigungskanäle zurücksetzen
+    subscribed: abonniert
+    unpinAllPinnedCases: Alle angehefteten Fälle wurden für den Benutzer {0} entfernt.
+    unpinAllPinnedTasks: Alle angehefteten Aufgaben wurden für den Benutzer {0} entfernt.
+  PortalManagement:
+    AdminSetting: Administration
+  ProcessViewer:
+    Breadcrumb: Prozess-Viewer von {0} Prozess
+    ProcessViewerText: Prozess-Viewer
+    Title: Prozess-Viewer
+  SideStep:
+    NewSideStepMessage: Neue Nebenschrittaufgabe wird erstellt.
+    SideStepProcess: Parallelprozess starten
+  TaskDocuments:
+    TaskDocumentsPageTitle: Aufgaben-Dokumente
+  adminSettings:
+    addLanguages: Sprachen hinzufügen
+    announcement:
+      announcement: Ankündigungen
+      announcementsDisabled: Ankündigungen sind deaktiviert.
+      announcementsEnabled: Ankündigungen sind aktiviert.
+      defaultLanguageRequiredMessage: Ein Ankündigungstext in der standard Applikationssprache ist notwendig.
+      disabled: Deaktiviert
+      enable: Ankündigungen einschalten
+      information: Sie können eine allgemeine Ankündigung in diesem Bereich machen (z.B. Wartungsankündigung). Diese Nachricht kann von allen Benutzern gesehen werden.
+      saveChanges: Änderungen speichern
+      tabTitle: Ankündigungen
+    applicationtype:
+      thirdPartyApplication: 3rd Party Anwendung
+    currentValue: Aktueller Wert
+    defaultValue: Standard Wert
+    dialogclosinginformation:
+      dialogHeader: Einstellungen abgeschlossen
+      informMessage: Änderungen an den Portaleinstellungen erfordern eine Aktualisierung der aktuellen Seite, damit die neue Konfiguration wirksam wird.
+    editSetting: Einstellungen ändern
+    embedInFrame: Prozess/Task in Iframes Modus starten
+    emptySupportedLanguages: Es werden keine weiteren Sprachen unterstützt
+    globalVariableNote:
+      AppleStoreURL: Legen Sie die URL für den Download der Axon Ivy Mobile App im Apple Store fest.
+      ApplicationName: Der Name der Anwendung, der auf dem Seitentitel angezeigt werden soll.
+      BaseQRCodeUrl: Legen Sie die Basis-URL für den anzuzeigenden QR-Code fest.
+      DashboardFilterOperatorPolicy: Nicht ausgewählte Operatoren werden global deaktiviert.
+      DefaultThemeMode: Der Standardthemenmodus der Anwendung
+      EnableSwitchThemeModeButton: Setzen Sie diesen Wert auf true, um die Schaltfläche "Thema wechseln" zu aktivieren.
+      GlobalSearchScopeCategoriesNote: Festlegung der Typen, nach denen bei der globalen Suche gesucht werden soll
+      GooglePlayURL: Legen Sie die URL fest, um die Axon Ivy-Mobilanwendung auf Google Play herunterzuladen.
+      RoleDirectChildrenLimit: 'Die eingestellte Zahl steuert die Anzahl der direkten untergeordneten Rollen, die auf der Registerkarte Rollenverwaltung angezeigt werden. Gültige Zahl: 10, 50, 100'
+      RoleParentLimit: 'Die eingestellte Zahl steuert die Anzahl der übergeordneten Rollen, die beim Filtern von Rollen auf der Registerkarte Rollenverwaltung angezeigt werden. Gültige Zahl: 5, 10, 20'
+      SearchScopeCaseFields: Festlegung der Felder, die bei der globalen Suche verwendet werden sollen, um neben der Fallnummer übereinstimmende Vorgänge zu finden (dies kann die Leistung der Suche beeinflussen)
+      SearchScopeTaskFields: Festlegung der Felder, die die globale Suche neben der Aufgabenkennung verwendet, um passende Aufgaben zu finden (dies kann die Leistung der Suche beeinflussen)
+      SessionCacheTimeout: Sitzungs-Cache-Timeout für das Portal. Legt die Ablaufzeit des Sitzungs-Caches (in Sekunden) für das Portal fest. Dieser Wert kann zwischen 300 (5 Minuten) und 86.400 (24 Stunden) eingestellt werden.
+      ShowLoginPageFooter: Zum Ein-/Ausschalten der Anzeige der Fußzeile auf der Anmeldeseite.
+      ShowQRCode: Zum Ein- und Ausschalten der Anzeige des QR-Codes.
+      allowKeyboardShortcutsConfiguration: Auf true setzen, damit der Benutzer mit der Schaltfläche für Tastenkombinationen interagieren kann.
+      behaviourWhenClickingOnLineInCaseList: Umschalten zwischen dem Zugriff auf Falldaten oder Geschäftsdaten beim Klicken auf einen Fall im Fall-Widget des Dashboards, in der globalen Suche, in verwandten Fällen und im Prozess-Widget im kombinierten Modus.
+      behaviourWhenClickingOnLineInTaskList: Zum Umschalten des Verhaltens (Ausführen der Aufgabe oder Aufrufen der Aufgabendetails) beim Klicken auf eine Zeile in der Aufgabenliste, im Aufgaben-Widget des Dashboards und bei verwandten Aufgaben auf der Seite mit den Vorgangsdetails.
+      chatMaxConnection: 'Die gesetzte Nummer steuert die Anzahl der erlaubten Tabs mit aktiven Chat. Falls mehr Tabs geöffnet werden, wird der Chat in inaktive Tabs deaktiviert. Erlaubte Werte zw. 1-5 '
+      chatResponseTimeout: Chat-Antwort-Time-out in Sekunden, Standardwert ist 0 und bedeutet kein Time-out. Wenn Chat-Nachrichten durch den Reverse-Proxy Nginx gehen, muss das Chat-Antwort-Time-out kleiner sein als das Nginx-Time-out, z. B. kleiner als 60 Sekunden.
+      checkSystemNotesByDefault: Wenn der Wert wahr ist und die Systemnotizen sichtbar sind, wird das Kontrollkästchen als aktiviert angezeigt.
+      checkSystemTasksByDefault: Wenn der Wert „true“ ist und Systemaufgaben sichtbar sind, wird das Kontrollkästchen als aktiviert angezeigt.
+      dateFilterWithTime: Setzen Sie diesen Wert auf true, um die Datumsfilterung mit Uhrzeit zu aktivieren. Diese Einstellung wirkt sich auf die Aufgabenliste, die Fallliste und die Statistik aus.
+      defaultHomepage: Zum Einstellen der Standard-Homepage, zu der umgeleitet wird, wenn Sie auf das Home-Symbol oder das Logo klicken. Diese Einstellung gilt auch für die Endeseite nach Beendigung einer Aufgabe.
+      defaultProcessImage: Die Standardeinstellung des Standardbildes, das in der Bildprozessliste angezeigt wird.
+      defaultProcessMode: Die Standardeinstellung des Ansichtsmodus in der Prozessliste.
+      defaultSortDirectionOfCaseList: Standard-Sortierrichtung der Vorgangsliste
+      defaultSortDirectionOfTaskList: Standard-Sortierrichtung der Aufgabenliste
+      defaultSortFieldOfCaseList: Standard-Sortierfeld der Vorgangsliste
+      defaultSortFieldOfTaskList: Standardsortierfeld der Aufgabenliste
+      delegationAppendOption: Diese Einstellung bestimmt, welche zusätzlichen Informationen beim Formatieren von Rollennamen enthalten sind.
+      disableCaseCount: Auf "true" setzen, um das zählen der Vorgänge in der Vorgangsliste zu deaktivieren
+      disableTaskCount: Auf "true" setzen, um das zählen der Aufgaben in der Aufgabenliste zu deaktivieren
+      displayAllUsersOfTaskActivator: Diese Einstellung wird für die Komponente SecurityMemberDisplayName verwendet. Wenn der SecurityMember eine Rolle ist, setzen Sie diese Einstellung auf true, um alle Benutzer dieser Rolle aufzulisten. Wenn diese Einstellung auf true gesetzt ist, wird neben dem Rollennamen
+        eine Symbolinfo angezeigt.
+      displayMessageAfterFinishOrLeaveTask: Eine Feedback-Nachricht wird angezeigt, nachdem der Benutzer eine Aufgabe beendet oder verlassen hat.
+      documentUploadSizeLimit: Legen Sie das Größenlimit für das Hochladen von Dokumenten in Megabyte (MB) fest. Der Standardwert beträgt 20 MB.
+      embedInFrame: Auf true gesetzt, um einen Prozess/Task im IFrame-Modus zu starten
+      enableCaseOwner: Wird auf true gesetzt, um die Filterung des Vorgangsinhabers bei der Abfrage von Vorgängen zu aktivieren. Diese Einstellung wirkt sich auf alle Vorgangsabfragen aus, z.B. nach Vorgangsliste, globale Suche, Statistik, …Außerdem wird der Filter "Aufgaben nach aktuellem Fallinhaber
+        filtern" im Aufgaben-Widget verfügbar gemacht, der standardmäßig ausgeblendet ist.
+      enableDocumentPreview: 'Auf "true" setzen, um die Vorschau von Dokumenten für bestimmte Dateitypen zu aktivieren. Unterstützte Dateitypen sind: pdf, png, jpeg, jpg, txt, log.'
+      enableGroupChat: Setzen Sie diese Einstellung auf "true", um den Gruppenchat zu aktivieren
+      enablePinCase: Setzen Sie diese Eigenschaft auf „true“, um das Anheften von Fällen zu ermöglichen.
+      enablePinTask: Setzen Sie diese Eigenschaft auf „true“, um das Anheften von Aufgaben zu ermöglichen.
+      enablePrivateChat: Setzen Sie diese Einstellung auf "true", um den privaten Chat zu aktivieren
+      enableProcessViewer: Setzen Sie diese Einstellung auf true, um die Prozess-Viewer-Option in Aufgaben-/Vorgang-Aktionen zu aktivieren
+      enableScriptCheckingForUploadedDocumentNote: Auf "true" setzen, um die Skriptüberprüfung zu aktivieren. Es werden die Formate PDF, Excel und Word unterstützt.
+      enableTranslationService: Setzen Sie diese Eigenschaft auf true, um den Übersetzungsdienst zu aktivieren
+      enableVirusScannerForUploadedDocumentNote: Auf true setzen, um den Virenscanner für das hochgeladene Dokument zu aktivieren. Derzeit verwendet diese Funktion die API VIRUSTOTAL.
+      globalSearchMinimumKeywordLengthNote: Mindestanzahl an Zeichen, die erforderlich ist, bevor die globale Suche ausgeführt wird. Der Standardwert ist 3; auf 0 setzen, um die Prüfung zu deaktivieren. Ein kürzeres Schlüsselwort trifft auf nahezu jede Zeile zu, was langsam sein kann, daher wird die Suche
+        übersprungen statt ausgeführt.
+      hideCaseCreator: |
+        Auf true setzen, um den Fallersteller in der Fallliste, dem Fall-Widget und den Falldetails auszublenden.
+        Diese Einstellung wirkt sich auf alle Fallabfragen aus, z. B. für Fallliste, globale Suche, Statistik.
+      hideCaseDocument: Auf "true" setzen, um die Dokumentensektion in Vorgangsdetails auszublenden.
+      hideChangePasswordButtonNote: Setzen Sie diese Variable auf true, um die Option "Passwort ändern" im oberen Menü und die Option "Passwort vergessen" auf der Anmeldeseite auszublenden. Wenn sie auf false gesetzt ist, werden diese Optionen angezeigt.
+      hideLogoutButtonNote: 'Auf "true" setzen, um die Logout Funktion im Top Menu zu deaktivieren. '
+      hideRelatedCaseInfoFromHistory: Wenn diese Option auf "true" gesetzt ist, werden die zugehörigen Fallinformationen nicht in der Tabelle "Historie" angezeigt.
+      hideSystemTasksFromHistory: Wenn diese Option aktiviert ist, zeigt die Vorgangs- / Aufgabennotiz keine technischen Verlaufseinträge für Benutzer ohne Administratorrechte an.
+      hideSystemTasksFromHistoryAdministrator: Wenn dies der Fall ist, zeigt die Vorgangs- / Aufgabennotiz keine technischen Verlaufseinträge für den Administrator an.
+      hideTaskDocument: Auf "true" setzen, um die Dokumentensektion in Taskdetails auszublenden.
+      hideTimeNote: 'Auf "true" Setzen, um Datumsfelder ohne Stunden und Minuten anzuzeigen '
+      hideUploadDocumentForDoneCaseNote: Auf "true" setzen, um das Hochladen und Löschen von Dokumenten bei einem abgeschlossenen Vorgang zu unterbinden.
+      hideYear: Auf "true" um das Jahr auszublenden, andernfalls wird es angezeigt.
+      imageUploadSizeLimit: Legen Sie das Größenlimit für das Hochladen von Bildern in Megabyte (MB) fest. Der Standardwert beträgt 6 MB.
+      loggedInUserFormat: Definiert das Format, um den eingeloggten Benutzer anzuzeigen
+      maximumSelectedTasks: Definiert die maximale Anzahl von Aufgaben, die ein Benutzer gleichzeitig innerhalb eines Aufgaben-Widgets für Massenoperationen auswählen kann. Setzen Sie diesen Wert auf eine positive Ganzzahl, um ein bestimmtes Limit zu erzwingen, oder lassen Sie ihn leer, um eine unbegrenzte
+        Aufgabenauswahl zu ermöglichen.
+      refreshTaskListIntervalNote: Intervall in Sekunden um die Aufgabenliste neu zu laden.
+      showAvatar: Zum Ein- und Ausschalten der Anzeige von Benutzer-/Rollenavataren.
+      showButtonIcon: Zum Ein-/Ausschalten des Anzeigesymbols bei Butons im Portal
+      showCaseDurationTime: Zum Ein-/Ausschalten der Anzeige der Bearbeitungszeit auf der Vorgangsdetailseite.
+      showErrorLogToConsole: Auf true setzen, um Fehlerprotokoll in die Browserkonsole zu schreiben
+      showGlobalSearch: Zum Ein-/Ausschalten der Anzeige der globalen Suche.
+      showProcessInformation: Auf "false" setzen, um die Verknüpfung zu Informationen des Prozesses auf der Seite Prozesse (Gittermodus) und Falldetails anzeigen zu deaktivieren.
+      showQuickGlobalSearch: Zum Ein-/Ausschalten der Anzeige der globalen Schnellsuche.
+      showTaskDurationTime: Zum Ein-/Ausschalten der Anzeige der Bearbeitungszeit auf der Aufgabendetailseite.
+      showTooltipTechnicalName: Ermöglicht die Anzeige des technischen Namens der Benutzer in den Tooltips.
+      sidebarMode: Steuert den Modus der Seitenleiste. Hover öffnet beim Darüberfahren, Klick verwendet eine Umschalttaste, Fixiert hält sie immer geöffnet, Versteckt entfernt die Seitenleiste vollständig.
+      uploadDocumentWhiteListExtensionNote: 'Leer lassen, falls Sie alle Formate erlauben. Falls Sie nur eine geringe Anzahl an Formate erlauben möchten (White list), können Sie diese hier, mit Komma getrennt, aufführen. Z.B.: pdf, txt, doc, docx.'
+    key: Schlüssel
+    loading: WIRD GELADEN
+    loginLogoSizeTooltip: 'Empfohlene Größe<BR/>Quadratisches Logo: 80x80 px<BR/>Rechteckiges Logo: 191x50 px'
+    logoSizeRecommendation:
+      homeRectangleSize: 'Rechteckiges Logo: 160x42 px'
+      homeSquareSize: 'Quadratisches Logo: 75x75 px'
+      loginRectangleSize: 'Rechteckiges Logo: 191x50 px'
+      loginSquareSize: 'Quadratisches Logo: 80x80 px'
+      sizeRecommendation: Empfohlene Größe
+    note: Notiz
+    password: Passwort
+    passwordHint: Password des Systemadministrators
+    passwordRequiredMsg: Bitte Passwort eingeben.
+    pleaseSelect: Bitte wählen Sie...
+    portalLink: Portallink
+    refreshUserErrorMsg: '{0} Fehler gefunden. Detaillierte Fehlermeldung: <BR/> {1}'
+    refreshUserPermissionSuccessful: Die Aktualisierung wurde erfolgreich abgeschlossen. Es wurden {0} Benutzer geladen.
+    refreshUserPermissions: Einstellungen synchronisieren
+    requireToInputServer: Wählen Sie einen Server für die Anwendung
+    resetAllSettingsConfirmation: 'Sind Sie sicher, dass Sie alle Einstellungen auf Standardwerte zurücksetzen möchten? '
+    resetSettingConfirmation: Sind Sie sicher, dass Sie die Einstellung auf den Standardwert zurücksetzen möchten?
+    restoreAllToDefault: Alle auf Standard Zurücksetzen
+    restoreDefault: Wiederherstellung der Standardwerte
+    settingApplicationName: Anwendungsname angeben
+    settingMultipleLanguages: Einstellung mehrerer Sprachen
+    usernameHint: Benutzername eines System Administrators.
+    usernameRequiredMsg: Bitte geben Sie den Benutzernamen an.
+    value: Wert
+  applicationMenuHeader:
+    MobileApp: Herunterladen und Verbinden mit der Axon Ivy Mobile App
+    ThemeSwitcher: Themenumschalter
+    adminSettings: Administration
+    changePassword: Passwort ändern
+  businessCaseState:
+    DESTROYED: Gelöscht
+    DONE: Erledigt
+    OPEN: Offen
+  caseDetails:
+    addDocumentHelpText: Zum Hochladen Dateien per Drag & Drop hier ablegen oder Dateien auswählen
+    addNoteHelpText: Schreiben Sie hier Ihren Text
+    businessDetailsTitle: Geschäftsdetails
+    caseDetails: Fall-Details
+    customFields: Benutzerdefinierte Felder
+    customFieldsDialog: 'Benutzerdefinierte Felder des Falls #{0}'
+    deleteFile: Datei löschen
+    documents: Dokumente
+    downloadFile: Datei herunterladen
+    duration: Dauer
+    history: Verlauf
+    noCaseName: <Kein Vorgangsnamen>
+    noDescription: Keine Beschreibung vorhanden
+    noRunningCase: Es wird kein Fall ausgeführt.
+    noRunningTask: Es wird keine Aufgabe ausgeführt.
+    noRunningTasksAndCasesPermission: Weitere Aufgaben werden derzeit bearbeitet. Sie haben keine Berechtigung, die zugehörigen Aufgaben dieses Vorganges zu sehen.
+    noSideSteps: Keine Sidesteps verfügbar
+    noTaskName: <Kein Aufgabenname>
+    noTasks: Keine Aufgabe
+    relatedTasks: Zugehörige Aufgaben
+    relatedTasksAndCases: Zugehörige Aufgaben und Vorgänge
+    runningTasks: Laufende Aufgaben
+    showAdditionalPage: Geschäftsdetails
+    showAllTasks: Alle Tasks anzeigen
+    showAllTechnicalCases: Vorgänge anzeigen
+    showMoreTasks: Weitere Aufgaben anzeigen
+    showMoreTechnicalCases: Weitere technische Vorgänge anzeigen
+    showProcessOverview: Prozessübersicht
+    sideSteps: Sidesteps
+    taskIsDestroyed: Die Aufgabe ist gelöscht
+    taskIsDone: Die Aufgabe ist erledigt
+    taskIsFailed: Aufgabe ist fehlgeschlagen
+    taskIsWaiting: Aufgabe wartet
+    taskStateAndResponsible: 'Status: {0}, verantwortlich: {1}'
+    taskStateIsCreated: Der Zustand der Aufgabe ist Erstellt (im Speicher noch)
+  caseList:
+    cases: Vorgänge
+    confirmDeleteMessage: Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie dieses Businessobjekt löschen wollen?
+    defaultColumns:
+      APPLICATION: Anwendung
+      CATEGORY: Kategorie
+      CREATION_TIME: Erstellt
+      CREATOR: Ersteller
+      FINISHED_TIME: Erledigt
+      ID: Vorgangs Id
+      NAME: Name / Beschreibung
+      OWNER: Prozessverantwortlichen
+      PIN: Anheften
+      STATE: Status
+    deletionNoteContent: Der Vorgang wurde durch {0} gelöscht.
+    destroyCaseMessage: 'Diese Operation kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie den Fall <b>{0} (ID: {1})</b> und alle seine Aufgaben löschen möchten?'
+    destroyfail: Beim Löschen des Vorgangs ist ein Fehler aufgetreten.
+    destroysucceed: Vorgang wurde erfolgreich gelöscht.
+    downloadZipFileExplanation: Die Anzahl der zu exportierenden Vorgänge überschreitet die Grenze der Excel-Zeilen. Daher werden die Daten in mehrere Excel-Dateien aufgeteilt und dann in einer ZIP-Datei zum Herunterladen komprimiert.
+    error: Fehler
+    exportedCasesFileName: AXONIVY_Dataset_Cases_{0}.{1}
+    headerTitle:
+      relatedStatisticHeader: 'Vorgänge aus Diagramm:'
+      technicalCaseOfBusinessCaseAlternativeTitle: Vorgang {0}
+      technicalCasesOfBusinessCaseTitle: 'Technische Vorgänge für Business Case #{0} {1}'
+    relatedCaseHeader: 'Vorgang #{0} {1}'
+    relatedCases: Verwandte Vorgänge
+    title: Titel
+    unknownCase: Unbekannter Fall
+    unknownId: Unbekannter Id
+  caseState:
+    CREATED: Erstellt
+    CREATED_UPPERCASE: ERSTELLT
+    DESTROYED: Gelöscht
+    DESTROYED_UPPERCASE: GELÖSCHT
+    DONE: Erledigt
+    DONE_UPPERCASE: ERLEDIGT
+    FAILED: Fehlgeschlagen
+    INPROGRESS: IN BEARBEITUNG
+    OPEN: Offen
+    OPEN_UPPERCASE: OFFEN
+    RUNNING: in Bearbeitung
+  chat:
+    chatAssigneeDialogHeader: Benutzer zum Chat hinzufügen
+    chatAssigneeDialogHint: 'Bitte wählen Sie die relevanten User und Gruppen, die Sie zum Gruppenchat hinzufügen möchten:'
+    createProcessChat: Gruppenchat erstellen
+    errorSelectInvalidAssignee: Der Beauftragte ist bereits ausgewählt oder ungültig
+    failureToCreateProcessChat: Fehler beim erstellen des Gruppenchats
+    failureToJoinProcessChat: Fehler beim beitreten zum Gruppenchat
+    groupChatHeader: Vorgangsbezogener Chat
+    joinGroupQuestion: Möchten Sie beitreten?
+    joinProcessChat: Gruppenchat beitreten
+    joinedProcessChat: Sie sind dem Gruppenchat - {0} - beigetreten
+    noAssignees: Bitte wählen Sie die relevanten User und Gruppen, um den Gruppenchat zu erstellen.
+    noGroupChat: Es gibt keine Gruppen-Chats.
+    noUsers: Keine Benutzer
+    participants: Teilnehmer
+    personalChatHeader: Allgemeiner Chat
+    processChatIsCreated: Gruppenchat - {0} - wurde erstellt
+    processChatWasCreated: Gruppenchat - {0} - wurde bereits erstellt. Sie können keinen weiteren Chat erstellen.
+    selectedAssignees: Ausgewählte Genehmiger
+    toggleChat: Chat-Panel umschalten
+    typeMessage: Schreiben Sie hier eine Nachricht...
+    viewParticipant: Teilnehmer anzeigen
+  common:
+    All: Alles
+    And: und
+    AutoTranslation: Automatische Übersetzung
+    BusinessCaseInformation: Business Case Informationen
+    Clone: Klonen
+    CollapseAll: Alles zuklappen
+    ExpandAll: Alles aufklappen
+    MoreItemsAvailable: weitere Artikel verfügbar
+    NoSelection: Keine Auswahl
+    ResetToDefaultHeaderText: Auf Standard-Einstellungen zurücksetzen?
+    RoleUserInformation: Rollen- und Benutzerinformationen
+    StringFormat:
+      DateFromTo: '%s - %s'
+      TextListOut: '%s, %s,..'
+      TextWithColon: '%s: %s'
+      TextWithContextInBrackets: '%s (%s: %s)'
+      TextWithRoundBracket: '%s (%s)'
+    TaskCaseInformation: Informationen zu Aufgabe und Vorgang
+    Update: Aktualisieren
+    Widget: Widget
+    action: Aktionen
+    actionMenuContext: Aktionsmenü für Prozess {0} öffnen
+    active: Aktiviert
+    add: Hinzufügen
+    addContext: '{0} hinzufügen'
+    addDocument: Dokument hinzufügen
+    addLink: Link hinzufügen
+    addNote: Notiz hinzufügen
+    allCategories: Alle Kategorien
+    allTypes: Alle Typen
+    allowPng: Nur das png Format wird unterstützt
+    apply: Anwenden
+    applyContext: '{0} anwenden'
+    at: am
+    author: Autor
+    back: Zurück
+    backToCaseMap: Zurück zur Case Map
+    backgroundColor: Hintergrundfarbe
+    bulkSelection: Mehrfachauswahl
+    businessCaseId: Business-Fall-ID
+    cancel: Abbrechen
+    cancelContext: '{0} abbrechen'
+    case: Vorgang
+    caseCategory: Vorgangskategorie
+    caseInformation: Vorgangsinformationen
+    caseName: Vorgangsname
+    categories: Kategorien
+    change: Ändern
+    close: Schließen
+    closeContext: '{0} schließen'
+    cockpit: Cockpit
+    collapse: Minimieren
+    collapseWidgetContext: Widget {0} minimieren
+    colors: Farben
+    comment: Kommentar
+    completedOn: Erledigt am
+    confirmForDelete: Sind Sie sicher, dass Sie diesen Eintrag löschen wollen?
+    confirmation: Bestätigung
+    confirmationHeaderText: Sind Sie sicher?
+    continue: Fortfahren
+    create: Erstellt
+    creationDate: Erstellungsdatum
+    dashboard: Dashboard
+    data: Daten
+    dateFromBiggerThanTo: Das 'bis' Datum muss nach dem 'von' Datum liegen.
+    dateRequired: Datum darf nicht leer sein.
+    day: Tag
+    dayUnit: Tag
+    days: Tag(e)
+    default: Standardeinstellung
+    defaultNotificationMessage: Hmm... Hier ist wohl etwas schief gelaufen.
+    delegateTasks: Aufgaben delegieren
+    delete: Löschen
+    deleteAbsenceHeaderText: 'Diese Abwesenheit löschen? '
+    deleteChartHeaderText: Dieses Diagramm löschen?
+    deleteContext: '{0} löschen'
+    deleteDocumentHeaderText: 'Dieses Dokument löschen? '
+    deleteFilterHeaderText: Diesen Filter löschen?
+    description: Beschreibung
+    design: Design
+    destroy: Löschen
+    destroyCaseHeaderText: Diesen Vorgang löschen?
+    destroyTaskHeaderText: Diese Aufgabe löschen?
+    detail: Details
+    display: Anzeigen
+    displayAsTopMenu: Als oberstes Menü anzeigen
+    displayName: Anzeigename
+    dragAndDropFile: 'Ziehen und Ablegen einer Datei oder '
+    dragAndDropImage: 'Ziehen und Ablegen eines Bildes oder '
+    edit: Bearbeiten
+    errorAjaxMessage: Es gibt einen allgemeinen Fehler!
+    errorFileUploadSize: Die Dateigrösse muss kleiner als {0} sein.
+    errorNotification: Fehlerbenachrichtigung
+    errorXhr: Fehler beim aktualisieren der Webseiteinhalte
+    escalationTaskHeaderText: Eskalation auslösen
+    escalationTaskMessage: Frist wird auf jetzt gesetzt, somit läuft die Bearbeitungsfrist ab. Sind Sie sicher?
+    expand: Erweitern
+    expandWidgetContext: Widget {0} erweitern
+    filter:
+      from: von
+      moreOptions: Mehr Optionen
+      restoreDefaultFilterHeader: Zurücksetzen
+      to: bis
+      worker: Bearbeiter
+      wrongFromDateFormat: Bitte geben Sie ein gültiges Datum "von" an. Das Format ist {0}
+      wrongToDateFormat: Bitte geben Sie ein gültiges Datum "bis" an. Das Format ist {0}
+    filterLabel: Filter
+    finish: Beenden
+    general: Allgemein
+    generalInformation: Allgemeine Informationen
+    globalSearch: Suche ...
+    goToDetail: Zu den Details
+    gridView: Rasteransicht
+    growlMessage:
+      PROCESS_VIEWER: Sie haben den Prozess-Viewer geschlossen.
+      TASK_FINISHED: Sie haben die Aufgabe erfolgreich abgeschlossen
+      TASK_LEFT: Sie haben die Aufgabe abgebrochen. Sie finden die Aufgabe im Dashboard oder in Ihrer Aufgabenliste.
+    hasPrecondition: Dieser Prozess hat eine Vorbedingung
+    height: Höhe
+    hide: Verbergen
+    homeLogo: Home Logo
+    hour: Stunde
+    hours: Stunden
+    inactive: Deaktiviert
+    information: Information
+    leave: Verlassen
+    leaveAndReserve: Verlassen und reservieren
+    linkToCaseDetails: Klicken Sie <a href="{0}" >hier</a> für weitere Details.
+    listView: Listenansicht
+    loading: Lädt
+    loginLogo: Login Logo
+    logos: Logos
+    mainColor: Hauptfarbe
+    minute: Minute
+    minutes: Minuten
+    more: Mehr
+    moreInformation: Mehr information
+    myProcesses: Meine Prozesse
+    name: Titel
+    new: Neu
+    next: Weiter
+    nextStage: Nächste Stufe
+    'no': Nein
+    noCategory: '[Keine Kategorie]'
+    noDocumentAvailable: Keine Dokumente vorhanden
+    noName: kein Name
+    noNoteAvailable: Keine Notizen vorhanden
+    noNotesFound: Keine Notizen vorhanden
+    noProcessDescription: Führen Sie diesen Prozess aus, indem Sie auf die Schaltfläche unten klicken
+    noRecordsFound: Keine Ergebnisse gefunden.
+    notAvailable: N/V
+    note: NOTIZ
+    numberFromBiggerThanTo: Nach" muss größer sein als "Von".
+    numberOfSelectedFilter: Ausgewählte Filter
+    ok: OK
+    okContext: OK {0}
+    'on': am
+    openWidgetFiltersContext: Filter für {0} öffnen
+    openWidgetFiltersWithCountContext: Filter für {0} öffnen, {1} aktive Filter
+    openWidgetInfoContext: Widget-Informationen zu {0} öffnen
+    pin: Anheften
+    pinCaseContext: Vorgang {0} anheften
+    pinTaskContext: Aufgabe {0} anheften
+    pleaseAddDocument: Verwenden Sie bitte den Link oben, um Dokumente hochzuladen
+    pleaseAddNote: Verwenden Sie bitte den Link oben, um Notizen hinzuzufügen
+    previousStage: Vorherige Stufe
+    private: Privat
+    process: Prozess
+    processes: Prozesse
+    public: Öffentlich
+    remove: Entfernen
+    removeSelection: Selektion entfernen
+    reorder: Neu anordnen
+    requiredFieldMessage: Dies ist ein Pflichtfeld
+    reserve: Reservieren
+    reset: Zurücksetzen
+    resetFilters: Alle zurücksetzen
+    resetSettingHeaderText: Einstellung zurücksetzen?
+    resetTaskHeaderText: Diese Aufgabe zurücksetzen?
+    resetToDefaultMessage: Dieser Vorgang kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie auf die Standard-Einstellungen zurücksetzen möchten?
+    resetToStandardFilterHeaderText: Auf Standardfilter zurücksetzen?
+    restore: Wiederherstellen
+    restoreToDefaultChartHeaderText: Auf Standarddiagramme zurücksetzen?
+    role: Rolle
+    save: Speichern
+    saveAll: Speichern
+    saveContext: '{0} speichern'
+    saveSuccessfully: Daten erfolgreich gespeichert.
+    search: Suche
+    second: Sekunde
+    seconds: Sekunden
+    seeDetail: Details anzeigen
+    select: Auswählen
+    selectAll: Alle selektieren
+    selectUsers: Benutzer auswählen
+    selectedDay: '{0} ausgewählte Tag(e)'
+    send: Senden
+    sessionExpried: Ihre Session ist abgelaufen. Die Anwendung wird neu gestartet.
+    sessionExpriedInTeams: Ihre Session ist abgelaufen. Die Anwendung wird neu gestartet.
+    setting: Einstellungen
+    showDetail: Details anzeigen
+    showRelatedCaseInfo: Zugehöriger Vorgang
+    showSystemNotes: Systemhinweise
+    showSystemTasks: Systemaufgaben
+    sorting: Sortierung
+    start: Start
+    startProcess: Prozess starten
+    state: Status
+    status: Status
+    switchToDesktopVersion: Zur Desktop-Version wechseln
+    taskActionMenuContext: Aktionsmenü für Aufgabe {0} öffnen
+    taskCanceledAndLeftSuccessfully: Sie haben die Aufgabe abgebrochen. Sie finden die Aufgabe im Dashboard oder in Ihrer Aufgabenliste.
+    taskFinishedSuccessfully: Sie haben die Aufgabe erfolgreich abgeschlossen
+    taskFromSubstitution: Sie sehen diese Aufgabe, weil Sie der Stellvertreter sind
+    taskName: Aufgabenname
+    tasks: Aufgaben
+    technicalCaseId: Technische Fall-ID
+    theCasemap: Die Case Map
+    theProcess: Der Prozess
+    timeInformation: Zeitangaben
+    timestamp: Zeitstempel
+    toggleBulkDelegation: Massendelegierung umschalten
+    type: Typ
+    typeAdmin: Alle Administratoren
+    typeAllUsers: Alle Benutzer
+    typeOnlyMe: Nur für mich
+    unpin: Anheftung aufheben
+    unpinCaseContext: Anheftung von Vorgang {0} aufheben
+    unpinTaskContext: Anheftung von Aufgabe {0} aufheben
+    uploadHere: Hier hochladen
+    uploadOneHere: Auswählen
+    user: '{0} Benutzer'
+    users: Benutzer
+    via: schrieb
+    viewExpired: Ihre aktuelle Bearbeitungsmaske ist abgelaufen und kann nicht weiter bearbeitet werden. Sie werden auf die Startseite umgeleitet.
+    viewMode: Ansichtsmodus
+    visible: Sichtbar
+    waitingDownloadMessage: Bitte um Geduld. Wir erstellen gerade den Export. Das kann einige Minuten dauern.
+    warning: Warnung!
+    welcomeToPortal: Willkommen, bitte melden Sie sich an
+    workingUser: Bearbeiter
+    wrongDateFormat: Bitte geben Sie ein gültiges Datum ein.
+    year: Jahr
+    years: Jahre
+    'yes': Ja
+  components:
+    PortalPackageManagement:
+      BrowseFiles: Dateien durchsuchen
+      CaseDetailsFileDescription: Konfigurieren, neu anordnen und erweitern Sie die Falldetailseite mit integrierten Widgets oder benutzerdefinierten Panels
+      CustomMenuItemsFileDescription: Benutzerdefinierte Einträge im linken Navigationsmenü hinzufügen
+      CustomStatisticFileDescription: Definitionen benutzerdefinierter Statistikdiagramme, die auf Portal-Dashboards angezeigt werden
+      DashboardFileDescription: Dashboard-Widget-Layouts und -Konfigurationen für alle Portal-Dashboards
+      DescriptionHeader: Beschreibung
+      DropZoneLabel: Ziehen Sie eine ZIP-Datei hierher
+      DropZoneOr: oder
+      ExportButton: Exportieren
+      ExportDescription: Exportieren Sie Portal-Konfigurationsdateien als ZIP-Paket. Nur Dateien mit vorhandenen Daten stehen zur Auswahl.
+      ExportTitle: Exportieren
+      ExternalLinksFileDescription: Externe Link-Prozesse, die in der linken Navigation oder der Prozesslisten-Seite des Portals angezeigt werden
+      FileNameHeader: Dateiname
+      GeneralInfo: Verwalten Sie Portal-Konfigurationsdateien als portables ZIP-Paket. Verwenden Sie Exportieren, um alle aktuellen JSON-Konfigurationsdateien gebündelt in einem einzigen ZIP-Archiv herunterzuladen, oder verwenden Sie Importieren, um ein ZIP-Paket hochzuladen und dessen Konfigurationen
+        anzuwenden — wodurch die bestehenden ersetzt werden.
+      ImportButton: Importieren
+      ImportCompleteMessage: Alle Dateien wurden erfolgreich importiert.
+      ImportDescription: Laden Sie eine ZIP-Datei hoch, die die erforderlichen JSON-Dateien enthält. Die Dateinamen müssen dem obigen Muster entsprechen.
+      ImportDialogHeader: Portal-Paket importieren
+      ImportIncompleteMessage: Einige Dateien konnten nicht importiert werden. Weitere Informationen finden Sie im Server-Log.
+      ImportTitle: Importieren
+      InvalidPackageMessage: Die hochgeladene Datei konnte nicht gelesen werden. Bitte stellen Sie sicher, dass es sich um ein gültiges ZIP-Archiv handelt.
+      MenuOrderFileDescription: Benutzerdefinierte Reihenfolge der Hauptnavigationsmenüpunkte in der Portal-Seitenleiste
+      PreviewInvalidFilesHeader: Nicht erkannte Dateien werden übersprungen ({0} Datei(en))
+      PreviewNoFileMessage: Gültige Elemente werden hier angezeigt, nachdem Sie eine Datei ausgewählt haben.
+      PreviewNoValidFilesMessage: Keine erkannten Portal-Konfigurationsdateien gefunden. Bitte laden Sie eine gültige Portal_Package.zip hoch.
+      PreviewValidFilesHeader: Gültig ({0} Datei(en))
+      ReplaceWarning: Die vorhandenen Daten jedes importierten Typs werden ersetzt. Diese Aktion kann nicht rückgängig gemacht werden.
+      ThirdPartyApplicationsFileDescription: In das Portal-Menü integrierte Links zu Drittanwendungen
+      UserMenuFileDescription: Benutzerdefinierte Einträge und Links zum Standard-Benutzermenü hinzufügen
+    RoleManagement:
+      AssignUsersToRole: Benutzer einer Rolle zuordnen
+      AssignedUser: Zugewiesene Benutzer
+      AvailableUsers: Verfügbare Benutzer
+      CannotDeleteRoleTooltip: Sie haben nicht die Berechtigung, diese Rolle zu löschen. Bitte wenden Sie sich an Ihren Systemadministrator.
+      CannotDeleteUserTooltip: Sie können nur direkte Rollenzuweisungen bearbeiten, nicht aber vererbte Mitgliedschaften.
+      CannotEditRoleTooltip: Sie haben nicht die Berechtigung, Rolleninformationen zu ändern. Bitte wenden Sie sich an Ihren Systemadministrator.
+      CannotManageRoleTooltip: Sie können nur Rolleninformationen für Rollen ändern, die nicht an einem Prozess beteiligt sind.
+      CreateRole: Neue Rolle erstellen
+      DeleteButtonTitle: Rolle löschen
+      EditButtonTitle: Rolleninfo bearbeiten
+      FilteredRoles: Gefilterte Rollen
+      InheritedMembership: Vererbte Mitgliedschaft
+      ListUsers: Benutzer der Rolle {0}
+      Messages:
+        ConfirmDeleteRole: Sind Sie sicher, dass Sie sie löschen wollen?
+        ConfirmDeleteUserOfRole: Sind Sie sicher, dass Sie die Benutzer aus der Rolle entfernen wollen?
+        CreateRoleFailed: Rolle "{0}" konnte nicht erstellt werden
+        CreateRoleSuccess: Rolle "{0}" erfolgreich erstellt
+        DuplicateRole: Rolle "{0}" existiert bereits im System, versuchen Sie es mit einem anderen Namen
+        MaxSearchLimit: Die aktuelle Suche hat mehr als {0} Ergebnisse
+        NotFoundRole: Kann die "{0}" im System nicht finden
+        ParentRoleIsRequired: Die Rolle der Eltern ist obligatorisch
+        RemoveRoleSuccess: Rolle "{0}" erfolgreich entfernt
+        RoleNameIsRequired: Rollenname ist obligatorisch
+        RoleNotFound: Keine Rollen gefunden
+        SearchToSeeMoreRole: Bitte benutzen Sie die Suche, um eine bestimmte Rolle zu finden ({0} weitere Rollen)
+        UpdateRoleSuccess: Rolle "{0}" erfolgreich aktualisiert
+        UserOfRoleNotFound: Kein Benutzer besitzt diese Rolle
+      NumberUsers: '{0} Benutzern'
+      ParentRole: Übergeordnete Rolle
+      RemovingRoleHeader: Entfernen der "{0}"-Rolle?
+      RoleCreation: Rollenerstellung
+      RoleDetails: Details zur Rolle "{0}"
+      RoleInformation: Informationen zur Rolle
+      RoleName: Name der Rolle
+      SearchRole: Suche nach Rolle
+      TitlePage: Rollenmanagement
+      UserAssignment: Benutzerzuordnung
+      UserSelectionLabel: Benutzer suchen, der dieser Rolle hinzugefügt werden soll
+    SecurityMemberDisplayName:
+      filterByUsername: Nach Benutzernamen filtern
+      filterToSee: Filtern, um mehr anzuzeigen
+      loadMore: Mehr laden
+      noUser: Es sind keine Benutzer vorhanden.
+      roleMemberItemFormat: <li class="tooltip-body-item">{0}</li>
+      roleMemberLineFormat: <p class="tooltip-body-item">{0}</p>
+      roleMembersTooltipFormat: |-
+        <p class="tooltip-header">{0}</p>
+        <ul style="margin: auto; {1}">{2}</ul>
+      tooltipHelper: Klicken Sie hier, um alle Benutzer anzuzeigen, die diese Rolle direkt oder indirekt besitzen
+      userOfRoleTitle: Benutzer der Gruppe {0}
+    passwordValidation:
+      criteria: Kriterien
+      enablePasswordValidation: Kennwortüberprüfung einschalten
+      passwordPolicyType:
+        minCharacter: Mindestlänge
+        minLowercaseCharacter: Minimum Kleinbuchstaben
+        minNumber: Minimale numerische Zeichen
+        minSpecialCharacter: Minimum Sonderzeichen
+        minUppercaseCharacter: Minimum Großbuchstaben
+      titlePage: Passwort-Überprüfung
+    processChain:
+      currentStepIsNotDefined: Aktueller Schritt ({0}) der Prozesskette ist nicht definiert
+    taskStart:
+      cannotDelegateTaskMessage: Diese Aufgabe kann an keinen anderen Benutzer oder keine andere Gruppe delegiert werden.
+      cannotStartMessages:
+        cannotStartTask: Sie können Aufgabe {0} nicht starten.
+        isAnotherUserWorking: Sie können nicht an der Aufgabe ''{0}'' mit der Identifikation ''{1}'' arbeiten, weil Benutzer ''{2}'' momentan daran arbeitet.
+        noPermission: Sie können die Aufgabe {0} nicht starten, weil Ihnen die Berechtigung fehlt.
+        taskDone: |+
+          Sie können die Aufgabe {0} nicht starten, da sie bereits abgeschlossen wurde.
+
+      created: Erstellt am
+      expired: Fälligkeitsdatum
+      showDetailsHint: Mehr Details anzeigen
+      taskDescriptionNotAvailable: '[Keine Beschreibung]'
+      taskNameNotAvailable: '[Kein Aufgabenname verfügbar]'
+    taskView:
+      DeleteFilter: Filter löschen
+      adminFilterSetWarning: Ihr Filter enthält Status, die nur von Administratoren gesehen werden können.
+      appliedFilters: Angewendete Filter
+      exportedTasksCasesFileName: AXONIVY_Dataset_Statistics_{0}.{1}
+      exportedTasksFileName: AXONIVY_Dataset_Tasks_{0}.{1}
+      filter: Filter
+      filterDeletionConfirmation: Sind Sie sicher, dass Sie diesen Filter löschen wollen?
+      filterExistedValidationError: Filter existiert bereits
+      filterName: Filtername
+      filterVisibility: Filtersichtbarkeit
+      noTask: Keine Aufgaben gefunden.
+      privateFilter: Meine Filter
+      publicFilter: Öffentlich
+      savedFilters: 'Gespeicherte Filter:'
+  dashboard:
+    CanWorkOnAsUser: Nur die Aufgaben anzeigen, die ich als Benutzer bearbeiten kann
+    CaseQueryType:
+      info: Konfigurieren Sie, welche Vorgangstypen im Vorgangs-Widget angezeigt werden. Standard zeigt nur Geschäftsvorgänge, Technische Untervorgänge zeigt nur technische Untervorgänge, und Alle zeigt sowohl Geschäftsvorgänge als auch technische Untervorgänge.
+      label: Vorgangstyp
+    CloneWidget: Widget klonen
+    CustomWidgets: Benutzerdefinierte Widgets
+    DashboardConfiguration:
+      AddItem: Eintrag hinzufügen
+      CreateFromScratch: Von Grund auf neu erstellen
+      CreateFromScratchDescription: Erstellen Sie Ihr eigenes Dashboard
+      NewPrivateDashboard: Neues privates Dashboard
+      CreateNewPublicDashboard: Neues öffentliches Dashboard erstellen
+      Dashboard: Dashboard
+      DashboardTabInfoPanel: '<p><b>Was kann ich hier tun?</b></p><p>Öffentliche Dashboards erstellen, bearbeiten und löschen. Legen Sie fest, wer sie sehen kann. Dies ist die zentrale Bibliothek aller geteilten Dashboards.</p><p><b>Sichtbarkeit &amp; Platzierung</b></p><p>Dashboards sind in drei Bereiche
+        unterteilt: Seitenleisten-Haupteintrag, Untermenü oder Ausgeblendet. Um ein Dashboard zu verschieben, öffnen Sie Bearbeiten und ändern Sie den Anzeigetyp. Nur der Untermenü-Bereich unterstützt Drag-and-Drop-Reihenfolge.</p><p><b>Aktionen pro Dashboard</b></p><p>Bearbeiten aktualisiert Name, Beschreibung,
+        Symbol, Berechtigungen und Anzeigetyp. Konfigurieren öffnet das Dashboard zum Hinzufügen oder Anordnen von Widgets. Exportieren lädt eine JSON-Datei herunter — bei referenzierten Dashboards erscheint eine Rückfrage. Teilen erstellt einen Direktlink. Löschen entfernt das Dashboard dauerhaft.</p>'
+      Description: In diesem Bereich können Sie die Dashboards nach Ihren Wünschen konfigurieren und die Reihenfolge der Navigationselemente ändern.
+      DisableSidebar: Seitenleiste deaktivieren
+      DoNotSupportMobile: Die Dashboard-Konfiguration wird für mobile Geräte nicht unterstützt.
+      EditLayout: Layout bearbeiten
+      EditPrivateDashboards: Private Dashboards bearbeiten
+      EditPublicDashboards: Öffentliche Dashboards bearbeiten
+      ExportDashboard: Dashboard exportieren
+      ExportReferencedDialogHeader: Dashboard referenziert andere Dashboards
+      ExportReferencedDialogMessage: 'Die folgenden Dashboards werden von Navigations-Widgets referenziert. Exportieren und importieren Sie sie ebenfalls, damit die Widgets korrekt funktionieren:'
+      ExportReferencedDialogProceed: Trotzdem exportieren
+      Hidden: Ausgeblendet
+      HiddenDashboards: Ausgeblendete Einträge
+      HiddenDashboardsDescription: Nicht in der Seitenleiste angezeigt. Kann dennoch als direktes Linkziel verwendet werden – z.B. als Einstiegsseite in einem Prozessablauf.
+      Label: Bezeichnung
+      MenuDashboards: Seitenleisten-Einträge
+      MenuDashboardsDescription: Diese Dashboards erscheinen als Haupteinträge in der Seitenleiste. Verwalten Sie die Reihenfolge im Tab Seitenleisten-Navigation.
+      MenuManagement: Menüverwaltung
+      MenuManagementTabInfo: Verwalten Sie die Navigationselemente der Seitenleiste. Sie können:<ul><li>Neue Menüeinträge hinzufügen (Dashboards, externe Links, Ivy-Prozesse)</li><li>Einträge per Drag-and-Drop neu anordnen</li><li>Bestehende Menüeinträge bearbeiten oder entfernen</li></ul>
+      MenuManagementTabInfoPanel: '<p><b>Was kann ich hier tun?</b></p><p>Konfigurieren Sie alles, was in der Seitenleiste erscheint: Einträge, Reihenfolge und das globale Seitenleisten-Verhalten.</p><p><b>Neue Einträge hinzufügen</b></p><p>Erstellen Sie mit Eintrag hinzufügen einen neuen Seitenleisteneintrag.
+        Zur Auswahl stehen: Haupt-Dashboard (verlinkt zu einem Dashboard), Prozess (startet einen Ivy-Prozess), Externer Link (beliebige URL, optional in neuem Tab) oder Statische Seite. Jeder Eintrag hat einen mehrsprachigen Titel, ein Symbol und konfigurierbare Berechtigungen. Der Eintragstyp kann nach
+        der Erstellung nicht mehr geändert werden.</p><p><b>Die Tabelle verstehen</b></p><p>Ziel zeigt, wohin ein Eintrag navigiert (URL oder Prozesspfad). Berechtigungen zeigt, wer ihn sehen kann. Typ ist die Art des Eintrags, und Quelle zeigt, wo er definiert ist: Integriert, Konfiguration, Dashboard-Konfiguration,
+        Aufrufbarer Prozess oder Drittanbieter-Anwendung.</p><p><b>Bestehende Einträge verwalten</b></p><p>Bearbeiten aktualisiert Titel, Symbol, Link und Berechtigungen benutzerdefinierter Einträge. Löschen entfernt sie. Standard-Einträge (Quelle: Integriert) können weder bearbeitet noch gelöscht werden,
+        und Einträge aus einem aufrufbaren Prozess können nur von einem Entwickler geändert werden. Zeilen per Drag-and-Drop neu anordnen.</p><p><b>Seitenleisten-Einstellungen</b></p><p>Seitenleiste deaktivieren blendet die Seitenleiste für alle Benutzer aus. Seitenleisten-Verhalten steuert, wie sie sich
+        öffnet: Hover (beim Überfahren), Klick (erfordert Klick) oder Stick (immer sichtbar).</p>'
+      PackageManagement: Package management
+      PackageManagementTabInfoPanel: <p><b>What can I do here?</b></p><p>Export the current Portal configuration as a single zip package, or import a previously exported package to replace it.</p><p><b>Export</b></p><p>Downloads a <code>Portal_Package.zip</code> containing one JSON file per configuration
+        type. Only types with existing data are included.</p><p><b>Import</b></p><p>Upload a zip package to preview which files it contains before applying. Recognized files replace the matching configuration; unrecognized files are skipped. This action cannot be undone.</p>
+      PrivateDashboard: Private Dashboards
+      PrivateDashboardConfiguration: Private Dashboard-Konfiguration
+      PrivateDashboardTabInfoPanel: <p><b>Was kann ich hier tun?</b></p><p>Erstellen und verwalten Sie Dashboards, die nur für Sie sichtbar sind. Sie erscheinen gruppiert unter dem Dashboard-Symbol in der Seitenleiste und beeinflussen andere Benutzer nicht.</p><p><b>Reihenfolge ändern</b></p><p>Ziehen
+        Sie eine Zeile, um die Reihenfolge Ihrer Dashboards im Untermenü zu ändern. Die Reihenfolge wird in Ihren persönlichen Einstellungen gespeichert.</p><p><b>Aktionen pro Dashboard</b></p><p>Mit Bearbeiten können Sie Titel, Beschreibung, Symbol oder mehrsprachige Titel anpassen. Mit Konfigurieren
+        öffnen Sie das Dashboard und fügen Widgets hinzu oder ordnen sie neu an. Mit der entsprechenden Berechtigung können Sie ein Dashboard auch als JSON-Datei exportieren.</p>
+      PrivateTabInfo: Erstellen und verwalten Sie Ihre persönlichen Dashboards.<ul><li>Diese Dashboards sind nur für Sie sichtbar</li><li>Sie erscheinen unter dem Dashboard-Symbol in der Seitenleiste</li></ul>
+      PublicDashboard: Öffentliche Dashboards
+      PublicDashboardConfiguration: Konfiguration des öffentlichen Dashboards
+      PublicTabInfo: Verwalten Sie Dashboards für alle Benutzer. Steuern Sie die Sichtbarkeit:<ul><li><b>Seitenleiste</b> — erscheint als Haupteintrag im Seitenleistenmenü</li><li><b>Untermenü</b> — erscheint unter dem Dashboard-Symbol</li><li><b>Ausgeblendet</b> — für Benutzer nicht sichtbar</li></ul>
+      Reload: Neu laden
+      ReorderPrivateDashboards: Dashboards neu anordnen
+      ReorderPublicDashboards: Öffentliche Dashboards neu anordnen
+      SelectAction: Wählen Sie die Aktion
+      SidebarBehaviour: Seitenleisten-Verhalten
+      SidebarMode: Seitenleisten-Modus
+      SidebarNavigation: Seitenleiste
+      SidebarSettings: Seitenleisten-Einstellungen
+      SidebarSettingsReloadWarning: Seitenleisten-Einstellungen gespeichert. Laden Sie die Seite neu, um die Änderungen zu übernehmen.
+      SidebarTopLevelDashboards: Seitenleisten-Haupteinträge
+      SidebarTopLevelDashboardsDescription: Erscheinen als Haupteinträge in der Seitenleiste.
+      SomeThingWentWrong: Etwas ist schief gelaufen
+      Source: Quelle
+      Start: Start
+      SubMenuDashboards: Untermenü-Dashboards
+      SubMenuDashboardsDescription: Erscheinen gruppiert unter dem Dashboard-Symbol in der Seitenleiste.
+      Target: Link zu
+      Templates: Vorlagen
+      Title: Portal-Konfiguration
+      Visibility: Sichtbarkeit
+    DrillDownWidget:
+      caseDrillDown: Drilldown-Fall-Widget für {0}
+      taskDrillDown: Drilldown-Aufgaben-Widget für {0}
+    EmptyFilterMessage: Kein Widget-Filter gefunden
+    ExternalPageWidget: Externe Webseite
+    ExternalPageWidgetIntroduction: Dieses Widget kann eine externe Webseite anzeigen.
+    Filter:
+      AddCondition: Bedingung hinzufügen
+      ApplyFilters: Filter anwenden
+      DefaultFiltersDescription: Filter, die in der Widget-Konfiguration als Standard festgelegt wurden.
+      DefaultFiltersTitle: Standardfilter
+      EmptyFilterValidationError: Definieren Sie mindestens eine Filterbedingung, bevor Sie speichern.
+      FilterConditionsTitle: Filterbedingungen
+      FilterOptionHeader: Filter-Optionen
+      FilterOptionHeaderTooltip: Einige Filterfelder und Operatoren wurden möglicherweise von Ihrem Administrator deaktiviert. Filter, die deaktivierte Felder oder Operatoren verwenden, werden automatisch entfernt. Bitte wenden Sie sich an Ihren Administrator für weitere Informationen.
+      FilterPanelHeader: Filterbereich
+      ManageWidgetFilterHeader: Widget-Filter-Verwaltung
+      NewFilterConditionsDescription: Zeige Aufgaben, die alle folgenden Bedingungen erfüllen.
+      NewFilterConditionsTitle: Neue Filterbedingungen
+      NotFound: Kein Filter gefunden
+      SaveFilterDescription: Speichern Sie diese Filterbedingungen zur späteren Verwendung.
+      SaveFilterNamePlaceholder: Filternamen eingeben
+      SaveFilterNameRequired: Der Filtername darf nicht leer sein.
+      SaveFilterOptional: (optional)
+      SetFilterHeader: Filter festlegen
+      WidgetNameColumn: Widget-Name
+      WrongDateFormat: Das Datum ist ungültig
+    FilterTasksByCurrentCaseOwner: Aufgaben nach aktuellem Fallbesitzer filtern
+    ManageFilter: Filterverwaltung
+    NoColumnsEnabledForQuickSearch: Keine Spalten sind für die Schnellsuche aktiviert
+    NoData: Keine Daten
+    NoSavedFilterMessage: Kein gespeicherter Filter gefunden. Versuchen Sie, einen neuen zu erstellen, indem Sie auf die Schaltfläche Filter speichern klicken.
+    NoWidgetAvailable: Es gibt keine Widgets.
+    QuickSearch: Schnellsuche
+    QuickSearchInfo: Sie können den Bereich der Schnellsuche in der Spaltenverwaltung der Widgets anpassen. Die Suche erfolgt nach dem Kriterium "enthält", aber achten Sie darauf, die Leistung nicht zu beeinträchtigen, wenn Sie viele Spalten hinzufügen.
+    QuickSearchScope: 'Suchbereich : {0}'
+    RestoreDefaultDashboardMessage: Wenn Sie fortfahren, verlieren Sie alle von Ihnen erstellten Widgets. Es werden die Standardeinstellungen von <span class="dashboard-template-name-message">{0}</span> wiederhergestellt.
+    SaveNewWidgetFilterHeader: Einen neuen Widget-Filter speichern
+    SavedFilterHeader: Gespeicherte Filter
+    SearchForFilter: Nach Filter suchen
+    ShareThisDashboard: Teilen Sie dieses Dashboard
+    ShowPinnedToggle: '''Angeheftete Elemente'' umschalten anzeigen'
+    StandardWidgets: Standard-Widgets
+    StatisticWidget:
+      EmptyChartDataMessage: Wir haben nicht genug Daten, um ein schönes Diagramm zu erstellen!
+      TooltipAverageKpiLabel: Durchschnitt von {0}
+      TooltipMaxKpiLabel: Maximum von {0}
+      TooltipMinKpiLabel: Minimum von {0}
+      TooltipSumKpiLabel: Summe von {0}
+      TooltipTotalCaseLabel: 'Gesamtzahl der Vorgänge: {0}'
+      TooltipTotalTaskLabel: 'Gesamtzahl der Aufgaben: {0}'
+      failToRenderChartMessage: Fehler beim Rendern des Diagramms. Bitte versuchen Sie es mit anderen Einstellungen erneut.
+      firstConfigChartMessage: Noch kein Diagramm verfügbar. Bitte konfigurieren Sie Ihre Einstellungen, um ein Diagramm zu generieren.
+    WelcomeWidgetIntroduction: Dieses Widget zeigt einen Willkommenstext und ein Bild auf dem Dashboard an.
+    WelcomeWidgetNotFoundMessage: Wir können das Bild des Widgets nicht finden, bitte konfigurieren Sie Ihr Bild neu!
+    WidgetFilterName: Name des Widget-Filters
+    WidgetFilters: Widget-Filter
+    YourWelcomeWidget: Ihr Willkommens-Widget
+    actionSelection: Aktion auswählen
+    addField: Feld hinzufügen
+    addWidget: Widget hinzufügen
+    canWorkOn: Kann arbeiten an
+    caseDrillDownDashboard: Dashboard zur Fall-Detailanalyse
+    caseList: Fallliste
+    caseListIntroduction: Dieses Widget zeigt relevante Vorgangsinformationen entsprechend einiger definierter Parameter an
+    caseWidgetInfo:
+      casesByCategory: Anzahl der Vorgänge nach Kategorie
+      casesByState: Anzahl der Vorgänge nach Status
+      numberOfCase: Vorgänge
+    category: Kategorie
+    columnManagement: Spaltenverwaltung
+    columnType:
+      CUSTOM: Benutzerdefiniertes Feld
+      CUSTOM_BUSINESS_CASE: Benutzerdefiniertes Feld für Geschäftsvorfälle
+      CUSTOM_CASE: Benutzerdefiniertes Fallfeld
+      STANDARD: Standard-Feld
+    configuration:
+      CustomWidgetExternalLinkWarning: Einige Websites sind aufgrund von Sicherheitsbedenken nicht mit iframe kompatibel. Bitte wenden Sie sich an Ihren Administrator, wenn die externe Website nicht ordnungsgemäß funktioniert.
+      CustomWidgetTitlePlaceholder: Lassen Sie es leer, um die Kopfzeile des Widgets auszublenden
+      CustomWidgetUrlInvalidScheme: Die angegebene URL ist ungültig
+      Parameters: Parameter
+      RestoreDefaultDashboardTemplateTooltip: Wir können die Vorlage für Ihr Dashboard nicht finden und es daher nicht auf die Standardkonfiguration zurücksetzen. Bitte erkundigen Sie sich bei Ihrem Administrator nach weiteren Details!
+      SelectTheTemplate: Wählen Sie die Vorlage
+      SelectYourTemplate: Wählen Sie Ihre Vorlage
+      WelcomeConfigurationDescription: Sie können Ihr Widget in diesem Konfigurationsbereich konfigurieren. Legen Sie den Begrüßungstext und das zu verwendende Bild fest.
+      WelcomeWidget:
+        AdvancedSettings: Erweiterte Einstellungen
+        ChangeImage: Bild ändern
+        ChooseAFit: Wählen Sie eine Passform
+        ChooseMode: Wählen Sie den Modus, um das Bild zu konfigurieren
+        ConfigurationHeader: Konfiguration des Willkommens-Widgets
+        DarkMode: Dunkel
+        DisplayText: Anzeigetext
+        Greeting:
+          Afternoon: Guten Tag
+          Evening: Guten Abend
+          Morning: Guten Morgen
+        ImageInlineStyle: Bild Inline-Stil
+        ImagePreview: Bildvorschau
+        ImageStyleClass: Bildstilklasse
+        LightMode: Hell
+        PreviewTooltip: Diese Vorschau kann nicht alle Einstellungen wiedergeben, sondern soll nur einen Eindruck vermitteln, wie das endgültige Widget aussehen wird. Bildgröße, Ausrichtung und einige CSS-Einstellungen werden hier nicht angezeigt.
+        ShowGreeting: Gruß anzeigen
+        TextColorDarkMode: Farbe für den dunklen Modus
+        TextColorLightMode: Farbe für den hellen Modus
+        TextPosition: Position des Textes
+        TextSize: Textgröße
+        Welcome: Willkommen
+        WelcomeTextStyleClass: Begrüßungstext Stilklasse
+      configuration: Konfiguration
+      configurationDescription: In diesem Konfigurationsbereich kann das Widget konfiguriert werden. Bitte definieren Sie die gewünschten Filter sowie die anzuzeigenden Spalten.
+      customWidgetParamChangedMessage: Dieser Prozess hat sich geändert. Klicken Sie auf Update, um fortzufahren.
+      editWidgetHeader: Widget-Konfiguration bearbeiten
+      import: Importieren
+      importFromJsonFile: Aus JSON-Datei importieren
+      newWidgetHeader: Neue {0} Widget-Konfiguration
+      pageTitle: Dashboard-Konfiguration
+      processConfigurationDescription: In diesem Konfigurationsbereich kann das Widget konfiguriert werden. Bitte definieren Sie die gewünschten Filter sowie die Eigenschaften, die angezeigt werden sollen.
+      processViewerConfigurationDescription: In diesem Konfigurationsbereich kann das Widget konfiguriert werden. Bitte definieren Sie die Informationen, die angezeigt werden sollen.
+      tableConfiguration: Tabellenkonfiguration
+      tableConfigurationDesc: Sie können Spalten verwalten und die Standardsortierung einstellen, indem Sie auf die Spalte klicken.
+      yourWidget: Ihr Widget
+    createWidget: Widget hinzufügen
+    createdFrom: Erstellt von
+    createdTo: Erzeugt bis
+    customFieldType: Benutzerdefinierter Feldtyp
+    dashboardManagement:
+      CreateDashboard: Dashboard erstellen
+      dashboardIcon: Dashboard-Symbol
+      dashboardPermission: Dashboard Berechtigung
+      dashboardTitle: Dashboard Titel
+      deleteDashboardMessage: Sind Sie sicher, dass Sie das Dashboard "{0}" löschen wollen?
+      deleteMenuItemMessage: Sind Sie sicher, dass Sie den Menüeintrag "{0}" löschen wollen?
+      editDashboard: Dashboard editieren
+      manageDashboard: Dashboard verwalten
+      removeDashboardHeader: Dashboard "{0}" entfernen
+    dataSettings: Dateneinstellungen
+    deleteWidget: Widget löschen
+    displaySettings: Anzeigeeinstellungen
+    downloadZipFileExplanation: Wenn die Anzahl der zu exportierenden Elemente die Anzahl der Excel-Zeilen übersteigt, werden die Daten in mehrere Excel-Dateien aufgeteilt und anschließend in einer ZIP-Datei zum Herunterladen komprimiert.
+    editWidget: Widget bearbeiten
+    existingField: Das Feld {0} ist bereits vorhanden
+    exitEditMode: Bearbeitungsmodus verlassen
+    expiryFrom: Gültig von
+    expiryTo: Ablauf bis
+    export:
+      exportedCasesFileName: AXONIVY_Dataset_Cases_{0}_{1}.{2}
+      exportedTasksFileName: AXONIVY_Dataset_Tasks_{0}_{1}.{2}
+    field: Feld
+    fieldIsAdded: Das Feld {0} wurde hinzugefügt
+    filters: Filter
+    fullscreenMode: Vollbildmodus
+    iconMessage:
+      caseWidget:
+        EMPTY_MESSAGE: Aktuell sind keine weiteren Cases vorhanden.
+        noCasesFoundWhenFilter: Derzeit gibt es keine Vorgänge nach dem angewandten Filter.
+      taskWidget:
+        EMPTY_MESSAGE: Aktuell sind keine weiteren Aufgaben vorhanden.
+        noTasksFoundWhenFilter: Derzeit gibt es keine Aufgaben nach dem angewandten Filter.
+    loading: Laden...
+    navigate: Navigieren Sie
+    noCategory: Es gibt keine Kategorien
+    noDashboard: Keine Dashboards vorhanden. Fügen Sie mindestens ein Dashboard und anschließend Widgets hinzu.
+    noDashboardAvailable: Keine Untermenü-Dashboards verfügbar.
+    noPermission: Sie haben keine Berechtigung, Dashboards zu sehen.
+    noWidget: Es sind aktuell keine Widgets auf diesem Dashboard vorhanden
+    numberPattern: Zahlen-Muster
+    operatorPolicyTooltip: Wenn Operatoren vom Administrator global deaktiviert sind, können sie hier nicht aktiviert werden. Der Filter eines Felds kann nicht aktiviert werden, wenn alle Operatoren global deaktiviert sind.
+    operators: Operatoren
+    preview: Vorschau
+    processList: Prozessliste
+    processListIntroduction: Dieses Widget zeigt verfügbare Prozessstarts an. Sie haben die Möglichkeit, unterschiedliche Formate zu wählen
+    processViewerIntroduction: Dieses Widget bietet eine visuelle Darstellung des Prozessablaufs.
+    processWidgetInfo:
+      noProcess: Es sind keine Prozesse vorhanden.
+      numberOfProcessesByType: Anzahl der Prozesse nach Typ
+    processes:
+      emptyProcess: Sie haben keine Prozesse definiert.
+      noMatchingProcess: Keine passenden Prozesse.
+      noPermissionToSee: Sie besitzen nicht die erforderlichen Rechte um diesen Prozess zu starten.
+      noProcessSelected: Bitte wählen Sie einen Prozess
+    removeWidgetHeader: Dieses Widget entfernen
+    removeWidgetMessage: Möchten Sie es wirklich löschen?
+    reorder:
+      dashboardType: Dashboard-Typ
+    restoreDefaultHeader: Auf Standard zurücksetzen
+    restoreDefaultMessage: Wenn Sie fortfahren, verlieren Sie alle von Ihnen erstellten Widgets. Es werden die Standardeinstellungen übernommen.
+    select: Wählen Sie
+    selectEditAction: Welche Aktion möchten Sie durchführen?
+    showAllCases: Alle Fälle anzeigen
+    showAllTasks: Alle Aufgaben anzeigen
+    showFullWidget: Vollständiges Widget anzeigen
+    showPinnedCases: Angeheftete Fälle anzeigen
+    showPinnedTasks: Angeheftete Aufgaben anzeigen
+    statisticChartIntroduction: Dieses Widget zeigt die verfügbaren statistischen Diagramme an.
+    statisticChartWidget: Statistisches Diagramm
+    statisticWidgets: Statistik-Widgets
+    switchToViewMode: Ansichtsmodus
+    taskList: Aufgabenliste
+    taskListIntroduction: Dieses Widget zeigt relevante Aufgabeninformationen gemäß der definierten Einstellungen an
+    taskStart: Aufgabe starten
+    taskWidgetConfiguration: Aufgaben-Widget-Konfiguration
+    taskWidgetInfo:
+      expireToday: Fälligkeitsdatum heute
+      expiryThisWeek: Fälligkeitsdatum diese Woche
+      numberOfTasks: Aufgabe(n)
+      numberOfTasksByCategory: Anzahl der Aufgaben nach Kategorie
+      numberOfTasksByState: Anzahl der Aufgaben nach Status
+      predefinedFilters: Vordefinierte Filter
+      taskDrillDownDashboard: Dashboard zur Aufgaben-Detailanalyse
+    widgetInfo: Widget-Informationen
+    widgetInfoIcon: Widget-Informations-Symbol
+    widgetTitle: Widget-Titel
+    widgetType: Widget-Typ
+    yourCases: Ihre Vorgänge
+    yourCustomWidget: Ihr benutzerdefiniertes Widget
+    yourNavigationDashboardWidget: Ihr Navigations-Dashboard-Widget
+    yourNotifications: Ihre Benachrichtigungen
+    yourProcessViewer: Ihr Prozessbetrachter
+    yourProcesses: Ihre Prozesse
+    yourTasks: Ihre Aufgaben
+  dashboardProcess:
+    processAriaLabel: Aufgabe {0} starten
+  documentFiles:
+    FilenameEmpty: Dateiname darf nicht leer sein.
+    PreviewDocument: Vorschau
+    RenameFile: Datei umbenennen
+    RenamingDocument: Dokument umbenennen
+    RenamingDocumentNote: '{0} hat die Datei {1} in {2} umbenannt'
+    RenamingDocumentSuccess: Erfolgreich umbenannt.
+    RenamingFailed: Beim Umbenennen des Dokuments ist ein Fehler aufgetreten.
+    confirmation: Bestätigung
+    confirmationUploadDocument: Das Scannen von Skripten ist für verschlüsselte Dateien nicht verfügbar. Möchten Sie mit der Vorschau fortfahren?
+    deleteDocumentNote: '{0} hat folgendes gelöscht: {1}'
+    deleteSuceed: Datei wurde erfolgreich gelöscht
+    download: Herunterladen
+    fileContainScript: Die Datei enthält potenziell schädliche Inhalte und kann nicht hochgeladen werden!
+    fileContainVirus: Upload fehlgeschlagen, Virus/Infektion erkannt!
+    fileCouldNotParse: Die Datei konnte nicht analysiert werden
+    fileEmptyMessage: Datei ist leer
+    name: Dateiname
+    size: Dateigröße
+    type: Typ
+    upload: Neue Datei hochladen
+    uploadDocumentNote: '{0} hat {1} hochgeladen.'
+    uploadFailed: Während des Hochladens ist ein Fehler aufgetreten. Bitte fragen Sie Ihren Administrator.
+    uploadFileExists: Datei {0} ist bereits vorhanden
+    uploadSucceed: Die Datei wurde erfolgreich hochgeladen
+    uploadSucceedWithWarning: Die Datei wurde erfolgreich hochgeladen, aber das Skript-Scannen konnte nicht abgeschlossen werden, da die Datei verschlüsselt oder passwortgeschützt ist.
+  emailSetting:
+    dailySummary: Tägliche Zusammenfassung erhalten
+    eMail: E-Mail
+    furtherEmailFromApp: Weitere Emails der Applikation erhalten
+    invalidEmailFormat: Ungültiges E-Mail-Format
+    mailNotificationOnTaskAssign: E-Mail Benachrichtigung bei neuen Aufgaben
+    noSettingMsg: Es sind keine Anwendungen für die Spracheinstellung vorhanden.
+  errorPage:
+    '404': 404 Seite nicht gefunden
+    404Message: Entschuldigen Sie, aber die Ressource, welche Sie suchen, existiert nicht.
+    '500': 500 Fehler
+    500Message: Entschuldigen Sie, es gibt ein Problem beim Ausliefern der angefragten Seite.
+    backToHomePage: Zurück zur Home Page
+    title: Fehlerseite
+  exceptionDialog:
+    copied: Kopiert
+    copyError: Fehler kopieren
+    errorId: Fehler-Id
+    errorType: Fehlertyp
+    message: Nachricht
+    pmv: PMV
+    processElementId: Prozesselement Id
+    stackTrace: StackTrace
+  forgotPassword:
+    EmailAddress: E-Mail Adresse
+    empty: Leer
+    forgotPassword: Ich habe mein Passwort vergessen.
+    forgotPasswordError: Bei der Bearbeitung Ihrer Anfrage ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.
+    goToForgotPassword: Zurück zur Passwort vergessen Seite
+    goToLogin: Zurück zur Login-Seite
+    good: Gut
+    invalidResetUrl: Angeforderte URL ist ungültig
+    invalidToken: Ungültiges Token
+    newPassword: Neues Passwort
+    passwordConfirmation: Passwort-Bestätigung
+    passwordReset: Kennwort zurücksetzen
+    passwordResetEmailCantSend: Fehler Senden der E-Mail an Sie ist fehlgeschlagen. Bitte versuchen Sie es später erneut.
+    passwordResetEmailContent: '<html>Hallo {0},<br/><br/>Bitte klicken Sie auf diesen Link, um Ihr Passwort zurückzusetzen: <a href="{1}">Passwort zurücksetzen</a><br/><br/>Mit freundlichen Grüßen</html>'
+    passwordResetEmailSent: Wenn diese E-Mail-Adresse registriert ist, haben wir einen Link zur Wiederherstellung des Passworts an diese Adresse geschickt.
+    passwordResetEmailSubject: E-Mail zum Zurücksetzen des Passworts
+    passwordResetSuccess: Ihr Passwort wurde erfolgreich geändert
+    requiredFieldMessage: '{0} ist erforderlich'
+    setANewPassword: Setzen Sie ein neues Passwort
+    strong: Stark
+    userNotFound: Wenn diese E-Mail-Adresse registriert ist, haben wir einen Link zur Wiederherstellung des Passworts an diese Adresse geschickt.
+    usersHaveSameEmail: Es gibt viele Benutzer, die diese E-Mail verwenden. Bitte wenden Sie sich an Ihren Administrator.
+    weak: Schwach
+  iconselection:
+    iconSelectionDialogHeader: Symbol auswählen
+    seachIconByNamePlaceHolder: Icon anhand des Namens suchen
+  languageSetting:
+    Language: Sprache
+  login:
+    AxonIvyPortal: Axon Ivy Portal
+    Copyright: Copyright Ⓒ Axon Ivy Portal
+    LoginWith: Anmelden mit
+    PasswordRequiredMessage: Das Passwort ist erforderlich
+    UsernameRequiredMessage: Der Nutzername ist erforderlich
+    login: Anmeldung
+    loginErrorMessage: Sie sind nicht angemeldet oder Ihr Benutzer ist im System nicht vorhanden. Bitte kontaktieren Sie den Systemadministrator
+    loginFailed: Anmeldung fehlgeschlagen
+    username: Benutzername
+  logoutSetting:
+    logout: Abmelden
+  mobile:
+    AppleStore: Apple Store
+    AppleStoreDownload: Im Apple Store herunterladen
+    AppleStoreQRCode: QR-Code zum Herunterladen aus dem Apple Store
+    AxonIvyMobile: Axon Ivy Mobile
+    AxonIvyMobileQRCode: QR-Code für Axon Ivy Mobile App
+    DownloadMobileApp: Um Ihre Axon Ivy Mobile App herunterzuladen
+    GooglePlay: Google Play
+    GooglePlayDownload: Bei Google Play erhältlich
+    GooglePlayQRCode: QR-Code zum Herunterladen von Google Play
+    MenuName: Mobile App verbinden
+    Platform: 'Plattform:'
+    QRCodeDescription: Um Ihre Axon Ivy Mobile App zu verbinden, scannen Sie bitte diesen QR-Code und geben Sie Ihre Zugangsdaten in der App ein.
+    QRCodeDownloadDescription: Scannen Sie den unten stehenden Code mit Ihrer Handykamera oder einer QR-Reader-Anwendung.
+  noteHistory:
+    ShowOnlyOpenTasks: Nur offene Aufgaben anzeigen
+    author: Autor
+    caseExportedFileNamePrefix: Verlauf_Vorgangsnotizen_{0}
+    caseHistoriesTitle: Historie
+    caseHistoryPageTitle: Verlauf Vorgangsnotizen
+    columnContent: Inhalte
+    curentReportOf: von
+    eventType: Ereignis-Typ
+    exportButton: Nach Excel exportieren
+    relatedCase: Zugehöriger Vorgang
+    showMoreBtn: Mehr anzeigen
+    taskExportedFileNamePrefix: Verlauf_Aufgabennotizen_{0}
+    taskFailReason: 'Grund für das Scheitern: {0}'
+    taskHistoryPageTitle: Verlauf Aufgabennotizen
+  notes:
+    newNoteHeader: Neue Notiz hinzufügen
+    wroteAt: Erstellt am
+  notifications:
+    errorNotificationMessage: |
+      Die Details für die neue Aufgabe konnten nicht angezeigt werden. Bitte wenden Sie sich an Ihren Administrator, um Unterstützung zu erhalten
+    linkToFullScreen: Link zum Vollbild
+    linkToNotificationSettings: Benachrichtigungseinstellungen
+    markAllAsRead: Alle als gelesen markieren
+    markAsRead: Als gelesen markieren
+    noNotificationText: Keine Benachrichtigungen
+    notificationOptions: Benachrichtigungsoptionen
+    notificationTitle: Benachrichtigungen
+    notificationsBadgeLabel: Benachrichtigungsfeld öffnen, {0} ungelesen
+    olderText: Ältere
+    onlyUnread: Nur ungelesen
+    openNotificationSettings: Benachrichtigungseinstellungen öffnen
+    openNotifications: Benachrichtigungen öffnen
+    todayText: Heute
+    viewNotificationsFullScreen: Benachrichtigungen im Vollbild anzeigen
+    xDaysAgo: vor %s Tagen
+    xHoursAgo: vor %s Stunden
+    xMinutesAgo: vor %s Minuten
+    xMonthsAgo: vor %s Monaten
+    xSecondsAgo: vor %s Sekunden
+    xYearsAgo: vor %s Jahren
+  passwordSetting:
+    changePasswordWSError: Ein Fehler ist während der Passwortänderung aufgetreten. Bitte, kontaktieren Sie Ihren Administrator falls das Problem nach mehreren Versuchen besteht.
+    confirmNewPassword: Neues Password bestätigen
+    confirmPasswordHaveMatch: Das eingegebene neue Passwort stimmt nicht mit dem bestätigten Passwort überein.
+    currentPassword: Aktuelles Passwort
+    minCharacterRequired: mindestens {0} Zeichen lang sein
+    minLowercaseCharacterRequired: mindestens {0} Kleinbuchstaben enthalten
+    minNumberRequired: mindestens {0} Zahl enthalten
+    minSpecialCharacterRequired: mindestens {0} Sonderzeichen enthalten
+    minUppercaseCharacterRequired: mindestens {0} Großbuchstaben enthalten
+    newPassword: Neues Passwort
+    noPermission: Sie haben nicht die erforderlichen Berechtigungen, um das Passwort zu ändern. Bitte wenden Sie sich an Ihren Administrator, um Unterstützung zu erhalten.
+    passwordMust: Das Passwort muss
+    requireConfirmPassword: Wiederholen Sie Ihr Passwort, bitte
+    requireCurrentPassword: Bitte geben Sie Ihr Passwort an
+    requireNewPassword: Das neue Passwort wurde nicht angegeben
+    updatePasswordSuccessfully: Das Passwort wurde erfolgreich geändert.
+    wrongPassword: Das angegebene Passwort wurde abgelehnt!
+  permission:
+    noPermission: Sie benötigen die Rolle AXONIVY_PORTAL_ADMIN. Bitte kontaktieren Sie Ihren Administrator.
+  processwidget:
+    MoreInformation: Mehr Informationen
+    addExternalLink: Externen Link hinzufügen
+    addNewExternalLinkHeader: Externen Link hinzufügen
+    addNewProcess: Prozess hinzufügen
+    addNewProcessDialogHeader: Neuen Prozess hinzufügen
+    backToOverview: Zurück zur Übersicht
+    deleteExternalLinkTooltip: Externen Link löschen
+    deleteProcess: Prozess löschen
+    deleteProcessItemConfirmation: Sind sie sicher das Sie folgenden Prozess löschen wollen?
+    deleteProcessItemHeader: Prozess löschen?
+    displayMode: Anzeigemodus
+    editDialog:
+      dialogCurrentIcon: Aktuelles Icon
+      dialogEditInfoTitle: '{0} Informationen'
+      dialogHeaderDescription: In diesem Bereich können Sie einige Informationen bearbeiten, die sich auf den ausgewählten Prozess beziehen.
+      dialogHeaderTitle: Informationen bearbeiten für {0}
+    editProcesses: Prozesse bearbeiten
+    externalLink: Externer Link
+    externalLinkImage: Bild des externen Links
+    externalLinkVisibility: Sichtbarkeit
+    goTo: 'Gehe zu: '
+    icon: Symbol
+    image: Bild
+    isRequiredMessage: muss gesetzt werden
+    linkDescription: Link Beschreibung
+    noProcess: Keinen Prozess gefunden.
+    noProcesses: Keine Prozesse gefunden.
+    private: Privat
+    processFilterPlaceHolder: Name, Beschreibung, Kategorie
+    processName: Prozessname
+    processStartLink: Prozessstart Link
+    processType: Prozesstyp
+    remove: Entfernen
+    rolePermissionsRequiredMessage: Berechtigungen müssen festgelegt werden
+    seeAllProcesses: Alle Prozesse anzeigen
+    selectRoles: Rollen auswählen
+    sortByName: Sortieren nach Namen
+    specialCharacterGroup: Sonderzeichen
+    startLink: Startlink
+    webLinkExample: z.B. http://www.example.com
+  projectInfo:
+    activityState: Aktivitätsstatus
+    applicationProjectVersion: Projekte und Versionen
+    doneCases: Erledigte Fälle
+    engineVersion: Engine Version
+    header: Axon Ivy Versionsinformationen
+    info: Info
+    lastChange: Letzte Änderung
+    mavenVersion: Maven Version
+    openCases: Offene Fälle
+    portalVersion: Portal Version
+    projectName: Projekt Name
+    projectsOfVersion: Projekte Version
+    releaseState: Freigabestatus
+    state: Status
+    version: Version
+  searchResult:
+    case: Vorgang
+    notDisplayResultTabView: Sie haben keine Berechtigung, Suchergebnisse anzuzeigen
+    process: Prozess
+    searchResults: Suchresultate
+    searchResultsFor: '{0} Suchresultate für "{1}"'
+  taskActivator:
+    assign: Zuweisen
+    cannotAssignTask: Diese Aufgabe kann keinem anderen Benutzer oder keiner anderen Gruppe zugewiesen werden.
+    escalationActivatorDesc: Ändern Sie den Eskalations-Aktivator der Aufgabe auf einen bestimmten Benutzer oder eine Gruppe
+    escalationActivatorHeader: Auswahl des Eskalations-Aktivators der Aufgabe
+  taskBusinessState:
+    DELAYED: Verzögert
+    DELAYED_UPPERCASE: VERZÖGERT
+    DESTROYED: gelöscht
+    DESTROYED_UPPERCASE: GELÖSCHTE
+    DONE: Erledigt
+    DONE_UPPERCASE: ERLEDIGT
+    ERROR: Fehler
+    ERROR_UPPERCASE: FEHLER
+    IN_PROGRESS: In Arbeit
+    IN_PROGRESS_UPPERCASE: IN ARBEIT
+    OPEN: Offen
+    OPEN_UPPERCASE: OFFEN
+    SYSTEM: SYSTEM
+  taskDelegate:
+    afterEscalation:
+      delegateNotes: Der Eskalations-Aktivator der Aufgabe {0} wurde von {1} auf {2} geändert
+      delegateNotesWithComment: Der Eskalations-Aktivator der Aufgabe {0} wurde von {1} auf {2} geändert - {3}
+    delegateComment: Die Aufgabe {0} wurde von {1} zu {2} delegiert
+    delegateReasonIncludedComment: Die Aufgabe {0} wurde von {1} zu {2} delegiert - {3}
+    delegateTaskHeaderLabel: Delegieren Sie die Aufgabe an einen bestimmten Benutzer oder an eine bestimmte Gruppe
+    groupSelectionWatermark: Bitte wählen Sie eine Gruppe aus...
+    toGroup: Gruppe
+    toUser: Benutzer
+    userSelectionWatermark: Bitte wählen Sie einen Benutzer aus...
+  taskDetails:
+    addDocumentHelpText: 'Zum Hochladen Dateien per Drag & Drop hier ablegen oder '
+    addNoteHelpText: Schreiben Sie hier Ihren Text
+    afterEscalation: Nach Eskalation
+    businessCase: Vorgang
+    completedOn: Erledigt am
+    customFields: Benutzerdefinierte Felder
+    customFieldsDialog: 'Benutzerdefinierte Felder der Aufgabe #{0}'
+    delayedUntil: Sperrfrist
+    deleteFile: Datei löschen
+    documents: Dokumente
+    dueDate: Fällig
+    duration: Dauer
+    events: Workflow-Ereignisse
+    expiry: Ablauffrist
+    failedDelayValidation: Der Zeitstempel der Aufgabenverzögerung darf kein leerer Wert oder ungültiges Datumsformat sein
+    failedExpiryValidation: Der Ablauf der Aufgabe darf nicht in der Vergangenheit liegen.
+    noDescription: Keine Beschreibung vorhanden
+    noNotes: Keine Notizen
+    processingTime: Bearbeitungszeit
+    setDelayTimestamp: '{0} ({1}) hat die Verzögerungszeit des Tasks #{2} auf {3} gesetzt.'
+    setExpiryActivatorAndTimeNotes: '{0} und weisen Sie {1} als Aktivator für die Aufgabeneskalation zu'
+    supportFileTypes: 'Unterstützte Dateitypen für Uploads: {0}'
+    taskCategory: Aufgabenkategorie
+    taskExpiryDisable: Es kann keine Ablaufzeit gesetzt werden, da diese Aufgabe keine Eskalationslogik enthält.
+    technicalCase: Technischer Vorgang
+    workflowEventDialog: 'Workflow Events für Aufgabe #{0}'
+  taskExpiryDateDialog:
+    message:
+      setDeadlineSuccess: Die Aufgabenfrist wurde erfolgreich gespeichert
+    title: Frist
+  taskInformation:
+    clearDelay: Verzögerung zurücksetzen
+    clearExpiry: Aufgabenfrist zurücksetzen
+    delegate: Delegieren
+    delegateTask: Aufgabe delegieren
+    freeReservationTaskTooltip: Aufgabe zurücksetzen, um wieder freizugeben
+    histories: Notizen
+    note: Informationen
+    noteDetail: Details
+    openRequest: Öffnen
+    openTaskTooltip: Aufgabe öffnen
+    park: Parken
+    parkTaskSuccessfully: Die Aufgabe wurde erfolgreich reserviert.
+    reserveTaskTooltip: Aufgabe reservieren
+    resetTaskSuccessfully: Die Aufgabe wurde erfolgreich zurückgesetzt.
+    resetTaskTooltip: Aufgabe zurücksetzen
+    setDeadline: Frist setzen
+    setPriority: Priorität setzen
+    startTask: Start
+    taskComments: Kommentare
+    taskDetails: Aufgabendetails
+    taskInforDialogTitle: Informationen
+    taskNotes: Notizen
+    triggerEscalation: Eskalation auslösen
+  taskList:
+    configuration: Konfiguration
+    deadline: Frist
+    default: Standard
+    defaultColumns:
+      ACTIVATOR: Verantwortlich
+      APPLICATION: Anwendung
+      BUSINESS_CASE_ID: Business-Fall-ID
+      CATEGORY: Kategorie
+      COMPLETED: Erledigt am
+      COMPLETED_ON: Erledigt am
+      CREATION_TIME: Erstellt
+      EXPIRY_TIME: Fälligkeitsdatum
+      ID: Aufgaben Id
+      NAME: Name / Beschreibung
+      PIN: Anheften
+      PRIORITY: Priorität
+      STATE: Status
+      TASK_FOR_UNAVAILABLE_ACTIVATOR: Fehlender Aktivator
+      TECHNICAL_CASE_ID: Technische Fall-ID
+      WORKER: Bearbeiter
+      abbreviation:
+        PRIORITY: Prio
+    defaultFilter: Standard-Filter
+    destroyTaskMessage: 'Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie diese Aufgabe zerstören wollen <b>{0} (ID: {1})</b>?'
+    headerTitle:
+      relatedStatisticHeader: 'Aufgaben von Diagramm:'
+      relatedTasksHeader: Zugehörige Aufgaben
+    lastEdit: Zuletzt bearbeitet
+    manageColumns: Spalten verwalten
+    name: Name
+    newTaskNotification: Sie haben neue Aufgaben.
+    removeExpiryTimeNote: '{0} ({1}) hat Frist der Aufgabe #{2} entfernt'
+    resetTaskWarning: Diese Aufgabe wurde bereit gestartet. Mit einem Neustart werden bisherige Änderungen verloren gehen. Möchten Sie die Aufgabe trotzdem zurücksetzen?
+    responsibleAfterEscalation: Verantwortlich nach Eskalation
+    setDeadlineNote: '{0} ({1}) hat das Fälligkeitsdatum von der Aufgabe #{2} zum {3} angepasst'
+    setNameNote: Der Aufgabenname wurde durch {0} von {1} auf {2} geändert
+    showOnlyTaskForMissingActivator: Nur Aufgaben mit fehlendem Aktivator anzeigen
+    showOnlyTaskForMissingActivatorDesc: Dieser Filter zeigt Aufgaben an, die keinen Aktivator haben, der Aktivator nicht gefunden wird oder deaktiviert ist.
+    sortFields:
+      CREATION_TIME_ASC: Erstellungsdatum (Ältestes zuerst)
+      CREATION_TIME_DESC: Erstellungsdatum (Neuestes zuerst)
+      EXPIRY_TIME_ASC: Ablauf (Älteste zuerst)
+      EXPIRY_TIME_DESC: Ablauf (Neuste zuerst)
+      PRIORITY_ASC: Priorität (hoch nach niedrig)
+      PRIORITY_DESC: Priorität (niedrig nach hoch)
+    triggerEscalationNote: 'Die Eskalation wurde ausgelöst durch {0} ({1}) der Aufgabe #{2}'
+    type: Typ
+    unknownId: Unbekannte ID
+    unknownTask: Unbekannte Aufgabe
+  taskPriority:
+    EXCEPTION: AUSNAHME
+    EXCEPTION_LOWERCASE: Ausnahme
+    HIGH: HOCH
+    HIGH_LOWERCASE: Hoch
+    LOW: NIEDRIG
+    LOW_LOWERCASE: Niedrig
+    NORMAL: NORMAL
+    NORMAL_LOWERCASE: Normal
+  taskPriorityDialog:
+    message:
+      setPrioritySuccess: Die Aufgabenpriorität wurde erfolgreich gespeichert.
+    title: Aufgabenpriorität
+  taskState:
+    CREATED: Erstellt
+    CREATED_UPPERCASE: ERSTELLT
+    DELAYED: Verzögert
+    DELAYED_UPPERCASE: VERZÖGERT
+    DESTROYED: Vernichtet
+    DESTROYED_UPPERCASE: GELÖSCHT
+    DONE: Erledigt
+    DONE_UPPERCASE: ERLEDIGT
+    FAILED: Fehlerhaft
+    FAILED_UPPERCASE: FEHLERHAFT
+    INPROGRESS: IN BEARBEITUNG
+    JOINING: In Zusammenführung
+    JOINING_UPPERCASE: IN ZUSAMMENFÜHRUNG
+    JOIN_FAILED: Zusammenführung fehlgeschlagen
+    JOIN_FAILED_UPPERCASE: JOIN FEHLGESCHLAGEN
+    OPEN: Offen
+    OPEN_UPPERCASE: OFFEN
+    PARKED: Reserviert
+    READY_FOR_JOIN: Bereit zum Beitritt
+    READY_FOR_JOINING: Bereit für Zusammenführung
+    READY_FOR_JOINING_UPPERCASE: BEREIT FÜR ZUSAMMENFÜHRUNG
+    READY_FOR_JOIN_UPPERCASE: BEREIT ZUM BEITRITT
+    RESERVED: RESERVIERT
+    RESUMED: In Bearbeitung
+    SUSPENDED: Zugewiesen
+    SUSPENDED_UPPERCASE: ZUGEWIESEN
+    SYSTEM: SYSTEM
+    WAITING: Wartend
+    WAITING_FOR_INTERMEDIATE_EVENT: Warten auf Ereignis
+    WAITING_FOR_INTERMEDIATE_EVENT_UPPERCASE: WARTEN AUF EREIGNIS
+  taskView:
+    GlobalSearchText: Aufgaben enthalten das Schlüsselwort "{0}" in Aufgaben Id{1}.
+    filterTextPlaceHolderMobile: Name oder Beschreibung
+    filterTextPlaceholder: Name, Beschreibung oder ID
+    restoreDefaultFilterMessage: Wenn Sie fortfahren, wird der Standardfilter angewendet.
+    saveFilter: Filter speichern
+    showFullTaskList: Komplette Aufgabenliste anzeigen
+    sort: Sortieren
+  taskWarning:
+    createdTaskLeave: Diese Aufgabe wird gerade bearbeitet. Wenn Sie sie jetzt verlassen, geht Ihre bisherige Arbeit verloren.
+    createdTaskLogout: Diese Aufgabe wird gerade bearbeitet. Wenn Sie sich jetzt abmelden, geht Ihre bisherige Arbeit verloren.
+    leaveTaskTitle: Diese Aufgabe verlassen?
+    resetParkTaskBeforeLeave: Diese Aufgabe wird gerade bearbeitet. Wenn Sie sie jetzt verlassen, geht Ihre bisherige Arbeit verloren. Wenn Sie sie reservieren, erscheint sie wieder in Ihrer Aufgabenliste.
+    resetParkTaskBeforeLogout: Diese Aufgabe wird gerade bearbeitet. Wenn Sie sich jetzt abmelden, geht Ihre bisherige Arbeit verloren. Wenn Sie sie reservieren, erscheint sie wieder in Ihrer Aufgabenliste.
+    taskNotFound: Die Aufgabe existiert nicht oder Sie haben ungenügende Rechte, um diese Aufgabe zu sehen.
+  userProfile:
+    myProfileTitle: Mein Profil
+  warningBeforeLostSession:
+    refreshSession: Sitzung aktualisieren
+    warningMessage: Ihre Sitzung kann bald ablaufen. Bitte aktualisieren Sie Ihre Sitzung, um die Anwendung weiter zu nutzen.
+Dialogs:
+  Cases:
+    EditWorkflow:
+      CaseDescription: Bearbeiten eines existierenden Workflows
+      CaseName: Workflow editieren
+  Tasks:
+    TaskDetail:
+      DataDescription: Daten und Beschreibung
+      restoreToDefaultSettings: Standardeinstellungen wiederherstellen
+      switchToViewMode: Speichern
+  agileBPM:
+    define_WF:
+      ErrorSelectInvalidAssignee: Der Beauftragte ist bereits ausgewählt oder ungültig
+      ListOfSelectedUser: Liste ausgewählter Benutzer
+      ResponsibleDialogHeader: Verantwortliche Benutzer
+      SequenceOfTasks: Nachfolgende Aufgaben
+      TaskActor: Ausführender Benutzer
+      TaskSubject: Aufgabenname
+      WFCategory: Kategorie
+      WFSubject: Betreff
+    task_Form:
+      AppendATaskAfter: Aufgabe in der Sequenz hinter meiner Aufgabe hinzufügen.
+      ErrorEmployeeNotExist: Ausgewählter Benutzer existiert nicht
+      InsertATaskBefore: Aufgabe in der Sequenz vor meiner Aufgabe hinzufügen. Meine Aufgabe wird aufgeschoben.
+      MyTaskIsDoneAnd: Meine Aufgabe ist erledigt und die neue Aufgabe ist angehängt
+  ch:
+    ivy:
+      addon:
+        portal:
+          component:
+            ProcessInformation:
+              ProcessUnavailableTooltip: Dieser Prozess ist nicht verfügbar oder du hast keine Berechtigung, ihn zu starten.
+          generic:
+            GlobalSearch:
+              ViewAllResults: Alle Ergebnisse anzeigen
+              minimumKeywordText: Geben Sie mindestens {0} Zeichen ein, um zu suchen.
+              noResultsText: Es liegen keine Ergebnisse vor.
+            dashboard:
+              PortalDashboardConfiguration:
+                newPublicDashboard: Neues öffentliches Dashboard
+              PortalDashboardDetailModification:
+                CreateCustomStatistic: Benutzerdefiniertes Statistik-Widget erstellen
+                DeleteConfirm: Sind Sie sicher, dass Sie löschen möchten?
+                RemoveThisStatistic: Diese benutzerdefinierte Statistik entfernen
+              component:
+                CustomDashboardWidget:
+                  CouldNotFindLinkedProcess: Der verlinkte Prozess konnte nicht gefunden werden!
+                  CustomWidgetIFrameTitle: '{0} Rahmen'
+                DashboardModification:
+                  Share: Teilen
+                ProcessWidgetConfiguration:
+                  DragAndDropToChangeOrder: ziehen und ablegen zum ändern der Reihenfolge.
+                  DragAndDropTooltip: Klicken Sie auf die Vorschau und ändern Sie die Reihenfolge durch Ziehen und Ableg
+                WelcomeDashboardWidget:
+                  WelcomeToAxon: Willkommen bei Axon Ivy Portal
+                WelcomeWidgetConfiguration:
+                  AltText: Texte alternatif
+          setting:
+            UserProfile:
+              unpinAllPinnedCases: Alle angehefteten Fälle lösen
+              unpinAllPinnedTasks: Alle angehefteten Aufgaben lösen
+        portalkit:
+          component:
+            CaseItemDetails:
+              ShareCaseDetails: Falldetails teilen
+            CaseWidget:
+              CaseCategory: Vorgangskategorie
+              CaseDetail:
+                CaseDetailTitle: Vorgangsdetails
+                DataDescription: Daten und Beschreibung
+                destroyCase: Vorgang löschen
+              CaseOwner: Prozessverantwortlichen
+              Finished: Erledigt
+              GlobalSearchText: Die Vorgänge enthalten das Schlüsselwort "{0}" in Vorgangs Id{1}.
+              ShowBusinessDetails: Geschäftsinformationen anzeigen
+              caseNameNotAvailable: '[Kein Vorgangsname verfügbar]'
+              defaultEmptyMessage: Keine Vorgänge verfügbar
+            CustomIFrameWidget:
+              CustomWidgetIFrameTitle: Benutzerdefinierter Widget-Rahmen
+            IconSelection:
+              IconLinkTooltip: Zum Ändern des Symbols anklicken
+            MultipleTaskItemsDelegate:
+              DelegateMultipleTaskTitle: '{0} Aufgaben delegieren'
+              ItemSelected: 1 Element ausgewählt
+              ItemsSelected: '{0} Elemente ausgewählt'
+              ItemsSelectedWithLimit: '{0} / {1} Elemente ausgewählt'
+              bulkDelegatePerformanceWarning: Das Delegieren mehrerer Aufgaben kann einige Zeit dauern. Bitte haben Sie Geduld.
+            TaskItemDetails:
+              CannotWorkOnDestroyedTaskWarning: Sie können nicht an der Aufgabe arbeiten, weil sie zerstört wurde.
+              CannotWorkOnTaskWarning: Sie können die Aufgabe nicht bearbeiten, weil der Benutzer <strong>{0}</strong> gerade daran arbeitet.
+              InvalidStateInfo: Ungültiger Zustand.
+              ResetTaskWarning: Sie arbeiten gerade an der Aufgabe in einer anderen Sitzung. Sie können die Aufgabe zurücksetzen und erneut starten, wenn Sie Ihren Browser geschlossen haben. <a href="{0}">Zurücksetzen</a>
+              ShareTaskDetails: Teilen Sie Aufgabendetails
+              TaskCompletedByOtherInfo: Die Aufgabe wurde bereits von Benutzer <strong>{0}</strong> an {1} durchgeführt.
+              TaskCompletedByYouInfo: Sie haben die Aufgabe auf {0} bereits erledigt.
+              TaskParkedByOtherInfo: Du kannst an diesem Task nicht arbeiten, weil <strong>{0}</strong> den Task geparkt hat. Er wurde exklusiv von dieser Person reserviert, um später daran zu arbeiten.
+              TaskParkedByYouInfo: Du hast den Task geparkt. Er wurde exklusiv von dir reserviert, um später daran zu arbeiten. Du kannst den Task zurücksetzen, um die Reservierung freizugeben.
+            TaskItemGeneralInfo:
+              Expiry: Verfallsverantwortlicher
+  com:
+    axonivy:
+      portal:
+        component:
+          ChatDashboard:
+            AddTool: Werkzeug hinzufügen
+            Tools: Werkzeuge
+            WelcomeHeaderText: Willkommen auf dem Axon Ivy Portal!
+            WelcomeText: Wir freuen uns, Sie an Bord zu haben. Das Axon Ivy Portal ist Ihr Tor zu einer nahtlosen und effizienten Erfahrung. Egal, ob Sie ein neuer Benutzer sind, der die Funktionen erkundet, oder ein wiederkehrender Besucher, wir sind hier, um Sie bei jedem Schritt zu unterstützen.
+          Responsibles:
+            Multiple: Mehrere
+          ShareLinkDialog:
+            CopyLink: Kopieren
+            Link: Link
+            LinkCopied: Link kopiert
+          ToolList:
+            Attributes: Attribute
+            Collection: Sammlung
+            NoAvailableTools: Es gibt keine verfügbaren Tools
+        dashboard:
+          component:
+            AccessibilityShortcuts:
+              content: |-
+                <div class="ui-g">
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 1</span>Fokus auf die Dashboards
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 5</span>Fokus auf die Suche
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + A</span>Fokus auf den ersten Prozess
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Tab</span>Sequentielles Durchlaufen von Elementen
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 2</span>Fokus auf die Prozesse
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 6</span>Fokus auf die User Einstellungen
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + W</span>Fokus auf die erste Aufgabe
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Esc</span>Erweiterte Widgets schließen/Kontext Menüs schließen
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 3</span>Fokus auf die Aufgaben
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 7</span>Schaltet die Sichtbarkeit des Hauptmenüs um
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + Q</span>Fokus auf den ersten Fall
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Enter</span>Auswahl bestätigen
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 4</span>Fokus auf die Fälle
+                    </div>
+                </div>
+              title: 'Barrierefreiheit Tastenkombinationen: Alt + 1: Se focaliser sur l’onglet du Dashboard. Alt + 2: Se focaliser sur l’onglet des processus. Alt + 3: Se focaliser sur l’onglet des tâches. Alt + 4: Se focaliser sur l’onglet des cas. Alt + 5: Se focaliser sur la recherche. Alt + 6: Se
+                focaliser sur les paramètres utilisateur. Alt + 7: Schaltet die Sichtbarkeit des Hauptmenüs um. Alt + A: Se focaliser sur le premier processus. Alt + W: Se focaliser sur la première tâche. Alt + Q: Se focaliser sur le premier cas. Tab: Navigation séquentielle entre les éléments. Esc: Fermer
+                les widgets agrandis/Fermer les menus contextuels. Enter: Confirmer la sélection'
+            CaseWidgetConfiguration:
+              AddFilter: Filter hinzufügen
+            ClientStatisticWidget:
+              IdNotFound: Diagramm mit ID {0} nicht gefunden
+              NoPermissionChartMessage: Sie haben nicht die erforderliche Berechtigung, um diese Karte zu sehen.
+            CloneWidgetDialog:
+              Header: Clone widget "{0}"
+              TargetDashboard: Target dashboard
+            CloneWidgetFromDashboardDialog:
+              header: Widget klonen von
+            DashboardImportDetails:
+              DashboardImageSizeExceeded: Dashboard "{0}" wurde nicht importiert, da es ein Bild enthält, das größer als die zulässige Upload-Größe ({1}) ist.
+              DashboardImportTitle: Dashboard {0}
+              FileInfomation: Dateiinformationen
+              ImportPrivate: Privates Dashboard importieren
+              ImportPublic: Öffentliches Dashboard importieren
+              NavigationWidgetMissingTarget: Navigations-Widget "{0}" verweist auf ein Dashboard, das nicht importiert wurde und in diesem Portal nicht vorhanden ist. Das Widget funktioniert möglicherweise nicht korrekt.
+              chooseAJsonFile: Wählen Sie eine JSON-Datei
+            NavigationDashboardWidget:
+              PermissionsDenied: Sie haben keine Berechtigung zum Zugriff auf dieses Dashboard
+            NavigationDashboardWidgetConfiguration:
+              ButtonName: Schaltfläche Name
+              NavigationDashboardWidgetConfiguration: Konfiguration des Navigations-Dashboard-Widgets
+              NavigationDashboardWidgetDescription: Dieses Widget ermöglicht es den Benutzern, durch einen Klick auf eine Schaltfläche direkt zu einem verknüpften Dashboard zu springen.
+              VisualType: Darstellungsart
+            NewsWidget:
+              NewsContentPlaceHolder: Nachrichteninhalt eingeben
+              NewsContentValidateMessage: Nachrichteninhalt in {0} ist erforderlich
+              NewsTitlePlaceholder: Titel der Nachricht eingeben
+              NewsTitleValidateMessage: Nachrichtentitel in {0} ist erforderlich
+              NoNewsAvailable: Es gibt noch keine Neuigkeiten
+              Publish: Veröffentlichen
+              RemoveNewsHeader: Die Nachrichten entfernen?
+              SeeLess: Weniger sehen
+              SeeMore: Mehr sehen
+              Translate: Übersetzen Sie
+            NewsWidgetConfiguration:
+              AddNews: Neuigkeiten hinzufügen
+              EditNews: Nachrichten bearbeiten
+              NewsContentMaxLengthMessage: Der Inhalt der Nachrichten darf 1000 Zeichen nicht überschreiten.
+              NewsWidgetConfiguration: Konfiguration des Newsfeed-Widgets
+              NewsWidgetDescription: Dieses Widget teilt relevante Informationen als News Feed in Axon Ivy.
+              NewsWidgetTitle: News-Feed-Widget
+            NotificationWidget:
+              NoNotificationAvailable: Es liegen noch keine Benachrichtigungen vor
+            NotificationWidgetConfiguration:
+              NotificationWidgetConfiguration: Konfiguration des Benachrichtigungs-Widgets
+              NotificationWidgetDescription: Dieses Widget zeigt alle Benachrichtigungen basierend auf Ihren Benachrichtigungseinstellungen an.
+              WidgetFilter: Widget-Filter
+            PortalDashboardDetailModification:
+              CloneWidget: Widget klonen
+            StatisticWidget:
+              IdNotFound: Diagramm mit ID {0} nicht gefunden
+              NoPermissionChartMessage: Sie haben nicht die erforderliche Berechtigung, um diese Karte zu sehen.
+            TaskWidgetConfiguration:
+              AddFilter: Filter hinzufügen
+              ResetFilter: Filter zurücksetzen
+              ShowBulkDelegateToggle: '''Sammelweiterleitung'' umschalten anzeigen'
+            filter:
+              DashboardFilter:
+                HasCmsValuesEnabledTooltip: Dieses Feld erlaubt nur die Verwendung des Operators „Enthält"
+                SelectFilterField: Filterfeld auswählen
+              DateFilter:
+                SelectPeriod: Select period
+        layouts:
+          AbstractTaskTemplate:
+            CaseDetailsIFrameTitle: Falldetails Rahmen
+          IFrameTaskTemplate:
+            TaskIFrameTitle: Aufgabenrahmen
+        page:
+          MenuManagement:
+            AddNewMenu: Füge ein neues Menü hinzu
+            CallableMenuMessage: Dieses Menü wird programmgesteuert durch einen aufrufbaren Prozess generiert und kann nicht bearbeitet werden.
+            CallableSourceHint: Dieser Eintrag wird durch einen aufrufbaren Prozess generiert. Wende dich an deinen Entwickler, um ihn zu ändern.
+            HelpText: Passe das Menü in diesem Bereich an deine Bedürfnisse oder Vorlieben an.
+            InvalidStaticPagePath: Der Pfad muss relativ zur Anwendung sein (absolute URLs sind nicht erlaubt).
+            InvalidUrl: Die URL ist ungültig.
+            InvalidUrlScheme: Nur http- und https-URLs sind erlaubt.
+            MenuDetails: Menüdetails
+            MenuIcon: Menü-Symbol
+            MenuTitle: Menütitel
+            MenuType: Menütyp
+            NoAvailableSubDashboard: Es ist kein Untermenü-Dashboard verfügbar, das als Haupt-Dashboard hinzugefügt werden kann.
+            OpenInNewTab: In neuem Tab öffnen
+            ProcessPermissionHint: Die Sichtbarkeit richtet sich nach den Startberechtigungen des Prozesses.
+            StaticPagePath: Statischer Seitenpfad
+          StatisticConfiguration:
+            AddFilter: Filter hinzufügen
+            Advanced: Fortgeschrittene
+            AggregationMethod: Aggregationsmethode
+            AggregationMethodTooltip: Wählen Sie eine Aggregationsmethode, um Berechnungen für Ihr KPI-Feld durchzuführen - Summe, Durchschnitt, Maximum oder Minimum. Deaktiviert, wenn 'Counting' ausgewählt ist
+            ChartConfiguration: Diagrammeinstellungen
+            ChartDrillDownEnabled: Drilldown in Diagrammen aktiviert
+            ChartDrillDownInfo: '<p>Es funktioniert nur, wenn der Benutzer über folgende Berechtigungen verfügt: <strong>CaseReadAll</strong> für Fälle und <strong>TaskReadAll</strong> für Aufgaben.</p>'
+            ChartDrillDownPermissions: Berechtigungen für Diagramm-Drilldowns
+            ChartType: Diagrammtyp
+            Color: Farbe {0}
+            ConditionBasedColoring:
+              AddCondition: Bedingung hinzufügen
+              AllValue: Alle Werte
+              CategoryValue: Value
+              Color: Farbe
+              ConditionBasedColoringEnabled: Bedingungsabhängige Farbgebung aktiviert
+              ConditionBasedColoringScopeInformation: |-
+                Wählen Sie den Geltungsbereich, auf den die Bedingung angewendet wird:
+                Alle Werte: Wendet Bedingungen auf alle Daten im Diagramm an.
+                Spezifischer Wert: Wendet Farbbedingungen nur auf den ausgewählten Wert an.
+              ConditionValue: Bedingungswert
+              DefaultColor: Standardfarbe
+              Information: |-
+                Die bedingungsbasierte Farbgebung ermöglicht es Ihnen, für jedes Diagramm Farben basierend auf bestimmten Bedingungen festzulegen.
+                Regeln:
+
+                Definieren Sie klare Bedingungen.
+
+                Wenn mehrere Bedingungen zutreffen, gilt die zuerst definierte.
+
+                Halten Sie es einfach.
+              NoDataAvailable: Keine Daten verfügbar, um Farbbedingungen zu definieren.
+              Operator: Operator
+              Scope: Geltungsbereich
+              SpecificValue: Spezifischer Wert
+            Create: Erstellen
+            EditStatistic: Statistisches Widget bearbeiten
+            For: Für
+            GeneratePreview: Vorschau generieren
+            GroupBy: Gruppe nach
+            GroupbyTooltip: Die ausgewählte Aggregationsmethode wird auf jede Gruppe angewendet
+            HideLabel: Etikett ausblenden
+            Interval: Intervall
+            KPI: KPI
+            KPITooltip: 'Wählen Sie aus, was gemessen werden soll: Wählen Sie ''Counting'', um die Anzahl der Aufgaben oder Vorgänge zu zählen (Standard), oder wählen Sie ein benutzerdefiniertes numerisches Feld, um dessen Werte als KPI zu analysieren'
+            NewStatistic: Neues Statistik-Widget
+            OutdatedChartMessage: Die angewendete Group-by- oder Filter-Einstellung stimmt nicht mit der aktuellen UI-Konfiguration überein. Bitte konfigurieren Sie sie neu.
+            RefreshInterval: Automatisches Auffrischen aktiviert
+            RefreshIntervalInSeconds: Intervall für die automatische Aktualisierung (Sekunden)
+            RefreshIntervalInSecondsValidationMessage: 'Intervall für die automatische Aktualisierung (Sekunden): Das angegebene Attribut liegt nicht zwischen den erwarteten Werten von {0} und {1}'
+            RefreshIntervalInfo: Die Statistik kann nach einer bestimmten Zeit automatisch aktualisiert werden. Wenn sie aktiviert ist, kann dies die Leistung beeinträchtigen. Das Intervall für die automatische Aktualisierung (Sekunden) muss mindestens {0} betragen.
+            StatisticConfiguration: Konfiguration der Statistik
+            XAxisTitle: Titel der X-Achse
+            YAxisTitle: Titel der Y-Achse
+  components:
+    CaseDocument:
+      FileDate: Änderungsdatum
+      FileFunctions: Funktionen
+      NoFiles: Keine Dateien vorhanden!
+      deleteSucceed: Die Datei wurde erfolgreich gelöscht
+      emptyFileMessage: Die Datei darf nicht leer sein
+      fileLimitMessage: Limit an hochgeladenen Dateien erreicht!
+      fileUploadElementPosition: Das File Upload-Element kann nur im Header oder Footer platziert werden!
+      invalidFileMessage: Dateityp nicht gültig!
+      invalidSizeMessage: Datei zu groß!
+      maximumFileUploadElement: Es gibt bereits ein Datei-Upload-Element
+  general:
+    MaxLabelLenght: '35'
+    maxOptionsLength: '20'
+Enums:
+  com:
+    axonivy:
+      portal:
+        enums:
+          CaseQueryType:
+            ALL:
+              name: Geschäftsvorgänge + Untervorgänge
+            BUSINESS_CASE:
+              name: Geschäftsvorgänge (Standard)
+            SUB_CASE:
+              name: Untervorgänge
+          statistic:
+            AggregationField:
+              ACTIVATOR_NAME:
+                name: Name des Aktivators
+              BUSINESS_RUNTIME:
+                name: Business-Laufzeit
+              CATEGORY:
+                name: Kategorie
+              CREATOR_NAME:
+                name: Name des Erstellers
+              CUSTOM_FIELD:
+                name: Benutzerdefiniertes Feld
+              END_TIMESTAMP:
+                name: Datum der Fertigstellung
+              EXPIRY_TIMESTAMP:
+                name: Verfallsdatum
+              IS_EXPIRED:
+                name: Ist abgelaufen
+              PRIORITY:
+                name: Priorität
+              RESPONSIBLES_NAME:
+                name: Verantwortliche
+              START_TIMESTAMP:
+                name: Erstellungsdatum
+              STATE:
+                name: Zustand
+              WORKER_NAME:
+                name: Bearbeiter
+              WORKING_TIME:
+                name: Arbeitszeiten
+            AggregationInterval:
+              DAY:
+                name: Tag
+              MONTH:
+                name: Monat
+              WEEK:
+                name: Woche
+              YEAR:
+                name: Jahr
+            ChartTarget:
+              CASE:
+                name: Vorgang
+              TASK:
+                name: Aufgabe
+            ChartType:
+              BAR:
+                name: Balkendiagramm
+              LINE:
+                name: Liniendiagramm
+              NUMBER:
+                name: Kennzahl / Metrik
+              PIE:
+                name: Kreisdiagramm
+            ConditionBasedColoringScope:
+              ALL:
+                name: Alle Werte
+              SPECIFIC:
+                name: Spezifischer Wert
+            OperatorFieldStatistic:
+              EQUAL:
+                name: Gleich
+              GREATER:
+                name: Größer als
+              GREATEROREQUAL:
+                name: Größer oder gleich
+              LESS:
+                name: |+
+                  Kleiner als
+
+              LESSOREQUAL:
+                name: |
+                  Kleiner oder gleich
+Labels:
+  AllTasks: Alle Aufgaben
+  AndMore: 'und {0} weitere...  '
+  AppendTask-Explain: Die Aufgabe wird in der Sequenz nach meiner Aufgabe hinzugefügt.
+  AppendTheTask: Aufgabe anhängen
+  AssignToRole: Select assigned group
+  AssignToUser: Zugewiesenen Benutzer auswählen
+  Chat: Chat
+  Collapse: Einklappen
+  Comma: ', '
+  Configuration: Konfiguration
+  CreateNewDashboard: Neues Dashboard erstellen
+  Description: Beschreibung
+  EditDescription: Beschreibung bearbeiten
+  EditLayout: Layout bearbeiten
+  EnterFromValue: Anfangswert eingeben
+  EnterToValue: Endwert eingeben
+  EnterValue: Wert eingeben
+  EnterValues: Werte eingeben
+  Enums:
+    DashboardStandardCaseColumn:
+      ACTIONS: Aktionen
+      APPLICATION: Anmeldung
+      CATEGORY: Kategorie
+      CREATED: Erstellt am
+      CREATOR: Ersteller
+      DESCRIPTION: Beschreibung
+      FINISHED: Enddatum
+      ID: Id
+      NAME: Name
+      OWNER: Prozessverantwortlichen
+      PIN: Anheften
+      STATE: Status
+    DashboardStandardTaskColumn:
+      ACTIONS: Aktionen
+      APPLICATION: Anmeldung
+      BUSINESS_CASE_ID: Business-Fall-ID
+      CATEGORY: Kategorie
+      COMPLETED: Abgeschlossenes Datum
+      CREATED: Erstellt am
+      DESCRIPTION: Beschreibung
+      EXPIRY: Fälligkeitsdatum
+      ID: Id
+      NAME: Name
+      PIN: Anheften
+      PRIORITY: Priorität
+      RESPONSIBLE: Verantwortlich
+      START: Start
+      STATE: Status
+      TECHNICAL_CASE_ID: Technische Fall-ID
+      WORKER: Bearbeiter
+    FilterOperator:
+      AFTER: Ist nach
+      BEFORE: Ist vor
+      BETWEEN: Zwischen
+      CONTAINS: Enthält
+      CURRENT: Aktuell
+      CURRENT_USER: Aktueller Benutzer
+      CURRENT_USER_CAN_WORK_ON: Aktueller Benutzer kann arbeiten an
+      EMPTY: Ist leer
+      END_WITH: Endet mit
+      EQUAL: Gleichberechtigt
+      GREATER: Greater
+      GREATER_OR_EQUAL: Größer oder gleich
+      IN: Enthält
+      IS: Ist
+      IS_NOT: Ist nicht
+      LAST: In den letzten
+      LESS: Less
+      LESS_OR_EQUAL: Kleiner oder gleich
+      NEXT: Innerhalb der nächsten
+      NOT_BETWEEN: Nicht zwischen
+      NOT_CONTAINS: Enthält nicht
+      NOT_EMPTY: Ist nicht leer
+      NOT_END_WITH: Endet nicht mit
+      NOT_EQUAL: Nicht gleich
+      NOT_IN: Nicht in
+      NOT_START_WITH: Beginnt nicht mit
+      NO_CATEGORY: Keine Kategorie
+      START_WITH: Beginnt mit
+      TODAY: Heute
+      YESTERDAY: Gestern
+    FilterPeriodType:
+      DAY: Tag
+      MONTH: Monat
+      Plural:
+        DAY: Tag(e)
+        MONTH: Monat(e)
+        WEEK: Woche(n)
+        YEAR: Jahr(e)
+      WEEK: Woche
+      YEAR: Jahr
+    GlobalSearchScopeCategory:
+      CASES: Vorgänge
+      PROCESSES: Prozesse
+      TASKS: Aufgaben
+    MenuKind:
+      DASHBOARD: Dashboard
+      EXTERNAL_LINK: Externer Link
+      MAIN_DASHBOARD: Haupt-Dashboard
+      PROCESS: Prozess
+      PROCESS_LIST: Prozessliste
+      STANDARD: Standard
+      STATIC_PAGE: Statische Seite
+      THIRD_PARTY: Drittanbieter
+    MenuSource:
+      CALLABLE: Aufrufbarer Prozess
+      CUSTOM_MENU_CONFIGURATION: Konfiguration
+      DASHBOARD: Dashboard-Konfiguration
+      STANDARD: Integriert
+      THIRD_PARTY_APP_CONFIGURATION: Drittanbieter-Anwendung
+    SearchScopeCaseField:
+      CUSTOM: Benutzerdefinierte Stringfelder
+      DESCRIPTION: Beschreibung
+      NAME: Name
+    SearchScopeTaskField:
+      DESCRIPTION: Beschreibung
+      NAME: Name
+    SidebarMode:
+      CLICK: Klick
+      HIDDEN: Versteckt
+      HOVER: Hover
+      STICK: Fixiert
+    ThemeMode:
+      DARK: Dunkel
+      LIGHT: Hell
+  Expand: Erweitern
+  Filters: Filter
+  General: Allgemein
+  Icon: Symbol
+  InsertTask-Explain: Aufgabe einfügen. Meine Aufgabe wird aufgeschoben.
+  InsertTheTask: Aufgabe einfügen
+  Login:
+    CompanyName: Axon Ivy Portal
+    Copyright: Copyright Ⓒ Axon Ivy Portal
+  Name: Titel
+  Permissions: Berechtigungen
+  PinnedCases: Angeheftete Fälle
+  PinnedTasks: Angehefteten Aufgaben
+  Preview: Vorschau
+  RequiredFieldMessage: '{0}: Wert ist erforderlich'
+  Save: Speichern
+  SelectOperator: Operator auswählen
+  SelectValues: Werte auswählen
+  Share: Teilen
+  StepType: Schritttyp
+  Submit: Einreichen
+  Task: Aufgabe
+  TaskItemDetail: Aufgabendetails
+  TaskUser-Explain: Kommaseparierte Liste von Benutzern
+  ToggleMenu: Menü umschalten
+  ViewAllResults: Alle Ergebnisse anzeigen
+  disabledUserPrefix: (inaktiv)
+patterns:
+  datePattern: dd.MM.yyyy
+  dateTimePattern: dd.MM.yyyy HH:mm
+  dateTimestampPattern: dd.MM.yyyy HH:mm:ss.SSS
+  monthDatePattern: MM.dd.yyyy
+  timePattern: HH:mm
+  timestampPattern: HH:mm:ss.SSS
+Processes:
+  Cases:
+    PortalCategory: Portal
+    PortalInternalProcess:
+      PortalInternalProcessDescription: Das ist ein interner Prozess des Portals
+    SynchronizeDataProcess:
+      AddOrUpdateBusinessEntitiesDescription: Hinzufügen oder ändern von Geschäftsentitäten
+      AddOrUpdateBusinessEntityDescription: Hinzufügen oder ändern einer Geschäftsentität
+      AddOrUpdatePropertyOfServerDescription: Hinzufügen oder ändern einer Servereinstellung
+      DeleteBusinessEntitiesDescription: Geschäftsentitäten löschen
+      DeleteBusinessEntityByPrefixDescription: Geschäftsentität mit einer Voreinstellung löschen
+      DeleteBusinessEntityDescription: Geschäftsentität löschen
+      DeletePropertiesOfServerDescription: Servereinstellungen löschen
+      DeletePropertyOfServerByPrefixDescription: Servereinstellung mit einer Voreinstellung löschen
+      DeletePropertyOfServerDescription: Servereinstellung löschen
+      SynchronizeDataCaseName: Daten synchronisieren
+    SynchronizeServerProcess:
+      AddServerConfigDescription: Server Konfiguration hinzufügen
+      DeleteServerConfigurationDescription: Server Konfiguration löschen
+      SynchronizeServerConfigurationCaseName: Server Konfiguration synchronisieren
+  portalHome: Portal Home
+  portalSettingSaved: Portaleinstellungen sind gespeichert
+Texts:
+  Approval-Explain: "<P>\n\n<B>Treffen Sie Ihre Entscheidung</B> und klicken Sie auf <B>Senden </B>um weiterzufahren. \n\n</P>\n\n"
+  QA-Explain: |+
+    <P>
+
+    Beantworten Sie die Frage und <B>Senden </B>Sie Ihre Antwort an den Fragesteller zurück.
+
+    </P>
+
+  QAresponse-Explain: '<P>  Sie können eine Anschlussfrage <B>Zurücksenden</B> oder den Workflow <B>Beenden</B>.</P>  '
+  ToDo-Explain: '<P>  Bestätigen Sie, dass das <B> TODO erledigt</B> wurde oder lehnen Sie es ab.</P>  '

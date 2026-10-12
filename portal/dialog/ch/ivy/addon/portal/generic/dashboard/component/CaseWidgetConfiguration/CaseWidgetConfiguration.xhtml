@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core" xmlns:fn="jakarta.tags.functions" xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="caseWidget" type="ch.ivy.addon.portalkit.dto.dashboard.CaseDashboardWidget" />
+  <cc:attribute name="managedBean" />
+  <cc:attribute name="componentToUpdate" />
+  <cc:attribute name="isReadOnlyMode" type="java.lang.Boolean" default="false"/>
+</cc:interface>
+
+<cc:implementation>
+  <f:event listener="#{caseWidgetConfigurationFilterBean.preRender(cc.attrs.caseWidget)}" type="preRenderComponent" />
+  <ui:decorate template="/layouts/restricted/decorator/SidebarWidgetConfiguration.xhtml">
+    <ui:param name="widget" value="#{cc.attrs.caseWidget}" />
+    <ui:param name="managedBean" value="#{cc.attrs.managedBean}" />
+    <ui:param name="filterContainerStyleClass" value="case-widget-filter case-widget-configuration filter-messages predefined-filter" />
+    <ui:param name="componentToUpdateOnPreview" value="widget-preview configuration-filter-messages-panel" />
+
+    <ui:define name="widgetFilterContent">
+      <h:panelGroup id="configuration-filter-messages-panel" layout="block" styleClass="ui-g-12 u-padding-0">
+        <p:messages id="filter-messages" />
+      </h:panelGroup>
+      <h:panelGroup id="predefined-filter" layout="block" styleClass="ui-g-12 u-padding-0 dashboard-widget-filter__main-panel">
+        <c:set var="filterComponentToUpdate" value="predefined-filter" />
+        <h:panelGroup layout="block" styleClass="filter-section--conditions">
+          <div class="filter-section__header">
+            <strong>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/FilterConditionsTitle')}</strong>
+            <div>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/NewFilterConditionsDescription')}</div>
+          </div>
+
+          <h:panelGroup layout="block" styleClass="dashboard-widget-filter__list" rendered="#{not empty widget.filters}">
+            <ui:repeat id="filter-list" var="filter" value="#{widget.filters}" varStatus="status">
+              <div class="dashboard-widget-filter__condition">
+                <div class="dashboard-widget-filter__connector">
+                  <h:panelGroup layout="block" styleClass="filter-and-badge" rendered="#{status.index gt 0}">
+                    #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/And')}
+                  </h:panelGroup>
+                </div>
+                <ic:com.axonivy.portal.dashboard.component.filter.DashboardFilter id="filter-component" filter="#{filter}" widget="#{widget}"
+                  managedBean="#{caseWidgetConfigurationFilterBean}"
+                  componentToUpdate="#{p:resolveFirstComponentWithId(filterComponentToUpdate, view).clientId}"
+                  filterIndex="#{status.index}" readOnly="false"
+                  messageId="filter-messages"
+                  onCompleteRemoveFilter="PF('new-widget-configuration-dialog').initPosition();" />
+              </div>
+            </ui:repeat>
+          </h:panelGroup>
+          <div>
+            <p:commandButton id="add-filter" icon="#{visibilityBean.generateButtonIcon('ti ti-plus')}"
+              update="predefined-filter" process="predefined-filter" styleClass="add-condition-button"
+              actionListener="#{caseWidgetConfigurationFilterBean.addNewFilter(widget)}"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}"
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}">
+              <f:param name="skipValidator" value="true" />
+            </p:commandButton>
+          </div>
+        </h:panelGroup>
+      </h:panelGroup>
+    </ui:define>
+
+    <ui:param name="widgetPreviewStyleClass" value="case-preview" />
+    <ui:define name="widgetPreviewContent">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.ColumnManagement id="column-management-component" widget="#{widget}"
+        componentToUpdate="#{cc.attrs.componentToUpdate}" />
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.CaseWidget id="case-widget-preview" isReadOnlyMode="#{cc.attrs.isReadOnlyMode}"
+        caseWidget="#{widget}" renderColumnConfiguration="false" isPreviewMode="true" caseWidgetVar="dashboard-cases-configuration" componentToUpdateCaseWidget="@widgetVar(dashboard-cases-configuration-#{widget.id})"
+        onCompleteLoadWidget="setTimeout(function() { PF('new-widget-configuration-dialog').initPosition(); }, 100); initTableWidget(PF('dashboard-cases-configuration-#{widget.id}'));"/>
+    </ui:define>
+
+    <ui:define name="multiLanguageDialog">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration id="title-language-config"
+      	titles="#{managedBean.widget.names}"
+      	managedBean="#{managedBean}" dynamic="true"
+      	componentToUpdateOnCreate="#{cc.attrs.componentToUpdate}"/>
+    </ui:define>
+  </ui:decorate>
+
+</cc:implementation>
+</html>

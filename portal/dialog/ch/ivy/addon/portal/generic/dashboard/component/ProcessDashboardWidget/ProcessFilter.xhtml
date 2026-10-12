@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces">
+
+<h:panelGroup id="filter-container" layout="block" styleClass="widget-filter-panel process-filter">
+  <ui:repeat id="filter-columns" var="field" value="#{widget.filterableColumns}" varStatus="status">
+    <div class="process-filter__field">
+      <h:panelGroup rendered="#{field.field eq 'type'}">
+        <div class="ui-g-4 ui-sm-12">
+          <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/processType')}" for="process-types"/>
+        </div>
+        <div class="ui-g-8 ui-sm-12 ui-fluid">
+          <p:selectCheckboxMenu id="process-types" value="#{field.userProcessTypes}" multiple="true" filter="true" filterMatchMode="contains"
+            panelStyleClass="process-configuration__selectcheckboxmenu-panel" styleClass="process-configuration__selectcheckboxmenu">
+            <f:selectItems value="#{field.allProcessTypes}" var="type" itemValue="#{type}" itemLabel="#{dashboardProcessFilterBean.getUserFriendlyProcessType(type)}" />
+          </p:selectCheckboxMenu>
+        </div>
+      </h:panelGroup>
+
+      <ic:ch.ivy.addon.portalkit.component.dashboard.widget.TextFilterColumn field="#{field}"
+        focusOnTextField="#{status.first}"
+        inputTextValue="#{field.userFilter}"
+        selectedTexts="#{field.userFilterList}" selectOptions="#{field.userFilterListOptions}"/>
+
+      <ic:ch.ivy.addon.portalkit.component.dashboard.widget.CategoryFilterColumn field="#{field}"
+        displaySelectedCategories="#{field.userFriendlyCategories}"
+        categoryTree="#{field.userCategoryTree}" categoryNodeSelection="#{field.userSelectionCategoryNodes}"
+        containerStyleClass="process-category" inputCategoryStyleClass="process-category__input-text"
+        overlayCategoryStyleClass="process-category-panel" showUnselectableCheckbox="true"/>
+
+      <ic:ch.ivy.addon.portalkit.component.dashboard.widget.ApplicationFilterColumn field="#{field}"
+        selectedApps="#{field.userFilterList}"
+        appOptions="#{field.userFilterListOptions}"/>
+    </div>
+  </ui:repeat>
+</h:panelGroup>
+</html>

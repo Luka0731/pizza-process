@@ -1,0 +1,229 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:fn="jakarta.tags.functions" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core" xmlns:pt="jakarta.faces.passthrough">
+
+<p:dialog id="new-widget-dialog" widgetVar="new-widget-dialog"
+  header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/createWidget')}"
+  appendTo="@(body)" closeOnEscape="true"
+  fitViewport="true" responsive="true"
+  resizable="false"
+  modal="true" dynamic="true"
+  position="center center"
+  onShow="PF('new-widget-dialog').initPosition()"
+  focus="@(.js-search-input)">
+  <h:form class="w-full mb-4">
+    <div class="new-widget-dialog__search">
+      <p:inputText id="search-input" styleClass="js-search-input new-widget-dialog__search-input"
+        placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/name')}, #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/description')}"
+        pt:aria-label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/search')}"
+        onkeyup="searchNewWidgetByNameOrDescription(this);" />
+      <span class="ti ti-search new-widget-dialog__search-icon" />
+    </div>
+  </h:form>
+  
+  <div class="new-widget-dialog__tabs flex flex-wrap gap-2 mb-4">
+    <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/All')}" styleClass="new-widget-dialog__tab new-widget-dialog__tab--active" 
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/All')}"
+      type="button" onclick="filterWidgetsByTab('all');" />
+    <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/StandardWidgets')}" styleClass="new-widget-dialog__tab" 
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/StandardWidgets')}"
+      type="button" onclick="filterWidgetsByTab('standard');" />
+    <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/statisticWidgets')}" styleClass="new-widget-dialog__tab" 
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/statisticWidgets')}"
+      type="button" onclick="filterWidgetsByTab('statistics');" />
+    <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/CustomWidgets')}" styleClass="new-widget-dialog__tab" 
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/CustomWidgets')}"
+      type="button" onclick="filterWidgetsByTab('custom');" />
+  </div>
+  
+  <div class="new-widget-dialog__content">
+    <h:panelGroup layout="block" styleClass="new-widget-dialog__section new-widget-dialog__section--standard" rendered="#{not empty dashboardDetailModificationBean.samples}">
+      <div class="new-widget-dialog__section-title mb-3">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/StandardWidgets')}</div>
+      <div class="grid">
+        <ui:repeat id="new-widget-dialog-content"
+          var="sample"
+          value="#{dashboardDetailModificationBean.samples}">
+          <ui:include src="StandardWidgetItem.xhtml" />
+        </ui:repeat>
+      </div>
+    </h:panelGroup>
+    
+    <h:panelGroup id="statistic-widget-fieldset" layout="block" styleClass="new-widget-dialog__section new-widget-dialog__section--statistics" rendered="#{not empty dashboardDetailModificationBean.statisticWidgets}">
+      <div class="new-widget-dialog__section-title mb-3">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/statisticWidgets')}</div>
+      <div class="grid">
+        <h:panelGroup layout="block" styleClass="col-12 md:col-6 lg:col-4" rendered="#{dashboardDetailModificationBean.canEditStatistic()}">
+          <p:commandLink id="create-custom-statistic-button" styleClass="new-widget-dialog__item new-widget-dialog__item--create js-widget card block w-full h-full"
+            ariaLabel="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/dashboard/PortalDashboardDetailModification/CreateCustomStatistic')}"
+            actionListener="#{dashboardDetailModificationBean.navigateToCustomStatisticWidgetPage(null)}">
+            <div class="flex flex-column align-items-center justify-content-center h-full">
+              <span class="ti ti-plus new-widget-dialog__icon mb-2"/>
+              <h:outputText value="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/dashboard/PortalDashboardDetailModification/CreateCustomStatistic')}" 
+                styleClass="new-widget-dialog__widget-name text-center"/>
+            </div>
+          </p:commandLink>
+        </h:panelGroup>
+        <ui:repeat id="new-statistic-widget-dialog-content"
+         var="widget" value="#{dashboardDetailModificationBean.statisticWidgets}">
+          <ui:include src="StatisticWidgetItem.xhtml" />
+        </ui:repeat>
+      </div>
+    </h:panelGroup>
+
+    <h:panelGroup layout="block" styleClass="new-widget-dialog__section new-widget-dialog__section--custom" rendered="#{not empty dashboardDetailModificationBean.customWidgets}">
+      <div class="new-widget-dialog__section-title mb-3">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/CustomWidgets')}</div>
+      <div class="grid">
+        <ui:repeat id="new-custom-widget-dialog-content"
+         var="widget" value="#{dashboardDetailModificationBean.customWidgets}">
+          <ui:include src="CustomWidgetItem.xhtml" />
+        </ui:repeat>
+      </div>
+    </h:panelGroup>
+    <div class="js-no-widget hidden new-widget-dialog__no-widget-text">
+      <span>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/NoWidgetAvailable')}</span>
+    </div>
+  </div>
+
+  <f:facet name="footer">
+    <h:panelGroup layout="block" styleClass="pt-3">
+      <p:commandLink id="new-widget-close-button" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        styleClass="new-widget-dialog__close-button portal-link"
+        value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        onclick="PF('new-widget-dialog').hide()"
+        process="@this"
+        update="@this"
+        global="false"/>
+    </h:panelGroup>
+  </f:facet>
+</p:dialog>
+
+<p:dialog id="new-widget-configuration-dialog" widgetVar="new-widget-configuration-dialog"
+  styleClass="new-widget-configuration-dialog" closable="true"
+  header="#{dashboardDetailModificationBean.newWidgetHeader}"
+  appendTo="@(body)" closeOnEscape="true"
+  fitViewport="true" responsive="true" modal="true"
+  resizable="false" draggable="false">
+  <c:set var="widget" value="#{dashboardDetailModificationBean.widget}" />
+  <c:set var="widgetType" value="#{dashboardDetailModificationBean.widget.type}" />
+
+  <p:ajax event="close" listener="#{dashboardDetailModificationBean.onCancel(widget)}"
+    disabled="#{widgetType ne 'WELCOME'}" process="@this" global="false" immediate="true" />
+
+  <h:form id="widget-configuration-form" styleClass="ui-g" onkeypress="if (event.keyCode == 13) { return false; }">
+    <c:if test="#{widgetType eq 'TASK'}">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.TaskWidgetConfiguration id="new-widget-configuration-component" taskWidget="#{widget}"
+        managedBean="#{dashboardDetailModificationBean}"
+        componentToUpdate="widget-configuration-form" />
+    </c:if>
+
+    <c:if test="#{widgetType eq 'CASE'}">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.CaseWidgetConfiguration id="new-widget-configuration-component" caseWidget="#{widget}"
+        managedBean="#{dashboardDetailModificationBean}"
+        componentToUpdate="widget-configuration-form" />
+    </c:if>
+
+    <c:if test="#{widgetType eq 'PROCESS'}">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessWidgetConfiguration id="new-widget-configuration-component" processWidget="#{widget}"
+        componentToUpdate="widget-configuration-form" isPublicDashboard="#{dashboardDetailModificationBean.publicDashboard}"
+        managedBean="#{dashboardDetailModificationBean}"/>
+    </c:if>
+
+   <c:if test="#{widgetType eq 'CUSTOM'}">
+     <ic:ch.ivy.addon.portal.generic.dashboard.component.CustomWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       componentToUpdate="#{p:resolveFirstComponentWithId('widget-title', view).clientId}"
+       managedBean="#{dashboardDetailModificationBean}"/>
+   </c:if>
+
+   <c:if test="#{widgetType eq 'PROCESS_VIEWER'}">
+     <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessViewerWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       componentToUpdate="widget-configuration-form"
+       managedBean="#{dashboardDetailModificationBean}"/>
+   </c:if>
+
+   <c:if test="#{widgetType eq 'WELCOME'}">
+     <ic:ch.ivy.addon.portal.generic.dashboard.component.WelcomeWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       componentToUpdate="widget-configuration-form"
+       managedBean="#{dashboardDetailModificationBean}"/>
+   </c:if>
+
+   <c:if test="#{widgetType eq 'NEWS'}">
+     <ic:com.axonivy.portal.dashboard.component.NewsWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       managedBean="#{dashboardDetailModificationBean}"
+       componentToUpdate="widget-configuration-form"/>
+   </c:if>
+   
+   <c:if test="#{widgetType eq 'NOTIFICATION'}">
+     <ic:com.axonivy.portal.dashboard.component.NotificationWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       managedBean="#{dashboardDetailModificationBean}"
+       componentToUpdate="widget-configuration-form"/>
+   </c:if>
+   
+   <c:if test="#{widgetType eq 'NAVIGATION_DASHBOARD'}">
+     <ic:com.axonivy.portal.dashboard.component.NavigationDashboardWidgetConfiguration id="new-widget-configuration-component"
+       widget="#{widget}"
+       managedBean="#{dashboardDetailModificationBean}"
+       componentToUpdate="widget-configuration-form"/>
+   </c:if>
+  </h:form>
+
+  <f:facet name="footer">
+  <div class="widget-configuration-footer-panel">
+    <p:commandLink id="task-configuration-cancel-link-welcome-widget" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+      styleClass="u-mar-right-10 portal-link" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+      rendered="#{widgetType eq 'WELCOME'}"
+      global="false"
+      oncomplete="PF('new-widget-configuration-dialog').hide()"
+      actionListener="#{dashboardDetailModificationBean.onCancel(widget)}">
+      <p:resetInput target="widget-configuration-form" />
+    </p:commandLink>
+
+    <p:commandLink id="task-configuration-cancel-link" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+      styleClass="u-mar-right-10 portal-link" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+      rendered="#{widgetType ne 'WELCOME'}"
+      onclick="PF('new-widget-configuration-dialog').hide();">
+      <p:resetInput target="widget-configuration-form" />
+    </p:commandLink>
+
+    <p:commandButton id="widget-configuration-save-button" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+      actionListener="#{dashboardDetailModificationBean.saveWidget()}" icon="ti ti-device-floppy"
+      oncomplete="if (args &amp;&amp; !args.validationFailed){PF('new-widget-configuration-dialog').hide();loadGridAfterAddedNewWidget(); initStatistics();}"
+      process="#{dashboardDetailModificationBean.componentToProcessOnSave}"
+      partialSubmit="true"
+      update="widget-configuration-form load-grid-after-added-new-widget-cmd"
+      disabled="#{widget eq null}" />
+  </div>
+  </f:facet>
+</p:dialog>
+
+<ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+  <ui:param name="id" value="remove-statistic-widget-dialog" />
+  <ui:param name="widgetVar" value="remove-statistic-widget-dialog" />
+  <ui:param name="iconClass" value="ti ti-trash" />
+  <ui:param name="appendTo" value="@(body)" />
+  <ui:param name="closeable" value="true" />
+  <ui:param name="closeOnEscape" value="true" />
+  <ui:param name="iconStyleClass" value="portal-dialog-error-icon portal-dialog-icon" />
+  <ui:param name="headerText"
+    value="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/dashboard/PortalDashboardDetailModification/RemoveThisStatistic')}" />
+  <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/removeWidgetMessage')}" />
+    
+  <ui:define name="dialogFooter">
+    <div class="flex flex-column">
+    <p:commandButton id="remove-statistic-button" styleClass="w-full portal-remove-button"
+      value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/delete')}"
+      ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/delete')}"
+      actionListener="#{dashboardDetailModificationBean.deleteCustomStatistic()}"
+      update="statistic-widget-fieldset"
+      oncomplete="PF('remove-statistic-widget-dialog').hide();" />
+    <p:link href="#" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+      onclick="PF('remove-statistic-widget-dialog').hide();" styleClass="ui-button-flat pt-3 flex justify-content-center portal-link" />
+    </div>
+  </ui:define>
+</ui:decorate>
+</html>

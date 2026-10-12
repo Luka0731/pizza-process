@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite" xmlns:f="jakarta.faces.core"
+  xmlns:p="primefaces" xmlns:jsf="jakarta.faces" xmlns:c="jakarta.tags.core">
+  
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="componentId" default="task-category-cell"/>
+  <cc:attribute name="value" required="true" />
+  <cc:attribute name="tooltip" />
+  <cc:attribute name="styleClass" />
+  <cc:attribute name="responsiveStyleClass" default="u-hidden-md-down"/>
+  <cc:attribute name="categoryTooltipStyleClass" />
+</cc:interface>
+
+<cc:implementation>
+  <h:panelGroup>
+    <h:outputText id="#{cc.attrs.componentId}" value="#{cc.attrs.value}"
+      styleClass="category-cell #{cc.attrs.styleClass} #{cc.attrs.responsiveStyleClass}" />
+    <p:tooltip id="category-tooltip" for="#{cc.attrs.componentId}"
+      value="#{cc.attrs.tooltip}" styleClass="#{cc.attrs.categoryTooltipStyleClass}" trackMouse="true" hideEvent="mouseleave click"/>
+  </h:panelGroup>
+</cc:implementation>
+</html>

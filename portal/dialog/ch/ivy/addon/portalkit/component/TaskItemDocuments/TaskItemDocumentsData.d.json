@@ -1,0 +1,75 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "TaskItemDocumentsData",
+  "namespace" : "ch.ivy.addon.portalkit.component.TaskItemDocuments",
+  "fields" : [ {
+    "name" : "document",
+    "type" : "com.axonivy.portal.components.ivydata.bo.IvyDocument",
+    "modifiers" : [ ]
+  }, {
+    "name" : "documentContent",
+    "type" : "jakarta.activation.DataHandler",
+    "modifiers" : [ ]
+  }, {
+    "name" : "streamedContent",
+    "type" : "org.primefaces.model.StreamedContent",
+    "modifiers" : [ ]
+  }, {
+    "name" : "documentId",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "documents",
+    "type" : "java.util.List<com.axonivy.portal.components.ivydata.bo.IvyDocument>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "documentUploadEvent",
+    "type" : "org.primefaces.event.FileUploadEvent",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isHideUploadDocumentForDoneCase",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "name",
+    "modifiers" : [ ]
+  }, {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "uploadDocumentCheckMessage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "uploadDocumentCheckStatus",
+    "type" : "com.axonivy.portal.components.enums.UploadDocumentCheckStatus",
+    "modifiers" : [ ]
+  }, {
+    "name" : "businessCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "deleteDocumentMessage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isImage",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isDocumentPreviewEnabled",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isRenameDocumentSuccess",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "renameDocumentMessage",
+    "type" : "String",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isEncrypted",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

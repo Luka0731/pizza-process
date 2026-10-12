@@ -1,0 +1,68 @@
+package ch.ivy.addon.portalkit.bean;
+
+import java.io.Serializable;
+import java.util.List;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
+import ch.ivy.addon.portalkit.dto.UserMenu;
+import ch.ivy.addon.portalkit.enums.PortalVariable;
+import ch.ivy.addon.portalkit.persistence.converter.BusinessEntityConverter;
+import ch.ivy.addon.portalkit.util.PermissionUtils;
+import ch.ivyteam.ivy.environment.Ivy;
+
+@ViewScoped
+@Named
+public class UserMenuConfigurableBean implements Serializable {
+
+  private static final long serialVersionUID = 2602764633968843419L;
+  private List<UserMenu> menus;
+  private static final String DEFAULT_USER_MENU_ICON = "ti ti-link";
+  
+  @PostConstruct
+  public void initConfigration() {
+    this.menus = getUserMenusConfiguration();
+  }
+  
+  private List<UserMenu> getUserMenusConfiguration(){
+    String userMenusJson = Ivy.var().get(PortalVariable.USER_MENU.key);
+    List<UserMenu> userMenus = BusinessEntityConverter.jsonValueToEntities(userMenusJson, UserMenu.class);
+    userMenus.removeIf(userMenu -> {
+      List<String> permissions = userMenu.getPermissions();
+      if (permissions == null) {
+        return false;
+      } else {
+        for (String permission : permissions) {
+          if (isSessionUserHasPermission(permission)) {
+            return false;
+          }
+        }
+      }
+      return true;
+    });
+    userMenus.forEach(userMenu -> {
+      if (StringUtils.isBlank(userMenu.getIcon())) {
+        userMenu.setIcon(DEFAULT_USER_MENU_ICON);
+      }
+    });
+    return userMenus;
+  }
+  
+  private static boolean isSessionUserHasPermission(String permission) {
+    return Strings.CS.startsWith(permission, "#") ? Strings.CS.equals(Ivy.session().getSessionUser().getMemberName(), permission)
+        : PermissionUtils.doesSessionUserHaveRole(permission);
+  }
+
+  public List<UserMenu> getMenus() {
+    return menus;
+  }
+
+  public void setMenus(List<UserMenu> menus) {
+    this.menus = menus;
+  }
+}

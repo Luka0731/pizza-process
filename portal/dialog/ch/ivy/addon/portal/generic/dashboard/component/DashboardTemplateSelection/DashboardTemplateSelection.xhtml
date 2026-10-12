@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="listenerOnBackAction" />
+  <cc:attribute name="componentToUpdateOnBackAction" />
+  <cc:attribute name="isPublicDashboard" type="java.lang.Boolean" default="false" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="isPublicDashboard" value="#{cc.attrs.isPublicDashboard}" scope="request" />
+  <p:dialog appendTo="@(body)" cache="false" fitViewport="true" closeOnEscape="true"
+    header="#{ivy.cms.co('/Labels/CreateNewDashboard')}" resizable="false" id="create-new-dashboard-dialog"
+    widgetVar="create-new-dashboard-dialog" dynamic="true" modal="true" responsive="true" styleClass="create-new-dashboard-dialog">
+    <h:panelGroup id="create-new-dashboard-form" styleClass="ui-g">
+      <h:panelGroup id="create-new-dashboard-section" layout="block" styleClass="ui-g-12 u-padding-0">
+        <div class="ui-g ui-g-12 u-padding-0">
+          <div class="ui-g-12 dashboard-template-selection__section-title">
+            #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/Start')}
+          </div>
+          <div class="ui-g-6 ui-lg-6 ui-md-6 ui-sm-12">
+            <p:commandLink id="create-from-scratch" styleClass="dashboard-action-container pt-2 pb-1 px-2" oncomplete="PF('dashboard-creation-details-dialog').show()"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/CreateFromScratch')}"
+              actionListener="#{dashboardTemplateSelectionBean.createDashboardFromScratch(isPublicDashboard)}"
+              update=":#{cc.clientId}:dashboard-creation-component:dashboard-creation-details-dialog" resetValues="true" global="false">
+              <div class="dashboard-action__icon pt-2 pb-1 px-2">
+                <span class="ti ti-plus dashboard-action-container-icon" />
+              </div>
+              <div class="dashboard-action__text pt-2 pb-1 px-2">
+                <p:outputLabel styleClass="dashboard-action-container-label"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/CreateFromScratch')}" />
+                <p:outputLabel styleClass="dashboard-action-container-description"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/CreateFromScratchDescription')}" />
+              </div>
+            </p:commandLink>
+          </div>
+          <h:panelGroup styleClass="ui-g-6 ui-lg-6 ui-md-6 ui-sm-12" rendered="#{dashboardModificationBean.hasImportDashboardPermission(isPublicDashboard)}">
+            <p:commandLink id="import-dashboard" styleClass="dashboard-action-container pt-2 pb-1 px-2" oncomplete="PF('dashboard-import-dialog').show()"
+              actionListener="#{dashboardImportBean.importDashboard(isPublicDashboard)}" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/import')}"
+              update=":#{cc.clientId}:dashboard-import-component:dashboard-import-dialog" resetValues="true" global="false">
+              <div class="dashboard-action__icon pt-2 pb-1 px-2">
+                <span class="ti ti-upload dashboard-action-container-icon"></span>
+              </div>
+              <div class="dashboard-action__text pt-2 pb-1 px-2">
+                <p:outputLabel styleClass="dashboard-action-container-label"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/import')}" />
+                <p:outputLabel styleClass="dashboard-action-container-description"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/importFromJsonFile')}" />
+              </div>
+            </p:commandLink>
+          </h:panelGroup>
+          <div class="ui-g-12 dashboard-template-selection__section-title">
+            #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/Templates')}
+          </div>
+          <ui:repeat var="template" value="#{dashboardTemplateSelectionBean.dashboardTemplates}" varStatus="status">
+            <div class="ui-g-6 ui-lg-6 ui-md-6 ui-sm-12">
+              <p:commandLink id="template" styleClass="dashboard-action-container pt-2 pb-1 px-2" ariaLabel="#{template.title}"
+                actionListener="#{dashboardTemplateSelectionBean.onSelectTemplate(template, isPublicDashboard)}"
+                oncomplete="PF('dashboard-creation-details-dialog').show()"
+                update=":#{cc.clientId}:dashboard-creation-component:dashboard-creation-details-dialog" resetValues="true" global="false">
+                <div class="dashboard-action__icon pt-2 pb-1 px-2">
+                  <span class="#{iconSelectionBean.generateIconWithFontFamily(template.icon)} dashboard-action-container-icon" />
+                </div>
+                <div class="dashboard-action__text pt-2 pb-1 px-2">
+                  <p:outputLabel styleClass="dashboard-action-container-label" value="#{template.title}" />
+                  <p:outputLabel styleClass="dashboard-action-container-description" value="#{template.description}" />
+                </div>
+              </p:commandLink>
+            </div>
+          </ui:repeat>
+        </div>
+      </h:panelGroup>
+    </h:panelGroup>
+
+    <ic:ch.ivy.addon.portal.generic.dashboard.component.DashboardDetails id="dashboard-creation-component" detailDialogId="dashboard-creation-details-dialog"
+      managedBean="#{dashboardTemplateSelectionBean}"
+      title="#{ivy.cms.co(isPublicDashboard ? '/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/CreateNewPublicDashboard':'/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/NewPrivateDashboard')}"
+      isPublicDashboard="#{isPublicDashboard}" isDashboardCreation="true" />
+
+    <ic:com.axonivy.portal.dashboard.component.DashboardImportDetails id="dashboard-import-component" importDialogId="dashboard-import-dialog"
+      managedBean="#{dashboardImportBean}" isPublicDashboard="#{isPublicDashboard}" />
+  </p:dialog>
+</cc:implementation>
+</html>

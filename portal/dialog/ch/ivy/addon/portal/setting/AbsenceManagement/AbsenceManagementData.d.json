@@ -1,0 +1,92 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "AbsenceManagementData",
+  "namespace" : "ch.ivy.addon.portal.setting.AbsenceManagement",
+  "fields" : [ {
+    "name" : "absencesByUser",
+    "type" : "java.util.Map",
+    "modifiers" : [ ]
+  }, {
+    "name" : "backupAbsence",
+    "type" : "ch.ivy.addon.portalkit.ivydata.bo.IvyAbsence",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isSupervisor",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "users",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.UserDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "queryAutoComplete",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedAbsence",
+    "type" : "ch.ivy.addon.portalkit.ivydata.bo.IvyAbsence",
+    "modifiers" : [ ]
+  }, {
+    "name" : "validationError",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "absenceInThePastShown",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "displayedAbsences",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.ivydata.bo.IvyAbsence>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedAbsenceUser",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedUser",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isCreateMode",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "substitutes",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.ivydata.bo.IvySubstitute>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "substitutions",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.ivydata.bo.IvySubstitute>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  }, {
+    "name" : "deputyRoles",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.dto.DeputyRole>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedDeputyRole",
+    "type" : "ch.ivy.addon.portalkit.dto.DeputyRole",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedDeputy",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedDeputies",
+    "type" : "java.util.List<ch.ivyteam.ivy.security.ISecurityMember>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "canCreateAbsenceForOtherUsers",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "onAbsenceDeputies",
+    "type" : "List<ch.ivyteam.ivy.security.ISecurityMember>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "permanentDeputies",
+    "type" : "List<ch.ivyteam.ivy.security.ISecurityMember>",
+    "modifiers" : [ ]
+  } ]
+}

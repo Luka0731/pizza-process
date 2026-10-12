@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:cc="jakarta.faces.composite"
+      xmlns:c="jakarta.tags.core"
+      xmlns:p="primefaces">
+
+<cc:interface componentType="IvyComponent">
+    <cc:attribute name="task" required="true" type="ch.ivyteam.ivy.workflow.ITask" />
+</cc:interface>
+
+<cc:implementation>
+    <c:set var="isPinned" value="#{taskBean.isPinnedTask(cc.attrs.task)}" />
+
+    <h:form id="pin-form">
+        <p:commandLink 
+            ariaLabel="#{isPinned ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/unpinTaskContext', [cc.attrs.task.name]) : ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/pinTaskContext', [cc.attrs.task.name])}"
+            action="#{taskBean.clickOnPinTask(cc.attrs.task)}" 
+            update="@form"
+            style="display: block; width: 100%; height: 100%;"
+            styleClass="default-task-cell flex align-items-center justify-content-center h-full text-center"
+            onmouseover="this.style.textDecoration='none';"
+            onmouseout="this.style.textDecoration='none';">
+
+            <i class="#{isPinned ? 'tif tif-pin' : 'ti ti-pin'}" />
+
+            <p:tooltip for="@this" 
+                       value="#{isPinned ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/unpin') : ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/pin')}" 
+                       trackMouse="true" 
+                       hideEvent="mouseleave click" />
+        </p:commandLink>
+    </h:form>
+</cc:implementation>
+
+</html>

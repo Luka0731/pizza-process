@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="widget" required="true" />
+  <cc:attribute name="managedBean" required="true" shortDescription="The bean is extending from AbstractConfigurableContentBean"/>
+  <cc:attribute name="referenceId" required="true" type="java.lang.Long" shortDescription="The ID of task or case, which is calling this widget" />
+  <cc:attribute name="widgetStyleClass" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="widget" value="#{cc.attrs.widget}" />
+  <c:set var="referenceId" value="#{cc.attrs.referenceId}" />
+  <c:set var="managedBean" value="#{cc.attrs.managedBean}" />
+
+  <h:panelGroup id="custom-iframe" rendered="#{(widget.type eq 'custom') and (not empty dashboardCustomWidgetBean.safeUrlOrEmpty(widget.data.url))}"
+    styleClass="card custom-widget-card #{cc.attrs.widgetStyleClass} grid-stack-item-content #{managedBean.readOnlyMode ? '' : 'moveable-area'} iframe-widget">
+    <ui:fragment rendered="#{not empty widget.data.processPath}">
+      <form id="#{cc.clientId}:custom-widget-iframe-data" target="#{cc.clientId}:custom-widget-iframe" action="#{dashboardCustomWidgetBean.safeUrlOrEmpty(widget.data.url)}" method="post">
+        <ui:repeat var="entry" value="#{widget.data.params.entrySet()}">
+          <input type="hidden" name="#{entry.key}"
+            value="#{managedBean.getPropertyByKeyPattern(referenceId, entry.value)}" />
+        </ui:repeat>
+      </form>
+      <iframe name="#{cc.clientId}:custom-widget-iframe"
+        title="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portalkit/component/CustomIFrameWidget/CustomWidgetIFrameTitle')}" />
+      <script type="text/javascript">
+         $(function() {
+             $('form[id="#{cc.clientId}:custom-widget-iframe-data"]').submit();
+         });
+       </script>
+    </ui:fragment>
+    <ui:fragment rendered="#{empty widget.data.processPath}">
+      <iframe name="custom-widget-iframe-url" src="#{dashboardCustomWidgetBean.safeUrlOrEmpty(widget.data.url)}"
+      title="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portalkit/component/CustomIFrameWidget/CustomWidgetIFrameTitle')}" />
+    </ui:fragment>
+  </h:panelGroup>
+
+</cc:implementation>
+
+</html>

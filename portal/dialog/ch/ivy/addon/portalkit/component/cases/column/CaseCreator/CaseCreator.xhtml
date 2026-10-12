@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite" xmlns:c="jakarta.tags.core"
+  xmlns:p="primefaces" xmlns:f="jakarta.faces.core"
+  xmlns:ic="http://ivyteam.ch/jsf/component">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="case" type="ch.ivyteam.ivy.workflow.ICase" />
+  <cc:attribute name="componentId" default="case-creator-cell" />
+  <cc:attribute name="dataModel" />
+  <cc:attribute name="styleClass" />
+  <cc:attribute name="responsiveStyleClass" default="js-hidden-when-expand-menu u-hidden-md-down" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="case" value="#{cc.attrs.case}" />
+  <c:set var="dataModel" value="#{cc.attrs.dataModel}" />
+
+  <ic:ch.ivy.addon.portalkit.component.SecurityMemberDisplayName id="#{cc.attrs.componentId}"
+    styleClass="#{cc.attrs.styleClass}" securityMember="#{case.getCreatorUser()}"
+    securityMemberContainerStyleClass="case-header-creator-cell #{cc.attrs.responsiveStyleClass}"
+    securityMemberName="#{case.getCreatorUserName()}" rendered="#{dataModel.isSelectedColumn('CREATOR')}" />
+</cc:implementation>
+</html>

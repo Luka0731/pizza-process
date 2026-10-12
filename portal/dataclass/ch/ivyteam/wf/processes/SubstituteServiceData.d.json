@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "SubstituteServiceData",
+  "namespace" : "ch.ivyteam.wf.processes",
+  "fields" : [ {
+    "name" : "substitutes",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.ivydata.bo.IvySubstitute>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "username",
+    "modifiers" : [ ]
+  }, {
+    "name" : "userDTO",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  } ]
+}

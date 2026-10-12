@@ -1,0 +1,284 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:cc="jakarta.faces.composite"
+  xmlns:c="jakarta.tags.core" xmlns:p="primefaces" xmlns:jsf="jakarta.faces"
+  xmlns:pe="primefaces.extensions"
+  xmlns:pc="jakarta.faces.composite/components">
+  <!-- TOPBAR START -->
+  <div class="layout-topbar-left">
+    <a href="#" class="menu-button">
+      <i class="ti ti-menu-2" />
+    </a>
+    <ic:ch.ivy.addon.portalkit.component.WarningBeforeLeavingTask id="task-leave-warning-component"
+      rendered="#{isWorkingOnATask}" leaveActionListener="#{userMenuBean.resetTaskAndNavigateWithGrowl(task)}"
+      reserveActionListener="#{userMenuBean.reserveTaskAndNavigateWithGrowl(task)}"
+      componentId="logo-task-losing-confirmation-dialog" widgetVar="logo-task-losing-confirmation-dialog"
+      taskState="#{task.state}" />
+    <c:if test="#{!isNotRequiredLogin}">
+      <ic:ch.ivy.addon.portalkit.singleapp.general.SetLanguage />
+    </c:if>
+  </div>
+  
+  <div class="layout-topbar-right">
+
+    <ui:insert name="menu-bar">
+      <ul id="top-menu" class="layout-topbar-actions topbar-menu animated js-top-menu">
+
+        <li class="topbar-item breadcrumb-container" >
+          <h:panelGroup id="breadcrumb-container">
+            <ic:ch.ivy.addon.portal.generic.PortalBreadcrumb id="portal-breadcrumb"
+              isWorkingOnATask="#{isWorkingOnATask}"
+              viewName="#{viewName}"
+                    task="#{task}" case="#{case}" />
+            <h:form id="navigation-dashboard-back-button" styleClass="flex justify-content-center"
+             rendered="#{isInDashboard}">
+             <li class="topbar-item">
+               <h:panelGroup rendered="#{isInDashboard}">
+                 <p:commandLink id="back-to-previous-dashboard-page" action="#{navigationDashboardWidgetBean.backToPreviousDashboard()}"
+                   ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}"
+                   styleClass="inline-flex align-items-center hover:underline" rendered="#{topBarBean.showNavigationBackButton}" process="@this">
+                   <i class="ti ti-chevron-left" />
+                   <p:spacer width="3px" />
+                   <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}" />
+                 </p:commandLink>
+                 <h:inputHidden/>
+               </h:panelGroup>
+             </li>
+            </h:form>
+           </h:panelGroup>
+        </li>
+
+        <li class="topbar-item custom-search-item" jsf:rendered="#{showGlobalSearch or showQuickGlobalSearch}">
+          <ic:ch.ivy.addon.portal.generic.GlobalSearch id="global-search-component" showQuickGlobalSearch="#{showQuickGlobalSearch}"
+            isWorkingOnATask="#{isWorkingOnATask}" case="#{case}" task="#{task}" />
+        </li>
+        <li class="topbar-item themeswitch-item">
+          <p:commandLink id="theme-switcher" disabled="#{!themeBean.enableSwitchThemeButton}" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/ThemeSwitcher')}" global="false"
+            onclick="PrimeFaces.FreyaConfigurator.changeLayout('ivy', '#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');Portal.changePortalVariableTheme('#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');">
+            <i class="topbar-icon pi pi-#{ivyFreyaTheme.mode == 'light' ? 'moon' : 'sun'}" />
+            <p:ajax onstart="PrimeFaces.FreyaConfigurator.beforeResourceChange();"
+              listener="#{themeBean.toggleTheme()}" update="theme-switcher #{p:resolveFirstComponentWithId('content-container:iFrame', view).clientId}" />
+          </p:commandLink>
+        </li>
+        <li class="topbar-item">
+          <p:commandLink id="open-notifications-panel" global="false" update="#{p:resolveFirstComponentWithId('has-notifications', view).clientId}" 
+          rendered="#{notificationBean.isBellIconNeeded}" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/notifications/notificationsBadgeLabel', [notificationBean.countUnread])}"
+          actionListener="#{notificationBean.setRender(true)}" onclick="openNotificationPanel()" process="@this">
+            <i class="topbar-icon ti ti-bell" />
+            <h:panelGroup class="notifications-badge" id="topbar-unread-notifications-container">
+              <h:outputText id="topbar-unread-notifications"
+                value="#{notificationBean.getUnreadNotifications()}" />
+              <input type="hidden" id="notifications-badge-value" value="#{notificationBean.countUnread}"/>
+              <input type="hidden" id="notifications-badge-label-template" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/notifications/notificationsBadgeLabel', ['{0}'])}"/>
+            </h:panelGroup>
+          </p:commandLink>
+        </li>
+        <li jsf:rendered="#{chatRendererBean.isChatRendered}" class="topbar-item chat-item">
+          <p:commandLink id="toggle-chat-panel-command" global="false" 
+            ariaLabel="#{ivy.cms.co('/Labels/Chat')}"
+            styleClass="notification-badge mod-chat-menu">
+            <i class="topbar-icon ti ti-message" />
+          </p:commandLink>
+        </li>
+
+        <li class="topbar-item user-profile setting-container">
+          <a href="#" id="user-settings-menu" onclick="hideDashboardOverlayPanels()" class="topbar-item user-profile">
+            <pc:securityMemberNameAndAvatar displayName="#{userMenuBean.loggedInUser}" securityMember="#{ivy.session.sessionUser}" displayNameStyleClass="user-name" />
+          </a>
+          <ul id="user-setting-container">
+             <li class="ui-menu-items" ><p:commandLink id="user-profile"
+               process="@this"
+               ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/userProfile/myProfileTitle')}"
+               actionListener="#{userMenuBean.navigateToUserProfileOrDisplayWorkingTaskWarning(isWorkingOnATask, task)}">
+               <i class="ti ti-user" />
+               <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/userProfile/myProfileTitle')}" />
+             </p:commandLink>
+             </li>
+
+            <li class="ui-menu-items" jsf:rendered="#{userMenuBean.showDashboardConfigurationMenu and masterDataBean.sidebarMode == 'HIDDEN'}">
+              <p:commandLink id="dashboard-configuration"
+                process="@this"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/Title')}"
+                actionListener="#{userMenuBean.navigateToDashboardConfigurationOrDisplayWorkingTaskWarning(isWorkingOnATask, task)}">
+                <i class="ti ti-adjustments-horizontal" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/Title')}" />
+              </p:commandLink>
+            </li>
+
+            <li class="ui-menu-items u-hidden-sm-down" jsf:rendered="#{userMenuBean.showAdminSetting}">
+              <p:commandLink id="adminui-menu-item"
+                process="@this"
+                actionListener="#{userMenuBean.navigateToPortalManagementDisplayWorkingTaskWarning(isWorkingOnATask, task)}">
+                <i class="ti ti-user-square-rounded" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/adminSettings')}" />
+              </p:commandLink>
+            </li>
+
+            <li class="ui-menu-items" jsf:rendered="#{absenceManagementBean.ownAbsencesReadable}">
+              <p:commandLink id="absence-menu-item"
+                  process="@this"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/AbsenceAndDeputy/absences')}"
+                  actionListener="#{userMenuBean.navigateToAbsencesOrDisplayWorkingTaskWarning(isWorkingOnATask, task)}">
+                <i class="ti ti-user-x" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/AbsenceAndDeputy/absences')}" />
+              </p:commandLink>
+            </li>
+
+            <li class="ui-menu-items" jsf:rendered="#{not userMenuBean.hiddenChangePassword}">
+              <p:commandLink id="change-password-menu-item"
+                process="@this"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/changePassword')}"
+                oncomplete="PF('changePasswordDialog').show(); $('#user-setting-container').click()"
+                resetValues="true" update="change-password-form">
+                <i class="ti ti-password" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/changePassword')}" />
+                <p:resetInput target=":change-password-dialog" />
+              </p:commandLink></li>
+
+            <li class="ui-menu-items"><p:link id="project-info-menu-item" href="#"
+                onclick="rcProjectInfo(); $('#user-setting-container').click();">
+                <i class="ti ti-info-circle" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/projectInfo/info')}" />
+              </p:link></li>
+
+            <li class="ui-menu-items" jsf:rendered="#{userMenuBean.isShowQRCode()}"><p:link id="mobile-app-item" href="#"
+                onclick="PF('mobile-app-dialog').show();">
+                <i class="ti ti-device-mobile" />
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/MenuName')}" />
+              </p:link></li>
+
+            <c:forEach var="menu" items="#{userMenuConfigurableBean.menus}" varStatus="status">
+              <li class="ui-menu-items"><ic:ch.ivy.addon.portalkit.component.UserMenu id="user-menu-setting-#{status.index}" menu="#{menu}"
+                  index="#{status.index}" isWorkingOnATask="#{isWorkingOnATask}" task="#{task}" /></li>
+            </c:forEach>
+
+            <li class="ui-menu-items color-destroy" jsf:rendered="#{loginBean.isLoginPageRendered()}">
+              <ic:ch.ivy.addon.portalkit.multiapp.settings.LogoutSetting
+                id="logout-setting" isWorkingOnATask="#{isWorkingOnATask}" task="#{task}" />
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="color-header">
+        <div class="first-header-bar" />
+        <div class="second-header-bar" />
+        <div class="third-header-bar" />
+      </div>
+
+      <p:dialog header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/changePassword')}" closeOnEscape="true"
+        widgetVar="changePasswordDialog" id="change-password-dialog" resizable="false" modal="true" draggable="false" appendTo="@(body)" dynamic="true"
+        styleClass="change-password-dialog" responsive="true" fitViewport="true">
+        <h:form id="change-password-form">
+          <ic:ch.ivy.addon.portalkit.multiapp.settings.PasswordSetting id="password-setting" dialogName="changePasswordDialog" />
+        </h:form>
+      </p:dialog>
+
+      <p:dialog header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/projectInfo/header')}" styleClass="project-info-dialog"
+        closeOnEscape="true" widgetVar="project-info-dialog" id="project-info-dialog" resizable="false" modal="true" draggable="false"
+        appendTo="@(body)" dynamic="true" responsive="true" fitViewport="true">
+        <ic:ch.ivy.addon.portalkit.component.ProjectVersion id="project-version" />
+      </p:dialog>
+      
+      <p:dialog header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/MobileApp')}" width="650"
+        closeOnEscape="true" widgetVar="mobile-app-dialog" id="mobile-app-dialog" resizable="false" modal="true" draggable="false"
+        appendTo="@(body)" dynamic="true" responsive="true" fitViewport="true" closable="false" styleClass="dialog-responsive">
+        <p:tabView>
+
+          <div class="ui-g-12">
+            <p:tab
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AxonIvyMobile')}"
+              styleClass="MarLeft10" id="axon-ivy-tab">
+              <div class="ui-g-5 qr-container">
+                <p:barcode id="qr-code" value="#{userMenuBean.getQRcodeData()}"
+                  type="qr" styleClass="qr-code"
+                  alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AxonIvyMobileQRCode')}"/>
+                <div class="qr-logo-background"></div>
+                <p:graphicImage id="qr-code-image" cache="true"
+                  library="ivy-cms" name="#{userMenuBean.mobileImageLink}"
+                  alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AxonIvyMobile')}"
+                  styleClass="qr-code-image" />
+              </div>
+              <div class="ui-g-7">
+                <span class="ti ti-info-circle" />
+                <h:outputText
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/QRCodeDescription')}"
+                  styleClass="MarLeft10" />
+              </div>
+            </p:tab>
+
+            <p:tab
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AppleStore')}"
+              styleClass="MarLeft10" id="apple-tab">
+              <div class="ui-g-5 apple-container">
+                <p:barcode id="apple-qr-code" type="qr"
+                  value="#{userMenuBean.appleStoreDownloadLink}" styleClass="qr-code"
+                  alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AppleStoreQRCode')}" />
+              </div>
+              <div class="ui-g-7">
+                <div class="ui-g-12">
+                  <span class="ti ti-info-circle" />
+                  <h:outputText
+                    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/QRCodeDownloadDescription')}"
+                    styleClass="MarLeft10" />
+                </div>
+                <div class="ui-g-12">
+                  <p:link styleClass="portal-link" id="apple-download-link" href="#{userMenuBean.getAppleStoreDownloadLink()}" target="_blank">
+                    <p:graphicImage styleClass="platform-image" id="apple-download-image" cache="true"
+                      library="ivy-cms" name="#{userMenuBean.appleStoreImageLink}"
+                      alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/AppleStoreDownload')}" />
+                  </p:link>
+                </div>
+              </div>
+            </p:tab>
+
+            <p:tab
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/GooglePlay')}"
+              styleClass="MarLeft10" id="google-tab">
+              <div class="ui-g-5 apple-container">
+                <p:barcode id="google-qr-code" type="qr"
+                  value="#{userMenuBean.googlePlayDownloadLink}" styleClass="qr-code"
+                  alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/GooglePlayQRCode')}" />
+              </div>
+              <div class="ui-g-7">
+                <div class="ui-g-12">
+                  <span class="ti ti-info-circle" />
+                  <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/QRCodeDownloadDescription')}" styleClass="MarLeft10" />
+                </div>
+                <div class="ui-g-12">
+                  <p:link styleClass="portal-link" id="google-download-link" href="#{userMenuBean.getGooglePlayDownloadLink()}" target="_blank">
+                    <p:graphicImage styleClass="platform-image" id="google-download-image" cache="true"
+                      library="ivy-cms" name="#{userMenuBean.googlePlayImageLink}"
+                      alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/mobile/GooglePlayDownload')}" />
+                  </p:link>
+                </div>
+              </div>
+            </p:tab>
+
+          </div>
+        </p:tabView>
+
+        <div class="u-dialog-footer-actions-group">
+          <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}" id="mobile-app-close-button" type="button"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+            icon="#{visibilityBean.generateButtonIcon('ti ti-x')}" onclick="PF('mobile-app-dialog').hide();" />
+        </div>
+      </p:dialog>
+
+      <h:form>
+        <p:remoteCommand name="rcProjectInfo" actionListener="#{projectVersionBean.loadProjectVesion}" oncomplete="PF('project-info-dialog').show()"
+          process="@this"
+          update="project-info-dialog" />
+      </h:form>
+    </ui:insert>
+  </div>
+
+  <c:if test="#{chatRendererBean.isChatRendered}">
+    <ui:include src="/layouts/includes/chat.xhtml" />
+  </c:if>
+  <ui:include src="/layouts/includes/notification.xhtml" >
+    <ui:param name="task" value="#{not empty currentTask ? currentTask : task}" />
+    <ui:param name="isWorkingOnATask" value="#{isWorkingOnATask}" />
+  </ui:include>
+  <!-- TOPBAR END -->
+</ui:composition>

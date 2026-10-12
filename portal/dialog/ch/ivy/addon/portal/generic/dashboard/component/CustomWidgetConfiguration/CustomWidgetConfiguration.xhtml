@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core" xmlns:fn="jakarta.tags.functions" xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="widget" />
+  <cc:attribute name="componentToUpdate" />
+  <cc:attribute name="managedBean" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="widget" value="#{cc.attrs.widget}" />
+  <c:set var="managedBean" value="#{cc.attrs.managedBean}" />
+  <!-- Configuration -->
+  <h:panelGroup id="user-filter" layout="block"
+    styleClass="card dashboard-card widget-configuration custom-widget-configuration">
+    <div class="user-filter ui-g">
+      <div class="ui-g-12 user-filter__header">
+        <p class="text-style-h2">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/configuration')}</p>
+        <p>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/CustomConfigurationDescription')}</p>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <p:messages id="config-custom-widget-message" />
+    </div>
+    <h:panelGroup id="widget-title-group"
+      styleClass="ui-g-12 u-padding-0 ui-fluid">
+      <div class="ui-g-4">
+        <p:outputLabel for="widget-title"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/widgetTitle')}" />
+      </div>
+      <div class="ui-g-8 ui-inputgroup">
+        <p:inputText id="widget-title"
+          styleClass="widget-configuration__input-text"
+          value="#{widget.name}"
+          placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/CustomWidgetTitlePlaceholder')}" />
+        <!-- Add language button -->
+        <p:commandButton styleClass="app-setting-button"
+          icon="ti ti-language" id="add-language-button"
+          actionListener="#{managedBean.updateWidgetNameByLocale()}"
+          process="widget-title"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/addLanguages')}"
+          update=":#{cc.clientId}:title-language-config:multiple-languages-dialog"
+          oncomplete="PF('multiple-languages-dialog').show();">
+          <f:param name="skipValidator" value="true" />
+        </p:commandButton>
+      </div>
+    </h:panelGroup>
+
+    <h:panelGroup id="fullscreen-mode-group" rendered="#{managedBean.displayFullscreenModeOption()}"
+      styleClass="ui-g-12 u-padding-0 ui-fluid">
+      <div class="ui-g-4">
+        <p:outputLabel for="fullscreen-option"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/fullscreenMode')}"
+          styleClass="u-mar-right-5" />
+      </div>
+      <div class="ui-g-6 ui-inputgroup">
+        <p:selectBooleanCheckbox id="fullscreen-option"
+          value="#{widget.showFullscreenMode}">
+          <p:ajax process="fullscreen-mode-group"
+            update="fullscreen-mode-group" partialSubmit="true"/>
+        </p:selectBooleanCheckbox>
+      </div>
+    </h:panelGroup>
+
+    <c:set var="isIvyProcess" value="#{widget.data.type == 'PROCESS'}" />
+    <h:panelGroup id="external-url-panel"
+      styleClass="ui-g-12 u-padding-0" rendered="#{!isIvyProcess}">
+      <div class="ui-g-4">
+        <p:outputLabel
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/Enums/DashboardCustomWidgetType/EXTERNAL_URL')}"
+          for="external-url" />
+      </div>
+      <div class="ui-g-8 ui-fluid">
+        <p:inputText id="external-url" value="#{widget.data.url}"
+          required="#{!isIvyProcess and param['skipValidator'] == null}"
+          validator="#{dashboardCustomWidgetBean.validateUrl}" />
+      </div>
+      <div class="ui-g-12">
+        <h:outputText
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/CustomWidgetExternalLinkWarning')}" />
+      </div>
+    </h:panelGroup>
+    <h:panelGroup id="parameters-panel"
+      styleClass="ui-g-12 parameters-panel u-padding-0 MarTop10"
+      layout="block"
+      rendered="#{isIvyProcess and widget.data.startableProcessStart ne null}">
+      <p:fieldset id="parameters-fieldset"
+        legend="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/Parameters')}"
+        toggleable="true" collapsed="false"
+        rendered="#{not empty widget.data.params || widget.data.hasParamChanged}">
+        <h:panelGroup layout="block"
+          rendered="#{widget.data.hasParamChanged}" styleClass="ui-g">
+          <div class="ui-g-12">
+            <h:outputText
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/configuration/customWidgetParamChangedMessage')}" />
+          </div>
+          <div class="ui-g-12">
+            <p:commandButton ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/Update')}"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/Update')}">
+              <p:ajax event="click"
+                listener="#{dashboardDetailModificationBean.reloadParamtersFromProcessForCustomWidget(widget)}"
+                update="parameters-panel" />
+            </p:commandButton>
+          </div>
+        </h:panelGroup>
+        <h:panelGroup id="parameters-container"
+          styleClass="ui-g ui-g-12 ui-fluid parameters u-padding-0"
+          layout="block">
+          <ui:repeat id="parammeters" value="#{widget.data.params}"
+            var="parameter" varStatus="status">
+            <h:panelGroup layout="block" styleClass="ui-g-4">
+              <h:outputText styleClass="param-label"
+                value="#{parameter.name}" />
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="ui-g-8">
+              <p:inputTextarea id="param-string-#{status.index}"
+                value="#{parameter.value}"
+                rendered="#{parameter.type == 'STRING'}" />
+              <p:datePicker id="param-calendar-#{status.index}"
+                value="#{parameter.valueDate}"
+                rendered="#{parameter.type == 'DATE'}"
+                locale="#{localeBean.locale}"
+                showTime="#{!dateTimePatternBean.isTimeHidden}"
+                showIcon="true" focusOnSelect="true" />
+              <ic:com.axonivy.portal.components.UserSelection
+                id="param-user-#{status.index}"
+                selectedUser="#{parameter.valueUser}"
+                rendered="#{parameter.type == 'USER'}" queryDelay="500"
+                maxResults="100" cache="true"
+                autoCompleteStyleClass="custom-widget-configuration__user-selection" />
+              <p:selectOneRadio id="param-boolean-#{status.index}"
+                value="#{parameter.valueBoolean}"
+                rendered="#{parameter.type == 'BOOLEAN'}">
+                <f:selectItem id="yes-option"
+                  itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/yes')}"
+                  itemValue="#{true}" />
+                <f:selectItem id="no-option"
+                  itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/no')}"
+                  itemValue="#{false}" />
+              </p:selectOneRadio>
+            </h:panelGroup>
+          </ui:repeat>
+        </h:panelGroup>
+      </p:fieldset>
+    </h:panelGroup>
+  </h:panelGroup>
+    <!-- Multi language dialog-->
+  <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration id="title-language-config" titleRequired="false"
+    titles="#{managedBean.widget.names}" managedBean="#{managedBean}" componentToUpdateOnCreate="#{cc.attrs.componentToUpdate}" />
+</cc:implementation>
+</html>

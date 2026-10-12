@@ -1,0 +1,373 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:fn="jakarta.tags.functions" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core">
+<!-- htmlSanitizerBean: com.axonivy.portal.components.bean.HtmlSanitizerBean -->
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:define name="head">
+      <h:outputScript library="primefaces" name="chart/chart.js" />
+      <h:outputScript name="statistic.js" library="js" />
+    </ui:define>
+
+    <ui:define name="title">#{managedBean.getSelectedDashboardName()}</ui:define>
+    <ui:param name="loadGridStack" value="true" />
+    <ui:param name="isInDashboard" value="true"/>
+    <ui:param name="isEditMode" value="${managedBean.isReadOnlyMode == 'false'}"/>
+
+
+    <ui:define name="pageContent">
+        <script type="text/javascript">
+          function initStatistics() {
+            initClientCharts("#{managedBean.statisticApiUri}" , "#{managedBean.getSupportedUserLanguage()}", "#{dateTimePatternBean.datePattern}", "#{localeBean.locale}");
+          }
+
+          $(document).ready(function () {
+            const isResponsive = #{htmlSanitizerBean.escapeForJS(managedBean.selectedDashboard != null and managedBean.selectedDashboard.isResponsive)} ? true : false;
+            loadGrid(isResponsive);
+            updateDashboardWhenResizeWindow(isResponsive);
+            setTimeout(() => {
+              initStatistics();
+            }, 50);
+          });
+      </script>
+      <h:form id="remote-command-group">
+        <p:remoteCommand id="reset-active-menu-items-rc" name="resetActiveMenuItems" autoRun="true"
+          onstart="resetPortalLeftMenuState();"
+          immediate="true" process="@this" update="@none" global="false"/>
+      </h:form>
+      <div class="ui-g js-dashboard__wrapper #{managedBean.isReadOnlyMode ? 'js-view-mode':''}">
+      <div id="screen-reader-notification" aria-live="assertive" class="screenreader-only">
+        #{dashboardBean.getScreenReaderNotificationContent()}
+      </div>
+      <!-- Dashboard content -->
+      <ui:fragment>
+        <h:outputStylesheet library="css" name="dashboard.css" />
+        <div class="dashboard__header js-dashboard__header ui-g">
+          <div class="dashboard__header-card">
+            <h:panelGroup id="dashboard-title-container" rendered="#{!managedBean.isReadOnlyMode}"
+              styleClass="u-hidden-sm-down dashboard__title-container--flex dashboard__title-container">
+              <ui:insert name="headerTitle" />
+            </h:panelGroup>
+
+            <h:panelGroup id="dashboard-header-action" rendered="#{!managedBean.isReadOnlyMode}"
+              class="dashboard-header__action flex-1">
+              <ui:insert name="headerAction" />
+            </h:panelGroup>
+          </div>
+        </div>
+
+        <h:form id="dashboard-remote-command-form" prependId="false">
+          <h:inputHidden id="dashboard-view-mode" value="#{managedBean.isReadOnlyMode}"/>
+          <p:remoteCommand name="updateDashboardWidget" update="grid-stack" oncomplete="loadGrid(#{managedBean.selectedDashboard != null and managedBean.selectedDashboard.isResponsive});dashboardToolKit.responsive(); initStatistics('#{managedBean.statisticApiUri}');" />
+          <p:remoteCommand name="loadAllWidgetSavedFilters" actionListener="#{managedBean.loadAllWidgetSavedFilters()}"
+            global="false" process="@this" immediate="true" partialSubmit="true"
+            update="delete-saved-filter-form:quick-filter-table"
+            oncomplete="if (PrimeFaces.widgets['quick-filter-table']) { PF('quick-filter-table').clearFilters(); } if (PrimeFaces.widgets['manage-filter-dialog']) { PF('manage-filter-dialog').initPosition(); }"/>
+          <p:remoteCommand name="openStatisticDrillDown"
+            actionListener="#{statisticDrillDownBean.drillDownToDashboard(param.drillDownData)}" oncomplete="navigateToDrillDownDashboard();" process="@this" />
+          <p:remoteCommand name="navigateToDrillDownDashboard" update="grid-stack" actionListener="#{navigationDashboardWidgetBean.navigateToDrillDownDashboard(managedBean.selectedDashboard != null ? managedBean.selectedDashboard.id : null)}" />
+
+          <ui:insert name="additionalRemoteCommand" />
+        </h:form>
+
+        <div id="dashboard-body" class="dashboard__body ui-g-12 js-dashboard__body #{dashboardBodyStyleClass} #{managedBean.isReadOnlyMode ? '':'u-invisibility'}">
+          <h:panelGroup id="grid-stack" layout="block" styleClass="grid-stack ui-g-12 u-no-padding-left">
+            <c:if test="#{not empty managedBean.selectedDashboard.widgets}">
+              <c:forEach var="widget" items="#{managedBean.selectedDashboard.widgets}" varStatus="status">
+                <div class="grid-stack-item #{widget.type == 'WELCOME' ? 'js-welcome-widget welcome-widget' : ''}"
+                  data-index="#{status.index}"
+                  default-y="#{widget.layout.axisY}"
+                  default-x="#{widget.layout.axisX}"
+                  gs-x="#{widget.layout.axisX}"
+                  gs-y="#{widget.layout.axisY}"
+                  gs-id="#{widget.id}"
+                  gs-w="#{widget.layout.width}"
+                  gs-h="#{widget.layout.height}"
+                  gs-autoPosition="#{widget.autoPosition}"
+                  gs-no-resize="#{managedBean.isReadOnlyMode}"
+                  gs-no-move="#{managedBean.isReadOnlyMode}">
+                  <div class="grid-stack-item-content card dashboard-card dashboard__widget #{managedBean.isReadOnlyMode ? '' : 'dashed-outline'} #{widget.layout.newWidget ? 'new-widget' : ''} js-dashboard-widget-#{widget.id}">
+                    <!-- Task widget -->
+                    <c:if test="#{widget.type eq 'TASK'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.TaskDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        isResizable="#{managedBean.resizable}"
+                        index="#{status.index}"
+                        id="task-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Case widget -->
+                    <c:if test="#{widget.type eq 'CASE'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.CaseDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        isResizable="#{managedBean.resizable}"
+                        index="#{status.index}"
+                        id="case-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Process widget -->
+                    <c:if test="#{widget.type eq 'PROCESS'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="process-#{widget.id}"
+                        isPublicDashboard="#{managedBean.selectedDashboard.isPublic}"
+                        isInConfiguration="#{isInConfiguration}" />
+                    </c:if>
+
+                    <!-- Custom widget -->
+                    <c:if test="#{widget.type eq 'CUSTOM'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.CustomDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="custom-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Process viewer widget -->
+                    <c:if test="#{widget.type eq 'PROCESS_VIEWER'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessViewerWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="process-viewer-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Welcome widget -->
+                    <c:if test="#{widget.type eq 'WELCOME'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.WelcomeDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="welcome-#{widget.id}" />
+                    </c:if>
+
+                    <!-- News widget -->
+                    <c:if test="#{widget.type eq 'NEWS'}">
+                      <ic:com.axonivy.portal.dashboard.component.NewsWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="news-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Statistic widget -->
+                    <c:if test="#{widget.type eq 'STATISTIC'}">
+                      <ic:com.axonivy.portal.dashboard.component.StatisticWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="statistic-#{widget.id}" />
+                    </c:if>
+                    
+                    <!-- Notification widget -->
+                    <c:if test="#{widget.type eq 'NOTIFICATION'}">
+                      <ic:com.axonivy.portal.dashboard.component.NotificationWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="notification-#{widget.id}" />
+                    </c:if>
+                    
+                    <!-- Navigation dashboard widget -->
+                    <c:if test="#{widget.type eq 'NAVIGATION_DASHBOARD'}">
+                      <ic:com.axonivy.portal.dashboard.component.NavigationDashboardWidget widget="#{widget}"
+                        managedBean="#{managedBean}"
+                        index="#{status.index}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        id="navigation-dashboard-#{widget.id}" />
+                    </c:if>
+                  </div>
+                </div>
+              </c:forEach>
+            </c:if>
+            <h:panelGroup rendered="#{managedBean.selectedDashboard == null and managedBean.isEditMode}">
+              <p class="ui-g-12 text-style-h1" role="status">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noDashboard')}</p>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{managedBean.selectedDashboard == null and not managedBean.isEditMode}">
+              <p class="ui-g-12 text-style-h1" role="status">
+                <h:outputText rendered="#{managedBean.noDashboardAvailable}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noDashboardAvailable')}" />
+                <h:outputText rendered="#{not managedBean.noDashboardAvailable}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noPermission')}" />
+              </p>
+            </h:panelGroup>
+            <h:panelGroup
+              rendered="#{managedBean.selectedDashboard != null and empty managedBean.selectedDashboard.widgets}">
+              <p class="ui-g-12 text-style-h1" role="status">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noWidget')}</p>
+            </h:panelGroup>
+            <ui:insert name="dashboardContent" />
+          </h:panelGroup>
+          
+          <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+            <ui:param name="id" value="destroy-task-confirmation-dialog" />
+            <ui:param name="widgetVar" value="destroy-task-dialog" />
+            <ui:param name="appendTo" value="@(body)" />
+            <ui:param name="iconClass" value="ti ti-trash" />
+            <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+            <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroyTaskHeaderText')}" />
+            <ui:param name="dialogContent"
+              value="#{taskWidgetBean.getDestroyTaskMessage()}" />
+             
+            <ui:define name="dialogFooter">
+              <h:panelGroup styleClass="flex flex-column">
+              <p:commandButton id="confirm-destruction-dashboard-tasks" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+               styleClass="w-full portal-remove-button"
+               ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+               actionListener="#{taskWidgetBean.destroyTask(taskWidgetBean.selectedTaskItemId)}"
+               oncomplete="PF('destroy-task-dialog').hide();loadGrid(#{managedBean.selectedDashboard.isResponsive}); initStatistics();"
+               update="grid-stack dashboard-title-container" />
+              <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                onclick="PF('destroy-task-dialog').hide();" styleClass="mt-3 mx-auto w-max flex portal-link" />
+               </h:panelGroup>
+            </ui:define>
+           </ui:decorate>
+           
+           <!-- Escalation task dialog -->
+           <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+            <ui:param name="id" value="escalation-task-confirmation-dialog" />
+            <ui:param name="widgetVar" value="escalation-task-dialog" />
+            <ui:param name="appendTo" value="@(body)" />
+            <ui:param name="iconClass" value="ti ti-alert-triangle" />
+            <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+            <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/escalationTaskHeaderText')}" />
+            <ui:param name="dialogContent"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/escalationTaskMessage')}" />
+             
+            <ui:define name="dialogFooter">
+              <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/no')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/no')}"
+                onclick="PF('escalation-task-dialog').hide();" styleClass="u-mar-right-15" />
+              <p:commandButton id="confirm-escalation-dashboard-tasks" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/yes')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/yes')}"
+                icon="#{visibilityBean.generateButtonIcon('ti ti-check')}"
+                actionListener="#{taskWidgetBean.expiryTask(taskWidgetBean.selectedTaskItemId)}"
+                oncomplete="PF('escalation-task-dialog').hide();loadGrid(#{managedBean.selectedDashboard.isResponsive});initStatistics();" update="grid-stack dashboard-title-container" />
+            </ui:define>
+           </ui:decorate>
+           
+           <!-- Delegate Task Dialog -->
+           <ic:ch.ivy.addon.portalkit.component.TaskItemDelegate id="dashboard-tasks-item-delegate"
+            taskId="#{taskWidgetBean.selectedTaskItemId}" componentToUpdate="grid-stack dashboard-title-container" onCompletedCallback="loadGrid(#{managedBean.selectedDashboard.isResponsive}); initStatistics();"/>
+           
+           <!-- Workflow Event of Task Dialog -->
+           <ic:ch.ivy.addon.portalkit.component.TaskItemWorkflowEvents id="dashboard-tasks-workflow-event"
+            taskId="#{taskWidgetBean.selectedTaskItemId}"/>
+            
+           <!-- Custom fields of Task Dialog -->
+           <ic:ch.ivy.addon.portalkit.component.TaskItemCustomFields id="dashboard-tasks-custom-fields"
+            taskId="#{taskWidgetBean.selectedTaskItemId}"/>
+           
+           <!-- Destroy case dialog -->
+           <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+            <ui:param name="id" value="destroy-case-confirmation-dialog" />
+            <ui:param name="widgetVar" value="destroy-case-dialog" />
+            <ui:param name="appendTo" value="@(body)" />
+            <ui:param name="iconClass" value="ti ti-trash" />
+            <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+            <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroyCaseHeaderText')}" />
+            <ui:param name="dialogContent" value="#{caseWidgetBean.getDestroyCaseMessage()}" />
+            
+           <ui:define name="dialogFooter">
+            <h:panelGroup>
+              <p:commandButton id="confirm-destruction-dashboard-cases" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+                styleClass="w-full portal-remove-button"
+                actionListener="#{caseWidgetBean.destroyCase(caseWidgetBean.selectedCase)}"
+                oncomplete="PF('destroy-case-dialog').hide();loadGrid();initStatistics();"
+                update="grid-stack dashboard-title-container" />
+              <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                onclick="PF('destroy-case-dialog').hide();" styleClass="pt-3 flex justify-content-center portal-link"/>
+            </h:panelGroup>
+           </ui:define>
+          </ui:decorate>
+          
+          <p:dialog id="manage-filter-dialog" widgetVar="manage-filter-dialog"
+            header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/ManageWidgetFilterHeader')}"
+            modal="true" fitViewport="true" styleClass="manage-filter-dialog" onHide="reloadManageFilterDialogOpenerWidget();"
+            dynamic="true" appendTo="@(body)" closable="true" closeOnEscape="true"
+            onShow="loadAllWidgetSavedFilters();">
+            <h:form id="delete-saved-filter-form" styleClass="ui-g">
+              <div class="ui-g-12">
+                <p:dataTable cellNavigation="false" id="quick-filter-table" value="#{dashboardBean.widgetFilters}" var="quickFilter"
+                  widgetVar="quick-filter-table" scrollHeight="300" scrollable="true" reflow="true"
+                  selection="#{dashboardBean.deleteFilters}" rowKey="#{quickFilter.id}"
+                  emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/EmptyFilterMessage')}" lazy="false">
+                  
+                  <p:column selectionBox="true" styleClass="saved-filter-selection-column text-center" width="20"/>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/name')}" width="200"
+                    filterBy="#{quickFilter.name}" sortBy="#{quickFilter.name}" filterMatchMode="contains">
+                    <h:outputText value="#{quickFilter.name}"/>
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/WidgetNameColumn')}"
+                    filterBy="#{quickFilter.widgetName}" sortBy="#{quickFilter.widgetName}" filterMatchMode="contains"
+                    width="200">
+                    <h:outputText value="#{quickFilter.widgetName}"/>
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/type')}" width="150"
+                    sortBy="#{quickFilter.widgetType}" filterBy="#{quickFilter.widgetType.getLabel()}" filterMatchMode="contains">
+                    <h:outputText value="#{quickFilter.widgetType.getLabel()}"/>
+                  </p:column>
+                </p:dataTable>
+              </div>
+              <h:panelGroup id="manage-filter-action" layout="block" styleClass="ui-g-12 text-right">
+                <p:commandButton id="delete-widget-filter-btn" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/removeSelection')}"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/removeSelection')}"
+                  process="delete-saved-filter-form" update="delete-saved-filter-form:quick-filter-table" global="false"
+                  actionListener="#{dashboardBean.deleteSavedFilter()}"
+                  oncomplete="PF('quick-filter-table').clearFilters()" />
+              </h:panelGroup>
+            </h:form>
+          </p:dialog>
+
+          <h:panelGroup rendered="#{managedBean.isShowShareButtonOnDashboard() and not managedBean.isMainDashboardSelected() and managedBean.selectedDashboard.dashboardDisplayType ne 'HIDDEN'}" layout="block" styleClass="text-center">
+            <p:link id="share-dashboard-link" href="#"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/ShareThisDashboard')}"
+                  onclick="return PortalShareLink.toggle('share-dashboard-panel', this);" styleClass="js-share-dashboard-link" />
+          </h:panelGroup>
+          <ic:com.axonivy.portal.component.ShareLinkDialog
+            id="share-dashboard-component"
+            shareDialogId="share-dashboard-panel"
+            my="center bottom" at="center top-12"
+            styleClass="share-link-panel-flush"
+            url="#{managedBean.dashboardUrl}" />
+
+          <h:panelGroup layout="block" rendered="#{!managedBean.isReadOnlyMode}">
+            <ic:com.axonivy.portal.component.CloneWidgetDialog id="clone-widget-component" />
+          </h:panelGroup>
+
+          </div>
+        <h:outputScript library="js" name="dashboard.js" />
+
+        <script type="text/javascript">
+            var dashboardToolKit = new DashboardToolKit();
+            $(function() {
+              var simpleScreen = new DashboardScreenHandler();
+              var responsiveToolkit = ResponsiveToolkit(simpleScreen);
+              Portal.init(responsiveToolkit);
+            });
+
+            function startDownload() {
+              var statusDialog = PF('download-status-dialog');
+              statusDialog.jq.removeAttr("download-status");
+              statusDialog.show();
+            }
+
+            function stopDownload() {
+              var statusDialog = PF('download-status-dialog');
+              statusDialog.jq.attr("download-status","completed");
+              statusDialog.hide();
+            }
+        </script>
+
+        <p:dialog modal="true" id="download-status-dialog" widgetVar="download-status-dialog" header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/status')}" draggable="false" closable="false" resizable="false" responsive="true" styleClass="export-status-dialog">
+          <div class="p-2">#{ivy.cms.co("/ch.ivy.addon.portalkit.ui.jsf/common/waitingDownloadMessage")}</div>
+          <div class="p-2">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/downloadZipFileExplanation')}</div>
+        </p:dialog>
+
+      </ui:fragment>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

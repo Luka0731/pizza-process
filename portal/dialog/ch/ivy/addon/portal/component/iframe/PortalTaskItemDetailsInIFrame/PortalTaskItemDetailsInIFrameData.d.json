@@ -1,0 +1,26 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "PortalTaskItemDetailsInIFrameData",
+  "namespace" : "ch.ivy.addon.portal.component.iframe.PortalTaskItemDetailsInIFrame",
+  "fields" : [ {
+    "name" : "dataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.TaskLazyDataModel",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isFromTaskList",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "portalPage",
+    "type" : "ch.ivy.addon.portalkit.enums.PortalPage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isTaskStartedInDetails",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,274 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core"
+  xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="nameId" default="task-name" />
+  <cc:attribute name="componentToUpdate" />
+  <cc:attribute name="destroyTaskDialogComponent" default=""/>
+  <cc:attribute name="showItemDetailsHeader" type="java.lang.Boolean" default="true" />
+  <cc:attribute name="showItemDetailDocuments" type="java.lang.Boolean" default="true" />
+  <cc:attribute name="showItemDetailsNotes" type="java.lang.Boolean" default="true" />
+  <cc:attribute name="isFromTaskList" />
+  <cc:attribute name="isTaskStartedInDetails" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" default="false" />
+</cc:interface>
+
+<cc:implementation>
+  <f:event listener="#{taskDetailsBean.init()}" type="preRenderComponent"/>
+  <c:set var="task" value="#{data.task}" />
+  <c:set var="state" value="#{task.state}" />
+  <c:set var="summaryContainerID" value="#{cc.clientId}:widgets:#{taskDetailsBean.getWidgetPositionByType('SummaryWidget')}:task-detail-summary-container" />
+  <c:set var="generalContainerID" value="#{cc.clientId}:widgets:#{taskDetailsBean.getWidgetPositionByType('InformationWidget')}:task-detail-general-container" />
+  <c:set var="informationWidgetComponent" value="#{taskDetailsBean.getWidgetPositionByType('SummaryWidget') gt -1 ? summaryContainerID:''} #{taskDetailsBean.getWidgetPositionByType('InformationWidget') gt -1 ? generalContainerID:''} #{cc.clientId}:task-status-banner" />
+  <c:set var="stateContainerID" value="#{cc.clientId}:widgets:#{taskDetailsBean.getWidgetPositionByType('SummaryWidget')}:task-detail-state" />
+  <c:set var="stateWidgetComponent" value="#{taskDetailsBean.getWidgetPositionByType('SummaryWidget') gt -1 ? stateContainerID:''}" />
+  <c:set var="documentsContainerID" value="#{cc.clientId}:widgets:#{taskDetailsBean.getWidgetPositionByType('DocumentWidget')}:task-documents:task-details-documents" />
+  <c:set var="documentWidgetComponent" value="#{taskDetailsBean.getWidgetPositionByType('DocumentWidget') gt -1 ? documentsContainerID:''}" />
+  <c:set var="noteContainerID" value="#{cc.clientId}:widgets:#{taskDetailsBean.getWidgetPositionByType('HistoryWidget')}:task-detail-note-container" />
+  <c:set var="historyWidgetComponent" value="#{taskDetailsBean.getWidgetPositionByType('HistoryWidget') gt -1 ? noteContainerID:''}" />
+  <h:panelGroup layout="block" styleClass="card portal-detail-toolbar" rendered="#{cc.attrs.showItemDetailsHeader}">
+    <h:panelGroup id="task-detail-container" rendered="#{cc.attrs.showItemDetailsHeader}"
+      styleClass="portal-detail-toolbar-start u-truncate-text">
+      <h:form id="task-detail-title-form" onsubmit="return false;" styleClass="portal-detail-toolbar-form">
+        <h:panelGroup id="#{cc.attrs.nameId}-edit-form" styleClass="js-task-name-details hidden" />
+        <p:commandLink id="back-to-previous-page"
+          actionListener="#{taskActionBean.backToPrevPage(cc.attrs.task, cc.attrs.isFromTaskList, cc.attrs.isTaskStartedInDetails)}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}"
+          styleClass="portal-detail-toolbar-back" process="@this">
+          <i class="ti ti-chevron-left" />
+          <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}" />
+        </p:commandLink>
+        <p:commandButton id="share-page-button-mobile" rendered="#{taskDetailsBean.isShowShareButton}"
+          type="button" onclick="return PortalShareLink.toggle('share-task-details-panel', this);"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-share')}"
+          ariaLabel="#{ivy.cms.co('/Labels/Share')}"
+          title="#{ivy.cms.co('/Labels/Share')}"
+          styleClass="rounded-button ui-sm-hidden-op portal-icon-btn portal-icon-btn--lg portal-detail-toolbar-share-mobile"/>
+      </h:form>
+    </h:panelGroup>
+    <h:panelGroup id="task-details-actions"
+      rendered="#{not cc.attrs.readOnly and cc.attrs.showItemDetailsHeader}"
+      styleClass="portal-detail-toolbar-actions ui-sm-hidden">
+      <p:commandButton id="share-page-button" rendered="#{taskDetailsBean.isShowShareButton}"
+        type="button" onclick="return PortalShareLink.toggle('share-task-details-panel', this);"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-share')}"
+        ariaLabel="#{ivy.cms.co('/Labels/Share')}"
+        title="#{ivy.cms.co('/Labels/Share')}" styleClass="rounded-button portal-icon-btn portal-icon-btn--lg"/>
+      <p:commandButton id="switch-to-edit-mode-button" rendered="#{taskDetailsBean.readOnlyMode}"
+        ariaLabel="#{ivy.cms.co('/Labels/EditLayout')}"
+        value="#{ivy.cms.co('/Labels/EditLayout')}" actionListener="#{taskDetailsBean.switchToEditMode()}"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-pencil')}" update="task-item-body task-details-actions"
+        oncomplete="loadTaskDetailsGrid(); disableAllIFrameWhenEditLayout(); PortalLayout.hideHorizontalScrollOnLayoutContent();"
+        styleClass="switch-to-edit-mode-btn " />
+      <p:commandButton id="reset-details-settings-button" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+        rendered="#{taskDetailsBean.configuration.changed and not taskDetailsBean.readOnlyMode}" ajax="false" type="button"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-refresh')}"
+        styleClass="reset-details-settings-button"
+        immediate="true" onclick="PF('reset-to-default-task-dialog').show()" />
+      <p:commandButton id="switch-to-view-mode-button" rendered="#{not taskDetailsBean.readOnlyMode}"
+        ariaLabel="#{ivy.cms.co('/Dialogs/Tasks/TaskDetail/switchToViewMode')}"
+        value="#{ivy.cms.co('/Dialogs/Tasks/TaskDetail/switchToViewMode')}" onclick="saveTaskDetailsGrid()"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-device-floppy')}" update="task-item-body task-details-actions"
+        oncomplete="loadTaskDetailsGrid(); enableAllIFrameWhenEditLayout();"
+        styleClass="switch-view-mode-btn"/>
+    </h:panelGroup>
+  </h:panelGroup>
+
+  <h:panelGroup id="task-status-banner" layout="block" styleClass="ui-g #{taskDetailsBean.showInfoBanner()? 'task-status-banner' : ''}">
+    <p:staticMessage escape="false" detail="#{htmlSanitizerBean.sanitize(taskDetailsBean.getInfoBannerMessage())}" rendered="#{taskDetailsBean.showInfoBanner()}" severity="#{taskDetailsBean.getInfoBannerSeverity()}" styleClass="task-status-banner-content MarTop10" />
+  </h:panelGroup>
+
+  <h:panelGroup layout="block" styleClass="task-item-body portal-detail-body " id="task-item-body">
+    <h:panelGroup class="task-item-body-container task-details-widgets js-task-details-widgets u-padding-0 grid-stack" id="task-details-widgets"
+      rendered="#{not empty taskDetailsBean.widgets}">
+
+      <ui:repeat var="widget" value="#{taskDetailsBean.widgets}" id="widgets">
+        <div id="task-details-#{widget.type}-panel"
+          class="#{widget.layout.styleClass} grid-stack-item"
+          style="#{widget.layout.style}"
+          widget-type="#{widget.type}"
+          gs-x="#{widget.layout.axisX}"
+          gs-y="#{widget.layout.axisY}"
+          gs-w="#{widget.layout.width}"
+          gs-h="#{widget.layout.height}"
+          gs-id="#{widget.id}"
+          gs-no-resize="#{taskDetailsBean.readOnlyMode}"
+          gs-no-move="#{taskDetailsBean.readOnlyMode}">
+
+          <h:panelGroup id="task-detail-summary-container" layout="block" rendered="#{widget.type eq 'summary'}"
+            styleClass="card task-detail-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <ui:include src="TaskItemSummary.xhtml">
+              <ui:param name="task" value="#{task}" />
+              <ui:param name="readOnly" value="#{cc.attrs.readOnly}" />
+              <ui:param name="componentToUpdate" value="#{cc.attrs.componentToUpdate}" />
+              <ui:param name="destroyTaskDialogComponent" value="#{cc.attrs.destroyTaskDialogComponent}" />
+              <ui:param name="informationWidgetComponent" value="#{informationWidgetComponent}" />
+              <ui:param name="historyWidgetComponent" value="#{historyWidgetComponent}" />
+            </ui:include>
+          </h:panelGroup>
+
+          <h:panelGroup id="task-detail-general-container" layout="block" rendered="#{widget.type eq 'information'}"
+            styleClass="card task-detail-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <ic:ch.ivy.addon.portalkit.component.TaskItemGeneralInfo id="general-information" task="#{task}"
+              componentToUpdate="#{historyWidgetComponent} #{informationWidgetComponent}"
+              stateComponentToUpdate="#{stateWidgetComponent}"
+              readOnly="#{cc.attrs.readOnly}"
+              onEditTaskExpiryActivator="showTaskEscalationActivatorDialog();" />
+          </h:panelGroup>
+
+          <!-- Document box -->
+          <f:event listener="#{logic.getHideTaskDocumentConfiguration}" type="preRenderComponent" />
+          <h:panelGroup id="task-detail-document-container"
+            rendered="#{cc.attrs.showItemDetailDocuments and !data.isHideTaskDocument and widget.type eq 'document'}"
+            styleClass="card task-detail-card portal-detail-widget-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <ic:ch.ivy.addon.portalkit.component.TaskItemDocuments id="task-documents" task="#{task}"
+              componentToUpdate="#{informationWidgetComponent} #{historyWidgetComponent}"
+              documentWidget="#{widget}" />
+          </h:panelGroup>
+
+          <!-- Notes box -->
+          <h:panelGroup id="task-detail-note-container"
+            rendered="#{cc.attrs.showItemDetailsNotes and widget.type eq 'history'}"
+            styleClass="card task-detail-card portal-detail-widget-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <ic:ch.ivy.addon.portalkit.component.TaskItemNotes id="task-notes" task="#{task}"
+              historyWidget="#{widget}" />
+          </h:panelGroup>
+
+          <!-- taskItemDetailCustomPanelTop box -->
+          <h:panelGroup id="taskItemDetailCustomPanelTop"
+            rendered="#{widget.type eq 'custom' and widget.data.type eq 'taskItemDetailCustomPanelTop'}"
+            styleClass="card task-detail-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <cc:renderFacet name="taskItemDetailCustomPanelTop" />
+          </h:panelGroup>
+
+          <!-- taskItemDetailCustomPanelBottom box -->
+          <h:panelGroup id="taskItemDetailCustomPanelBottom"
+            rendered="#{widget.type eq 'custom' and widget.data.type eq 'taskItemDetailCustomPanelBottom'}"
+            styleClass="card task-detail-card grid-stack-item-content #{taskDetailsBean.readOnlyMode ? '' : 'moveable-area'}">
+            <cc:renderFacet name="taskItemDetailCustomPanelBottom" />
+          </h:panelGroup>
+
+          <ic:ch.ivy.addon.portalkit.component.CustomIFrameWidget widget="#{widget}" referenceId="#{task.id}"
+            managedBean="#{taskDetailsBean}" widgetStyleClass="task-detail-card" />
+
+        </div>
+      </ui:repeat>
+    </h:panelGroup>
+  </h:panelGroup>
+
+  <h:form>
+    <p:remoteCommand name="saveConfigurationCommand" update=":#{cc.clientId}:task-details-actions" actionListener="#{taskDetailsBean.save()}"
+      global="false" />
+  </h:form>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="reset-task-dialog" />
+    <ui:param name="widgetVar" value="reset-task-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-alert-triangle" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/resetTaskHeaderText')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/resetTaskWarning')}" />
+
+    <ui:define name="dialogFooter">
+      <h:form id="reset-task-form">
+        <p:commandLink onclick="PF('reset-task-dialog').hide()" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          styleClass="u-mar-right-15 portal-link" />
+        <p:commandButton actionListener="#{logic.resetAndOpenTask}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-arrow-back-up')}" onstart="#{cc.attrs.onTaskStartCallback}" oncomplete="resetPortalLeftMenuState()"/>
+      </h:form>
+    </ui:define>
+  </ui:decorate>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="destroy-task-confirmation-dialog" />
+    <ui:param name="widgetVar" value="destroy-task-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroyTaskHeaderText')}" />
+    <ui:param name="dialogContent" value="#{taskDetailsBean.getDestroyTaskMessage()}" />
+
+    <ui:define name="dialogFooter">
+      <h:panelGroup styleClass="flex flex-column">
+        <p:commandButton id="confirm-destruction" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+          actionListener="#{logic.destroyTask(task)}" styleClass="w-full portal-remove-button"
+          oncomplete="PF('destroy-task-dialog').hide()" update="#{informationWidgetComponent}" process="@this" />
+        <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}" onclick="PF('destroy-task-dialog').hide();"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          styleClass="pt-3 flex justify-content-center portal-link" />
+      </h:panelGroup>
+    </ui:define>
+  </ui:decorate>
+  
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="escalation-task-confirmation-dialog" />
+    <ui:param name="widgetVar" value="escalation-task-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-alert-triangle" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/escalationTaskHeaderText')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/escalationTaskMessage')}" />
+
+    <ui:define name="dialogFooter">
+      <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/no')}" onclick="PF('escalation-task-dialog').hide();"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/no')}"
+        styleClass="u-mar-right-15" />
+      <p:commandButton id="confirm-escalation" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/yes')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/yes')}"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-check')}" actionListener="#{logic.expiryTask(task)}"
+        oncomplete="PF('escalation-task-dialog').hide()" update="#{informationWidgetComponent} #{historyWidgetComponent}" process="@this" />
+    </ui:define>
+  </ui:decorate>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="reset-to-default-task-confirmation-dialog" />
+    <ui:param name="widgetVar" value="reset-to-default-task-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-refresh" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ResetToDefaultHeaderText')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/resetToDefaultMessage')}" />
+
+    <ui:define name="dialogFooter">
+      <h:form id="reset-to-default-task-form">
+        <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          onclick="PF('reset-to-default-task-dialog').hide();" styleClass="u-mar-right-15 portal-link" ajax="false" type="button" />
+        <p:commandButton id="confirm-destruction" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reset')}"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-refresh')}"
+          actionListener="#{taskDetailsBean.reset()}" update="task-detail-template:task-details-actions task-detail-template:task-item-body"
+          oncomplete="PF('reset-to-default-task-dialog').hide(); loadTaskDetailsGrid(); disableAllIFrameWhenEditLayout();" />
+      </h:form>
+    </ui:define>
+
+  </ui:decorate>
+
+  <!-- Delegate Task Dialog -->
+  <ic:ch.ivy.addon.portalkit.component.TaskItemDelegate id="task-item-delegate-component" task="#{task}"
+    componentToUpdate="#{informationWidgetComponent} #{historyWidgetComponent}" />
+
+  <!-- Workflow Event of Task -->
+  <ic:ch.ivy.addon.portalkit.component.TaskItemWorkflowEvents id="workflow-event-component" taskId="#{task.id}" />
+
+  <ic:ch.ivy.addon.portalkit.component.TaskItemCustomFields id="custom-fields-component" taskId="#{task.id}" />
+
+  <!-- Task Exipy Activator Selection Dialog -->
+  <ic:ch.ivy.addon.portalkit.component.TaskExpiryActivatorSelection task="#{task}"
+    componentToUpdate="#{informationWidgetComponent} #{historyWidgetComponent}"/>
+
+  <!-- Share Task Details Panel -->
+  <ic:com.axonivy.portal.component.ShareLinkDialog id="share-link-component"
+    shareDialogId="share-task-details-panel"
+    url="#{taskDetailsBean.taskDetailsUrl}" />
+
+  <h:outputScript name="task-details.js" library="js" />
+</cc:implementation>
+</html>

@@ -1,0 +1,2136 @@
+ch.ivy.addon.portal.generic:
+  CaseDetailsTemplate:
+    noCaseFound: Case not found or you don't have permission to view this case.
+    requestTabTitle: Request
+    statusTabTitle: Case Information
+  OpenTaskTemplate:
+    browserTabClosingWarning: You may lose your work in progress. Do you want to continue?
+    goToSidestepWarning: Your current modifications will not be saved, when a sidestep process is started directly from a task. Do you want to continue?
+  PortalName:
+    PortalName: Portal
+ch.ivy.addon.portalkit.ui.jsf:
+  AbsenceAndDeputy:
+    Messages:
+      errorSelectInvalidDeputy: Substitute is already selected or invalid
+      errorSelectedInPersonalTaskPermanentDeputies: Substitute is already selected in "{0}"
+      fromBiggerThanTill: '''Until'' must be later than ''From''.'
+      overlappingAbsence: The absence is overlapping with another absence.
+      userNameRequired: User name must not be empty.
+    SelectedSubtitutes: Selected subtitutes
+    Substitutes: Substitutes
+    absences: Absences
+    addAbsence: Add absence
+    addSubstitute: Add substitute
+    deputies: Substitutes
+    description: Set up your vacations, illnesses or other external obligations that leads to any absence.
+    disableAbsencesInThePast: Disable absences in the past
+    editAbsence: Edit absence
+    editSubstitute: Edit substitute
+    from: From
+    noDeputy: No substitute
+    noPermissionToSeeThisArea: You do not have the required permission to see this area.
+    period: Period
+    personalTaskDuringAbsenceDeputies: Substitutes for personally assigned tasks during the absence
+    personalTaskPermanentDeputies: Permanent substitutes for personally assigned tasks
+    selectDeputies: Select substitutes
+    selectSubstitute: Select substitute
+    selectedDeputies: Selected substitutes
+    setAsPermanent: Set as permanent
+    showAbsencesInThePast: Display absences in the past
+    substituteName: Substitute name
+    substituteType: Substitute type
+    substitutedUser: Substituted user
+    taskForRole: 'Task for role: '
+    till: Until
+  AbsenceManagement:
+    Messages:
+      addNewAbsence: New absence is added for {0}
+      removedAbsences: Removed absence for {0}
+      saveAbsenceSetting: Absences settings saved successfully.
+      updateAbsence: Absence updated successfully
+    absenceAndDeputy: Absences and substitutes
+    activeAbsence: Active absence
+    allAbsences: Absences of all users
+    applicationAndRole: Application and role
+    definedDeputies: Defined substitutes
+    deputyFor: I am substitute for
+    duration: Duration
+    myAbsences: My absences
+    myDeputies: My substitutes
+    nextAbsence: Upcoming absence
+    noSubstitutesDefined: No substitutes defined
+    notSubstitutingAnybody: Currently not substituting anybody
+    requestAbsences: Request absences
+    selectedDeputyFor: Selected user is substitute for
+    selectedUser: Selected user
+    substitutes: Substitutes
+  AccessibilityShortcuts:
+    processName: Accessibility shortcuts process
+  AllTasks:
+    caseDescription: Case description
+    taskDescription: Task description
+    taskState: Task state
+  CaseDocuments:
+    CaseDocumentsPageTitle: Case Documents
+  Enums:
+    ActivityState:
+      ACTIVE: Active
+      INACTIVE: Inactive
+    BasicDocumentType:
+      CONTRACT: Contract
+      DOCUMENTATION: Documentation
+      EMAIL: Email
+      INFORMATION: Information
+      OTHERS: Others
+    BehaviourWhenClickingOnLineInCaseList:
+      ACCESS_BUSINESS_DETAILS: Access business details
+      ACCESS_CASE_DETAILS: Access case details
+    BehaviourWhenClickingOnLineInTaskList:
+      ACCESS_TASK_DETAILS: Access task details
+      RUN_TASK: Run the task
+    DashboardCustomWidgetType:
+      EXTERNAL_URL: External URL
+      PROCESS: Axon Ivy process
+    DashboardDisplayType:
+      HIDDEN: Hidden
+      SUB_MENU: Submenu
+      TOP_MENU: Sidebar
+    DashboardWidgetType:
+      CASE: Case widget
+      CUSTOM: Custom widget
+      NAVIGATION_DASHBOARD: Navigation dashboard widget
+      NEW: New widget
+      NEWS: News feed
+      NOTIFICATION: Notifications
+      PROCESS: Process widget
+      PROCESS_VIEWER: Process viewer widget
+      STATISTIC: Statistic widget
+      TASK: Task widget
+      WELCOME: Welcome widget
+    DelegationAppendOption:
+      NONE: None
+      PARENT_NAME: Parent name
+    GlobalVariable:
+      Option:
+        DISPLAY_NAME: Display name
+        DISPLAY_NAME_USERNAME: Display name (Username)
+        'FALSE': 'False'
+        'TRUE': 'True'
+        USERNAME: Username
+        USERNAME_DISPLAY_NAME: Username (Display name)
+    ProcessMode:
+      COMPACT: Compact
+      GRID: Grid
+      IMAGE: Image
+    ProcessSorting:
+      BY_ALPHABETICALLY: Alphabetically
+      BY_CUSTOM_ORDER: Custom order
+      BY_INDEX: Sorting index
+      BY_SMART_ORDER: Most used
+    ProcessType:
+      EXTERNAL_LINK: External Link
+      IVY_PROCESS: Business Process
+    ProcessWidgetMode:
+      COMBINED_MODE: Combined mode
+      COMPACT_MODE: Compact mode
+      FULL_MODE: Full mode
+      IMAGE_MODE: Image mode
+    ProjectMode:
+      MISSING: Missing
+      OK: OK
+      OUTDATED: Outdated
+      TOO_NEW: Too new
+      TOO_OLD: Too old
+      UNKNOWN: Unknown
+    ReleaseState:
+      ARCHIVED: Archived
+      CREATED: Created
+      DEPRECATED: Deprecated
+      PREPARED: Prepared
+      RELEASED: Released
+    SortDirection:
+      ASC: Sort ascending
+      DESC: Sort descending
+    WeekDay:
+      FRIDAY: FRI
+      MONDAY: MON
+      SATURDAY: SAT
+      SUNDAY: SUN
+      THURSDAY: THU
+      TUESDAY: TUE
+      WEDNESDAY: WED
+    WelcomeImageFit:
+      CONTAIN: Contain
+      COVER: Cover
+      FILL: Fill
+      NONE: None
+    WelcomeTextPosition:
+      BOTTOM_LEFT: Bottom-left corner
+      BOTTOM_RIGHT: Bottom-right corner
+      CENTER: Center
+      TOP_LEFT: Top-left corner
+      TOP_RIGHT: Top-right corner
+    WelcomeTextSize:
+      HEADING_1: Heading 1
+      HEADING_2: Heading 2
+      HEADING_3: Heading 3
+      NORMAL_TEXT: Normal Text
+  MyProfile:
+    Accessibility: Accessibility
+    CaseList: Case List
+    DateFormat: Date Format
+    FormattingLanguage: Formatting language
+    General: General
+    Homepage: Homepage
+    KeyboardShorcutsNavigationInfor: Toggle to enable or disable keyboard navigation shortcuts.
+    KeyboardShortcutsNavigation: Keyboard shortcuts for navigation
+    KeyboardShortcutsTooltip: This button is currently unavailable and cannot be used due to settings.
+    Language: Language
+    ProcessList: Process list
+    TaskList: Task List
+    byDefault: ' by default'
+    defaultOption: Default ({0})
+    defaultViewMode: Default view mode
+    event: Event
+    notSubscribed: Not subscribed
+    notificationChannels: Notification Channels
+    notificationChannelsReset: Notification Channels reset
+    subscribed: subscribed
+    unpinAllPinnedCases: 'All pinned cases have been removed for user: {0}.'
+    unpinAllPinnedTasks: 'All pinned tasks have been removed for user: {0}.'
+  PortalManagement:
+    AdminSetting: Admin settings
+  ProcessViewer:
+    Breadcrumb: Process Viewer of {0} process
+    ProcessViewerText: Process Viewer
+    Title: Process Viewer
+  SideStep:
+    NewSideStepMessage: New side step task is created.
+    SideStepProcess: Start parallel process
+  TaskDocuments:
+    TaskDocumentsPageTitle: Task Documents
+  adminSettings:
+    addLanguages: Add languages
+    announcement:
+      announcement: Announcement
+      announcementsDisabled: Announcements are disabled.
+      announcementsEnabled: Announcements are enabled.
+      defaultLanguageRequiredMessage: Announcement for application default language is required.
+      disabled: Disabled
+      enable: Enable announcement
+      information: You can announce a general information (e.g. Downtime, Changes, etc.) in this area. This message can be seen by all portal users.
+      saveChanges: Save changes
+      tabTitle: Announcements
+    applicationtype:
+      thirdPartyApplication: Third Party Application
+    currentValue: Current value
+    defaultValue: Default value
+    dialogclosinginformation:
+      dialogHeader: Portal configuration closed
+      informMessage: Modifications in portal settings require a refresh of the current page for the new configuration to take effect.
+    editSetting: Edit setting
+    embedInFrame: Start a process/task in IFrame mode
+    emptySupportedLanguages: No additional languages are supported
+    globalVariableNote:
+      AppleStoreURL: Set URL to download Axon Ivy mobile app on Apple Store.
+      ApplicationName: The application name that will be displayed on the page title.
+      BaseQRCodeUrl: Set Base URL for QR code to display.
+      DashboardFilterOperatorPolicy: Unchecked operators are disabled globally.
+      DefaultThemeMode: The default theme mode of the application
+      EnableSwitchThemeModeButton: Set to true to enable the switch theme button.
+      GlobalSearchScopeCategoriesNote: Defining the types that the global search will search for
+      GooglePlayURL: Set URL to download Axon Ivy mobile app on Google Play.
+      RoleDirectChildrenLimit: 'The set number controls the amount of direct children roles that is shown in Role Management tab. Valid number: 10, 50, 100'
+      RoleParentLimit: 'The set number controls the amount of parent roles that is shown when filtering roles in Role Management tab. Valid number: 5, 10, 20'
+      SearchScopeCaseFields: Defining the fields that the global search will use to find matching cases beside case Id (this can influence the performance of the search)
+      SearchScopeTaskFields: Defining the fields that the global search will use to find matching tasks beside task Id (this can influence the performance of the search)
+      SessionCacheTimeout: Defines the session cache timeout duration (in seconds) for the Portal. This value can be set between 300 (5 minutes) and 86,400 (24 hours).
+      ShowLoginPageFooter: For switch on/off the display of the footer on the login page.
+      ShowQRCode: For switch on/off the display of the QR code.
+      allowKeyboardShortcutsConfiguration: Set to true to allow the user interact with the keyboard shortcuts button.
+      behaviourWhenClickingOnLineInCaseList: Toggle between accessing case details or business details when clicking on a case in the case widget on the dashboard, global search, related cases, and process widget in combined mode.
+      behaviourWhenClickingOnLineInTaskList: For switch behaviours (run the task or access task details) when clicking on a line in task list, task widget of dashboard and related tasks  in case details page.
+      chatMaxConnection: 'The set number controls the amount of tabs allowed with active chat. If more tabs are opened, the chat will be disabled in inactive tabs. Allowed values between 1-5 '
+      chatResponseTimeout: Chat response timeout in seconds, default value is 0 and means no timeout. If chat messages go through the reverse proxy Nginx, chat response timeout must be less than the Nginx timeout, e.g. less than 60 seconds.
+      checkSystemNotesByDefault: If the value is true and system notes are visible, the checkbox will appear checked.
+      checkSystemTasksByDefault: If the value is true and system tasks are visible, the checkbox will appear checked.
+      dateFilterWithTime: Set to true to enable date filtering with time. This setting affects on task list, case list, and statistics.
+      defaultHomepage: To set the standard homepage which will be redirect to when clicking on home icon or logo. This setting also applies to the ends page after finished a task.
+      defaultProcessImage: The standard setting of default image that will be displayed in the image process list.
+      defaultProcessMode: The standard setting of view mode in the process list.
+      defaultSortDirectionOfCaseList: Default sort direction of case list
+      defaultSortDirectionOfTaskList: Default sort direction of task list
+      defaultSortFieldOfCaseList: Default sort field of case list
+      defaultSortFieldOfTaskList: Default sort field of task list
+      delegationAppendOption: This setting determines which additional information is included when formatting role names.
+      disableCaseCount: Set to true to disable counting case in case list
+      disableTaskCount: Set to true to disable counting task in task list
+      displayAllUsersOfTaskActivator: This setting is using for SecurityMemberDisplayName component. If the SecurityMember is a role, set this setting to true to list out all users of this role. If set to true, icon info is shown beside the role name.
+      displayMessageAfterFinishOrLeaveTask: A feedback message will be displayed after user finishes or leaves a task.
+      documentUploadSizeLimit: Set the size limit for uploading documents in megabytes (MB). The default value is 20MB.
+      embedInFrame: Set to true to start a process/task in IFrame mode
+      enableCaseOwner: Set to true to enable filtering case owner when cases are queried. This setting affects all case queries, e.g. for case list, global search, statistic. It also makes the "Filter tasks by current case owner" filter available in the task widget, which is hidden by default.
+      enableDocumentPreview: 'Set to true to enable document preview for some certain file types. Supported file types are: pdf, png, txt, log.'
+      enableGroupChat: Set this property to true to enable group chat function
+      enablePinCase: Set this property to true to enable the ability to pin cases.
+      enablePinTask: Set this property to true to enable the ability to pin tasks.
+      enablePrivateChat: Set this property to true to enable private chat function
+      enableProcessViewer: Set this property to true to enable process viewer option in Task/Case actions
+      enableScriptCheckingForUploadedDocumentNote: Set to true to enable script checking for uploaded document. Currently this function supports checking for PDF, Excel, Word.
+      enableTranslationService: Set this property to true to enable translation service support
+      enableVirusScannerForUploadedDocumentNote: Set to true to enable virus scanner for uploaded document. Currently this function is using API VIRUSTOTAL.
+      globalSearchMinimumKeywordLengthNote: Minimum number of characters required before the global search runs. Defaults to 3; set to 0 to disable the check. A shorter keyword matches nearly every row, which can be slow, so the search is skipped rather than run.
+      hideCaseCreator: |-
+        Set to true to hide case creator in case list, case widget and case details.
+        This setting affects all case queries, e.g. for case list, global search, statistic.
+      hideCaseDocument: Set to true, the document section in case detail page will be hidden, otherwise it will be shown.
+      hideChangePasswordButtonNote: Set this variable to true to hide the "Change Password" option in the top menu and the "Forgotten Password" option on the login page. If set to false, these options will be shown.
+      hideLogoutButtonNote: If true, the logout button on top menu will be hidden, otherwise it will be shown.
+      hideRelatedCaseInfoFromHistory: If true, case history does not display the related case information in the history table.
+      hideSystemTasksFromHistory: If true, case note does not display any system tasks for non-administrator users.
+      hideSystemTasksFromHistoryAdministrator: If true, case note does not display any system tasks for administrator.
+      hideTaskDocument: Set to true, the document section in task detail page will be hidden, otherwise it will be shown.
+      hideTimeNote: Set to true to hide hours and minutes next to date.
+      hideUploadDocumentForDoneCaseNote: Set to true to deny upload (also delete) document after a case is done.
+      hideYear: Set to true, year will be hidden, otherwise it will be shown.
+      imageUploadSizeLimit: Set the size limit for uploading images in megabytes (MB). The default value is 6MB.
+      loggedInUserFormat: The option to show logged-in user format
+      maximumSelectedTasks: Defines the maximum number of tasks a user can select simultaneously within a task widget for bulk operations. Set this value to a positive integer to enforce a specific limit, or leave it empty to allow unlimited task selection.
+      refreshTaskListIntervalNote: Task list refresh interval in seconds.
+      showAvatar: For switch on/off the display of user/role avatars.
+      showButtonIcon: For switch on/off the display icons in button.
+      showCaseDurationTime: For switch on/off the display of the duration time in case details page.
+      showErrorLogToConsole: Set to true to enable write error log to browser console
+      showGlobalSearch: For switch on/off the display of the global search.
+      showProcessInformation: Set to false to disable link to Show Information of process on Processes page (grid mode) and Case Details.
+      showQuickGlobalSearch: For switch on/off the display of the quick global search.
+      showTaskDurationTime: For switch on/off the display of the duration time in task details page.
+      showTooltipTechnicalName: Enable to show users' technical name on tooltips.
+      sidebarMode: Controls how the sidebar navigation behaves. Hover expands on hover, Click uses a toggle button, Stick keeps it always expanded, Hidden removes the sidebar completely.
+      uploadDocumentWhiteListExtensionNote: 'Leave value empty if you allow all extensions. If just allow some extensions, list out extensions here, separated by comma. Example: pdf, txt, doc, docx.'
+    key: Key
+    loading: LOADING
+    loginLogoSizeTooltip: 'Recommended size<BR/>Square logo: 80x80 px<BR/>Rectangle logo: 191x50 px'
+    logoSizeRecommendation:
+      homeRectangleSize: 'Rectangle logo: 160x42 px'
+      homeSquareSize: 'Square logo: 75x75 px'
+      loginRectangleSize: 'Rectangle logo: 191x50 px'
+      loginSquareSize: 'Square logo: 80x80 px'
+      sizeRecommendation: Recommended size
+    note: Note
+    password: Password
+    passwordHint: Password of system administrator
+    passwordRequiredMsg: Please enter password.
+    pleaseSelect: Please select...
+    portalLink: Portal link
+    refreshUserErrorMsg: '{0} error/s found. See detailed message: <BR/> {1}'
+    refreshUserPermissionSuccessful: '{0} users successfully refreshed.'
+    refreshUserPermissions: Synchronize settings
+    requireToInputServer: Please select a server for the application.
+    resetAllSettingsConfirmation: Are you sure you want to restore to default values for all settings?
+    resetSettingConfirmation: Are you sure you want to restore to default value for this setting?
+    restoreAllToDefault: Restore all to defaults
+    restoreDefault: Restore to default
+    settingApplicationName: Setting application name
+    settingMultipleLanguages: Setting multiple languages
+    usernameHint: Username of a system administrator.
+    usernameRequiredMsg: Please input username.
+    value: Value
+  applicationMenuHeader:
+    MobileApp: Download and Connect to Axon Ivy Mobile App
+    ThemeSwitcher: Theme Switcher
+    adminSettings: Admin settings
+    changePassword: Change password
+  businessCaseState:
+    DESTROYED: Destroyed
+    DONE: Done
+    OPEN: Open
+  caseDetails:
+    addDocumentHelpText: To upload files, drag & drop or select files
+    addNoteHelpText: Write your text here.
+    businessDetailsTitle: Business Details
+    caseDetails: Case Details
+    customFields: Custom Fields
+    customFieldsDialog: 'Custom Fields of case #{0}'
+    deleteFile: Delete file
+    documents: Documents
+    downloadFile: Download file
+    duration: Duration
+    history: History
+    noCaseName: <No case name>
+    noDescription: No description
+    noRunningCase: No case is running
+    noRunningTask: No task is running
+    noRunningTasksAndCasesPermission: Further tasks are running. You do not have permission to see the related tasks to this case.
+    noSideSteps: No Sidestep available
+    noTaskName: <No task name>
+    noTasks: No tasks
+    relatedTasks: Related tasks
+    relatedTasksAndCases: Related tasks and cases
+    runningTasks: Running tasks
+    showAdditionalPage: Business details
+    showAllTasks: Show all tasks
+    showAllTechnicalCases: Show all technical cases
+    showMoreTasks: Show more tasks
+    showMoreTechnicalCases: Show more technical cases
+    showProcessOverview: Process overview
+    sideSteps: Sidesteps
+    taskIsDestroyed: Task is destroyed
+    taskIsDone: Task is done
+    taskIsFailed: Task is failed
+    taskIsWaiting: Task is waiting
+    taskStateAndResponsible: 'State: {0}, responsible: {1}'
+    taskStateIsCreated: Task state is Created (not persisted yet)
+  caseList:
+    cases: Cases
+    confirmDeleteMessage: This action can not be undone. Do you really want to delete this business object?
+    defaultColumns:
+      APPLICATION: Application
+      CATEGORY: Category
+      CREATION_TIME: Created
+      CREATOR: Creator
+      FINISHED_TIME: Finished
+      ID: Case Id
+      NAME: Name / Description
+      OWNER: Case Owners
+      PIN: Pin
+      STATE: State
+    deletionNoteContent: The case was destroyed by {0}
+    destroyCaseMessage: 'This operation cannot be undone. Are you sure you want to destroy case <b>{0} (ID: {1})</b> and all of its tasks?'
+    destroyfail: Case has not been destroyed successfully.
+    destroysucceed: Case has been destroyed successfully.
+    downloadZipFileExplanation: The number of cases to export exceeds the limit of Excel rows. Therefore, data will be split to multiple Excel files, then compressed in a ZIP file to download.
+    error: Error
+    exportedCasesFileName: AXONIVY_Dataset_Cases_{0}.{1}
+    headerTitle:
+      relatedStatisticHeader: 'Related cases of statistic chart: '
+      technicalCaseOfBusinessCaseAlternativeTitle: Case {0}
+      technicalCasesOfBusinessCaseTitle: 'Technical cases of business case #{0} {1}'
+    relatedCaseHeader: 'Case #{0} {1}'
+    relatedCases: Related Cases
+    title: Title
+    unknownCase: Unknown Case
+    unknownId: Unknown ID
+  caseState:
+    CREATED: Created
+    CREATED_UPPERCASE: CREATED
+    DESTROYED: Destroyed
+    DESTROYED_UPPERCASE: DESTROYED
+    DONE: Done
+    DONE_UPPERCASE: DONE
+    FAILED: Failed
+    INPROGRESS: IN PROGRESS
+    OPEN: Open
+    OPEN_UPPERCASE: OPEN
+    RUNNING: In progress
+  chat:
+    chatAssigneeDialogHeader: Add users to chat
+    chatAssigneeDialogHint: 'Please select the relevant users and groups which should be added to your process related chat:'
+    createProcessChat: Create process chat
+    errorSelectInvalidAssignee: Assignee is already selected or invalid
+    failureToCreateProcessChat: Failure to create process chat
+    failureToJoinProcessChat: Failure to join process chat
+    groupChatHeader: Case Related Chat
+    joinGroupQuestion: Do you want to join?
+    joinProcessChat: Join process chat
+    joinedProcessChat: You joined the Process Chat - {0}
+    noAssignees: Please select assignes to create this group chat
+    noGroupChat: There are no group chats.
+    noUsers: No users
+    participants: Participants
+    personalChatHeader: General Chat
+    processChatIsCreated: 'Process Chat: {0} is created'
+    processChatWasCreated: 'Process Chat: {0} was created. You can not create it again.'
+    selectedAssignees: Selected assignees
+    toggleChat: Toggle chat panel
+    typeMessage: Type your message here...
+    viewParticipant: View participants
+  common:
+    All: All
+    And: and
+    AutoTranslation: Auto translation
+    BusinessCaseInformation: Business Case Information
+    Clone: Clone
+    CollapseAll: Collapse all
+    ExpandAll: Expand all
+    MoreItemsAvailable: more items available
+    NoSelection: No Selection
+    ResetToDefaultHeaderText: Reset to default settings?
+    RoleUserInformation: Role and User Information
+    StringFormat:
+      DateFromTo: '%s - %s'
+      TextListOut: '%s, %s,..'
+      TextWithColon: '%s: %s'
+      TextWithContextInBrackets: '%s (%s: %s)'
+      TextWithRoundBracket: '%s (%s)'
+    TaskCaseInformation: Task and Case Information
+    Update: Update
+    Widget: Widget
+    action: Actions
+    actionMenuContext: Open actions menu for {0} process
+    active: Active
+    add: Add
+    addContext: Add {0}
+    addDocument: Add document
+    addLink: Add Link
+    addNote: Add note
+    allCategories: All Categories
+    allTypes: All types
+    allowPng: Only png types allowed
+    apply: Apply
+    applyContext: Apply {0}
+    at: at
+    author: Author
+    back: Back
+    backToCaseMap: Back to case map
+    backgroundColor: Background color
+    bulkSelection: Bulk selection
+    businessCaseId: Business Case ID
+    cancel: Cancel
+    cancelContext: Cancel {0}
+    case: Case
+    caseCategory: Case category
+    caseInformation: Case Information
+    caseName: Case name
+    categories: Categories
+    change: Change
+    close: Close
+    closeContext: Close {0}
+    cockpit: Cockpit
+    collapse: Collapse
+    collapseWidgetContext: Collapse {0} widget
+    colors: Colors
+    comment: Comment
+    completedOn: Completed on
+    confirmForDelete: Are you sure you want to delete this item?
+    confirmation: Confirmation
+    confirmationHeaderText: Are you sure?
+    continue: Continue
+    create: Created
+    creationDate: Creation date
+    dashboard: Dashboard
+    data: Data
+    dateFromBiggerThanTo: '''To'' must be later than ''From''.'
+    dateRequired: Date can not be empty.
+    day: Day
+    dayUnit: day
+    days: day(s)
+    default: Default
+    defaultNotificationMessage: Hmm... Looks like something went wrong.
+    delegateTasks: Delegate tasks
+    delete: Delete
+    deleteAbsenceHeaderText: Delete this absence?
+    deleteChartHeaderText: Delete this chart?
+    deleteContext: Delete {0}
+    deleteDocumentHeaderText: Delete this document?
+    deleteFilterHeaderText: Delete this filter?
+    description: Description
+    design: Design
+    destroy: Destroy
+    destroyCaseHeaderText: Destroy this case?
+    destroyTaskHeaderText: Destroy this task?
+    detail: Details
+    display: Display
+    displayAsTopMenu: Display as top menu
+    displayName: Display name
+    dragAndDropFile: 'Drag and drop a file or '
+    dragAndDropImage: 'Drag and drop an image or '
+    edit: Edit
+    errorAjaxMessage: There is a general exception.
+    errorFileUploadSize: The file size must be lower than {0}
+    errorNotification: Error notification
+    errorXhr: Failed to update website content
+    escalationTaskHeaderText: Trigger Escalation
+    escalationTaskMessage: Expiry is set to now, thus the task expires. Are you sure?
+    expand: Expand
+    expandWidgetContext: Expand {0} widget
+    filter:
+      from: from
+      moreOptions: More options
+      restoreDefaultFilterHeader: Restore default
+      to: to
+      worker: Editor
+      wrongFromDateFormat: Please enter a valid 'from' date. Date format is {0}
+      wrongToDateFormat: Please enter a valid 'to' date. Date format is {0}
+    filterLabel: Filter
+    finish: Finish
+    general: General
+    generalInformation: General information
+    globalSearch: Search ...
+    goToDetail: Go to detail
+    gridView: Grid view
+    growlMessage:
+      PROCESS_VIEWER: You closed the process viewer.
+      TASK_FINISHED: You have finished the task successfully
+      TASK_LEFT: You have cancelled and left the task successfully. You can find the task in the dashboard or your task list.
+    hasPrecondition: This process has precondition
+    height: Height
+    hide: Hide
+    homeLogo: Home logo
+    hour: hour
+    hours: hours
+    inactive: Inactive
+    information: Information
+    leave: Leave
+    leaveAndReserve: Leave and reserve
+    linkToCaseDetails: Click <a href="{0}" >here</a> for details.
+    listView: List view
+    loading: Loading
+    loginLogo: Login logo
+    logos: Logos
+    mainColor: Main color
+    minute: minute
+    minutes: minutes
+    more: More
+    moreInformation: More information
+    myProcesses: My Processes
+    name: Name
+    new: New
+    next: Next
+    nextStage: Next stage
+    'no': 'No'
+    noCategory: '[No Category]'
+    noDocumentAvailable: No document available
+    noName: no name
+    noNoteAvailable: No note available
+    noNotesFound: No notes found
+    noProcessDescription: Run this process by clicking the button below
+    noRecordsFound: No records found.
+    notAvailable: N/A
+    note: NOTE
+    numberFromBiggerThanTo: '''To'' must be bigger than ''From''.'
+    numberOfSelectedFilter: selected filters
+    ok: OK
+    okContext: OK {0}
+    'on': 'on'
+    openWidgetFiltersContext: Open {0} filters
+    openWidgetFiltersWithCountContext: Open {0} filters, {1} active filters
+    openWidgetInfoContext: Open {0} widget information
+    pin: Pin
+    pinCaseContext: Pin case {0}
+    pinTaskContext: Pin task {0}
+    pleaseAddDocument: Please add a document with the link above.
+    pleaseAddNote: Please add a note with the link above.
+    previousStage: Previous stage
+    private: Private
+    process: Process
+    processes: Processes
+    public: Public
+    remove: Remove
+    removeSelection: Remove selection
+    reorder: Reorder
+    requiredFieldMessage: This field is required
+    reserve: Reserve
+    reset: Reset
+    resetFilters: Reset all
+    resetSettingHeaderText: Reset setting?
+    resetTaskHeaderText: Reset this task?
+    resetToDefaultMessage: This operation cannot be undone. Are you sure you want to reset to default settings?
+    resetToStandardFilterHeaderText: 'Reset to standard filter? '
+    restore: Restore
+    restoreToDefaultChartHeaderText: Restore to default charts?
+    role: Role
+    save: Save
+    saveAll: Save all
+    saveContext: Save {0}
+    saveSuccessfully: Data saved successfully.
+    search: Search
+    second: second
+    seconds: seconds
+    seeDetail: See details
+    select: Select
+    selectAll: Select All
+    selectUsers: Select user(s)
+    selectedDay: '{0} selected day(s)'
+    send: Send
+    sessionExpried: Your session expired. The application will be restarted.
+    sessionExpriedInTeams: Your session expired. The application will be restarted.
+    setting: Settings
+    showDetail: Show details
+    showRelatedCaseInfo: Related case
+    showSystemNotes: System notes
+    showSystemTasks: System tasks
+    sorting: Sorting
+    start: Start
+    startProcess: Start process
+    state: State
+    status: Status
+    switchToDesktopVersion: Switch to desktop version
+    taskActionMenuContext: Open actions menu for {0} task
+    taskCanceledAndLeftSuccessfully: You have cancelled and left the task successfully. You can find the task in the dashboard or your task list.
+    taskFinishedSuccessfully: You have finished the task successfully
+    taskFromSubstitution: You see this task because you are the substitute
+    taskName: Task name
+    tasks: Tasks
+    technicalCaseId: Technical Case ID
+    theCasemap: The case map
+    theProcess: The process
+    timeInformation: Time Information
+    timestamp: Timestamp
+    toggleBulkDelegation: Toggle bulk delegation
+    type: Type
+    typeAdmin: All administrators
+    typeAllUsers: All users
+    typeOnlyMe: Only me
+    unpin: Unpin
+    unpinCaseContext: Unpin case {0}
+    unpinTaskContext: Unpin task {0}
+    uploadHere: Upload here
+    uploadOneHere: Upload one here
+    user: '{0} user'
+    users: Users
+    via: via
+    viewExpired: Your current view expired. You will be redirected to the home page.
+    viewMode: View mode
+    visible: Visible
+    waitingDownloadMessage: We are creating the Export, this can take a few minutes
+    warning: Warning!
+    welcomeToPortal: Welcome, please login
+    workingUser: Working user
+    wrongDateFormat: Please enter valid date.
+    year: year
+    years: years
+    'yes': 'Yes'
+  components:
+    PortalPackageManagement:
+      BrowseFiles: browse files
+      CaseDetailsFileDescription: Configure, rearrange, and extend the case details page with built-in widgets or custom panels
+      CustomMenuItemsFileDescription: Add custom items in the left-side navigation menu
+      CustomStatisticFileDescription: Custom statistic chart definitions displayed on Portal dashboards
+      DashboardFileDescription: Dashboard widget layouts and configurations for all Portal dashboards
+      DescriptionHeader: Description
+      DropZoneLabel: Drag and drop a .zip file here
+      DropZoneOr: or
+      ExportButton: Export
+      ExportDescription: Export Portal configuration files as a zip package. Only files with existing data are available for selection.
+      ExportTitle: Export
+      ExternalLinksFileDescription: External link processes displayed in the Portal left-side navigation or Portal process list page
+      FileNameHeader: File Name
+      GeneralInfo: Manage Portal configuration files as a portable zip package. Use Export to download all current JSON configuration files bundled into a single zip archive, or use Import to upload a zip package and apply its configurations — replacing the existing ones.
+      ImportButton: Import
+      ImportCompleteMessage: All files were imported successfully.
+      ImportDescription: Upload a zip file which includes the required JSON files. File names must follow the pattern above.
+      ImportDialogHeader: Import Portal Package
+      ImportIncompleteMessage: Some files could not be imported. Check the server log for details.
+      ImportTitle: Import
+      InvalidPackageMessage: The uploaded file could not be read. Please ensure it is a valid zip archive.
+      MenuOrderFileDescription: Custom ordering of the main navigation menu items in the Portal sidebar
+      PreviewInvalidFilesHeader: Unrecognized files will be skipped ({0} file(s))
+      PreviewNoFileMessage: Valid items will be listed here after you select a file.
+      PreviewNoValidFilesMessage: No recognized Portal configuration files found. Please upload a valid Portal_Package.zip.
+      PreviewValidFilesHeader: Valid ({0} file(s))
+      ReplaceWarning: Existing data for each imported type will be replaced. This action cannot be undone.
+      ThirdPartyApplicationsFileDescription: Third-party application links integrated into the Portal menu
+      UserMenuFileDescription: Add custom items and links to the default user menu
+    RoleManagement:
+      AssignUsersToRole: Assign users to role
+      AssignedUser: Assigned users
+      AvailableUsers: Available users
+      CannotDeleteRoleTooltip: You do not have the permission to delete this role. Please contact your system administrator.
+      CannotDeleteUserTooltip: You can only edit direct role assignments but not inherited memberships.
+      CannotEditRoleTooltip: You do not have the permission to change role information. Please contact your system administrator.
+      CannotManageRoleTooltip: You can only change role information for roles which are not involved in any process.
+      CreateRole: Create new role
+      DeleteButtonTitle: Delete role
+      EditButtonTitle: Edit role info
+      FilteredRoles: Filtered roles
+      InheritedMembership: Inherited membership
+      ListUsers: Users of role {0}
+      Messages:
+        ConfirmDeleteRole: Are you sure you want to delete it?
+        ConfirmDeleteUserOfRole: Are you sure you want to remomve there users out of the role?
+        CreateRoleFailed: Role "{0}" could not be created
+        CreateRoleSuccess: Role "{0}" created successfully
+        DuplicateRole: Role "{0}" already exists in the system, try with other name
+        MaxSearchLimit: The current search has more than {0} results
+        NotFoundRole: Cannot find the "{0}" in the system
+        ParentRoleIsRequired: Parent role is mandatory
+        RemoveRoleSuccess: Role "{0}" removed successfully
+        RoleNameIsRequired: Role name is mandatory
+        RoleNotFound: No roles found
+        SearchToSeeMoreRole: Please use the search to find a specific role ({0} more roles)
+        UpdateRoleSuccess: Role "{0}" updated successfully
+        UserOfRoleNotFound: No users own this role
+      NumberUsers: '{0} users'
+      ParentRole: Parent role
+      RemovingRoleHeader: Removing the "{0}" role?
+      RoleCreation: Role Creation
+      RoleDetails: Role details "{0}"
+      RoleInformation: Role information
+      RoleName: Role name
+      SearchRole: Search for role
+      TitlePage: Role Management
+      UserAssignment: User assignment
+      UserSelectionLabel: Search user to add to this role
+    SecurityMemberDisplayName:
+      filterByUsername: Filter by user name
+      filterToSee: Filter to see more
+      loadMore: Load more
+      noUser: There are no users.
+      roleMemberItemFormat: <li class="tooltip-body-item">{0}</li>
+      roleMemberLineFormat: <p class="tooltip-body-item">{0}</p>
+      roleMembersTooltipFormat: |-
+        <p class="tooltip-header">{0}</p>
+        <ul style="margin: auto; {1}">{2}</ul>
+      tooltipHelper: Click to show all users which own this role directly or indirectly
+      userOfRoleTitle: User of {0} group
+    passwordValidation:
+      criteria: Criteria
+      enablePasswordValidation: Enable password validation
+      passwordPolicyType:
+        minCharacter: Minimum Length
+        minLowercaseCharacter: Minimum Lowercase Characters
+        minNumber: Minimum Numeric Characters
+        minSpecialCharacter: Minimum Special Characters
+        minUppercaseCharacter: Minimum Uppercase Characters
+      titlePage: Password Validation
+    processChain:
+      currentStepIsNotDefined: Current step ({0}) of process chain is not defined
+    taskStart:
+      cannotDelegateTaskMessage: This task cannot be delegated to any other user or group.
+      cannotStartMessages:
+        cannotStartTask: You can not start task {0}.
+        isAnotherUserWorking: You can not work on the task ''{0}'' with the identifier ''{1}'' because the user ''{2}'' is currently working on it.
+        noPermission: You can not start task {0} because you don't have permission.
+        taskDone: You can not start task {0} because it is done.
+      created: Created on
+      expired: Expires on
+      showDetailsHint: Show more details
+      taskDescriptionNotAvailable: '[No description is available]'
+      taskNameNotAvailable: '[Task name not available]'
+    taskView:
+      DeleteFilter: Delete filter
+      adminFilterSetWarning: Your filter set contains states which can only be seen by administrators.
+      appliedFilters: Applied filters
+      exportedTasksCasesFileName: AXONIVY_Dataset_Statistics_{0}.{1}
+      exportedTasksFileName: AXONIVY_Dataset_Tasks_{0}.{1}
+      filter: Filter
+      filterDeletionConfirmation: Are you sure you want to delete this filter?
+      filterExistedValidationError: Filter already exists
+      filterName: Filter name
+      filterVisibility: Filter visibility
+      noTask: There are no tasks.
+      privateFilter: My Filters
+      publicFilter: Public
+      savedFilters: 'Saved filters:'
+  dashboard:
+    CanWorkOnAsUser: Only show me the tasks I can work on as a user
+    CaseQueryType:
+      info: Configure which case types are shown in the Case Widget. Default shows business cases only, Sub Cases shows technical subcases only, and All shows both business cases and technical subcases.
+      label: Case Type
+    CloneWidget: Clone widget
+    CustomWidgets: Custom Widgets
+    DashboardConfiguration:
+      AddItem: Add item
+      CreateFromScratch: Create from scratch
+      CreateFromScratchDescription: Build your own dashboard
+      NewPrivateDashboard: New private dashboard
+      CreateNewPublicDashboard: Create new public dashboard
+      Dashboard: Dashboard
+      DashboardTabInfoPanel: <p><b>What can I do here?</b></p><p>Create, edit and delete public dashboards. Set who can see each one using permissions. This is the central library for all shared dashboards.</p><p><b>Visibility &amp; placement</b></p><p>Dashboards are split into three sections based on
+        where they appear in the sidebar. To move a dashboard between sections, open Edit and change its Display Type. Only the Submenu section supports drag-and-drop reordering.</p><p><b>Actions per dashboard</b></p><p>Edit updates name, description, icon, permissions, and display type. Configure opens
+        the dashboard to add or arrange widgets. Export downloads a JSON file — if the dashboard references others, you will be prompted to include them. Share generates a direct link. Delete removes the dashboard permanently.</p>
+      Description: In this area, you can configure the dashboards according to your requirements and modify the order of the navigation elements.
+      DisableSidebar: Disable sidebar
+      DoNotSupportMobile: Dashboard configuration is not supported for mobile devices.
+      EditLayout: Edit Layout
+      EditPrivateDashboards: Edit your private dashboards
+      EditPublicDashboards: Edit public dashboards
+      ExportDashboard: Export dashboard
+      ExportReferencedDialogHeader: Dashboard references other dashboards
+      ExportReferencedDialogMessage: 'The following dashboards are referenced by navigation widgets. Export and import them too for the widgets to work correctly:'
+      ExportReferencedDialogProceed: Export anyway
+      Hidden: Hidden
+      HiddenDashboards: Hidden items
+      HiddenDashboardsDescription: Not shown in the sidebar. Can still be used as a direct link target — e.g. as a landing page inside a process flow
+      Label: Label
+      MenuDashboards: Sidebar items
+      MenuDashboardsDescription: These dashboards appear as top-level items in the sidebar. Manage their order in the Menu management tab.
+      MenuManagement: Menu management
+      MenuManagementTabInfo: Manage the top-level sidebar navigation items. You can:<ul><li>Add new menu entries (dashboards, external links, Ivy processes)</li><li>Reorder items by drag and drop</li><li>Edit or remove existing menu entries</li></ul>
+      MenuManagementTabInfoPanel: '<p><b>What can I do here?</b></p><p>Configure everything visible in the sidebar: items, their order, and global sidebar behaviour.</p><p><b>Adding new items</b></p><p>Use Add Item to create a new sidebar entry. You can choose between Main Dashboard (links to a dashboard),
+        Process (starts an Ivy process), External Link (any URL, with optional open in new tab), or Static Page. Each item has a title with multi-language support, an icon, and configurable permissions. The item type cannot be changed after creation.</p><p><b>Understanding the table</b></p><p>Target shows
+        where an item navigates to (a URL or process path). Permissions shows who can see it. Type is the kind of entry, and Source tells where it is defined: Built-in, Configuration, Dashboard configuration, Callable process, or Third-party application.</p><p><b>Managing existing items</b></p><p>Edit
+        updates the title, icon, link, and permissions of any custom item. Delete removes it. Built-in items (source: Built-in) cannot be edited or deleted, and items generated by a callable process can only be changed by a developer. Drag any row to reorder all sidebar items.</p><p><b>Sidebar settings</b></p><p>Disable
+        sidebar hides the sidebar entirely for all users. Sidebar behaviour controls how it opens: Hover (opens on mouse over), Click (requires a click), or Stick (always visible).</p>'
+      PackageManagement: Package management
+      PackageManagementTabInfoPanel: <p><b>What can I do here?</b></p><p>Export the current Portal configuration as a single zip package, or import a previously exported package to replace it.</p><p><b>Export</b></p><p>Downloads a <code>Portal_Package.zip</code> containing one JSON file per configuration
+        type. Only types with existing data are included.</p><p><b>Import</b></p><p>Upload a zip package to preview which files it contains before applying. Recognized files replace the matching configuration; unrecognized files are skipped. This action cannot be undone.</p>
+      PrivateDashboard: Private dashboards
+      PrivateDashboardConfiguration: Private dashboard configuration
+      PrivateDashboardTabInfoPanel: <p><b>What can I do here?</b></p><p>Create and manage dashboards that only you can see. They appear grouped under the Dashboard icon in the sidebar and never affect other users.</p><p><b>Reordering</b></p><p>Drag any row to change the order your dashboards appear in
+        the submenu. The order is saved to your personal settings.</p><p><b>Actions per dashboard</b></p><p>Use Edit to update the title, description, icon, or set multi-language titles. Use Configure to open the dashboard and add or rearrange widgets. If you have the export permission, you can also download
+        a dashboard as a JSON file for backup or reuse.</p>
+      PrivateTabInfo: Create and manage your personal dashboards.<ul><li>These dashboards are only visible to you</li><li>They appear under the Dashboard icon in the sidebar</li></ul>
+      PublicDashboard: Public dashboards
+      PublicDashboardConfiguration: Public dashboard configuration
+      PublicTabInfo: Manage dashboards for all users. Control where each dashboard appears:<ul><li><b>Sidebar</b> — appears as a top-level item in the sidebar menu</li><li><b>Submenu</b> — appears under the Dashboard icon</li><li><b>Hidden</b> — not visible to users</li></ul>
+      Reload: Reload
+      ReorderPrivateDashboards: Reorder your dashboards
+      ReorderPublicDashboards: Reorder public dashboards
+      SelectAction: Select the action
+      SidebarBehaviour: Sidebar behaviour
+      SidebarMode: Sidebar mode
+      SidebarNavigation: Sidebar
+      SidebarSettings: Sidebar settings
+      SidebarSettingsReloadWarning: Sidebar settings saved. Reload the page to apply the changes.
+      SidebarTopLevelDashboards: Sidebar top-level dashboards
+      SidebarTopLevelDashboardsDescription: Appear as top-level items in the sidebar.
+      SomeThingWentWrong: Something went wrong
+      Source: Source
+      Start: Start
+      SubMenuDashboards: Submenu dashboards
+      SubMenuDashboardsDescription: Appear grouped under the Dashboard icon in the sidebar.
+      Target: Links to
+      Templates: Templates
+      Title: Portal configuration
+      Visibility: Visibility
+    DrillDownWidget:
+      caseDrillDown: Drill-down case widget for {0}
+      taskDrillDown: Drill-down task widget for {0}
+    EmptyFilterMessage: No widget filter found
+    ExternalPageWidget: External Page
+    ExternalPageWidgetIntroduction: This widget can display an external webpage.
+    Filter:
+      AddCondition: Add condition
+      ApplyFilters: Apply filters
+      DefaultFiltersDescription: Filters that have been set in the widget configuration as default.
+      DefaultFiltersTitle: Default filters
+      EmptyFilterValidationError: Define at least one filter condition before saving.
+      FilterConditionsTitle: Filter conditions
+      FilterOptionHeader: Filter options
+      FilterOptionHeaderTooltip: Some filter fields and operators may be disabled by your administrator. Filters using disabled fields or operators will be removed automatically. Please contact your administrator for more information.
+      FilterPanelHeader: Filter panel
+      ManageWidgetFilterHeader: Widget filter management
+      NewFilterConditionsDescription: Show tasks that match all of the following conditions.
+      NewFilterConditionsTitle: New filter conditions
+      NotFound: No filter found
+      SaveFilterDescription: Save those filter conditions for future use.
+      SaveFilterNamePlaceholder: Enter filter name
+      SaveFilterNameRequired: Filter name must not be empty.
+      SaveFilterOptional: (optional)
+      SetFilterHeader: Set Filter
+      WidgetNameColumn: Widget name
+      WrongDateFormat: The date is invalid
+    FilterTasksByCurrentCaseOwner: Filter tasks by current case owner
+    ManageFilter: Manage saved filters
+    NoColumnsEnabledForQuickSearch: No columns are enabled for quick search
+    NoData: No data
+    NoSavedFilterMessage: No saved filters
+    NoWidgetAvailable: There are no widgets.
+    QuickSearch: Quick search
+    QuickSearchInfo: You can customize the Quick Search's scope in the widgets column management. It searches based on "contains", but be mindful of performance when adding numerous columns.
+    QuickSearchScope: 'Search Scope: {0}'
+    RestoreDefaultDashboardMessage: If you proceed, you will loose all widgets created by yourself. The standard settings of <span class="dashboard-template-name-message">{0}</span> will be applied.
+    SaveNewWidgetFilterHeader: Save a new widget filter
+    SavedFilterHeader: Saved Filters
+    SearchForFilter: Search for a filter
+    ShareThisDashboard: Share this dashboard
+    ShowPinnedToggle: Show 'Pinned Items' Toggle
+    StandardWidgets: Standard Widgets
+    StatisticWidget:
+      EmptyChartDataMessage: We do not have enough data to create a nice chart!
+      TooltipAverageKpiLabel: Average of {0}
+      TooltipMaxKpiLabel: Max of {0}
+      TooltipMinKpiLabel: Min of {0}
+      TooltipSumKpiLabel: Sum of {0}
+      TooltipTotalCaseLabel: 'Total cases: {0}'
+      TooltipTotalTaskLabel: 'Total tasks: {0}'
+      failToRenderChartMessage: Error while rendering chart. Please retry with different settings.
+      firstConfigChartMessage: No chart available yet. Please configure your settings to generate a chart.
+    WelcomeWidgetIntroduction: This widget displays a welcome text and image on dashboard.
+    WelcomeWidgetNotFoundMessage: We cannot find the image of widget, please reconfigure your image!
+    WidgetFilterName: Widget filter name
+    WidgetFilters: Widget filters
+    YourWelcomeWidget: Your Welcome Widget
+    actionSelection: Action selection
+    addField: Add field
+    addWidget: Add widget
+    canWorkOn: Can work on
+    caseDrillDownDashboard: Case drill-down dashboard
+    caseList: Case List
+    caseListIntroduction: This widget displays relevant case information according to defined settings.
+    caseWidgetInfo:
+      casesByCategory: Number of cases by category
+      casesByState: Number of cases by state
+      numberOfCase: case(s)
+    category: Category
+    columnManagement: Column management
+    columnType:
+      CUSTOM: Custom field
+      CUSTOM_BUSINESS_CASE: Custom business case field
+      CUSTOM_CASE: Custom case field
+      STANDARD: Standard column
+    configuration:
+      CustomWidgetExternalLinkWarning: Some websites are not compatible with iframe due to security concerns. Please contact your administrator if the external website is not working properly.
+      CustomWidgetTitlePlaceholder: Leave it blank to hide the header of the widget
+      CustomWidgetUrlInvalidScheme: The provided URL is not valid
+      Parameters: Parameters
+      RestoreDefaultDashboardTemplateTooltip: We cannot find the template of your dashboard, so we cannot reset it to the standard configuration. Please check with your administrator for more details!
+      SelectTheTemplate: Select the template
+      SelectYourTemplate: Select your template
+      WelcomeConfigurationDescription: You can configure your widget in this configuration area. Please define the welcome text and image to be used.
+      WelcomeWidget:
+        AdvancedSettings: Advanced settings
+        ChangeImage: Change image
+        ChooseAFit: Choose a fit
+        ChooseMode: Choose which mode you want to configure the image
+        ConfigurationHeader: Welcome widget configuration
+        DarkMode: Dark
+        DisplayText: Display text
+        Greeting:
+          Afternoon: Good afternoon
+          Evening: Good evening
+          Morning: Good morning
+        ImageInlineStyle: Image inline style
+        ImagePreview: Image preview
+        ImageStyleClass: Image style class
+        LightMode: Light
+        PreviewTooltip: This Preview can’t render all settings but only should give an idea how the final widget will look like, image size, orientating and some CSS settings will not be previewed here.
+        ShowGreeting: Show greeting
+        TextColorDarkMode: Text color for dark mode
+        TextColorLightMode: Text color for light mode
+        TextPosition: Text position
+        TextSize: Text size
+        Welcome: Welcome
+        WelcomeTextStyleClass: Welcome text style class
+      configuration: Configuration
+      configurationDescription: You can configure your widget in this configuration area. Please define the required filters as well as columns to be shown.
+      customWidgetParamChangedMessage: This process has changed. Click on Update to proceed.
+      editWidgetHeader: Edit Widget Configuration
+      import: Import
+      importFromJsonFile: Import from JSON file
+      newWidgetHeader: New {0} Widget Configuration
+      pageTitle: Dashboard Configuration
+      processConfigurationDescription: You can configure your widget in this configuration area. Please define the required filters as well as properties to be shown.
+      processViewerConfigurationDescription: You can configure your widget in this configuration area. Please define the information to be shown.
+      tableConfiguration: Table configuration
+      tableConfigurationDesc: You can manage columns and set the standard sorting by clicking on the column.
+      yourWidget: Your Widget
+    createWidget: Add a widget
+    createdFrom: Created From
+    createdTo: Created To
+    customFieldType: Custom Field Type
+    dashboardManagement:
+      CreateDashboard: Create Dashboard
+      dashboardIcon: Dashboard icon
+      dashboardPermission: Dashboard permission
+      dashboardTitle: Dashboard title
+      deleteDashboardMessage: Are you sure you want to delete the "{0}" dashboard?
+      deleteMenuItemMessage: Are you sure you want to delete the "{0}" menu item?
+      editDashboard: Edit dashboard
+      manageDashboard: Manage dashboard
+      removeDashboardHeader: Remove the "{0}" dashboard
+    dataSettings: Data Settings
+    deleteWidget: Delete widget
+    displaySettings: Display Settings
+    downloadZipFileExplanation: If the number of items to export exceeds the limit of Excel rows, data will be split to multiple Excel files, then compressed in a ZIP file to download.
+    editWidget: Edit widget
+    existingField: The {0} field has already been existing
+    exitEditMode: Exit edit mode
+    expiryFrom: Expiry From
+    expiryTo: Expiry To
+    export:
+      exportedCasesFileName: AXONIVY_Dataset_Cases_{0}_{1}.{2}
+      exportedTasksFileName: AXONIVY_Dataset_Tasks_{0}_{1}.{2}
+    field: Field
+    fieldIsAdded: The {0} field is added
+    filters: Filters
+    fullscreenMode: Fullscreen Mode
+    iconMessage:
+      caseWidget:
+        EMPTY_MESSAGE: Currently, there are no cases available.
+        noCasesFoundWhenFilter: There are currently no cases after applied filter.
+      taskWidget:
+        EMPTY_MESSAGE: Currently, there are no tasks available.
+        noTasksFoundWhenFilter: There are currently no tasks after applied filter.
+    loading: Loading...
+    navigate: Navigate
+    noCategory: There are no categories
+    noDashboard: There are no dashboards. Add at least one dashboard, then add widgets.
+    noDashboardAvailable: No submenu dashboards available.
+    noPermission: You don't have permissions to see dashboards.
+    noWidget: There are no widgets provided for this dashboard
+    numberPattern: Number Pattern
+    operatorPolicyInvalid: 'Some selected operators are disabled by global configuration. Please review: {0}'
+    operatorPolicyTooltip: If operators are disabled globally by admin, they can't be enabled here. A field filter can't be enabled when all operators are globally disabled.
+    operators: Operators
+    preview: Preview
+    processList: Process List
+    processListIntroduction: This widget displays available process starts. You have the possibility to choose different formats.
+    processViewerIntroduction: This widget provides a visual representation of the process flow.
+    processWidgetInfo:
+      noProcess: There are no processes.
+      numberOfProcessesByType: Number of processes by type
+    processes:
+      emptyProcess: You have not defined any processes.
+      noMatchingProcess: No matching processes.
+      noPermissionToSee: You do not have the required permission to start this process.
+      noProcessSelected: Please select a process
+    removeWidgetHeader: Remove this widget
+    removeWidgetMessage: Do you really want to remove it?
+    reorder:
+      dashboardType: Dashboard type
+    restoreDefaultHeader: Restore to default widgets
+    restoreDefaultMessage: If you proceed, you will loose all widgets created by yourself. The standard settings will be applied.
+    select: Select
+    selectEditAction: Which action do you want to procced?
+    showAllCases: Show all cases
+    showAllTasks: Show all tasks
+    showFullWidget: Show full widget
+    showPinnedCases: Show pinned cases
+    showPinnedTasks: Show pinned tasks
+    statisticChartIntroduction: This widget displays available statistic charts.
+    statisticChartWidget: Statistic chart
+    statisticWidgets: Statistic Widgets
+    switchToViewMode: View Mode
+    taskList: Task List
+    taskListIntroduction: This widget displays relevant task information according to defined settings.
+    taskStart: Task start
+    taskWidgetConfiguration: Task Widget Configuration
+    taskWidgetInfo:
+      expireToday: Expire today
+      expiryThisWeek: Expire this week
+      numberOfTasks: task(s)
+      numberOfTasksByCategory: Number of tasks by category
+      numberOfTasksByState: Number of tasks by state
+      predefinedFilters: Predefined filters
+      taskDrillDownDashboard: Task drill-down dashboard
+    widgetInfo: Widget information
+    widgetInfoIcon: Widget Information Icon
+    widgetTitle: Widget Title
+    widgetType: Widget type
+    yourCases: Your Cases
+    yourCustomWidget: Your Custom Widget
+    yourNavigationDashboardWidget: Your navigation dashboard widget
+    yourNotifications: Your Notifications
+    yourProcessViewer: Your Process Viewer
+    yourProcesses: Your Processes
+    yourTasks: Your Tasks
+  dashboardProcess:
+    processAriaLabel: 'Process name: {0}. Process description: {1}'
+  documentFiles:
+    FilenameEmpty: Filename cannot be empty.
+    PreviewDocument: Preview
+    RenameFile: Rename file
+    RenamingDocument: Rename document
+    RenamingDocumentNote: '{0} has renamed the file {1} to {2}'
+    RenamingDocumentSuccess: Rename successfully.
+    RenamingFailed: An error occurs while renaming the document.
+    confirmation: Confirmation
+    confirmationUploadDocument: Script scanning is unavailable for encrypted files. Would you like to continue with the preview?
+    deleteDocumentNote: '{0} has deleted {1}'
+    deleteSuceed: File deleted successfully
+    download: Download
+    fileContainScript: File contains potentially malicious content and cannot be uploaded!
+    fileContainVirus: Upload failed, virus/infection detected!
+    fileCouldNotParse: Could not parse the file
+    fileEmptyMessage: File is empty
+    name: Filename
+    previewErrorMessage: Unable to preview this file
+    size: File size
+    type: Type
+    upload: Upload new file
+    uploadDocumentNote: '{0} has uploaded {1}'
+    uploadFailed: An error occurred while uploading this file. Please ask your administrator for this issue.
+    uploadFileExists: File {0} already exists
+    uploadSucceed: The file was uploaded successfully
+    uploadSucceedWithWarning: File uploaded successfully, but script scanning could not be completed because the file is encrypted or password-protected.
+  emailSetting:
+    dailySummary: Receive daily summary
+    eMail: E-mail
+    furtherEmailFromApp: Receive further emails from application
+    invalidEmailFormat: Invalid email format
+    mailNotificationOnTaskAssign: Receive email notification on task assignment
+    noSettingMsg: There are no application for email setting.
+  errorPage:
+    '404': 404 Page Not Found
+    404Message: We're sorry, but the resource you are looking for does not exist.
+    '500': 500 Error
+    500Message: We're sorry, there was a problem serving the requested page.
+    backToHomePage: Back To Home Page
+    title: Error page
+  exceptionDialog:
+    copied: Copied
+    copyError: Copy error
+    errorId: Error Id
+    errorType: Error type
+    message: Message
+    pmv: PMV
+    processElementId: Process element Id
+    stackTrace: StackTrace
+  forgotPassword:
+    EmailAddress: E-Mail address
+    empty: Empty
+    forgotPassword: Forgot my password
+    forgotPasswordError: An error occurred while processing your request. Please try again later.
+    goToForgotPassword: Go to Forgot Password Page
+    goToLogin: Back to Login Page
+    good: Good
+    invalidResetUrl: Requested URL is invalid
+    invalidToken: Invalid token
+    newPassword: New Password
+    passwordConfirmation: Password Confirmation
+    passwordReset: Password Reset
+    passwordResetEmailCantSend: Exception while sending email to you. Please try again later.
+    passwordResetEmailContent: '<html>Dear {0},<br/><br/>Please click to this link to reset your password: <a href="{1}">Reset Password</a><br/><br/>Best regards</html>'
+    passwordResetEmailSent: If this e-mail address is registered then we have sent a password recovery link to it.
+    passwordResetEmailSubject: Email to reset your password
+    passwordResetSuccess: Your password has been changed successfully
+    requiredFieldMessage: '{0} is required'
+    setANewPassword: Set a new password
+    strong: Strong
+    userNotFound: If this e-mail address is registered then we have sent a password recovery link to it.
+    usersHaveSameEmail: There are many users using this email. Please contact your administrator.
+    weak: Weak
+  iconselection:
+    iconSelectionDialogHeader: Selecting icon
+    seachIconByNamePlaceHolder: Search icon by name
+  languageSetting:
+    Language: Language
+  login:
+    AxonIvyPortal: Axon Ivy Portal
+    Copyright: Copyright Ⓒ Axon Ivy Portal
+    LoginWith: Log in with
+    PasswordRequiredMessage: The password is required
+    UsernameRequiredMessage: The username is required
+    login: Login
+    loginErrorMessage: You are not logged in or your username is not known by this application. Please consult your system administrator.
+    loginFailed: Login failed
+    username: Username
+  logoutSetting:
+    logout: Logout
+  mobile:
+    AppleStore: Apple Store
+    AppleStoreDownload: Download on the Apple Store
+    AppleStoreQRCode: QR code to download from Apple Store
+    AxonIvyMobile: Axon Ivy Mobile
+    AxonIvyMobileQRCode: QR code for Axon Ivy Mobile app
+    DownloadMobileApp: To download your Axon Ivy Mobile App
+    GooglePlay: Google Play
+    GooglePlayDownload: Get it on Google Play
+    GooglePlayQRCode: QR code to download from Google Play
+    MenuName: Connect Mobile App
+    Platform: 'Platform:'
+    QRCodeDescription: To connect your Axon Ivy Mobile App, please scan this QR Code and enter your credentials in the inside the app.
+    QRCodeDownloadDescription: Scan the code below with your mobile camera or with a QR reader app.
+  noteHistory:
+    ShowOnlyOpenTasks: Show only open tasks
+    author: Author
+    caseExportedFileNamePrefix: Note_history_of_case_{0}
+    caseHistoriesTitle: Histories
+    caseHistoryPageTitle: Case Note History
+    columnContent: Content
+    curentReportOf: of
+    eventType: Event type
+    exportButton: Export to Excel
+    relatedCase: Related Case
+    showMoreBtn: Show more
+    taskExportedFileNamePrefix: Note_history_of_task_{0}
+    taskFailReason: 'Failed reason: {0}'
+    taskHistoryPageTitle: Task Note History
+  notes:
+    newNoteHeader: Add new note
+    wroteAt: wrote at
+  notifications:
+    errorNotificationMessage: We couldn't display the details for the new task. Please contact your administrator for assistance
+    linkToFullScreen: Link to full screen
+    linkToNotificationSettings: Notification settings
+    markAllAsRead: Mark all as read
+    markAsRead: Mark as read
+    noNotificationText: No Notifications
+    notificationOptions: Notification options
+    notificationTitle: Notifications
+    notificationsBadgeLabel: Open notification panel, {0} unread
+    olderText: Older
+    onlyUnread: Only unread
+    openNotificationSettings: Open notification settings
+    openNotifications: Open notifications
+    todayText: Today
+    viewNotificationsFullScreen: View notifications in full screen
+    xDaysAgo: '%s days ago'
+    xHoursAgo: '%s hours ago'
+    xMinutesAgo: '%s minutes ago'
+    xMonthsAgo: '%s months ago'
+    xSecondsAgo: '%s seconds ago'
+    xYearsAgo: '%s years ago'
+  passwordSetting:
+    changePasswordWSError: An error occurred while changing your password. Please contact your administrator if this problem persists.
+    confirmNewPassword: Confirm new password
+    confirmPasswordHaveMatch: The entered new password did not match with confirmed password.
+    currentPassword: Current password
+    minCharacterRequired: be at least {0} characters long
+    minLowercaseCharacterRequired: contain at least {0} lowercase character
+    minNumberRequired: contain at least {0} number
+    minSpecialCharacterRequired: contain at least {0} special character
+    minUppercaseCharacterRequired: contain at least {0} uppercase character
+    newPassword: New password
+    noPermission: You do not have the required permissions to change the password. Please contact your administrator for assistance.
+    passwordMust: Password must
+    requireConfirmPassword: Password confirmation was missing
+    requireCurrentPassword: Please specify the current password
+    requireNewPassword: Please specify the new password as well
+    updatePasswordSuccessfully: Password updated successfully.
+    wrongPassword: Authentication failed, your password seems to be wrong!
+  permission:
+    noPermission: You need the AXONIVY_PORTAL_ADMIN role to access this page. Please contact your administrator.
+  processwidget:
+    MoreInformation: More Information
+    addExternalLink: Add external link
+    addNewExternalLinkHeader: Add external link
+    addNewProcess: Add new process
+    addNewProcessDialogHeader: Add new user process
+    backToOverview: Back to overview
+    deleteExternalLinkTooltip: Delete external link
+    deleteProcess: Delete Process
+    deleteProcessItemConfirmation: Are you sure you want to delete the following process?
+    deleteProcessItemHeader: Removing a process?
+    displayMode: Display mode
+    editDialog:
+      dialogCurrentIcon: Current Icon
+      dialogEditInfoTitle: '{0} Information'
+      dialogHeaderDescription: In this area you can edit some information related to the selected process.
+      dialogHeaderTitle: Edit information for {0}
+    editProcesses: Edit processes
+    externalLink: External link
+    externalLinkImage: External link image
+    externalLinkVisibility: Visibility
+    goTo: 'Go to: '
+    icon: Icon
+    image: Image
+    isRequiredMessage: has to be set
+    linkDescription: Link description
+    noProcess: There are no processes.
+    noProcesses: There are no processes.
+    private: Private
+    processFilterPlaceHolder: Name, Description, Category
+    processName: Process name
+    processStartLink: Process start link
+    processType: Process type
+    remove: Remove
+    rolePermissionsRequiredMessage: Permissions have to be set
+    seeAllProcesses: Show all processes
+    selectRoles: Select roles
+    sortByName: Sort by name
+    specialCharacterGroup: Special Characters
+    startLink: Start link
+    webLinkExample: E.g. http://www.example.com
+  projectInfo:
+    activityState: Activity state
+    applicationProjectVersion: Application projects and versions
+    doneCases: Done cases
+    engineVersion: Engine Version
+    header: Axon Ivy version information
+    info: Info
+    lastChange: Last change
+    mavenVersion: Maven Version
+    openCases: Open cases
+    portalVersion: Portal Version
+    projectName: Project Name
+    projectsOfVersion: Projects Version
+    releaseState: Release state
+    state: State
+    version: Version
+  searchResult:
+    case: Case
+    notDisplayResultTabView: You don't have the permission to display search results
+    process: Process
+    searchResults: Search Results
+    searchResultsFor: '{0} search results for "{1}"'
+  taskActivator:
+    assign: Assign
+    cannotAssignTask: This task cannot be assigned to any other user or group.
+    escalationActivatorDesc: Change the escalation activator of task to a specified user or group
+    escalationActivatorHeader: Task escalation activator selection
+  taskBusinessState:
+    DELAYED: Delayed
+    DELAYED_UPPERCASE: DELAYED
+    DESTROYED: Destroyed
+    DESTROYED_UPPERCASE: DESTROYED
+    DONE: Done
+    DONE_UPPERCASE: DONE
+    ERROR: Error
+    ERROR_UPPERCASE: ERROR
+    IN_PROGRESS: In progress
+    IN_PROGRESS_UPPERCASE: IN PROGRESS
+    OPEN: Open
+    OPEN_UPPERCASE: OPEN
+    SYSTEM: SYSTEM
+  taskDelegate:
+    afterEscalation:
+      delegateNotes: The escalation activator of the {0} task was changed from {1} to {2}
+      delegateNotesWithComment: The escalation activator of the {0} task was changed from {1} to {2} - {3}
+    delegateComment: The task {0} was delegated from {1} to {2}
+    delegateReasonIncludedComment: The task {0} was delegated from {1} to {2} - {3}
+    delegateTaskHeaderLabel: Delegate the task to a specified user or group
+    groupSelectionWatermark: Please select a group...
+    toGroup: Group
+    toUser: User
+    userSelectionWatermark: Please select a user...
+  taskDetails:
+    addDocumentHelpText: 'To upload files, drag & drop or '
+    addNoteHelpText: Write your text here.
+    afterEscalation: After escalation
+    businessCase: Business Case
+    completedOn: Completed on
+    customFields: Custom Fields
+    customFieldsDialog: 'Custom Fields of task #{0}'
+    delayedUntil: Delayed until
+    deleteFile: Delete file
+    documents: Documents
+    dueDate: Due
+    duration: Duration
+    events: Workflow Events
+    expiry: Expiry
+    failedDelayValidation: Task delay timestamp cannot be an empty value or invalid date format
+    failedExpiryValidation: Task expiry timestamp cannot be in the past.
+    noDescription: No description
+    noNotes: No notes
+    processingTime: Processing Time
+    setDelayTimestamp: '{0} ({1}) has set delay time to task #{2} to {3}'
+    setExpiryActivatorAndTimeNotes: '{0} and assign {1} as the task escalation activator'
+    supportFileTypes: ' Upload file type supported: {0}'
+    taskCategory: Task Category
+    taskExpiryDisable: This task does not contain any escalation handling logic, therefore no expiry time can be set.
+    technicalCase: Technical Case
+    workflowEventDialog: 'Workflow Events of task #{0}'
+  taskExpiryDateDialog:
+    message:
+      setDeadlineSuccess: Task deadline has been set successfully.
+    title: Task deadline
+  taskInformation:
+    clearDelay: Clear delay
+    clearExpiry: Clear expiry
+    delegate: Delegate
+    delegateTask: Delegate task
+    freeReservationTaskTooltip: Use reset to decontrol task
+    histories: Notes
+    note: Note information
+    noteDetail: Note details
+    openRequest: Open
+    openTaskTooltip: Open task
+    park: Park
+    parkTaskSuccessfully: Task has been parked successfully.
+    reserveTaskTooltip: Reserve task
+    resetTaskSuccessfully: Task has been unparked successfully.
+    resetTaskTooltip: Reset task
+    setDeadline: Set deadline
+    setPriority: Set priority
+    startTask: Start
+    taskComments: Comments
+    taskDetails: Task details
+    taskInforDialogTitle: Task information
+    taskNotes: Notes
+    triggerEscalation: Trigger Escalation
+  taskList:
+    configuration: Configuration
+    deadline: Deadline
+    default: Default
+    defaultColumns:
+      ACTIVATOR: Responsible
+      APPLICATION: Application
+      BUSINESS_CASE_ID: Business Case ID
+      CATEGORY: Category
+      COMPLETED: Completed
+      COMPLETED_ON: Completed on
+      CREATION_TIME: Created
+      EXPIRY_TIME: Expiry
+      ID: Task Id
+      NAME: Name / Description
+      PIN: Pin
+      PRIORITY: Priority
+      STATE: State
+      TASK_FOR_UNAVAILABLE_ACTIVATOR: Missing activator
+      TECHNICAL_CASE_ID: Technical Case ID
+      WORKER: Working user
+      abbreviation:
+        PRIORITY: Prio
+    defaultFilter: Default filter
+    destroyTaskMessage: 'This operation cannot be undone. Are you sure you want to destroy task <b>{0} (ID: {1})</b>?'
+    headerTitle:
+      relatedStatisticHeader: 'Related tasks of statistic chart: '
+      relatedTasksHeader: Related Tasks of Case
+    lastEdit: Last modified
+    manageColumns: Manage columns
+    name: Name
+    newTaskNotification: You have new tasks.
+    removeExpiryTimeNote: '{0} ({1}) has removed expiry time of task #{2}'
+    resetTaskWarning: This task has been already started. You lose any progress if you restart it. Do you want to reset this task?
+    responsibleAfterEscalation: Responsible after escalation
+    setDeadlineNote: '{0} ({1}) has set deadline to task #{2} to {3}'
+    setNameNote: The task name was set to {2} from {1} by {0}
+    showOnlyTaskForMissingActivator: Show only tasks for missing activator
+    showOnlyTaskForMissingActivatorDesc: This filter will show tasks which have no activator, activator is not found or disabled.
+    sortFields:
+      CREATION_TIME_ASC: Creation date (Oldest first)
+      CREATION_TIME_DESC: Creation date (Newest first)
+      EXPIRY_TIME_ASC: Expiry (Oldest first)
+      EXPIRY_TIME_DESC: Expiry (Newest first)
+      PRIORITY_ASC: Priority (High to low)
+      PRIORITY_DESC: Priority (Low to high)
+    triggerEscalationNote: 'Escalation has been triggered by {0} ({1}) of task #{2}'
+    type: Type
+    unknownId: Unknown ID
+    unknownTask: Unknown Task
+  taskPriority:
+    EXCEPTION: EXCEPTION
+    EXCEPTION_LOWERCASE: Exception
+    HIGH: HIGH
+    HIGH_LOWERCASE: High
+    LOW: LOW
+    LOW_LOWERCASE: Low
+    NORMAL: NORMAL
+    NORMAL_LOWERCASE: Normal
+  taskPriorityDialog:
+    message:
+      setPrioritySuccess: Task priority has been set successfully.
+    title: Task priority
+  taskState:
+    CREATED: Created
+    CREATED_UPPERCASE: CREATED
+    DELAYED: Delayed
+    DELAYED_UPPERCASE: DELAYED
+    DESTROYED: Destroyed
+    DESTROYED_UPPERCASE: DESTROYED
+    DONE: Done
+    DONE_UPPERCASE: DONE
+    FAILED: Failed
+    FAILED_UPPERCASE: FAILED
+    INPROGRESS: IN PROGRESS
+    JOINING: Joining
+    JOINING_UPPERCASE: JOINING
+    JOIN_FAILED: Join failed
+    JOIN_FAILED_UPPERCASE: JOIN FAILED
+    OPEN: Open
+    OPEN_UPPERCASE: OPEN
+    PARKED: Reserved
+    READY_FOR_JOIN: Ready for join
+    READY_FOR_JOINING: Ready for joining
+    READY_FOR_JOINING_UPPERCASE: READY FOR JOINING
+    READY_FOR_JOIN_UPPERCASE: READY FOR JOIN
+    RESERVED: RESERVED
+    RESUMED: In progress
+    SUSPENDED: Suspended
+    SUSPENDED_UPPERCASE: SUSPENDED
+    SYSTEM: SYSTEM
+    WAITING: Waiting
+    WAITING_FOR_INTERMEDIATE_EVENT: Waiting for event
+    WAITING_FOR_INTERMEDIATE_EVENT_UPPERCASE: WAITING FOR EVENT
+  taskView:
+    GlobalSearchText: Tasks contain the keyword "{0}" in Task Id{1}.
+    filterTextPlaceHolderMobile: Name or Description
+    filterTextPlaceholder: Name, Description or ID
+    restoreDefaultFilterMessage: If you proceed, the standard filter will be applied.
+    saveFilter: Save filter
+    showFullTaskList: Show full task list
+    sort: Sort
+  taskWarning:
+    createdTaskLeave: This task is in progress, if you leave it now you'll lose what you've done.
+    createdTaskLogout: This task is in progress, if you log out now you'll lose what you've done.
+    leaveTaskTitle: Leave this task?
+    resetParkTaskBeforeLeave: This task is in progress, if you leave it now you'll lose what you've done. If you reserve it will reappear in your task list.
+    resetParkTaskBeforeLogout: This task is in progress, if you log out now you'll lose what you've done. If you reserve it will reappear in your task list.
+    taskNotFound: The task does not exist or you have insufficient rights to see this task.
+  userProfile:
+    myProfileTitle: My profile
+  warningBeforeLostSession:
+    refreshSession: Refresh session
+    warningMessage: Your session may expire soon. Please refresh your session to continue using the application.
+Dialogs:
+  Cases:
+    EditWorkflow:
+      CaseDescription: Edit an existing workflow
+      CaseName: Edit workflow
+  Tasks:
+    TaskDetail:
+      DataDescription: Data and Description
+      restoreToDefaultSettings: Restore to default settings
+      switchToViewMode: Save
+  agileBPM:
+    define_WF:
+      ErrorSelectInvalidAssignee: Assignee is already selected or invalid
+      ListOfSelectedUser: List of selected users
+      ResponsibleDialogHeader: Responsible Users
+      SequenceOfTasks: Following Tasks
+      TaskActor: Task Actor
+      TaskSubject: Task Name
+      WFCategory: Category
+      WFSubject: Subject
+    task_Form:
+      AppendATaskAfter: Add a task into the sequence following my task.
+      ErrorEmployeeNotExist: Selected employee does not exist
+      InsertATaskBefore: Insert a task before my task.  My task will be postponed.
+      MyTaskIsDoneAnd: My task is done and the new task is appended
+  ch:
+    ivy:
+      addon:
+        portal:
+          component:
+            ProcessInformation:
+              ProcessUnavailableTooltip: This process is unavailable or you don't have the permission to start it.
+          generic:
+            GlobalSearch:
+              ViewAllResults: View all results
+              minimumKeywordText: Enter at least {0} characters to search.
+              noResultsText: There are no results.
+            dashboard:
+              PortalDashboardConfiguration:
+                newPublicDashboard: New public dashboard
+              PortalDashboardDetailModification:
+                CreateCustomStatistic: Create custom statistic widget
+                DeleteConfirm: Are you sure you want to delete?
+                RemoveThisStatistic: Remove this custom statistic
+              component:
+                CustomDashboardWidget:
+                  CouldNotFindLinkedProcess: Could not find the linked process!
+                  CustomWidgetIFrameTitle: '{0} frame'
+                DashboardModification:
+                  Share: Share
+                ProcessWidgetConfiguration:
+                  DragAndDropToChangeOrder: Drag and drop to change the order.
+                  DragAndDropTooltip: Click Preview, then drag and drop to change the order
+                WelcomeDashboardWidget:
+                  WelcomeToAxon: Welcome to Axon Ivy Portal
+                WelcomeWidgetConfiguration:
+                  AltText: Alternative text
+          setting:
+            UserProfile:
+              unpinAllPinnedCases: Unpin all pinned cases
+              unpinAllPinnedTasks: Unpin all pinned tasks
+        portalkit:
+          component:
+            CaseItemDetails:
+              ShareCaseDetails: Share case details
+            CaseWidget:
+              CaseCategory: Case Category
+              CaseDetail:
+                CaseDetailTitle: Case Details
+                DataDescription: Data and Description
+                destroyCase: Destroy case
+              CaseOwner: Case Owners
+              Finished: Finished
+              GlobalSearchText: Cases contain the keyword "{0}" in Case Id{1}.
+              ShowBusinessDetails: Business details
+              caseNameNotAvailable: '[Case name not available]'
+              defaultEmptyMessage: There are no cases
+            CustomIFrameWidget:
+              CustomWidgetIFrameTitle: Custom widget frame
+            IconSelection:
+              IconLinkTooltip: Click to change icon
+            MultipleTaskItemsDelegate:
+              DelegateMultipleTaskTitle: |
+                Delegate {0} tasks
+              ItemSelected: 1 item selected
+              ItemsSelected: '{0} items selected'
+              ItemsSelectedWithLimit: '{0} / {1} items selected'
+              bulkDelegatePerformanceWarning: Delegating multiple tasks may take some time. Please be patient.
+            TaskItemDetails:
+              CannotWorkOnDestroyedTaskWarning: You cannot work on the task because it was destroyed.
+              CannotWorkOnTaskWarning: You cannot work on the task because user <strong>{0}</strong> is currently working on it.
+              InvalidStateInfo: Invalid state.
+              ResetTaskWarning: You are currently working on the task in a different session. You may reset the task and start it again if you have closed your browser. <a href="{0}">Reset</a>
+              ShareTaskDetails: Share task details
+              TaskCompletedByOtherInfo: Task has already been completed by user <strong>{0}</strong> on {1}.
+              TaskCompletedByYouInfo: You already have completed the task on {0}.
+              TaskParkedByOtherInfo: You cannot work on the task because <strong>{0}</strong> has parked it. It was exclusively reserved by them for working on it later.
+              TaskParkedByYouInfo: You have parked the task. It was exclusively reserved by you for working on it later. You may reset the task to release its reservation.
+            TaskItemGeneralInfo:
+              Expiry: Expiry Responsible
+  com:
+    axonivy:
+      portal:
+        component:
+          ChatDashboard:
+            AddTool: Add tool
+            Tools: Tools
+            WelcomeHeaderText: Welcome to the Axon Ivy Portal!
+            WelcomeText: We are delighted to have you on board. The Axon Ivy Portal is your gateway to a seamless and efficient experience. Whether you are a new user exploring the features or a returning visitor, we're here to assist you every step of the way.
+          Responsibles:
+            Multiple: Multiple
+          ShareLinkDialog:
+            CopyLink: Copy
+            Link: Link
+            LinkCopied: Link copied
+          ToolList:
+            Attributes: Attributes
+            Collection: Collection
+            NoAvailableTools: There are no available tools
+        dashboard:
+          component:
+            AccessibilityShortcuts:
+              content: |-
+                <div class="ui-g">
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 1</span>Focus Dashboard in the sidebar
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 5</span>Focus global search
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + A</span>Focus next process
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Tab</span>Sequential tabbing through elements
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 2</span>Focus Processes in the sidebar
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 6</span>Focus user menu profile
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + W</span>Focus Start button of the next task
+                    </div>
+                    <div class="ui-g-3 shortcut-content" tabindex="1">
+                        <span class="shortcut-key">Esc</span>Close expanded Widgets
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 3</span>Focus Tasks in the sidebar
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 7</span>Collapse or expand the sidebar
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + Q</span>Focus actions menu of the next case
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Enter</span>Confirm selection
+                    </div>
+                    <div class="ui-g-3 shortcut-content " tabindex="1">
+                        <span class="shortcut-key">Alt + 4</span>Focus Cases in the sidebar
+                    </div>
+                </div>
+              title: 'Accessibility Shortcuts. Alt + 1: Focus Dashboard in the sidebar. Alt + 2: Focus Processes in the sidebar. Alt + 3: Focus Tasks in the sidebar. Alt + 4: Focus Cases in the sidebar. Alt + 5: Focus global search. Alt + 6: Focus user menu profile. Alt + 7: Collapse or expand the sidebar. Alt + A: Focus next process. Alt + W: Focus Start button of the next task. Alt + Q: Focus actions menu of the next case. Tab: Sequential tabbing through elements. Esc: Close expanded widgets. Enter: Confirm selection.'
+            CaseWidgetConfiguration:
+              AddFilter: Add filter
+            CloneWidgetDialog:
+              Header: Clone widget "{0}"
+              TargetDashboard: Target dashboard
+            CloneWidgetFromDashboardDialog:
+              header: Clone widget from
+            DashboardImportDetails:
+              DashboardImageSizeExceeded: Dashboard "{0}" was not imported because it contains an image larger than the allowed upload size ({1}).
+              DashboardImportTitle: Dashboard {0}
+              FileInfomation: File Infomation
+              ImportPrivate: Import Private Dashboard
+              ImportPublic: Import Public Dashboard
+              NavigationWidgetMissingTarget: Navigation widget "{0}" references a dashboard that was not imported and does not exist in this portal. The widget may not work correctly.
+              chooseAJsonFile: Choose a json file
+            NavigationDashboardWidget:
+              PermissionsDenied: You don't have permission to access this dashboard
+            NavigationDashboardWidgetConfiguration:
+              ButtonName: Button Name
+              NavigationDashboardWidgetConfiguration: Navigation dashboard widget configuration
+              NavigationDashboardWidgetDescription: This widget allows users to jump directly to a linked dashboard by clicking a button.
+              VisualType: Visual Type
+            NewsWidget:
+              NewsContentPlaceHolder: Enter News content
+              NewsContentValidateMessage: News content in {0} is required
+              NewsTitlePlaceholder: Enter News title
+              NewsTitleValidateMessage: News title in {0} is required
+              NoNewsAvailable: There is no news yet
+              Publish: Publish
+              RemoveNewsHeader: Remove the news?
+              SeeLess: See less
+              SeeMore: See more
+              Translate: Translate
+            NewsWidgetConfiguration:
+              AddNews: Add News
+              EditNews: Edit News
+              NewsContentMaxLengthMessage: News content must not exceed 1000 characters
+              NewsWidgetConfiguration: News feed widget configuration
+              NewsWidgetDescription: This widget shares relevant information as a News Feed into Axon Ivy.
+              NewsWidgetTitle: News feed widget
+            NotificationWidget:
+              NoNotificationAvailable: There are no notifications yet
+            NotificationWidgetConfiguration:
+              NotificationWidgetConfiguration: Notification widget configuration
+              NotificationWidgetDescription: This widget displays all Notifications based on your notification settings.
+              WidgetFilter: Widget Filter
+            PortalDashboardDetailModification:
+              CloneWidget: Clone widget
+            StatisticWidget:
+              IdNotFound: Chart with ID {0} not found
+              NoPermissionChartMessage: You do not have the required permission to see this chart.
+            TaskWidgetConfiguration:
+              AddFilter: Add filter
+              ResetFilter: Reset filter
+              ShowBulkDelegateToggle: Show 'Bulk Delegate' Toggle
+            filter:
+              DashboardFilter:
+                HasCmsValuesEnabledTooltip: This field only allows to use Contains operator
+                SelectFilterField: Select Filter Field
+              DateFilter:
+                SelectPeriod: Select period
+        layouts:
+          AbstractTaskTemplate:
+            CaseDetailsIFrameTitle: Case details frame
+          IFrameTaskTemplate:
+            TaskIFrameTitle: Task frame
+        page:
+          MenuManagement:
+            AddNewMenu: Add new menu
+            CallableMenuMessage: This menu is generated programmatically by a callable process and cannot be edited.
+            CallableSourceHint: This item is generated by a callable process. Contact your developer to change it.
+            HelpText: Customize the menu in this section to match your specific needs or preferences.
+            InvalidStaticPagePath: The path must be relative to the application (absolute URLs are not allowed).
+            InvalidUrl: The URL is not valid.
+            InvalidUrlScheme: Only http and https URLs are allowed.
+            MenuDetails: Menu Details
+            MenuIcon: Menu icon
+            MenuTitle: Menu title
+            MenuType: Menu type
+            NoAvailableSubDashboard: No submenu dashboard is available to be added as a main dashboard.
+            OpenInNewTab: Open in new tab
+            ProcessPermissionHint: Visibility follows the process's start permissions.
+            StaticPagePath: Static Page Path
+          StatisticConfiguration:
+            AddFilter: Add filter
+            Advanced: Advanced
+            AggregationMethod: Aggregation method
+            AggregationMethodTooltip: Choose an aggregation method to perform calculations on your KPI field - Sum, Average, Max, or Min. Disabled when 'Counting' is selected
+            ChartConfiguration: Chart Configuration
+            ChartDrillDownEnabled: Chart drill-down enabled
+            ChartDrillDownInfo: '<p>It only works when the user has these permissions: <strong>CaseReadAll</strong> for case and <strong>TaskReadAll</strong> for task.</p>'
+            ChartDrillDownPermissions: Chart drill-down permissions
+            ChartType: Chart type
+            Color: Color {0}
+            ConditionBasedColoring:
+              AddCondition: Add condition
+              AllValue: All values
+              CategoryValue: Value
+              Color: Color
+              ConditionBasedColoringEnabled: Condition-based coloring enabled
+              ConditionBasedColoringScopeInformation: 'Choose the scope that the condition will affect: All values: Apply conditions to all data in the chart.  Specific value: Apply color conditions only to selected value.'
+              ConditionValue: Condition value
+              DefaultColor: Default color
+              Information: |-
+                The condition-based coloring feature allows you to define colors for each chart based on specific conditions.
+                Rules:
+                - Define clear conditions.
+                - When multiple conditions are satisfied, the first condition defined wins
+                - Keep it simple.
+              NoDataAvailable: No data available to define color conditions.
+              Operator: Operator
+              Scope: Scope
+              SpecificValue: Specific value
+            Create: Create
+            EditStatistic: Edit Statistic Widget
+            For: For
+            GeneratePreview: Generate preview
+            GroupBy: Group by
+            GroupbyTooltip: The selected aggregation method will be applied to each group
+            HideLabel: Hide label
+            Interval: Interval
+            KPI: KPI
+            KPITooltip: 'Select what to measure: Choose ''Counting'' to count the number of tasks or cases (default), or select a numeric custom field to analyze its values as a KPI'
+            NewStatistic: New Statistic Widget
+            OutdatedChartMessage: The applied group-by or filter does not align with the current UI configuration. Please reconfigure it.
+            RefreshInterval: Auto-refresh enabled
+            RefreshIntervalInSeconds: Auto-refresh interval (seconds)
+            RefreshIntervalInSecondsValidationMessage: 'Auto-refresh interval (seconds): Specified attribute is not between the expected values of {0} and {1}'
+            RefreshIntervalInfo: The statistic can be auto-refreshed after a certain period. If enabled, this may impact performance. Auto-refresh interval (seconds) must be at least {0}.
+            StatisticConfiguration: Statistic configuration
+            XAxisTitle: X axis title
+            YAxisTitle: Y axis title
+  components:
+    CaseDocument:
+      FileDate: Modified at
+      FileFunctions: Functions
+      NoFiles: No files are found!
+      deleteSucceed: The file was deleted successfully
+      emptyFileMessage: File size should not be empty
+      fileLimitMessage: The maximum number of files are already uploaded!
+      fileUploadElementPosition: The File Upload can only be placed either in the Header or in the Footer
+      invalidFileMessage: This file type is not accepted!
+      invalidSizeMessage: The file is too big!
+      maximumFileUploadElement: There is already a file upload element
+  general:
+    MaxLabelLenght: '35'
+    maxOptionsLength: '20'
+Enums:
+  com:
+    axonivy:
+      portal:
+        enums:
+          CaseQueryType:
+            ALL:
+              name: Business Cases + Sub Cases
+            BUSINESS_CASE:
+              name: Business Cases (Default)
+            SUB_CASE:
+              name: Sub Cases
+          statistic:
+            AggregationField:
+              ACTIVATOR_NAME:
+                name: Activator name
+              BUSINESS_RUNTIME:
+                name: Business runtime
+              CATEGORY:
+                name: Category
+              CREATOR_NAME:
+                name: Creator name
+              CUSTOM_FIELD:
+                name: Custom field
+              END_TIMESTAMP:
+                name: Completed date
+              EXPIRY_TIMESTAMP:
+                name: Expiry date
+              IS_EXPIRED:
+                name: Is expired
+              PRIORITY:
+                name: Priority
+              RESPONSIBLES_NAME:
+                name: Responsibles
+              START_TIMESTAMP:
+                name: Created date
+              STATE:
+                name: State
+              WORKER_NAME:
+                name: Working user
+              WORKING_TIME:
+                name: Working time
+            AggregationInterval:
+              DAY:
+                name: Day
+              MONTH:
+                name: Month
+              WEEK:
+                name: Week
+              YEAR:
+                name: Year
+            ChartTarget:
+              CASE:
+                name: Case
+              TASK:
+                name: Task
+            ChartType:
+              BAR:
+                name: Bar
+              LINE:
+                name: Line
+              NUMBER:
+                name: Number
+              PIE:
+                name: Pie
+            ConditionBasedColoringScope:
+              ALL:
+                name: All values
+              SPECIFIC:
+                name: Specific value
+            OperatorFieldStatistic:
+              EQUAL:
+                name: Equal to
+              GREATER:
+                name: Greater than
+              GREATEROREQUAL:
+                name: Greater than or equal to
+              LESS:
+                name: Less than
+              LESSOREQUAL:
+                name: Less than or equal to
+Labels:
+  AllTasks: All Tasks
+  AndMore: and {0} more...
+  AppendTask-Explain: The task is added to the sequence after my task.
+  AppendTheTask: Append the task
+  AssignToRole: Select assigned group
+  AssignToUser: Select assigned user
+  Chat: Chat
+  Collapse: Collapse
+  Comma: ', '
+  Configuration: Configuration
+  CreateNewDashboard: Create new dashboard
+  Description: Description
+  EditDescription: Edit description
+  EditLayout: Edit layout
+  EnterFromValue: Enter from value
+  EnterToValue: Enter to value
+  EnterValue: Enter value
+  EnterValues: Enter values
+  Enums:
+    DashboardStandardCaseColumn:
+      ACTIONS: Actions
+      APPLICATION: Application
+      CATEGORY: Category
+      CREATED: Created date
+      CREATOR: Creator
+      DESCRIPTION: Description
+      FINISHED: Finished date
+      ID: Id
+      NAME: Name
+      OWNER: Case Owners
+      PIN: Pin
+      STATE: State
+    DashboardStandardTaskColumn:
+      ACTIONS: Actions
+      APPLICATION: Application
+      BUSINESS_CASE_ID: Business Case ID
+      CATEGORY: Category
+      COMPLETED: Completed Date
+      CREATED: Created Date
+      DESCRIPTION: Description
+      EXPIRY: Expiry
+      ID: Id
+      NAME: Name
+      PIN: Pin
+      PRIORITY: Priority
+      RESPONSIBLE: Responsible
+      START: Start
+      STATE: State
+      TECHNICAL_CASE_ID: Technical Case ID
+      WORKER: Working user
+    FilterOperator:
+      AFTER: Is After
+      BEFORE: Is Before
+      BETWEEN: Between
+      CONTAINS: Contains
+      CURRENT: Current
+      CURRENT_USER: Current user
+      CURRENT_USER_CAN_WORK_ON: Current user can work on
+      EMPTY: Is Empty
+      END_WITH: Ends With
+      EQUAL: Equal
+      GREATER: Greater
+      GREATER_OR_EQUAL: Greater or equal
+      IN: In
+      IS: Is
+      IS_NOT: Is Not
+      LAST: Within the last
+      LESS: Less
+      LESS_OR_EQUAL: Less or equal
+      NEXT: Within the next
+      NOT_BETWEEN: Not Between
+      NOT_CONTAINS: Doesn’t Contain
+      NOT_EMPTY: Is Not Empty
+      NOT_END_WITH: Doesn’t end with
+      NOT_EQUAL: Not equal
+      NOT_IN: Not In
+      NOT_START_WITH: Doesn’t start with
+      NO_CATEGORY: No Category
+      START_WITH: Starts With
+      TODAY: Today
+      YESTERDAY: Yesterday
+    FilterPeriodType:
+      DAY: Day
+      MONTH: Month
+      Plural:
+        DAY: Day(s)
+        MONTH: Month(s)
+        WEEK: Week(s)
+        YEAR: Year(s)
+      WEEK: Week
+      YEAR: Year
+    GlobalSearchScopeCategory:
+      CASES: Cases
+      PROCESSES: Processes
+      TASKS: Tasks
+    MenuKind:
+      DASHBOARD: Dashboard
+      EXTERNAL_LINK: External Link
+      MAIN_DASHBOARD: Main Dashboard
+      PROCESS: Process
+      PROCESS_LIST: Process list
+      STANDARD: Standard
+      STATIC_PAGE: Static Page
+      THIRD_PARTY: Third Party Application
+    MenuSource:
+      CALLABLE: Callable process
+      CUSTOM_MENU_CONFIGURATION: Configuration
+      DASHBOARD: Dashboard configuration
+      STANDARD: Built-in
+      THIRD_PARTY_APP_CONFIGURATION: Third-party application
+    SearchScopeCaseField:
+      CUSTOM: Custom string fields
+      DESCRIPTION: Description
+      NAME: Name
+    SearchScopeTaskField:
+      DESCRIPTION: Description
+      NAME: Name
+    SidebarMode:
+      CLICK: Click
+      HIDDEN: Hidden
+      HOVER: Hover
+      STICK: Stick
+    ThemeMode:
+      DARK: Dark
+      LIGHT: Light
+  Expand: Expand
+  Filters: Filters
+  General: General
+  Icon: Icon
+  InsertTask-Explain: Insert the task. My task will be postponed.
+  InsertTheTask: Insert the task
+  Login:
+    CompanyName: Axon Ivy Portal
+    Copyright: Copyright Ⓒ Axon Ivy Portal
+  Name: Name
+  Permissions: Permissions
+  PinnedCases: Pinned Cases
+  PinnedTasks: Pinned Tasks
+  Preview: Preview
+  RequiredFieldMessage: '{0}: Value is required'
+  Save: Save
+  SelectOperator: Select Operator
+  SelectValues: Select values
+  Share: Share
+  StepType: Step type
+  Submit: Submit
+  Task: Task
+  TaskItemDetail: Task Details
+  TaskUser-Explain: Comma separated list of users
+  ToggleMenu: Toggle menu
+  ViewAllResults: View all results
+  disabledUserPrefix: (disabled)
+patterns:
+  datePattern: dd.MM.yyyy
+  dateTimePattern: dd.MM.yyyy HH:mm
+  dateTimestampPattern: dd.MM.yyyy HH:mm:ss.SSS
+  monthDatePattern: MM.dd.yyyy
+  timePattern: HH:mm
+  timestampPattern: HH:mm:ss.SSS
+Processes:
+  Cases:
+    PortalCategory: Portal
+    PortalInternalProcess:
+      PortalInternalProcessDescription: This is an internal process of Portal
+    SynchronizeDataProcess:
+      AddOrUpdateBusinessEntitiesDescription: Add or update business entities
+      AddOrUpdateBusinessEntityDescription: Add or update a business entity
+      AddOrUpdatePropertyOfServerDescription: Add or update property of server
+      DeleteBusinessEntitiesDescription: Delete business entities
+      DeleteBusinessEntityByPrefixDescription: Delete business entity by property prefix
+      DeleteBusinessEntityDescription: Delete a business entity
+      DeletePropertiesOfServerDescription: Delete properties of server
+      DeletePropertyOfServerByPrefixDescription: Delete property of server by prefix
+      DeletePropertyOfServerDescription: Delete property of server
+      SynchronizeDataCaseName: Synchronize Data
+    SynchronizeServerProcess:
+      AddServerConfigDescription: Add server configuration
+      DeleteServerConfigurationDescription: Delete server configuration
+      SynchronizeServerConfigurationCaseName: Synchronize server configuration
+  portalHome: Portal Home
+  portalSettingSaved: Portal settings are saved
+Texts:
+  Approval-Explain: |+
+    <P>
+
+    <B>Enter your decision</B> and press <B>Send </B>to proceed the workflow.
+
+    </P>
+
+  QA-Explain: "<P>\n\nAnswer the question and <B>Send </B>your answer back to the caller. \n\n</P>\n\n"
+  QAresponse-Explain: |+
+    <P>
+
+    You can <B>Send</B> back a follow-up question or <B>Finish</B> the Workflow.
+
+    </P>
+
+  ToDo-Explain: |+
+    <P>
+
+    Confirm that the<B> TODO </B>is <B>Done</B> or decline it.
+
+    </P>
+

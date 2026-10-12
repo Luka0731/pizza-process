@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core"
+  xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="filter" type="com.axonivy.portal.dto.dashboard.filter.DashboardFilter" />
+  <cc:attribute name="componentToUpdate" required="true" />
+  <cc:attribute name="filterIndex" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="messageId" />
+  <cc:attribute name="operators" required="true" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="filter" value="#{cc.attrs.filter}" />
+  <c:set var="filterIndex" value="#{cc.attrs.filterIndex}" />
+  <c:set var="readOnly" value="#{cc.attrs.readOnly}" />
+  <c:set var="messageId" value="#{cc.attrs.messageId}" />
+
+  <h:panelGroup id="number-filter-operator-panel" layout="block"
+    styleClass="ui-fluid">
+      <p:selectOneMenu id="operator-selection" value="#{filter.operator}" disabled="#{readOnly}"
+        pt:aria-label="#{ivy.cms.co('/Labels/SelectOperator')}">
+        <f:selectItems value="#{cc.attrs.operators}" var="operator"
+          itemValue="#{operator}" itemLabel="#{operator.label}" />
+          <p:ajax event="itemSelect" listener="#{widgetNumberFilterBean.onChangeOperator(filter)}"
+            update="#{cc.attrs.componentToUpdate}" />
+          <f:param name="skipValidator" value="true" />
+      </p:selectOneMenu>
+  </h:panelGroup>
+
+  <h:panelGroup id="number-panel" layout="block"
+    rendered="#{widgetNumberFilterBean.renderSingleNumberFilter(filter)}"
+    styleClass="ui-fluid number-panel">
+    <p:inputNumber id="number" value="#{filter.value}" disabled="#{readOnly}"
+      maxValue="999999999.99"
+      minValue="-999999999.99"
+      onkeypress="if (event.keyCode == 13) { return false; }"
+      pt:aria-label="#{ivy.cms.co('/Labels/EnterValue')}">
+      <f:param name="skipValidator" value="true" />
+      <f:validator validatorId="dashboardNumberFilterValidator" disabled="#{param['skipValidator'] == 'true'}" />
+      <f:attribute name="filter" value="#{filter}" />
+      <f:attribute name="filterIndex" value="#{filterIndex}" />
+      <f:attribute name="locale" value="#{localeBean.locale}" />
+      <f:attribute name="messageId" value="#{messageId}" />
+      <p:ajax event="change" partialSubmit="true" global="false" />
+    </p:inputNumber>
+  </h:panelGroup>
+
+  <h:panelGroup id="between-number-panel-from" layout="block"
+    rendered="#{filter.operator == 'BETWEEN' || filter.operator == 'NOT_BETWEEN'}"
+    styleClass="ui-fluid number-panel">
+    <p:inputNumber id="from-number" value="#{filter.from}" disabled="#{readOnly}"
+      maxValue="999999999.99" minValue="-999999999.99"
+      onkeypress="if (event.keyCode == 13) { return false; }"
+      pt:aria-label="#{ivy.cms.co('/Labels/EnterFromValue')}">
+      <f:param name="skipValidator" value="true" />
+      <f:validator validatorId="dashboardNumberFilterValidator" disabled="#{param['skipValidator'] == 'true'}" />
+      <f:attribute name="filter" value="#{filter}" />
+      <f:attribute name="filterIndex" value="#{filterIndex}" />
+      <f:attribute name="locale" value="#{localeBean.locale}" />
+      <f:attribute name="messageId" value="#{messageId}" />
+      <p:ajax event="change" partialSubmit="true" global="false" />
+    </p:inputNumber>
+  </h:panelGroup>
+
+  <h:panelGroup id="between-number-panel-and" layout="block"
+    rendered="#{filter.operator == 'BETWEEN' || filter.operator == 'NOT_BETWEEN'}"
+    styleClass="and-text-panel">
+    <span>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/And')}</span>
+  </h:panelGroup>
+
+  <h:panelGroup id="between-number-panel-to" layout="block"
+    rendered="#{filter.operator == 'BETWEEN' || filter.operator == 'NOT_BETWEEN'}"
+    styleClass="ui-fluid number-panel">
+    <p:inputNumber id="to-number" value="#{filter.to}" disabled="#{readOnly}"
+      maxValue="999999999.99"
+      minValue="-999999999.99"
+      onkeypress="if (event.keyCode == 13) { return false; }"
+      pt:aria-label="#{ivy.cms.co('/Labels/EnterToValue')}">
+      <f:param name="skipValidator" value="true" />
+      <f:validator validatorId="dashboardNumberFilterValidator" disabled="#{param['skipValidator'] == 'true'}" />
+      <f:attribute name="filter" value="#{filter}" />
+      <f:attribute name="filterIndex" value="#{filterIndex}" />
+      <f:attribute name="locale" value="#{localeBean.locale}" />
+      <f:attribute name="messageId" value="#{messageId}" />
+      <p:ajax event="change" partialSubmit="true" global="false" />
+    </p:inputNumber>
+  </h:panelGroup>
+
+</cc:implementation>
+
+</html>

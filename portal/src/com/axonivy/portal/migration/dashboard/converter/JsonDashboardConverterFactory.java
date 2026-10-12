@@ -1,0 +1,44 @@
+package com.axonivy.portal.migration.dashboard.converter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.axonivy.portal.bo.jsonversion.AbstractJsonVersion;
+import com.axonivy.portal.migration.common.AbstractJsonConverterFactory;
+import com.axonivy.portal.migration.common.IJsonConverter;
+
+public class JsonDashboardConverterFactory extends AbstractJsonConverterFactory {
+
+  private static final List<IJsonConverter> CONVERTERS = new ArrayList<>();
+
+  public static List<IJsonConverter> getConverters(AbstractJsonVersion version) {
+    return selectConverters(CONVERTERS, version);
+  }
+
+  private static final List<IJsonConverter> LE112 = List.of(
+      new com.axonivy.portal.migration.dashboard.converter.v112.DashboardCaseWidgetConverter(),
+      new com.axonivy.portal.migration.dashboard.converter.v112.DashboardTaskWidgetConverter());
+
+  private static final List<IJsonConverter> LE113 = List.of(
+      new com.axonivy.portal.migration.dashboard.converter.v113.DashboardCaseWidgetConverter(),
+      new com.axonivy.portal.migration.dashboard.converter.v113.DashboardTaskWidgetConverter());
+  
+  private static final List<IJsonConverter> LE120 = List
+      .of(new com.axonivy.portal.migration.dashboard.converter.v120.DashboardProcessWidgetConverter(),
+          new com.axonivy.portal.migration.dashboard.converter.v120.DashboardStatisticWidgetConverter());
+  
+  private static final List<IJsonConverter> LE131 = List
+      .of(new com.axonivy.portal.migration.dashboard.converter.v131.DashboardConverter());
+
+  private static final List<IJsonConverter> LE140 = List
+      .of(new com.axonivy.portal.migration.dashboard.converter.v140.DashboardTaskWidgetFilterTypeConverter(),
+          new com.axonivy.portal.migration.dashboard.converter.v140.DashboardConverter());
+
+  static {
+    CONVERTERS.addAll(LE112);
+    CONVERTERS.addAll(LE113);
+    CONVERTERS.addAll(LE120);
+    CONVERTERS.addAll(LE131);
+    CONVERTERS.addAll(LE140);
+  }
+}

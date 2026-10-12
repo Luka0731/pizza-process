@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core">
+<!--  dashboardProcessBean: ch.ivy.addon.portalkit.bean.DashboardProcessBean -->
+<!--  process: ch.ivy.addon.portalkit.dto.dashboard.process.DashboardProcess -->
+<ui:composition>
+  <c:set var="isExternalLink" value="#{dashboardProcessBean.isExternalLink(process)}" />
+  <c:set var="isCaseMap" value="#{dashboardProcessBean.isCaseMap(process)}" />
+  <c:set var="isDefaultProcessImage" value="#{dashboardProcessBean.isDefaultProcessImage(process.imageUrl)}" />
+
+  <h:panelGroup layout="block" styleClass=" widget-content image-process-item widget-height-100" rendered="#{not empty process}" >
+    <div class="card-item card image-widget-mode js-image-widget-mode ui-g-12 u-padding-0 ">
+      <div class="image-process-item-container js-image-process-item-container">
+        <h:form id="image-view-action-group-form" styleClass="image-view-action-group-form">
+          <ic:ch.ivy.addon.portalkit.component.process.ProcessItemAction id="image-process-action-component" process="#{process}"
+            widget="#{widget}"
+            canModify="#{!isInConfiguration and !isReadOnlyMode}"
+            canClone="#{!isInConfiguration and !isReadOnlyMode}"
+            actionListenerOnEditProcess="#{dashboardDetailModificationBean.prepareEditWidget(widget)}"
+            onCompleteEditProcess="PF('new-widget-configuration-dialog').show()"
+            componentToUpdateOnEditProcess="new-widget-configuration-dialog"
+            actionListenerOnDeleteProcess="#{dashboardDetailModificationBean.setDeleteWidget(widget)}"
+            onCompleteDeleteProcess="PF('remove-widget-dialog').show()"
+            componentToUpdateOnDeleteProcess="remove-widget-dialog"
+            outlinedButtonStyle="false"
+            hideActionButton="#{isInConfiguration}"
+            isInConfiguration="#{isInConfiguration}"
+            isReadOnlyMode="#{isReadOnlyMode}"
+            isDashboardProcessWidget="true"
+            isInProcessList="false" />
+        </h:form>
+
+        <h:panelGroup rendered="#{isDefaultProcessImage}">
+          <img class="image-process-item-image default-image-mode-process"
+            alt="#{process.getName()}" src="#{process.imageUrl}" />
+          <img class="image-process-item-image default-image-mode-process-dark"
+            alt="#{process.getName()}"
+            name="#{process.imageUrl}" src="#{process.defaultImageDarkUrl}"/>
+        </h:panelGroup>
+        <p:graphicImage rendered="#{!isDefaultProcessImage}"
+          cache="true" styleClass="image-process-item-image process-item-image"
+          alt="#{process.getName()}" library="ivy-cms"
+          name="#{process.imageUrl}" />
+      </div>
+    
+     <h:form id="process-item" target="#{dashboardProcessBean.targetToStartProcess(process)}" styleClass="image-view-form #{isExternalLink ? 'is-external-link' : ''}">
+            <div class="process-name js-process-start-list-item-name">
+              <h:outputText id="process-item-name" value="#{process.getName()}" styleClass=" process-image-view-name" />
+            </div>
+            <p:tooltip for="process-item-name" value="#{process.getName()}" position="top" trackMouse="true" hideEvent="mouseleave click" styleClass="process-tooltip"/>
+
+         <div class="process-description js-process-description">
+          <h:outputText id="process-description" value="#{not empty process.description ? process.description : ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noProcessDescription')}"
+            styleClass="process-item-description js-process-item-description" />
+          <p:tooltip id="info-workflow-tooltip" for="process-description" value="#{process.description}" position="top" trackMouse="true" hideEvent="mouseleave click"
+            styleClass="js-process-start-list-item-description process-tooltip" />
+        </div>
+
+        <!-- Start process -->
+        <div class="ui-g-12 image-process-actions" id="process-actions">
+          <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/startProcess')}" styleClass="process-start-action"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/startProcess')} #{widget.process.name}"
+            id="start-button" actionListener="#{dashboardProcessBean.startProcess(process)}" icon="ti ti-chevron-right"
+            ajax="#{!isExternalLink}" iconPos="right"
+            disabled="#{!isReadOnlyMode or isInConfiguration}" />
+        </div>
+        
+      </h:form>
+    </div>
+  </h:panelGroup>
+
+</ui:composition>
+</html>

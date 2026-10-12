@@ -1,0 +1,267 @@
+/**
+ * Sometimes we need a universal class that can be used in any component. 
+ * Things like clear fixes, vertical alignment, and text truncation.
+ * Denote these classes by prefixing them with .u-.
+ *
+ * All the utils should be in a single file. There should not be any need to overwrite them in components or mixins.
+ *
+ * You should really only need a few utilities. 
+ * We do not need something like .u-float-left { float: left; } where including float: left; in the component is just as easy
+ * and more visible.
+ */
+.u-truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.u-hover-effect {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.u-hover-no-underline:hover{
+  text-decoration: none !important;
+}
+
+.u-hover-effect:hover {
+  opacity: 0.8;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.u-shadow-effect {
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(43, 59, 93, 0.4);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(43, 59, 93, 0.4);
+  box-shadow: 0px 1px 3px 0px rgba(43, 59, 93, 0.4);
+}
+
+.u-no-border {
+  border: none !important;
+}
+
+.u-invisibility {
+  visibility: hidden;
+}
+
+.u-mar-right-2 {
+  margin-right: 2px !important;
+}
+
+.u-mar-right-5 {
+  margin-right: 5px !important;
+}
+
+.u-mar-right-10 {
+  margin-right: 10px;
+}
+
+.u-mar-right-15 {
+  margin-right: 15px !important;
+}
+
+.u-mar-right-20 {
+  margin-right: 20px !important;
+}
+
+.u-padding-0 {
+  padding: 0 !important;
+}
+
+.u-padding-right-5 {
+  padding-right: 5px !important;
+}
+
+.u-padding-right-10 {
+  padding-right: 10px !important;
+}
+
+.u-no-padding-top {
+  padding-top: 0 !important;
+}
+
+.u-no-padding-bottom {
+  padding-bottom: 0 !important;
+}
+
+@media ( max-width : 767px) {
+  .u-no-padding-bottom-sm-down {
+    padding-bottom: 0 !important;
+  }
+}
+
+.u-no-padding-left {
+  padding-left: 0 !important;
+}
+
+.u-no-padding-right {
+  padding-right: 0 !important;
+}
+
+.u-font-bold {
+  font-weight: bold !important;
+}
+
+@media screen and (min-width: 40em) {
+  .ui-sm-hidden-op {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 40em) {
+  .ui-sm-hidden {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 40.063em) and (max-width: 64.062em) {
+  .ui-md-hidden {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 64.063em) and (max-width: 90.062em) {
+  .ui-lg-hidden {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 90.063em) {
+  .ui-xl-hidden {
+    display: none !important;
+  }
+}
+
+@media ( max-width : 575px) {
+  .u-hidden-xs-down {
+    display: none !important;
+  }
+  .u-visibility-hidden-xs-down {
+    visibility: hidden;
+  }
+  .height-100{
+    height:100% !important;
+  }
+}
+
+@media ( min-width : 576px) {
+  .u-hidden-sm-up {
+    display: none !important;
+  }
+}
+
+@media ( max-width : 767px) {
+  .u-hidden-sm-down {
+    display: none !important;
+  }
+}
+
+@media ( min-width : 768px) {
+  .u-hidden-md-up {
+    display: none !important;
+  }
+}
+
+@media ( max-width : 991px) {
+  .u-hidden-md-down {
+    display: none !important;
+  }
+}
+
+@media ( min-width : 992px) {
+  .u-hidden-lg-up {
+    display: none !important;
+  }
+}
+
+@media ( max-width : 1199px) {
+  .u-hidden-lg-down {
+    display: none !important;
+  }
+}
+
+@media ( min-width : 1200px) {
+  .u-hidden-xl-up {
+    display: none !important;
+  }
+}
+
+@media ( max-width : 1024px) {
+  .u-hidden-1024-down {
+    display: none !important;
+  }
+}
+
+@media ( min-width : 1025px) {
+  .u-hidden-1024-up {
+    display: none !important;
+  }
+}
+
+.MarLeft10 {
+  margin-left: 10px;
+}
+
+.MarTop20 {
+  margin-top: 20px;
+}
+
+.Fleft {
+  float: left;
+}
+
+.Fright {
+  float: right;
+}
+
+.Separator {
+  border-bottom: solid 1px #E0E0E0;
+  width: 100%;
+  overflow: hidden;
+  height: 0px;
+  margin: 10px 0px;
+  clear: both;
+}
+
+.MarTop0 {
+  margin-top: 0 !important;
+}
+
+.MarTop5 {
+  margin-top: 5px !important;
+}
+
+.MarTop10 {
+  margin-top: 10px !important;
+}
+
+.u-default-cursor {
+  cursor: default;
+}
+
+.display-flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.display-inline-flex-center {
+  display: inline-flex;
+  align-items: center;
+}
+
+.u-dialog-footer-actions-group {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: .5em;
+  margin-top: 10px;
+}

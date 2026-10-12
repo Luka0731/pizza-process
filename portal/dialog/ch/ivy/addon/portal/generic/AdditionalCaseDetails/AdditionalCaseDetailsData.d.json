@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "AdditionalCaseDetailsData",
+  "namespace" : "ch.ivy.addon.portal.generic.AdditionalCaseDetails",
+  "fields" : [ {
+    "name" : "selectedCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="dataModel" type="ch.ivy.addon.portalkit.datamodel.TaskLazyDataModel" />
+</cc:interface>
+
+<cc:implementation>
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="priority-column-header" styleClass="text-center white-space-nowrap"
+    responsiveStyleClass="u-visibility-hidden-xs-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/abbreviation/PRIORITY')}"
+    sortField="#{masterDataBean.taskSortFieldPriority}" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="name-column-header"
+    styleClass="task-start-info-header-full-mode"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/NAME')}"
+    sortField="#{masterDataBean.taskSortFieldName}" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="responsible-column-header"
+    responsiveStyleClass="u-hidden-md-down js-hidden-when-expand-menu"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/ACTIVATOR')}"
+    sortField="#{masterDataBean.taskSortFieldActivator}" sortable="false" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="id-column-header" styleClass="text-center"
+    responsiveStyleClass="u-hidden-sm-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/ID')}"
+    sortField="#{masterDataBean.taskSortFieldId}" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="create-column-header" styleClass="text-center"
+    responsiveStyleClass="u-hidden-md-down js-hidden-when-expand-menu"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/create')}"
+    sortField="#{masterDataBean.taskSortFieldCreationTime}" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="expiry-column-header" styleClass="text-center"
+    responsiveStyleClass="u-hidden-sm-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/EXPIRY_TIME')}"
+    sortField="#{masterDataBean.taskSortFieldExpiryTime}" />
+    
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="completed-on-column-header" styleClass="text-center"
+    responsiveStyleClass="u-hidden-sm-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/COMPLETED_ON')}"
+    sortField="#{masterDataBean.taskSortFieldCompletedTime}" />
+
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="state-column-header" styleClass="text-center"
+    responsiveStyleClass="u-hidden-sm-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/STATE')}"
+    sortField="#{masterDataBean.taskSortFieldState}" />
+    
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="category-column-header" 
+    responsiveStyleClass="u-hidden-md-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/CATEGORY')}"
+    sortField="#{masterDataBean.taskSortFieldCategory}" sortable="false"/>
+    
+  <ic:ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader dataModel="#{cc.attrs.dataModel}"
+    componentId="application-column-header" 
+    responsiveStyleClass="u-hidden-md-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/APPLICATION')}"
+    sortField="#{masterDataBean.taskSortFieldApplication}" sortable="false"/>
+</cc:implementation>
+</html>

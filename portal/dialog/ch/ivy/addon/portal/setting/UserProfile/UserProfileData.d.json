@@ -1,0 +1,43 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "UserProfileData",
+  "namespace" : "ch.ivy.addon.portal.setting.UserProfile",
+  "fields" : [ {
+    "name" : "language",
+    "type" : "ch.ivy.addon.portalkit.ivydata.bo.IvyLanguage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedHomepage",
+    "type" : "ch.addon.portal.generic.userprofile.homepage.Homepage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "homepages",
+    "type" : "java.util.List<ch.addon.portal.generic.userprofile.homepage.Homepage>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedDateFormat",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dateFormats",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "processModes",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedProcessMode",
+    "modifiers" : [ ]
+  }, {
+    "name" : "queryLanguage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "formatLanguages",
+    "type" : "java.util.List<jakarta.faces.model.SelectItem>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isShortcutEnabled",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

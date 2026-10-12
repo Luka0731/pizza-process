@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:cc="jakarta.faces.composite"
+      xmlns:c="jakarta.tags.core"
+      xmlns:p="primefaces">
+
+<cc:interface componentType="IvyComponent">
+    <cc:attribute name="case" required="true" type="ch.ivyteam.ivy.workflow.ICase" />
+</cc:interface>
+
+<cc:implementation>
+    <c:set var="isPinned" value="#{caseBean.isPinnedCase(cc.attrs.case)}" />
+
+    <h:form id="pin-form">
+        <p:commandLink 
+            ariaLabel="#{isPinned ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/unpinCaseContext', [cc.attrs.case.name]) : ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/pinCaseContext', [cc.attrs.case.name])}"
+            action="#{caseBean.clickOnPinCase(cc.attrs.case)}" 
+            update="@form"
+            style="display: block; width: 100%; height: 100%; text-decoration: none;"
+            onmouseover="this.style.textDecoration='none';"
+            onmouseout="this.style.textDecoration='none';"
+            styleClass="case-header-default-cell pin-column flex align-items-center justify-content-center h-full text-center">
+
+            <i class="#{isPinned ? 'tif tif-pin' : 'ti ti-pin'}" />
+
+            <p:tooltip for="@this" 
+                       value="#{isPinned ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/unpin') : ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/pin')}" 
+                       trackMouse="true" 
+                       hideEvent="mouseleave click" />
+        </p:commandLink>
+    </h:form>
+</cc:implementation>
+</html>

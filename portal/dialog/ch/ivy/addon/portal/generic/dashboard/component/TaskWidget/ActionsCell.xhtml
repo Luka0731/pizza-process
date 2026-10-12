@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces">
+  <h:panelGroup styleClass="action-container" rendered="#{!cc.attrs.isAIResult}">
+    <ic:ch.ivy.addon.portalkit.component.SideStep id="dashboard-actions-task-#{cc.attrs.taskWidget.id}" actionLinkId="dashboard-task-side-steps-menu"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/taskActionMenuContext', [task.names().current()])}"
+        panelWidgetVar="dashboard-task-side-steps-panel-#{cc.attrs.clientId}-#{cc.attrs.taskWidget.id}-#{rowIndex}" renderedAdditionalAction="#{taskActionBean.showAdditionalOptions(task)}"
+        buttonStyleClass="dashboard-side-steps-menu-button portal-icon-btn--sm" showDetailOption="true" destroyTaskDialogComponent="#{destroyTaskDialogComponent}"
+        task="#{task}" componentToUpdate="#{cc.attrs.componentToUpdateTaskWidget}" onCustomFieldsDialogComplete="initCustomFieldTaskListData()"
+        onDestroyComplete="PF('destroy-task-dialog').show()"
+        onDelegateComplete="initDataToDelegate()"
+        onEscalationComplete="PF('escalation-task-dialog').show()"
+        onWorkflowEventComplete="initWorkflowEventData()"
+        sideStepsPanelStyleClass="js-task-side-steps-panel-#{cc.attrs.taskWidget.id}-#{rowIndex}"
+        isPreviewMode="#{cc.attrs.isPreviewMode}" 
+        isDisabled="#{isDisableActions}"/>
+  </h:panelGroup>
+
+  <h:panelGroup styleClass="action-container" rendered="#{cc.attrs.isAIResult}">
+    <p:link disabled="#{!cc.attrs.isAIResult}" target="_blank"
+      href="#{assistantResultBean.generateLinkToTaskDetails(task)}"
+      styleClass="action-link #{cc.attrs.buttonStyleClass} portal-icon">
+      <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/detail')}" styleClass="task-action-item-label" />
+    </p:link>
+  </h:panelGroup>
+</html>

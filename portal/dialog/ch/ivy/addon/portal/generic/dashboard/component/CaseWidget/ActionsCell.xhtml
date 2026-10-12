@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces">
+  <h:panelGroup styleClass="action-container" rendered="#{!cc.attrs.isAIResult}">
+    <ic:ch.ivy.addon.portalkit.component.ActionStep id="dashboard-actions-case-#{cc.attrs.caseWidget.id}" actionLinkId="dashboard-case-side-steps-menu"
+       buttonStyleClass="dashboard-side-steps-menu-button portal-icon-btn--sm"
+       panelWidgetVar="dashboard-case-side-steps-panel-#{cc.attrs.clientId}-#{cc.attrs.caseWidget.id}-#{rowIndex}" case="#{caseItem}" renderShowDetailAction="true"
+       destroyCaseDialogComponent="destroy-case-confirmation-dialog"
+       update="#{cc.attrs.componentToUpdateCaseWidget}" onDestroyComplete="PF('destroy-case-dialog').show()"
+       stepsPanelStyleClass="js-case-side-steps-panel-#{cc.attrs.caseWidget.id}-#{rowIndex}"
+       isPreviewMode="#{cc.attrs.isPreviewMode}"
+       ariaLabel="#{ariaLabel}"/>
+  </h:panelGroup>
+  <h:panelGroup styleClass="action-container" rendered="#{cc.attrs.isAIResult}">
+    <p:link disabled="#{!cc.attrs.isAIResult}" target="_blank"
+      href="#{assistantResultBean.generateLinkToCaseDetails(caseItem)}"
+      styleClass="action-link #{cc.attrs.buttonStyleClass} portal-icon">
+      <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/detail')}" styleClass="task-action-item-label" />
+    </p:link>
+  </h:panelGroup>
+</html>

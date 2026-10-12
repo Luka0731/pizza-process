@@ -1,0 +1,25 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "GetDocumentListData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "businessCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  }, {
+    "name" : "documents",
+    "type" : "java.util.List<com.axonivy.portal.components.ivydata.bo.IvyDocument>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "hasCustomProcess",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "status",
+    "type" : "com.axonivy.portal.components.enums.UploadDocumentCheckStatus",
+    "modifiers" : [ ]
+  } ]
+}

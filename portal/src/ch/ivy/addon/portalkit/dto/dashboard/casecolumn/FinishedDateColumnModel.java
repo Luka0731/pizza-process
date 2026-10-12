@@ -1,0 +1,68 @@
+package ch.ivy.addon.portalkit.dto.dashboard.casecolumn;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
+
+import com.axonivy.portal.components.util.FacesMessageUtils;
+
+import ch.ivy.addon.portalkit.enums.DashboardColumnFormat;
+import ch.ivy.addon.portalkit.enums.DashboardStandardCaseColumn;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.workflow.ICase;
+
+public class FinishedDateColumnModel  extends CaseColumnModel {
+
+  private static final long serialVersionUID = -1044297302783214986L;
+
+  @Override
+  public void initDefaultValue() {
+    super.initDefaultValue();
+    this.field = DashboardStandardCaseColumn.FINISHED.getField();
+    this.styleClass = defaultIfEmpty(this.styleClass, getDefaultStyleClass());
+    this.format = getDefaultFormat();
+    this.styleToDisplay = initDefaultStyle();
+  }
+
+  @Override
+  public String getDefaultHeaderCMS() {
+    return "/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/FINISHED_TIME";
+  }
+
+  @Override
+  public DashboardColumnFormat getDefaultFormat() {
+    return DashboardColumnFormat.TIMESTAMP;
+  }
+
+  @Override
+  public String getDefaultStyleClass() {
+    return "dashboard-cases__finished-date text-center";
+  }
+
+  @Override
+  public Object display(ICase caze) {
+    if (caze == null) {
+      return null;
+    }
+    return caze.getEndTimestamp();
+  }
+
+  @Override
+  public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    if (value != null) {
+      LocalDate inputDate = Instant.ofEpochMilli(((Date) value).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+      if (inputDate.getYear() > 9999) {
+        String message = Ivy.cms().co("/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/WrongDateFormat");
+        var faceMessage = FacesMessageUtils.sanitizedMessage(FacesMessage.SEVERITY_ERROR, message, null);
+        FacesContext.getCurrentInstance().validationFailed();
+        throw new ValidatorException(faceMessage);
+      }
+    }
+  }
+}

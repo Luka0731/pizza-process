@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "BuildCaseQueryData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "caseQuery",
+    "type" : "ch.ivyteam.ivy.workflow.query.CaseQuery",
+    "modifiers" : [ ]
+  } ]
+}

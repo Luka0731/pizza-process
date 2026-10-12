@@ -1,0 +1,92 @@
+package com.axonivy.portal.bean.dashboard.filter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.axonivy.portal.dto.dashboard.filter.DashboardFilter;
+import com.axonivy.portal.util.filter.DefaultFilterChipLabelBuilder;
+import com.axonivy.portal.util.filter.field.FilterField;
+import com.axonivy.portal.util.filter.field.TaskFilterFieldFactory;
+
+import ch.ivy.addon.portalkit.constant.PortalConstants;
+import ch.ivy.addon.portalkit.dto.dashboard.CaseDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget;
+import ch.ivy.addon.portalkit.service.WidgetFilterService;
+
+@Named
+@ViewScoped
+public class TaskWidgetUserFilterBean extends AbstractTaskWidgetFilterBean {
+
+  private static final long serialVersionUID = 2329063671455796253L;
+
+  private List<DashboardFilter> originalUserFilters;
+
+  @Override
+  public void preRender(TaskDashboardWidget widget) {
+    super.preRender(widget);
+    initUserFilters();
+    widget.setInConfiguration(false);
+    originalUserFilters = widget.getUserFilters();
+  }
+
+  private void initUserFilters() {
+    if (CollectionUtils.isEmpty(Optional.ofNullable(this.widget).map(TaskDashboardWidget::getUserFilters).get())) {
+      return;
+    }
+
+    // Remove user filters which are not in filterable columns anymore
+    WidgetFilterService.pruneInvalidUserFilters(this.widget);
+
+    for (DashboardFilter filter : this.widget.getUserFilters()) {
+      if (Optional.ofNullable(filter).map(DashboardFilter::getFilterType)
+          .isEmpty()) {
+        return;
+      }
+
+      FilterField filterField = TaskFilterFieldFactory
+          .findBy(this.widget.getId(), Optional.ofNullable(filter).map(DashboardFilter::getField)
+              .orElse(""), filter.getFilterType());
+      if (filterField != null) {
+        filterField.initFilter(filter);
+      }
+    }
+  }
+
+  @Override
+  public void removeFilter(TaskDashboardWidget widget, DashboardFilter filter) {
+    widget.getUserFilters().remove(filter);
+    widget.getUserFilterCollection().getSelectedWidgetFilters().clear();
+  }
+
+  @Override
+  public void addNewFilter(TaskDashboardWidget widget) {
+    if (widget.getUserFilters() == null) {
+      widget.setUserFilters(new ArrayList<>());
+    }
+
+    DashboardFilter newFilter = new DashboardFilter();
+    newFilter.setTemp(true);
+    widget.getUserFilters().add(newFilter);
+  }
+
+  public void onCancelUserFilters() {
+    widget.setUserFilters(originalUserFilters);
+  }
+
+  @Override
+  public void resetTaskWidgetFilter(TaskDashboardWidget widget) { }
+
+  @Override
+  public void resetCaseWidgetFilter(CaseDashboardWidget widget) { }
+
+  public List<String> getDefaultFilterChipLabels() {
+    return widget == null ? List.of()
+        : DefaultFilterChipLabelBuilder.build(widget.getFilters(), PortalConstants.TASK);
+  }
+}

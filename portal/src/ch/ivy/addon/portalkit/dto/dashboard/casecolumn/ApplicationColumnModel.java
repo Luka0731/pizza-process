@@ -1,0 +1,81 @@
+package ch.ivy.addon.portalkit.dto.dashboard.casecolumn;
+
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ch.ivy.addon.portalkit.dto.dashboard.CaseDashboardWidget;
+import ch.ivy.addon.portalkit.enums.DashboardColumnFormat;
+import ch.ivy.addon.portalkit.enums.DashboardStandardCaseColumn;
+import ch.ivyteam.ivy.application.app.Application;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.workflow.ICase;
+
+public class ApplicationColumnModel extends CaseColumnModel {
+  private static final long serialVersionUID = 6708953330031478257L;
+
+  @Override
+  public void initDefaultValue() {
+    super.initDefaultValue();
+    this.field = DashboardStandardCaseColumn.APPLICATION.getField();
+    this.styleToDisplay = initDefaultStyle();
+    this.styleClass = defaultIfEmpty(this.styleClass, getDefaultStyleClass());
+    this.format = DashboardColumnFormat.CUSTOM;
+    this.quickSearch = defaultIfEmpty(this.quickSearch, false);
+  }
+  
+  @Override
+  public String getDefaultHeaderCMS() {
+    return "/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/APPLICATION";
+  }
+  
+  @Override
+  public Object display(ICase iCase) {
+    if (iCase == null) {
+      return null;
+    }
+    return iCase.getApplication().name();
+  }
+  
+  @JsonIgnore
+  public List<String> getApplications() {
+    return ApplicationRepository.of(ISecurityContext.current()).all().map(Application::name).toList();
+  }
+  
+  @JsonIgnore
+  public void setApplications(List<String> applications) {
+    this.filterList = applications;
+  }
+  
+  @Override
+  public Boolean getDefaultSortable() {
+    return false;
+  }
+  
+  public void updateApplications(CaseDashboardWidget widget) {
+  }
+  public void initializeApplications(CaseDashboardWidget widget) {
+  }
+  
+  @Override
+  public List<String> getUserFilterListOptions(){
+    if (CollectionUtils.isEmpty(this.userFilterListOptions)) {
+      this.userFilterListOptions = getApplications();
+    }
+    
+    return this.userFilterListOptions;
+  }
+  
+  @Override
+  public boolean canQuickSearch() {
+    return true;
+  }
+
+  @Override
+  public String getDefaultStyleClass() {
+    return "dashboard-tasks__priority text-center";
+  }
+}

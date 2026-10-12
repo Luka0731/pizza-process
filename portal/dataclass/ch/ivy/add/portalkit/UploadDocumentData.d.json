@@ -1,0 +1,44 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "UploadDocumentData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "businessCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  }, {
+    "name" : "status",
+    "type" : "com.axonivy.portal.components.enums.UploadDocumentCheckStatus",
+    "modifiers" : [ ]
+  }, {
+    "name" : "uploadedDocument",
+    "type" : "ch.ivyteam.ivy.workflow.document.IDocument",
+    "modifiers" : [ ]
+  }, {
+    "name" : "uploadedFile",
+    "type" : "org.primefaces.model.file.UploadedFile",
+    "modifiers" : [ ]
+  }, {
+    "name" : "enableVirusScannerForUploadedDocument",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "enableScriptCheckingForUploadedDocument",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "allowedUploadFileTypes",
+    "modifiers" : [ ]
+  }, {
+    "name" : "hasCustomProcess",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isEncrypted",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

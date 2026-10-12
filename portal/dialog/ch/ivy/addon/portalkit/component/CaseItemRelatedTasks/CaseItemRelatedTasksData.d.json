@@ -1,0 +1,85 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaseItemRelatedTasksData",
+  "namespace" : "ch.ivy.addon.portalkit.component.CaseItemRelatedTasks",
+  "fields" : [ {
+    "name" : "caze",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isTaskFinished",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isWorkingOnTask",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "inFrame",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "canUserResumeTask",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "currentPortalPage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedTask",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "comment" : "Task is selected for reset or delegate",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.internal.RelatedTaskLazyDataModel",
+    "modifiers" : [ ]
+  }, {
+    "name" : "relatedTaskColumnsVisibility",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "exportedFile",
+    "type" : "org.primefaces.model.StreamedContent",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taskSearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.TaskSearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "totalTasks",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "loopCounter",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "maxResultNumberPerQuery",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "collectedTasksForExporting",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "count",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "startIndex",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "tasks",
+    "type" : "List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taskUUID",
+    "modifiers" : [ ]
+  } ]
+}

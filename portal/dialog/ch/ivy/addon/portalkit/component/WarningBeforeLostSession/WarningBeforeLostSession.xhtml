@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="serverSideTimeout" />
+  <cc:attribute name="task" />
+</cc:interface>
+<cc:implementation>
+  <c:set var="task" value="#{not empty cc.attrs.task ? cc.attrs.task : ivy.task}" />
+  <c:set var="isPortalInTeams" value="#{masterDataBean.portalInTeams}" />
+  <h:outputScript library="js" name="session-warning.js" />
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="timeout-warning-dialog" />
+    <ui:param name="widgetVar" value="timeout-warning-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-alert-triangle" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/warning')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/warningBeforeLostSession/warningMessage')}" />
+
+    <ui:define name="dialogFooter">
+      <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/warningBeforeLostSession/refreshSession')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/warningBeforeLostSession/refreshSession')}"
+        styleClass="w-full" onclick="PortalSessionWarning.keepPortalAlive(); return false;" />
+    </ui:define>
+  </ui:decorate>
+
+  <c:set var="sessionExpriedMsg" value="#{isPortalInTeams ? '/ch.ivy.addon.portalkit.ui.jsf/common/sessionExpriedInTeams' : '/ch.ivy.addon.portalkit.ui.jsf/common/viewExpired'}" />
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="timeout-dialog" />
+    <ui:param name="widgetVar" value="timeout-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-alert-triangle" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/warning')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co(sessionExpriedMsg)}" />
+
+    <ui:define name="dialogFooter">
+      <p:commandButton rendered="#{!isPortalInTeams}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ok')}" onclick="redirectDefaultPage();"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ok')}"
+        icon="#{visibilityBean.generateButtonIcon('ti ti-check')}" type="button" />
+    </ui:define>
+  </ui:decorate>
+
+  <h:form>
+
+    <p:remoteCommand name="keepSession" global="false" process="@this" update="@this"
+      actionListener="#{logic.extendSession}" />
+  </h:form>
+  <script type="text/javascript">
+      $(function() { 
+        PortalSessionWarning.init(#{cc.attrs.serverSideTimeout});
+      });
+    </script>
+
+</cc:implementation>
+</html>

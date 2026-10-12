@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "ProcessServiceData",
+  "namespace" : "ch.ivyteam.wf.processes",
+  "fields" : [ {
+    "name" : "processes",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.start.IWebStartable>",
+    "modifiers" : [ ]
+  } ]
+}

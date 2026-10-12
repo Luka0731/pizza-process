@@ -1,0 +1,26 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaculateTaskDelegateData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "currentUser",
+    "type" : "com.axonivy.portal.components.dto.SecurityMemberDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "users",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.UserDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "roles",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.RoleDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "hasCustomProcess",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core">
+<!-- isPublicDashboard: java.lang.Boolean -->
+  <div class="ui-g">
+    <div class="ui-g-12 dashboard-configuration__sub-header">
+      <span class="sub-title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/SelectAction')}</span>
+    </div>
+    <c:set var="selectedDashboardTypeStyleClass" value="#{isPublicDashboard ? 'js-public-dashboard':'js-private-dashboard'}" scope="request"/>
+
+    <div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+      <p:commandLink id="create-dashboard-action" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/add')}"
+        styleClass="dashboard-action-container #{selectedDashboardTypeStyleClass}"
+        actionListener="#{dashboardConfigurationBean.addNewDashboard(isPublicDashboard)}"
+        update="dashboard-configuration-content">
+        <div class="dashboard-action__icon">
+          <span class="ti ti-plus dashboard-action-container-icon" />
+        </div>
+        <div class="dashboard-action__text">
+          <h:outputText styleClass="dashboard-action-container-label" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/add')}" />
+          <h:outputText styleClass="dashboard-action-container-description"
+            value="#{ivy.cms.co(isPublicDashboard? '/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/CreateNewPublicDashboard':'/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/NewPrivateDashboard')}"/>
+        </div>
+      </p:commandLink>
+    </div>
+    <div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+      <p:commandLink id="edit-dashboard-action" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"
+        styleClass="dashboard-action-container #{selectedDashboardTypeStyleClass}"
+        actionListener="#{dashboardConfigurationBean.accessToEditDashboard(isPublicDashboard)}"
+        update="dashboard-configuration-content">
+        <div class="dashboard-action__icon">
+          <span class="ti ti-pencil dashboard-action-container-icon" />
+        </div>
+        <div class="dashboard-action__text">
+          <h:outputText styleClass="dashboard-action-container-label" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}" />
+          <h:outputText styleClass="dashboard-action-container-description"
+            value="#{ivy.cms.co(isPublicDashboard ? '/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/EditPublicDashboards':'/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/EditPrivateDashboards')}"/>
+        </div>
+      </p:commandLink>
+    </div>
+    <div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+      <p:commandLink id="reorder-dashboard-action" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reorder')}"
+        styleClass="dashboard-action-container #{selectedDashboardTypeStyleClass}"
+        actionListener="#{dashboardConfigurationBean.accessToReorderDashboard(isPublicDashboard)}"
+        update="dashboard-configuration-content">
+        <div class="dashboard-action__icon">
+          <span class="ti ti-arrows-vertical dashboard-action-container-icon" />
+        </div>
+        <div class="dashboard-action__text">
+          <h:outputText styleClass="dashboard-action-container-label" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reorder')}" />
+          <h:outputText styleClass="dashboard-action-container-description"
+            value="#{ivy.cms.co(isPublicDashboard ? '/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/ReorderPublicDashboards':'/ch.ivy.addon.portalkit.ui.jsf/dashboard/DashboardConfiguration/ReorderPrivateDashboards')}"/>
+        </div>
+      </p:commandLink>
+    </div>
+  </div>
+
+</html>

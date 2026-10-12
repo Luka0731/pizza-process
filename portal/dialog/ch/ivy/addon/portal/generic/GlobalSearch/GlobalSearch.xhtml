@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core" xmlns:jsf="jakarta.faces">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="isWorkingOnATask" type="java.lang.Boolean" />
+  <cc:attribute name="case" />
+  <cc:attribute name="task" />
+  <cc:attribute name="showQuickGlobalSearch" type="java.lang.Boolean" />
+</cc:interface>
+<cc:implementation>
+  <c:set var="task" value="#{cc.attrs.task}" />
+  <c:set var="isWorkingOnATask" value="#{cc.attrs.isWorkingOnATask ? cc.attrs.isWorkingOnATask : false}" />
+    <!-- Warning before leaving task -->
+  <ic:ch.ivy.addon.portalkit.component.WarningBeforeLeavingTask
+    id="search-warning-before-leaving-task-component" componentId="search-task-leave-warning-dialog"
+    widgetVar="search-task-losing-confirmation-dialog" rendered="#{isWorkingOnATask}" 
+    taskState="#{task.state}"
+    leaveActionListener="#{logic.fireEventClick()}" leaveOnComplete="leaveTaskSearch();"
+    reserveActionListener="#{logic.fireEventClick()}" reserveOnComplete="reserveTaskSearch();">
+  </ic:ch.ivy.addon.portalkit.component.WarningBeforeLeavingTask>
+  <h:panelGroup styleClass="search-input-wrapper">
+    <p:inputText id="global-search-data" styleClass="global-search-input" value="#{data.keyword}" autocomplete="off"
+      onkeypress="if (event.code === 'Enter') { portalGlobalSearch(); return false; }"
+      placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/globalSearch')}">
+    </p:inputText>
+    <i class="global-search-icon ti ti-search" />
+  </h:panelGroup>
+  <ul>
+    <h:panelGroup styleClass="search-input-wrapper">
+      <p:inputText id="global-search-mobile-data" styleClass="global-search-input " value="#{data.keyword}"
+        onkeypress="if (event.code === 'Enter') { portalGlobalSearchMobile(); return false; }"
+        placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/globalSearch')}">
+      </p:inputText>
+      <i class="global-search-icon ti ti-search" />
+    </h:panelGroup>
+  </ul>
+  <p:remoteCommand id="search-leave-task-rc" name="leaveTaskSearch" actionListener="#{logic.leave(task)}" immediate="true"
+    process="@this" partialSubmit="true" />
+    
+  <p:remoteCommand id="search-reserve-task-rc" name="reserveTaskSearch" actionListener="#{logic.reserve(task)}"
+    immediate="true" process="@this" partialSubmit="true" />
+    
+  <p:remoteCommand id="search-update-current-item-rc" name="rcUpdateCurrentItemId" actionListener="#{logic.updateCurrentItemId()}"
+    immediate="true" process="@this" partialSubmit="true" />
+    
+  <p:remoteCommand id="search-reset-all-id-rc" name="rcResetAllId" actionListener="#{logic.resetAllId()}"
+    immediate="true" process="@this" partialSubmit="true" />
+    
+  <p:remoteCommand id="global-search-remote-cmd" name="portalGlobalSearch" actionListener="#{logic.search(isWorkingOnATask, cc.attrs.case)}"
+    process="global-search-data" partialSubmit="true" oncomplete="showConfirmationDialog();"/>
+    
+  <p:remoteCommand id="global-search-mobile-remote-cmd" name="portalGlobalSearchMobile" actionListener="#{logic.search(isWorkingOnATask, cc.attrs.case)}"
+    process="global-search-mobile-data" partialSubmit="true" />
+
+  <c:if test="#{cc.attrs.showQuickGlobalSearch}">
+    <div id="global-search-loading" class="ajax-status-position hidden">
+      <div class="axonivy-loader">
+        <div class="spinner" />
+        <h5>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/loading')}...</h5>
+      </div>
+    </div>
+  </c:if>
+
+  <p:overlayPanel rendered="#{cc.attrs.showQuickGlobalSearch}" hideEvent="dbclick" id="global-search-form" onHide="resetSearchBar();"
+   for="global-search-component:global-search-data" styleClass="global-search-form">
+    <h:outputScript library="js" name="global-search.js" />
+    <div id="global-search-panel">
+      <p:tabView style="height: 250px">
+        <p:tab id="process-tab-search" title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/processes')}"
+          titleStyleClass="search-bar process-tab-title-global"
+          rendered="#{processWidgetBean.isShowGlobalSearchScope()}">
+         <div class="js-case-default-widget-container case-default-widget-container js-for-search-result"
+          id="process-search-results">
+         </div>
+         <div class="global-search-all-results" >
+           <p:commandLink global="false" onclick="viewAllResults(0); removeNavigationDashboardBackButton();" ariaLabel="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/ViewAllResults')}" />
+         </div>
+         <h:outputText styleClass="global-search-no-results" value="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/noResultsText')}" />
+        </p:tab>
+        <p:tab id="task-tab-search" title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/tasks')}" titleStyleClass="search-bar task-tab-title-global"
+          rendered="#{taskWidgetBean.isShowGlobalSearchScope()}">
+          <div id="task-search-results">
+          </div>
+          <div class="global-search-all-results" >
+           <p:commandLink global="false" onclick="viewAllResults(1); removeNavigationDashboardBackButton();" ariaLabel="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/ViewAllResults')}" />
+          </div>
+          <h:outputText styleClass="global-search-no-results" value="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/noResultsText')}" />
+        </p:tab>
+         <p:tab id="case-tab-search" title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/cases')}" titleStyleClass="search-bar case-tab-title-global"
+          rendered="#{caseWidgetBean.isShowGlobalSearchScope()}">
+          <div id="case-search-results" class="js-case-default-widget-container case-default-widget-container js-for-search-result">
+          </div>
+          <div class="global-search-all-results" >
+           <p:commandLink global="false" onclick="viewAllResults(2); removeNavigationDashboardBackButton();" ariaLabel="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/ViewAllResults')}" />
+          </div>
+          <h:outputText styleClass="global-search-no-results" value="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/GlobalSearch/noResultsText')}" />
+        </p:tab>
+      </p:tabView>
+    </div>
+
+  </p:overlayPanel>
+  <script type="text/javascript">
+      function showConfirmationDialog() {
+          if (PrimeFaces.widgets['search-task-losing-confirmation-dialog']) {
+              PF('search-task-losing-confirmation-dialog').show();
+          } else {
+              return false;
+          }
+      }
+  </script>
+</cc:implementation>
+</html>

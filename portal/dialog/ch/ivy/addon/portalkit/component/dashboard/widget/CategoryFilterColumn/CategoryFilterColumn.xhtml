@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="configurationMode" type="java.lang.Boolean" default="false"/>
+  <cc:attribute name="field" required="true"/>
+  <cc:attribute name="categoryTree" required="true"/>
+  <cc:attribute name="categoryNodeSelection" required="true"/>
+  <cc:attribute name="displaySelectedCategories" required="true"/>
+  <cc:attribute name="showUnselectableCheckbox" type="java.lang.Boolean"/>
+  <cc:attribute name="containerStyleClass" />
+  <cc:attribute name="inputCategoryStyleClass" />
+  <cc:attribute name="overlayCategoryStyleClass" />
+  <cc:attribute name="categoryTreeStyleClass" />
+  <cc:attribute name="updateComponent" />
+</cc:interface>
+
+<cc:implementation>
+  <h:panelGroup rendered="#{cc.attrs.field.field eq 'category'}">
+    <f:event listener="#{cc.attrs.field.loadCategories(cc.attrs.configurationMode)}" type="preRenderComponent"/>
+    <p:remoteCommand id="reload-categories-rc" name="reloadCategories"
+      actionListener="#{cc.attrs.field.loadCategories(cc.attrs.configurationMode)}"
+      process="@this" partialSubmit="true" global="false" immediate="true"/>
+
+      <div class="ui-g-4 ui-sm-12 u-no-padding-bottom-sm-down display-flex-center">
+        <h:outputLabel for="widget-filter-category"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/category')}" />
+      </div>
+      <div class="ui-g-8 ui-sm-12 display-flex-center">
+        <h:panelGroup id="widget-filter-category-container"
+          styleClass="widget-configuration__category #{cc.attrs.containerStyleClass} w-full"
+          layout="block">
+          <div class="ui-fluid">
+            <p:inputText id="widget-filter-category" readonly="true"
+              onclick="reloadCategories()"
+              styleClass="widget-configuration__input-text #{cc.attrs.inputCategoryStyleClass}"
+              value="#{cc.attrs.displaySelectedCategories}"/>
+          </div>
+  
+          <p:overlayPanel id="widget-filter-category-panel" for="widget-filter-category"
+            appendTo="@(body)" dynamic="true"
+            styleClass="widget-configuration__category-panel #{cc.attrs.overlayCategoryStyleClass}"
+            onHide="$(this.targetElement).parents('.widget-configuration__category').find('.portal-cancel-button').click();">
+            <h:form>
+            <p:tree id="widget-category-filter-tree"
+              value="#{cc.attrs.categoryTree}" var="node"
+              selectionMode="checkbox"
+              selection="#{cc.attrs.categoryNodeSelection}"
+              filterMatchMode="contains" filterBy="#{node.value}"
+              showUnselectableCheckbox="#{cc.attrs.showUnselectableCheckbox}"
+              styleClass="category-filter-tree #{cc.attrs.categoryTreeStyleClass}">
+              <p:treeNode>
+                <h:outputText value="#{node.value}" />
+              </p:treeNode>
+            </p:tree>
+            </h:form>
+            <h:panelGroup id="category-panel-footer" layout="block"
+              styleClass="widget-configuration__category-panel-footer">
+              <p:commandLink id="cancel-command" styleClass="portal-cancel-button u-mar-right-10 portal-link"
+                             ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                             value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                             process="@this" global="false" update="widget-filter-category-container"/>
+  
+              <p:commandButton id="update-command" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/apply')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/apply')}"
+                process="widget-filter-category-panel" partialSubmit="true" update="widget-filter-category-container #{cc.attrs.updateComponent}"
+                icon="ti ti-check" styleClass="update-command"
+                actionListener="#{cc.attrs.field.updateCategoriesPath(cc.attrs.configurationMode)}"/>
+            </h:panelGroup>
+          </p:overlayPanel>
+        </h:panelGroup>
+      </div>
+  </h:panelGroup>
+</cc:implementation>
+
+</html>

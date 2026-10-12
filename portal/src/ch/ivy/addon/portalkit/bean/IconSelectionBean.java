@@ -1,0 +1,103 @@
+package ch.ivy.addon.portalkit.bean;
+
+import java.io.Serializable;
+
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
+@Named
+@ViewScoped
+public class IconSelectionBean implements Serializable {
+  
+  private static final String TABLER_ICON_PREFIX = "ti-";
+  private static final String TABLER_FILLED_ICON_PREFIX = "tif-";
+  private static final String STREAMLINE_ICON_PREFIX = "si-";
+  private static final String ICON_WITH_FONT_FAMILY_PATTERN = " %s %s ";
+  private static final String AWESOME_FAMILY = "fa";
+  private static final String TABLER_FAMILY = "ti";
+  private static final String TABLER_FILLED_FAMILY = "tif";
+  private static final String STREAMLINE_FAMILY = "si";
+  private static final String DEFAULT_ICON = "fa-play";
+  private String icon;
+  private String iconPattern;
+
+  private static final long serialVersionUID = 5293980958176538592L;
+  
+  public void init(String cssIcon) {
+    if (StringUtils.isBlank(cssIcon)) {
+      icon = DEFAULT_ICON;
+      iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, AWESOME_FAMILY, "fa-2x");
+      iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, iconPattern, DEFAULT_ICON);
+      return;
+    }
+
+    this.icon = cssIcon;
+    if (isTablerFilledIcons(cssIcon)) {
+      this.iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, TABLER_FILLED_FAMILY, "");
+    } else if (isTablerIcons(cssIcon)) {
+      this.iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, TABLER_FAMILY, "");
+    } else if (isStreamlineIcons(cssIcon)) {
+      this.iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, STREAMLINE_FAMILY, "");
+    } else {
+      this.iconPattern = String.format(ICON_WITH_FONT_FAMILY_PATTERN, AWESOME_FAMILY, "fa-2x");
+    }
+  }
+
+  public boolean isStreamlineIcons(String cssIcon) {
+    if (StringUtils.isBlank(cssIcon)) {
+      return false;
+    }
+    return Strings.CS.contains(cssIcon, STREAMLINE_ICON_PREFIX);
+  }
+
+  public boolean isTablerIcons(String cssIcon) {
+    if (StringUtils.isBlank(cssIcon)) {
+      return false;
+    }
+    return Strings.CS.contains(cssIcon, TABLER_ICON_PREFIX) && !isTablerFilledIcons(cssIcon);
+  }
+
+  public boolean isTablerFilledIcons(String cssIcon) {
+    if (StringUtils.isBlank(cssIcon)) {
+      return false;
+    }
+    return Strings.CS.contains(cssIcon, TABLER_FILLED_ICON_PREFIX);
+  }
+
+  public String generateIconWithFontFamily(String cssIcon) {
+    String iconWithFontFamily = String.format(ICON_WITH_FONT_FAMILY_PATTERN, AWESOME_FAMILY, DEFAULT_ICON);
+    if (StringUtils.isBlank(cssIcon)) {
+      return iconWithFontFamily;
+    }
+
+    iconWithFontFamily = String.format(ICON_WITH_FONT_FAMILY_PATTERN, AWESOME_FAMILY, cssIcon);
+    if (isTablerFilledIcons(cssIcon)) {
+      iconWithFontFamily = String.format(ICON_WITH_FONT_FAMILY_PATTERN, TABLER_FILLED_FAMILY, cssIcon);
+    } else if (isTablerIcons(cssIcon)) {
+      iconWithFontFamily = String.format(ICON_WITH_FONT_FAMILY_PATTERN, TABLER_FAMILY, cssIcon);
+    } else if (isStreamlineIcons(cssIcon)) {
+      iconWithFontFamily = String.format(ICON_WITH_FONT_FAMILY_PATTERN, STREAMLINE_FAMILY, cssIcon);
+    }
+    return iconWithFontFamily;
+  }
+  
+  public String getIcon() {
+    return icon;
+  }
+
+  public void setIcon(String icon) {
+    this.icon = icon;
+  }
+
+  public String getIconPattern() {
+    return iconPattern;
+  }
+
+  public void setIconPattern(String iconPattern) {
+    this.iconPattern = iconPattern;
+  }
+
+}

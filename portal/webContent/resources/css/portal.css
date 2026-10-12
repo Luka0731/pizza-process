@@ -1,0 +1,3071 @@
+@charset "UTF-8";
+
+/* User Settings Menu - WCAG 2.1 SC 1.4.10 Reflow Fix */
+#user-setting-container {
+  max-width: 100vw;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  width: 227px;
+  height: fit-content;
+  box-shadow: 0px 0px 15.6px 3px hsla(0, 0%, 0%, 0.15);
+}
+
+@media screen and (max-width: 320px) {
+  #user-setting-container {
+    min-width: 100vw;
+    max-width: 100vw;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  #user-setting-container li {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+}
+
+#user-setting-container .ui-menu-items {
+  margin: 0;
+}
+
+#user-setting-container .ui-menu-items > a {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 0.75rem;
+  padding: 0.95rem 1.1rem;
+  font-size: 1rem;
+  height: 44px;
+}
+
+#user-setting-container .ui-menu-items:first-child > a {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+#user-setting-container .ui-menu-items:last-child > a {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+#user-setting-container .ui-menu-items > a > i {
+  width: 1.25rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+#user-setting-container .ui-menu-items.color-destroy > a,
+#user-setting-container .ui-menu-items.color-destroy > a > i {
+  color: var(--ivy-tertinary-color-red-medium) !important;
+}
+
+.ti,
+.tif {
+  font-size: var(--portal-tabler-icon-size);
+}
+
+.ti-rotate-90 { transform: rotate(90deg); }
+.ti-rotate-180 { transform: rotate(180deg); }
+.ti-rotate-270 { transform: rotate(270deg); }
+
+.portal-icon.ui-widget.ti,
+.portal-icon.ui-widget.tif,
+.portal-icon-container .ui-widget.ti,
+.portal-icon-container .ui-widget.tif,
+.ui-widget.ti::before,
+.ui-widget.tif::before {
+  font-family: var(--portal-icon-font-family);
+}
+
+.portal-icon.ui-widget.si,
+.portal-icon-container .ui-widget.si,
+.ui-widget.si::before {
+  font-family: "StreamlineIcons";
+}
+
+.portal-icon.ui-icon.ti,
+.portal-icon.ui-icon.tif,
+.portal-icon.ui-icon.si,
+.portal-icon-container .ui-icon.ti,
+.portal-icon-container .ui-icon.tif,
+.portal-icon-container .ui-icon.si {
+  font-size: var(--portal-icon-ui-icon-font-size);
+  line-height: var(--portal-icon-line-height);
+}
+
+.portal-icon-container,
+.icon-circle {
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+}
+.portal-icon-container {
+  display: inline-flex;
+}
+.icon-circle {
+  display: inline-flex !important;
+}
+
+.portal-icon-container {
+  border-radius: 8px;
+  background-color: var(--dashboard-icon-bg-color);
+  color: var(--text-color, #333);
+  border: 1px solid var(--dashboard-icon-border-color);
+}
+
+.portal-icon-container.u-mar-right-10 {
+  margin-right: 10px !important;
+}
+
+.portal-icon-container i {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.icon-circle {
+  border-radius: 50%;
+  background-color: var(--dashboard-icon-bg-color) !important;
+  border: 1px solid var(--dashboard-icon-border-color) !important;
+  color: var(--text-color, #333) !important;
+  margin: 0;
+  padding: 0;
+}
+
+body .icon-circle:hover,
+body .icon-circle:focus {
+  background-color: var(--secondary-btn-hover-bg) !important;
+}
+
+.icon-circle i,
+.icon-circle::before {
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+  display: block;
+  font-size: var(--portal-icon-size-md);
+}
+
+.ui-button .ui-icon.ti,
+.ui-button .ui-icon.tif {
+  overflow: visible;
+  background-image: none;
+  text-indent: 0;
+  width: 1em;
+}
+
+.ui-outputlabel .ui-outputlabel-rfi {
+  color: var(--asterik-icon-color); }
+
+[data-icon]:before {
+  font-family: var(--data-icon-font-family);
+  font-style: var(--data-icon-font-style);
+  font-weight: var(--data-icon-font-weight);
+  font-variant: var(--data-icon-font-variant); }
+
+[data-icon]:before {
+  content: attr(data-icon);
+  text-transform: none;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+/* Data table */
+body .ui-datatable tbody tr td.ui-editable-column.ui-state-highlight.ui-cell-editing .ui-inputfield {
+  color: var(--ui-input-field-text-color); }
+
+.ui-datatable .ui-inputfield.ui-widget.ui-state-default.ui-corner-all.hasDatepicker {
+  background-image: linear-gradient(to bottom, var(--primary-color), var(--primary-color)), linear-gradient(to bottom, #bdbdbd, #bdbdbd); }
+
+@media (max-width: 640px) {
+  .ui-datatable-reflow .ui-reflow-dropdown {
+    font-size: var(--large-font-size); } }
+
+/* Select one list box */
+body .ui-selectonelistbox .ui-selectlistbox-item.ui-state-hover {
+  color: var(--hovered-item-select-one-list-box-text-color); }
+
+/* Messages */
+.ui-growl-item .ui-growl-message a {
+  color: var(--message-info-text-color);
+  text-decoration: underline;
+}
+
+.message .message-header {
+  font-size: var(--large-font-size); }
+
+.message .message-container .message-detail {
+  font-size: var(--small-font-size); }
+
+.message .message-container {
+  font-size: var(--large-font-size); }
+
+@media screen and (max-width: 64.063em) {
+  .ui-messages-info-summary,
+  .ui-messages-warn-summary,
+  .ui-messages-error-summary,
+  .ui-messages-fatal-summary,
+  .ui-message-info-summary,
+  .ui-message-warn-summary,
+  .ui-message-error-summary,
+  .ui-message-fatal-summary {
+    margin-left: 0px; } }
+
+/* Inputs */
+input::-ms-clear {
+  display: none; }
+
+body .ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-hover {
+  color: var(--hovered-item-select-one-menu-text-color); }
+
+.ui-inplace .ui-inplace-editor .ui-button.ui-inplace-save .ui-icon-check,
+.ui-inplace .ui-inplace-editor .ui-button.ui-inplace-cancel .ui-icon-close {
+  background: none repeat scroll 0 0 var(--ui-inplace-background-color);
+}
+
+/* File upload */
+@media (max-width: 1024px) {
+  .ui-fileupload-files .ui-fileupload-row > div {
+    display: block; } }
+
+.uploading-file-message .ui-fileupload-messages {
+  text-align: left; }
+
+.user-task-dyna-container .upload-container {
+  margin-top: 10px; }
+
+/* Placeholder */
+:-ms-input-placeholder {
+  color: var(--place-holder-text-color); }
+
+::placeholder {
+  color: var(--place-holder-text-color); }
+
+/* Keypad */
+body .keypad-popup .keypad-special,
+body .keypad-popup .keypad-special.ui-state-hover,
+body .keypad-popup .keypad-special.ui-state-active {
+  color: var(--accent-text-color); }
+
+
+/*Style For Logos --------------------------------------------------------------------------------------*/
+body .layout-wrapper .menu-wrapper .sidebar-logo .portal-home-logo-small img {
+  width: var(--small-home-logo-width);
+  height: var(--home-logo-height);}
+
+.login-body .login-panel .login-panel-header img {
+  height: var(--login-logo-height); }
+
+.login-body .login-panel .login-oauth-providers ul {
+  list-style-type: none;
+  padding-left: 0px; }
+
+.login-body .login-panel .login-oauth-providers span {
+  position: relative;
+  bottom: 5px; }
+
+/*Style For Color Header --------------------------------------------------------------------------------------*/
+.first-header-bar {
+  width: 70%;
+}
+
+.second-header-bar {
+  width: 15%;
+}
+
+.third-header-bar {
+  width: 15%;
+}
+/*Style for Top bar -------------------------------------------------------------------------------------- */
+@media screen and (max-width: 40em) {
+  .task-template-container {
+    padding: 0 10px; } }
+
+.application-info-message .ui-messages-info-detail {
+  font-weight: bold;
+  margin-left: 10px; }
+
+/*Style for Portal breadcrumb ----------------------------------------------------------------------- */
+body .portal-breadcrumb.ui-breadcrumb ul li .ui-menuitem-link.ui-state-disabled {
+  opacity: var(--current-step-opacity);
+  color: var(--current-step-color); }
+
+.portal-breadcrumb .ti,
+.portal-breadcrumb .tif,
+.portal-breadcrumb .si {
+  color: var(--breadcrumb-home-icon-color) !important;
+}
+
+.portal-breadcrumb .ui-menuitem-link,
+.breadcrumb-current-item {
+  font-weight: 400;
+}
+
+.breadcrumb-current-item {
+  pointer-events: none;
+  cursor: default;
+}
+
+/*Style For Item Widget in List -----------------------------------------------------------------------------------*/
+.process-start-list-item,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item,
+a.compact-task-start-link .task-start-list-item {
+  border: 1px solid transparent; }
+
+.dashboard-widget-panel-container .process-start-list-item, .process-start-list-item {
+  background-color: var(--process-list-widget-item-background-color);
+}
+.ui-fieldset-content .process-start-list-item {
+  background-color: var(--process-list-item-background-color);
+  border: 1px solid var(--process-list-item-border-color);}
+
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item {
+  background-color: var(--item-widget-background-color); }
+
+.ui-commandlink.portal-link, .ui-link.portal-link {
+  color: var(--portal-link-color); }
+
+.ui-commandlink.portal-link:hover, .ui-link.portal-link:hover {
+  color: var(--portal-link-color-hover); }
+
+body a.portal-detail-link,
+body a.portal-detail-link:hover,
+body a.portal-detail-link:focus,
+.portal-detail-link,
+body a.portal-detail-toolbar-back,
+body a.portal-detail-toolbar-back:hover,
+body a.portal-detail-toolbar-back:focus,
+.portal-detail-toolbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--portal-link-gap);
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--default-font-size);
+  font-weight: var(--portal-link-font-weight);
+  line-height: var(--portal-detail-value-line-height);
+  text-decoration: none;
+}
+.portal-detail-link > .ti,
+.portal-detail-link > .tif {
+  flex: 0 0 auto;
+  line-height: 1;
+  vertical-align: middle;
+}
+.portal-detail-link > span,
+.portal-detail-link > .option-item-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.process-grid__header.ui-commandlink:hover {
+  text-decoration: none; }
+
+/*Style For Process Widget --------------------------------------------------------------------------------*/
+.process-start-list-item:hover .process-start-list-item-icon {
+  color: var(--hovered-process-start-list-item-i-con-color); }
+
+.process-start-list-item .warning-icon,
+.order-list-item  .warning-icon {
+  color: var(--process-warning-icon-color);
+  font-size: var(--process-icon-font-size);
+  font-weight: var(--process-warning-icon-font-weight);
+}
+
+.process-start-list-item-icon {
+  font-size: var(--large-font-size); }
+
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item:hover .process-start-list-item-icon {
+  color: var(--hovered-user-process-start-list-item-icon-color); }
+
+.process-widget .ui-orderlist .ui-orderlist-list .order-list-item .action-icon {
+  font-size: var(--process-icon-font-size); }
+
+.process-widget--full .process-grid-view__icon,
+.process-start-list-container .grid-view-form .process-grid-view-icon {
+  font-size: var(--process-grid-icon-font-size);
+  padding: 0.7rem;
+}
+
+body .process-widget .ui-selectbooleanbutton.ui-state-active {
+  background-color: var(--primary-color);
+  color: var(--ivy-primary-color-white); }
+
+body .process-widget .ui-selectbooleanbutton.ui-state-active .ui-icon {
+  color: var(--ivy-primary-color-white); }
+
+.process-grid-view__name,
+.grid-view-form .process-grid-view-name {
+  font-size: var(--process-grid-name-font-size);
+  font-weight: var(--process-grid-name-font-weight);
+  word-break: break-word;
+}
+
+.edit-process-header-group,
+.edit-process-icon-group {
+  border-bottom: 1px solid var(--ivy-primary-color-grey-light); }
+
+.edit-process-header-group .edit-process-header-title {
+  overflow: hidden;
+  margin-top: auto;
+  font-size: var(--process-edit-name-font-size);
+  font-weight: var(--process-edit-name-font-weight); }
+
+.edit-process-dialog .edit-process-info-group {
+  overflow: hidden; }
+
+.edit-process-header-group .edit-process-header-sub-title,
+.edit-process-icon-group .edit-process-header-sub-title,
+.edit-process-info-group .edit-process-header-sub-title {
+  margin: auto;
+  font-weight: var(--widget-header-font-weight);
+  font-size: var(--large-font-size); }
+
+.edit-process-icon-group .awesome-icon-selection-panel span {
+  font-size: 1.4em; }
+
+.edit-process-info-group .edit-process-detail-1st-cell,
+.grid-view-form .process-action-group {
+  font-size: var(--small-font-size); }
+
+.edit-process-info-group .edit-process-detail-1st-cell {
+  opacity: 0.65;
+  font-size: var(--small-font-size); }
+
+/*Style For Task Widget ----------------------------------------------------------------------------------*/
+.filter-selection-form .filter-name:hover,
+.filter-selection-form .filter-name-overlay-panel .user-defined-filter-container .delete-user-defined-filter-command:hover {
+  color: var(--task-filter-delete-user-defined-icon-hover-color); }
+
+.filter-selection-form .filter-name-overlay-panel .user-defined-filter-container .delete-user-defined-filter-command {
+  font-size: var(--large-font-size); }
+
+.task-state-open {
+  color: var(--task-state-open-color); }
+
+.task-state-in-progress {
+  color: var(--task-state-in-progress-color); }
+
+.task-state-done {
+  color: var(--task-state-done-color); }
+
+.task-state-failed {
+  color: var(--task-state-failed-color);}
+
+.task-state-waiting {
+  color: var(--task-state-waiting-color);}
+
+.task-state-reserved {
+  color: var(--task-state-reserved-color);
+  font-size: var(--task-state-reserved-font-size) !important;
+}
+
+.task-state-system {
+  color: var(--task-state-system-color);
+  font-size: var(--task-state-system-font-size) !important;
+}
+
+.task-priority-low {
+  color: var(--task-priority-low-color); }
+
+.task-priority-normal {
+  color: var(--task-priority-normal-color); }
+
+.task-priority-high {
+  color: var(--task-priority-high-color); }
+
+.task-priority-exception {
+  color: var(--task-priority-exception-color); }
+
+.task-start-list .description-cell {
+  font-size: var(--task-item-description-font-size);
+  line-height: var(--task-item-description-line-height); }
+
+.task-start-list .name-cell {
+  font-weight: var(--task-item-name-font-weight);
+  line-height: var(--task-item-name-line-height); }
+
+/*Style For Statistic Widget -----------------------------------------------------------------------------*/
+.ui-columntoggler[id$='task-table-toggler'] .ui-columntoggler-item label {
+  font-size: var(--default-font-size); }
+
+.statistic-filter-accordion-panel .ui-accordion-content {
+  border: solid 1px var(--statistic-filter-accordion-panel-border); }
+  
+.threshold-item > .threshold-category-data, .threshold-item > .threshold-operator-value {
+  max-width: 12vw;
+  width: 10vw;
+}
+
+.threshold-item > .threshold-category-data > span, .threshold-item > .threshold-operator-value > span, .threshold-item > .threshold-input-value > input {
+  text-overflow: ellipsis;
+}
+
+/*Style For Buttons --------------------------------------------------------------------------------------*/
+body .portal-cancel-button.ui-widget.ui-button,
+body .ui-inplace-cancel.ui-widget.ui-button {
+  background-color: var(--cancel-button-background-color);
+  border-color: var(--cancel-button-background-color); }
+
+body .portal-cancel-button.ui-widget.ui-button .ui-button-text,
+body .portal-cancel-button.ui-widget.ui-button .ui-icon,
+.ui-inplace-cancel.ui-widget.ui-button .ui-button-text,
+.ui-inplace-cancel.ui-widget.ui-button .ui-icon {
+  color: var(--cancel-button-text-color); }
+
+.portal-cancel-button.ui-widget.ui-button.ui-state-hover,
+.portal-cancel-button.ui-widget.ui-buttonset .ui-state-hover,
+.ui-inplace-cancel.ui-widget.ui-button.ui-state-hover,
+.portal-cancel-button.ui-widget.ui-button.ui-state-focus,
+.portal-cancel-button.ui-widget.ui-buttonset .ui-state-focus,
+.ui-inplace-cancel.ui-widget.ui-button.ui-state-focus  {
+  background-color: var(--cancel-button-state-hover-or-focus-background-color); }
+
+.ui-widget.ui-button.context-button {
+  border-radius: var(--context-button-border-radius);
+  background-color: var(--context-button-background-color); }
+
+.ui-widget.ui-button.context-button .ui-button-text,
+.ui-widget.ui-button.context-button .ui-icon {
+  color: var(--context-button-text-color); }
+
+.ui-widget.ui-button.context-button.ui-state-hover,
+.ui-widget.ui-button.context-button.ui-state-focus {
+  background-color: var(--context-button-state-hover-or-focus-background-color); }
+
+/*Style for announcement*/
+.announcement-message-customizable {
+  background-color: var(--announcement-background-color);
+  border: 2px solid var(--announcement-border-color);
+  color: var(--announcement-color); }
+
+/*Style For Task Detail --------------------------------------------------------------------------------------*/
+body .ui-inputfield.task-name-input {
+  font-size: var(--large-font-size);
+  font-weight: var(--task-name-input-font-weight); }
+
+.task-detail-section-title,
+.task-detail-section-title > i.si,
+.task-detail-section-title > div > i.si {
+  font-weight: var(--task-detail-section-title-font-weight) !important; }
+
+.task-action-item:hover {
+  background-color: var(--task-detail-action-item-hover-background-color); }
+
+/*Style For Advance Filter --------------------------------------------------------------------------------------*/
+body .ui-datepicker .ui-timepicker-div dl dd {
+  margin-top: 30px; }
+  body .ui-datepicker .ui-timepicker-div dl dd .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content {
+    margin-right: 10px; }
+
+/*Style for start Filter Widget--------------------------------------------------------------------------------------*/
+
+
+.filter-category-checkbox-tree.ui-tree .ui-treenode .ui-treenode-label,
+.task-widget .advanced-filter, .case-widget .advanced-filter,
+.case-widget-container .advanced-filter {
+  font-size: var(--default-font-size); }
+
+.task-widget .advanced-filter,
+.case-widget-container .advanced-filter, .case-widget .advanced-filter {
+  border: solid 1px var(--widget-advanced-filter-border); }
+
+.filter-category-checkbox-tree .ui-icon.ui-icon-search:after {
+  font-family: var(--icon-font-family); }
+
+.dashboard-action-container-label,
+.grid-item-header {
+  font-size: var(--large-font-size); }
+
+.widget-header-main-menu a.ui-widget.ui-commandlink, .widget-header-main-menu span.ui-widget.ui-commandlink.ui-state-disabled,
+.widget-sort-menu span.ui-widget.ui-commandlink.ui-state-disabled {
+  font-size: var(--small-font-size); }
+
+.widget-header-main-title {
+  font-size: var(--widget-header-font-size);
+  font-weight: var(--widget-header-font-weight); }
+
+.widget-sort-menu.full-mode a.ui-widget.ui-commandlink:not(.filter-add-button):not(.config-columns):not(.is-selected),
+.case-widget-container .widget-column-header a.ui-commandlink:not(.filter-add-button):not(.config-columns):not(.is-selected) {
+  color: var(--task-widget-header-column); }
+
+.widget-sort-menu.full-mode a.ui-widget.ui-commandlink.is-selected,
+.case-widget-container .widget-column-header a.ui-commandlink.is-selected {
+  font-weight: bold; }
+
+.task-widget .advanced-filter .ui-button-text-only .ui-button-text,
+.case-widget-container .advanced-filter .ui-button-text-only .ui-button-text {
+  color: var(--widget-header-filter-color); }
+
+.task-widget .ui-widget.ui-button.advanced-filter-command:after,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command:after,
+.filter-selection-form a.filter-name.ui-commandlink:after {
+  color: var(--widget-header-filter-color);
+  font-family: var(--icon-font-family);
+  font-size: var(--small-font-size); }
+
+.task-widget .ui-widget.ui-button.advanced-filter-command,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command {
+  background: var(--widget-advanced-filter-command-background-color); }
+
+.task-widget .ui-widget.ui-button.advanced-filter-command.error-filter:before,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command.error-filter:before {
+  color: var(--advanced-filter-error-color);
+  font-family: var(--icon-font-family); }
+
+.widget-sort-menu.full-mode {
+  border-bottom: 1px solid var(--widget-sort-menu-border-bottom-color); }
+
+/*Style for Case Detail --------------------------------------------------------------------------------------*/
+.filter-selection-form .filter-name-overlay-panel .user-defined-filter-container:hover .ui-commandlink {
+  font-weight: var(--user-defined-filter-container-hover-font-weight); }
+
+.task-start-info-header,
+.task-start-list-item.full-mode .task-start-link {
+  line-height: 20px; }
+
+.task-start-info-footer, .task-start-info-content {
+  font-size: var(--small-font-size); }
+
+.case-details-data-1st-column {
+  font-size: var(--large-font-size); }
+
+.additional-case-details-link {
+  font-size: var(--large-font-size); }
+
+.case-detail-body .case-details-item .case-description-form .ui-inplace-display.ui-state-highlight {
+  color: var(--case-description-text-color-hightlight); }
+
+.case-detail-body .case-details-item .ui-datascroller-content.ui-widget-content.ui-corner-all {
+  padding: 0;
+  border: none; }
+
+.case-detail-body .case-details-item .ui-datascroller-content.ui-widget-content.ui-corner-all.has-scrollbar {
+  border-right: solid 1px var(--case-related-task-content-border); }
+
+.case-detail-body .case-details-item .case-related-task-case-running ul li:last-child .related-task-content {
+  border-bottom: 1px solid var(--case-related-task-content-border); }
+
+.case-detail-name-inplace-edit .ui-inplace-display.ui-state-highlight {
+  color: var(--case-detail-name-text-color-hight-light);
+  padding: 3px;
+  border-radius: 2px; }
+
+.related-task-content .related-task,
+.case-related-running {
+  color: var(--case-related-task-color); }
+
+.related-task-content .related-task:hover {
+  color: var(--case-related-task-hover-color); }
+
+.additional-case-details-link {
+  font-weight: var(--additional-case-detail-link-font-weight); }
+
+.related-task-content,
+.no-running-task-case {
+  border: 1px solid var(--case-related-task-content-border);
+  border-top: none; }
+
+.case-related-running {
+  border: 1px solid var(--case-related-task-content-border); }
+
+.no-running-task-case {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--case-related-task-content-border); }
+
+.case-detail-body .name-column .case-name-value,
+.case-detail-body .case-details-related-task-table .related-task-name-column .task-name-value {
+  font-weight: var(--case-item-name-font-weight);
+  text-overflow: ellipsis;
+}
+
+.case-detail-body .name-column .case-description-value,
+.case-detail-body .case-details-related-task-table .related-task-name-column .task-description-value {
+  font-weight: var(--case-item-description-font-weight);
+  font-style: var(--case-item-description-font-style);
+  font-size: var(--case-item-description-font-size);
+  color: var(--case-item-description-cell);
+}
+
+.priority-cell .priority,
+.case-detail-body .priority {
+  font-size: var(--priority-font-size); }
+
+.priority-cell .low-priority,
+.case-detail-body .low-priority {
+  color: var(--task-low-priority-color); }
+
+.priority-cell .normal-priority,
+.case-detail-body .normal-priority {
+  color: var(--task-normal-priority-color); }
+
+.priority-cell .high-priority,
+.case-detail-body .high-priority {
+  color: var(--task-high-priority-color); }
+
+.priority-cell .exception-priority,
+.case-detail-body .exception-priority {
+  color: var(--task-exception-priority-color); }
+
+.state-cell .task-state,
+.state-column .case-state, .case-detail-body .task-state {
+  border-radius: var(--task-state-border-radius);
+  font-size: var(--task-state-font-size);
+  font-weight: 400;
+  line-height: var(--task-state-line-height);
+  border: 1px solid; }
+.case-detail-body .open-task-state {
+  background: var(--task-state-suspended-background);
+  border-color: var(--task-state-suspended-border-color);
+  color: var(--task-state-suspended-color); }
+
+.state-cell .in_progress-task-state,
+.case-detail-body .in_progress-task-state {
+  color: var(--task-state-resumed-color);
+  background: var(--task-state-resumed-background);
+  border-color: var(--task-state-resumed-border); }
+
+.state-cell .done-task-state,
+.state-column .done-case-state, .case-detail-body .done-task-state {
+  background: var(--task-state-done-background);
+  border-color: var(--task-state-done-border);
+  color: var(--task-state-done-color) }
+
+.state-cell .open-task-state {
+  background: var(--task-state-parked-background);
+  border-color: var(--task-state-parked-border); }
+
+.state-cell .open-case-state,
+.state-cell .open-task-state,
+.state-column .open-case-state,
+.state-column .open-task-state{
+  background: var(--task-state-suspended-background);
+  border-color: var(--task-state-suspended-border-color);
+  color: var(--task-state-suspended-color); }
+
+.state-cell .error-task-state,
+.state-column .error-task-state {
+  background: var(--task-state-failed-background);
+  border-color: var(--task-state-failed-border);
+  color: var(--task-state-failed-text-color) }
+
+.state-cell .delayed-task-state,
+.state-column .delayed-task-state {
+  background: var(--task-state-delayed-background);
+  border-color: var(--task-state-delayed-border-color);
+  color: var(--task-state-delayed-color); }
+
+.state-cell .destroyed-task-state,
+.state-column .destroyed-task-state,
+.state-column .destroyed-case-state {
+  background: var(--task-state-destroyed-background);
+  border-color: var(--task-state-destroyed-border-color);
+  color: var(--task-state-destroyed-color); }
+
+/**Style for Absences and Debuty  --------------------------------------*/
+.substituted-user-text {
+  font-size: var(--large-font-size); }
+
+.not-display-result-tab-view {
+  font-size: var(--default-font-size); }
+  
+/** Style for Task Template * --------------------------------------*/
+.task-template-title {
+  font-size: var(--large-font-size);
+  font-weight: var(--task-template-title-font-weight); }
+
+.ui-outputlabel.task-template-title {
+  font-size: var(--large-font-size);
+  font-weight: var(--output-label-task-template-title-font-weight); }
+
+.task-template-content .task-actions-button:focus {
+  outline: var(--task-template-action-button-focus); }
+
+.compact-process-widget .toggle-processes-link,
+.compact-toggle-tasks-link {
+  font-weight: var(--widget-header-font-weight); }
+
+/* Style for Filter Widget -----------------------------**/
+.task-widget .advanced-filter:hover,
+.case-widget-container .advanced-filter:hover,
+.task-widget .filter-selection-container .filter-name:hover,
+.case-widget-container .filter-selection-container .filter-name:hover {
+  background-color: var(--widget-advanced-filter-hover-backround-color);
+  border-color: var(--widget-advanced-filter-hover-border); }
+
+.task-widget .filter-selection-container .filter-name,
+.case-widget-container .filter-selection-container .filter-name {
+  border: solid 1px var(--widget-filter-selection-container-border);
+  background: var(--widget-advanced-filter-background-color); }
+
+.task-widget .ui-widget.ui-button.advanced-filter-command.ui-state-hover,
+.task-widget .ui-widget.ui-button.advanced-filter-command.ui-state-active,
+.task-widget .ui-widget.ui-button.advanced-filter-command.ui-state-focus,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command.ui-state-hover,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command.ui-state-active,
+.case-widget-container .ui-widget.ui-button.advanced-filter-command.ui-state-focus {
+  background: var(--widget-advanced-filter-command-state-focus-background-color); }
+
+.history-note .task-note-link:hover {
+  color: var(--task-note-link-hover-color); }
+
+.case-document-name .document-size, .task-document-name .document-size {
+  opacity: 0.65;
+  font-size: var(--small-font-size);
+  margin: auto 0px; }
+
+:-ms-input-placeholder, :root .case-detail-body .history-note a {
+  display: inline; }
+
+.task-widget-sub-header .operations-column,
+.case-widget .widget-column-header .operations-column {
+  color: var(--task-widget-header-column);
+  font-family: var(--font-family);
+}
+
+/*Style for Case Item --------------------------------------------------------------------------------------*/
+.case-list-unsortable-header-cell {
+  color: var(--case-list-unsortable-header-cell-text-color); }
+
+a.case-details-document-add-link,
+a.task-details-document-add-link,
+span.case-details-document-add-link,
+span.task-details-document-add-link,
+.related-task-section-header-actions a {
+  font-weight: var(--details-document-add-link-font-weight); }
+
+body .ui-inputfield.case-detail-name-input {
+  font-size: var(--large-font-size);
+  font-weight: var(--case-detail-name-input-font-weight); }
+
+.case-detail-section-title, .case-history-button-container,
+.task-history-button-container,
+.case-detail-section-title > i.si,
+.case-detail-section-title > div > i.si {
+  font-weight: var(--history-button-container-font-weight) !important; }
+
+.case-header-action-cell .action-item .ui-button {
+  background: var(--case-header-action-cell-button-background-color);
+  outline: var(--case-header-action-cell-button-background-color); }
+
+.case-list-item {
+  border-bottom: 1px solid var(--case-widget-column-header-border-bottom); }
+
+.case-header-name-desc-cell .case-header-desc-cell {
+  color: var(--case-item-description-cell);
+  font-size: var(--case-item-description-font-size);
+  line-height: var(--case-item-description-line-height); }
+
+.action-steps-panel.ui-menu .ui-menu-list li.ui-menuitem .ui-menuitem-link.ui-state-disabled {
+  color: var(--action-step-disabled-text-color); }
+
+.action-steps-panel a.action-step-item:hover {
+  color: var(--menu-action-hover-text-color); }
+
+.case-state-in-progress {
+  color: var(--case-state-in-progress-color); }
+
+.case-state-done {
+  color: var(--case-state-done-color); }
+
+.case-widget-container .widget-column-header,
+.case-default-widget-container .widget-column-header {
+  border-bottom: 1px solid var(--case-widget-column-header-border-bottom); }
+
+.case-list .ui-datascroller,
+.case-list .ui-datascroller .ui-datascroller-content {
+  background-color: var(--case-list-data-scroller-content-background-color); }
+
+.case-header-name-desc-cell .case-header-name-cell {
+  font-weight: var(--case-item-name-font-weight);
+  line-height: var(--case-item-name-line-height); }
+
+/*Process --------------------------------------*/
+.process-widget .process-nav .process-nav-item {
+  font-size: var(--large-font-size); }
+
+.process-widget .process-nav .process-nav-item.selected {
+  font-weight: var(--selected-process-nav-item-font-weight); }
+
+.process-widget .process-nav .process-nav-item.disabled {
+  color: var(--process-nav-item-disable-color); }
+
+.process-widget .process-nav {
+  border-left: 1px solid var(--process-navigator-border); }
+
+.process-widget .process-nav .process-nav-item.selected:before {
+  border-left: 3px solid var(--process-navigator-item-selected-border); }
+
+.process-start-list-item:hover,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item:hover {
+  background: var(--process-start-list-item-hover-background-color);
+  border: var(--process-start-list-item-hover-border); }
+
+.process-start-list-item:hover .process-start-list-item-name,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item:hover .process-start-list-item-name {
+  font-weight: var(--process-start-list-item-name-font-weight); }
+
+.process-start-list-item .ui-commandlink,
+.process-start-list-item .ui-link,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item .ui-commandlink,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item .ui-link,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list table tr td,
+.process-widget .order-list-items.ui-orderlist .ui-orderlist-list .ui-orderlist-item.ui-state-hover tr td {
+  color: var(--process-navigator-item-color); }
+
+.compact-process-widget .toggle-processes-link.fa-plus:before,
+.compact-toggle-tasks-link.fa-plus:before {
+  font-family: var(--icon-font-family);
+  font-size: var(--large-font-size); }
+
+.compact-process-widget .toggle-processes-link.fa-minus:before,
+.compact-toggle-tasks-link.fa-minus:before {
+  font-family: var(--icon-font-family);
+  font-size: var(--large-font-size); }
+
+.process-item-action-container .ti,
+.process-item-action-container .tif,
+.process-item-action-container .si {
+  font-size: var(--large-font-size); }
+
+/* Task Widget --------------------------------**/
+.filter-selection-form label,
+.filter-selection-form a.ui-commandlink,
+.filter-selection-form a.ui-commandlink:not(.delete-user-defined-filter-command):hover {
+  color: var(--task-widget-link-color); }
+
+.filter-selection-form .filter-name-overlay-panel .user-defined-filter-container:hover {
+  background-color: var(--task-filter-selection-form-hover-background-color); }
+
+.filter-name-overlay-panel .filter-type-label {
+  color: var(--filter-name-label-color); }
+
+.task-start-list-item.full-mode,
+.case-list-item {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--task-filter-separator-border-bottom);
+}
+
+a.compact-task-start-link .task-start-list-item:hover, .task-start-list-item.full-mode:hover,
+.case-list-item:hover {
+  background: var(--compact-task-start-list-item-hover-background-color);
+  border: var(--compact-task-start-list-item-hover-border); 
+}
+
+.task-start-info-header, .task-start-info-content, .task-start-info-footer {
+  color: var(--compact-task-start-info-color); }
+
+.task-start-info-header {
+  font-weight: var(--task-start-info-header-font-weight); }
+
+.task-start-info-task-id {
+  font-weight: var(--task-start-info-task-id-font-weight); }
+
+.task-start-list .description-cell {
+  color: var(--task-start-list-description-cell); }
+
+.filter-name-overlay-panel .filter-separator {
+  margin-top: 7px;
+  margin-bottom: 7px;}
+
+.filter-name-overlay-panel .filter-separator::before {
+  border: 1px solid var(--task-filter-separator-border-bottom); }
+
+.task-view-container .ui-datascroller,
+.task-view-container .ui-datascroller .ui-datascroller-content {
+  background-color: var(--task-view-container-data-scroller-content-background-color); }
+
+.task-widget .filter-container .filter-selection-container-group,
+.case-widget-container .filter-container .filter-selection-container-group {
+  border-right: solid 1px var(--filter-selection-container-group-border-color); }
+
+.filter-container .filter-selection-label,
+.filter-container .selected-filters-label {
+  color: var(--widget-advanced-filter-label-color);
+  font-size: var(--small-font-size); }
+
+.task-widget .filter-add-container:hover,
+.task-widget .filter-reset-action:hover,
+.case-widget-container .filter-add-container:hover {
+  border-color: var(--widget-advanced-filter-hover-border);
+  background: var(--widget-advanced-filter-hover-backround-color);
+
+}
+
+#task-description .scroll-panel, .action-icon.icon-compact-mode {
+  font-size: var(--small-font-size);
+  color: var(--compact-task-start-info-icon-color); }
+
+.task-start-list .priority-cell,
+.task-start-list .state-cell {
+  font-size: var(--large-font-size); }
+
+/* Admin Setting--------------------------*/
+.admin-settings-no-permission-message {
+  color: var(--admin-setting-no-permission-message-color); }
+
+/* Absences and Deputy -------------------------*/
+.substituted-user-text {
+  color: var(--substituted-user-text-color); }
+
+.choose-deputy-dialog .deputy-selection-panel .delete-deputy {
+  font-size: var(--delete-deputy-icon-font-size); }
+
+/*Awesome Icon Selection--------------------------*/
+
+.icon-selection-dialog-selecting-icon:hover {
+  border: solid 1px; }
+
+/*Start Notification ----------------------------*/
+.notification-content {
+  background: var(--notification-content-background-color);
+  font-size: var(--small-font-size); }
+
+.notification-content-message,
+.notification-content-action-more-details {
+  color: var(--notification-content-action-color); }
+
+.notification-content-action-close:before, .notification-content-action-close:after {
+  background: var(--notification-content-action-color); }
+
+.notification-content-action-close:hover:before, .notification-content-action-close:hover:after {
+  background: var(--notification-content-action-hover-background-color); }
+
+/* Task Action Item-----------------------*/
+.task-action-item .task-action-item-label {
+  font-weight: var(--task-action-item-label-font-weight); }
+
+.task-actions-menu .ui-slidemenu-backward.ui-widget-header {
+  background-color: var(--task-action-item-widget-header-color);
+  color: #212121; }
+
+.task-actions-menu .ui-slidemenu-backward.ui-widget-header .ui-icon.ui-icon-triangle-1-w {
+  color: #212121; }
+
+.task-actions-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover span {
+  color: var(--action-step-hover-text-color); }
+
+.task-actions-menu .ui-menu-list .ui-menuitem .ui-menuitem-link span {
+  color: var(--action-step-text-color); }
+
+.task-actions-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-disabled {
+  color: var(--action-step-disabled-text-color); }
+
+/*Style for Message -------------------------*/
+.no-documents-message {
+  font-size: var(--large-font-size); }
+
+/*Style for Error Page*/
+.error-container {
+  color: var(--error-container-color); }
+
+.message .message-header {
+  color: var(--error-message-header-color); }
+
+/* Absence */
+.task-responsible-link {
+  font-size: var(--large-font-size); }
+
+.task-responsible-link:after {
+  font-family: var(--icon-font-family); }
+
+.process-widget label.switch-active {
+  font-weight: var(--active-switch-label-font-weight);
+  color: var(--primary-color); }
+
+.process-widget label.switch-off {
+  color: var(--ivy-primary-color-grey-medium);}
+
+/* Chat*/
+.layout-wrapper .layout-topbar .topbar-menu > li > a.notification-badge i.fa.fa-comment {
+  font-size: var(--notification-badge-icon-font-size); }
+
+.chat-panel {
+  background: var(--chat-panel-background-color);
+  box-shadow: var(--chat-panel-box-shadow); }
+
+.contact-card:not(.no-group-chat):hover .contact-card-icon, .contact-card.active .contact-card-icon {
+  color: var(--contact-card-background-color);
+  background: var(--contact-card-icon-background-color); }
+
+.no-group-chat {
+  color: var(--no-group-chat-color);
+  font-size: var(--large-font-size);
+  cursor: default; }
+
+.contact-card:not(.no-group-chat):hover {
+  background: var(--contact-card-hover-background-color);
+  box-shadow: var(--chat-box-shadow); }
+.contact-card:not(.no-group-chat):hover .contact-card-name {
+  color: var(--contact-card-name); }
+
+.contact-card.active {
+  background: var(--contact-card-background-color);
+  box-shadow: var(--chat-box-shadow); }
+.contact-card.active .contact-card-name {
+  color: var(--contact-card-name); }
+
+.contact-card-icon {
+  color: var(--contact-card-icon-color);
+  font-size: var(--contact-card-icon-font-size);
+  background: var(--contact-card-background-color); }
+
+.contact-card-icon[unread-message]:after {
+  background: var(--contact-card-icon-unread-message-background-color);
+  color: var(--contact-card-icon-unread-message-color);
+  font-size: var(--contact-card-icon-after-fontsize); }
+
+.contact-card-name {
+  color: var(--contact-card-name-color); }
+
+.contact-card-status {
+  background: var(--contact-card-status-background-color); }
+
+.contact-notification {
+  color: var(--contact-notification-color);
+  background-color: var(--contact-notification-background-color); }
+
+.contact-card-status.is-offline {
+  background: var(--contact-card-icon-offline-color); }
+
+.message-list {
+  background: var(--message-list-background-color);
+  box-shadow: var(--chat-box-shadow); }
+
+.message-list-header {
+  background: var(--message-list-header-background-color);
+  box-shadow: var(--chat-box-shadow); }
+
+.message-list-header-close {
+  font-size: var(--chat-contact-type-header-font-size); }
+
+.chat-message-list .chat-message {
+  font-size: var(--large-font-size);
+  background: var(--chat-message-background-color); }
+
+.chat-message-list .my-message .chat-message {
+  background: var(--chat-my-message-background-color);
+  color: var(--primary-dark-color); }
+
+.message-chat-header-name {
+  font-weight: var(--message-chat-header-name-font-weight);
+  color: var(--message-chat-header-name-color);
+  font-size: var(--chat-contact-type-header-font-size);
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: default; }
+
+.show-participants-link:hover {
+  color: var(--show-participants-link-color); }
+
+.notification-badge[data-badge]:after {
+  background-color: var(--notification-badge-background-color);
+  color: var(--notification-badge-color);
+  font-size: var(--notification-badge-font-size); }
+
+.chat-contact {
+  -webkit-box-shadow: var(--chat-contacts-box-shadow);
+  -moz-box-shadow: var(--chat-contacts-box-shadow);
+  box-shadow: var(--chat-contacts-box-shadow); }
+
+.chat-contact-type-header {
+  color: var(--chat-contact-type-header-color);
+  font-size: var(--chat-contact-type-header-font-size); }
+
+.chat-meta .tooltip {
+  color: var(--chat-tooltip-color);
+  background-color: var(--chat-tooltip-background-color); }
+
+.role-name,
+.participants-list-header {
+  font-weight: var(--participants-list-header-font-weight); }
+
+ul.users-in-role {
+  border: solid 1px var(--chat-user-in-role-border); }
+
+/* Ends Chat */
+
+.options-panel .option-item:hover {
+  text-decoration: none;
+  color: var(--menu-action-hover-text-color);
+}
+
+.options-panel .pointer-event-none {
+  pointer-events: none;
+}
+
+.process-widget-action .name-sort-command,
+.process-widget-action .editing-switch-command,
+.process-widget-action .show-adding-dialog-commmand,
+.process-widget-action .save-process-command,
+.process-widget-action .cancel-editing-process-command {
+  font-size: var(--small-font-size);
+  line-height: 18px; }
+
+.action-link i {
+  font-size: var(--header-font-size); }
+
+.action-link span {
+  font-weight: var(--task-action-item-label-font-weight);
+}
+
+.task-action-item.start-task-action .task-action-item-label {
+  font-weight: var(--task-start-action-font-weight);
+}
+
+/* Portal's File upload component */
+.upload-container .ui-widget.ui-selectonemenu,
+.upload-container .ui-widget.ui-outputlabel {
+  margin-top: 5px; }
+
+.upload-container .ui-widget.ui-fileupload {
+  margin-top: 0;
+  margin-left: 10px; }
+
+.upload-container .ui-widget.ui-fileupload .ui-fileupload-buttonbar .ui-widget.ui-button {
+  float: right;
+  margin-right: 0; }
+
+.upload-container .ui-widget.ui-fileupload .ui-fileupload-content {
+  border: none;
+  padding-right: 0;
+  padding-bottom: 0; }
+
+.upload-container .ui-widget.ui-fileupload .ui-fileupload-content .ui-fileupload-messages {
+  margin-top: 30px; }
+
+body .ui-slider .ui-slider-handle {
+  background-color: var(--accent-light-color);
+}
+
+.side-step-panel .dropdown-content {
+background-color: var(--ivy-primary-color-white);
+}
+
+.side-step-panel .dropdown-content a {
+color: var(--ivy-primary-color-black);
+}
+
+.case-map-stage .line-right:after, .case-map-stage .line-left:before {
+border-top: 0.2rem solid var(--primary-color);
+}
+.case-map-stage .square {
+background-color: var(--primary-color);
+}
+.case-stage-icon{
+background-color:var(--primary-color);
+color:var(--ivy-primary-color-white);
+}
+.case-stage-detail{
+background-color:var(--ivy-primary-color-white);
+}
+.case-stage{
+background-color:var(--primary-color);
+color: var(--ivy-primary-color-white);
+}
+.process-breadcrumb:before {
+border-left-color: var(--ivy-primary-color-white);
+}
+.process-breadcrumb:after {
+border-left-color: var(--primary-color);
+}
+.process-breadcrumb{
+background-color:var(--primary-color);
+color: var(--button-text-color);
+}
+.process-first-breadcrumb:after {
+border-left-color: var(--primary-color);
+}
+.process-first-breadcrumb{
+background-color:var(--primary-color);
+color: var(--button-text-color);
+}
+
+/* Portal Global Ajax Status */
+.portal-dialog-icon {
+  font-size: var(--portal-dialog-icon-font-size) !important;
+}
+
+.portal-dialog-info-icon {
+  color: var(--primary-color);
+}
+
+.dasboard-configuration-action-menu-icon {
+  color: white;
+}
+
+.portal-dialog-warning-icon {
+  color: var(--ivy-tertinary-color-yellow-dark);
+}
+
+.portal-dialog-error-icon {
+  color: var(--ivy-tertinary-color-red-medium);
+}
+
+.portal-dialog-icon-circle {
+  box-sizing: border-box;
+  width: var(--portal-dialog-icon-circle-size);
+  height: var(--portal-dialog-icon-circle-size);
+  margin: 0 auto 1.071rem auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-dialog-icon-circle > i {
+  font-size: 2.763rem;
+  line-height: 1;
+}
+
+.portal-dialog-icon-circle.portal-dialog-icon-circle-warning {
+  background-color: var(--portal-dialog-warning-icon-circle-background-color);
+}
+
+.portal-dialog-icon-circle.portal-dialog-icon-circle-warning > i.portal-dialog-warning-icon {
+  color: var(--portal-dialog-warning-icon-circle-color);
+}
+
+.warning-before-leaving-task .ui-confirm-dialog-message {
+  display: block;
+  text-align: center;
+  font-size: 1.143rem;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.portal-remove-button {
+  background-color: var(--ivy-tertinary-color-red-medium) !important;
+  border-color: var(--ivy-tertinary-color-red-medium) !important;
+}
+
+.ui-button.portal-remove-button:active {
+  border-color: var(--ivy-tertinary-color-red-medium) !important;
+}
+
+
+/* My Profile */
+.my-profile-container .setting-header span {
+  color: var(--general-config-description-color);
+}
+.my-profile-container .state-active {
+  color: var(--state-active);
+}
+
+.my-profile-container .state-inactive {
+  color: var(--state-inactive);
+}
+
+.my-profile-container .table-icon.light {
+  opacity: 0.5;
+}
+
+/* Absences Management */
+@media screen and (max-width: 40em) {
+  .absences-management-container tbody.ui-datatable-data span.ui-column-title {
+    font-weight: bold;
+  }
+}
+body.in-dialog .ui-widget-overlay {
+  background-color: transparent;
+}
+
+.absence-user-selection-wrapper [id$="autocomplete-panel"] {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.absence-user-selection-wrapper [id$="autocomplete-panel"] label {
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+
+.time-information .ti-pencil,
+.general-information .ti-pencil {
+  margin-left: 5px;
+  color: var(--primary-color);
+}
+
+.task-details-description-title .ti-pencil, .case-details-description-title .ti-pencil {
+  margin: 0 2px;
+  color: var(--primary-color);
+}
+
+.time-information .ti-info-circle {
+  margin-left: 5px;
+  top: 2px;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.portal-icon.action-icon.icon-compact-mode,
+.portal-icon.action-link i {
+  font-size: var(--portal-icon-font-size);
+}
+
+.security-member-tooltip.ui-tooltip {
+  font-size: var(--security-member-header-font-size);
+}
+
+.security-member-tooltip .tooltip-header {
+  font-weight: var(--security-member-header-font-weight);
+  font-size: var(--security-member-header-font-size);
+}
+
+.security-member-tooltip .tooltip-body-item {
+  font-size: var(--security-member-item-font-size);
+}
+
+.security-member-tooltip.ui-tooltip.ui-tooltip-right .ui-tooltip-arrow {
+  border-right-color: var(--security-member-tooltip-arrow-color);
+}
+
+.security-member-tooltip.ui-tooltip.ui-tooltip-left .ui-tooltip-arrow {
+  border-left-color: var(--security-member-tooltip-arrow-color);
+}
+
+/* Process information page */
+.process-overview-layout-content .process-info-icon {
+  font-size: var(--process-info-icon-font-size);
+}
+
+.process-overview-layout-content .process-step-icon {
+  font-size: var(--process-info-step-icon-font-size);
+  color: var(--process-info-step-icon-font-color);
+}
+
+.dashboard__body .expand-fullscreen .saved-filter-node.selected .saved-filter-node__text {
+  font-style: var(--default-font-style);
+  font-size: var(--default-body-font-size);
+}
+
+.dashboard-action-container {
+  border: 1px solid var(--dashboard-action-container-border-color);
+}
+
+.dashboard-action-container:hover {
+  background: var(--process-start-list-item-hover-background-color);
+  border: var(--process-start-list-item-hover-border);
+}
+
+.dashboard-action-container-label {
+  color: var(--dashboard-action-container-text-color);
+}
+
+.dashboard-action-container-description {
+  color: var(--dashboard-action-container-description-color);
+}
+
+.dashboard-action-container-icon {
+  color: var(--dashboard-action-container-text-color);
+}
+
+.dashboard-type-list li a {
+  color: var(--dashboard-type-color);
+}
+
+#reorder-button:hover {
+  cursor: move;
+}
+
+.option-item-long-label {
+  max-width: 120px;
+  line-height: 1.2;
+}
+
+.axonivy-loader p {
+  color: var(--ajax-loader-color);
+  margin-top: 5px;
+  text-align: center;
+  font-size: 1em;
+}
+
+.login-body .login-wrapper .login-panel > p.text-style-h4 {
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  color: inherit;
+}
+
+.login-footer p.text-style-h4 {
+  line-height: 22px;
+  margin: 0 32px 0 0;
+}
+
+.login-footer p.text-style-h6 {
+  line-height: 17px;
+  margin: 0;
+  color: rgba(41, 50, 65, 0.5);
+  font-weight: 500;
+}
+
+.result-message__icon {
+  color: var(--success-color, green);
+}
+
+.failed-message__icon {
+  color: var(--error-color, red);
+}
+
+/* Fix around for dark mode */
+.ui-dialog-content .card,
+.search-results-tabview .process-group .card {
+  border: 1px solid var(--card-dialog-border-color);
+}
+
+.search-results-tabview .process-list-container .image-process-item {
+  background-color: var(--process-list-compact-mode-background-color);
+}
+
+/* Dashboard Excel export */
+.dashboard-excel-export-form {
+  float: left;
+  display: inline;
+}
+
+/*-----------------------------NOTIFICATION---------------------------------------*/
+
+.notifications-badge {
+  width:24px;
+  height:22px;
+  font-weight: var(--notifications-title-header-font-weight);
+  font-size: var(--notification-label-font-size);
+  color: white;
+  position:absolute; bottom:30px; left:20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:50%;
+  background-color:var(--ivy-primary-color);
+}
+.notifications-button.ti,
+.notifications-button.tif,
+.notifications-button.si {
+  font-size: var(--default-font-size);
+}
+
+.notification-options-menu {
+  width: auto !important;
+}
+
+.notifications-indicator {
+  width: 1rem;
+  justify-content: center;
+  flex: 0 0 1.5rem;
+}
+
+.notifications-indicator-icon {
+  font-size: var(--notification-indicator-size);
+  padding-right: 5px;
+}
+
+.notifications-action-button.ti,
+.notifications-action-button.tif,
+.notifications-action-button.si {
+  font-size: var(--default-font-size);
+}
+
+.notifications-action-button.fa {
+  font-size: var(--default-font-size);
+  padding-right: 10px;
+}
+
+.notifications-container-top {
+  padding:0.8rem 0;
+  margin-bottom:0.5rem;
+  border-radius: 6px;
+  padding-left: 0.2rem;
+}
+
+.notifications-container-top:hover {
+  background-color: var(--notification-hover-message-color);
+}
+
+body .notification-scroll>.ui-datascroller-content  {
+  border: 0px;
+  padding: 2px;
+}
+body .notification-scroll>.ui-datascroller-content::-webkit-scrollbar {
+  display: none;
+}
+body .notification-full-scroll>.ui-datascroller-content  {
+  border: 0px;
+  padding: 2px;
+}
+.notifications-scroller-container .ui-datascroller .ui-datascroller-content{
+  border: 0px;
+  height:600px;
+  overflow:auto;
+}
+
+.notifications-item-container {
+  padding: 20px 15px 5px 15px;
+  display: block;
+  overflow: hidden;
+}
+
+.notifications-icon {
+  display: inline-flex;
+  justify-content: center;
+  height: auto;
+  width: auto;
+  align-items: center;
+  padding-right: 5px;
+}
+.notifications-panel {
+  background: var(--notification-panel-color);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  max-width: 100vw;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s;
+  -ms-transition: all 0s;
+  display: flex;
+  align-items: stretch;
+  /* set it in front of top-layout */
+  z-index: 999;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+.notifications-panel.active {
+  width: 450px;
+  max-width: 100vw;
+  visibility: visible;
+  opacity: 1;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 450px) {
+  .notifications-panel.active {
+    width: 100vw;
+  }
+}
+
+.notifications-item-list {
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 999;
+  text-align: left;
+  min-width: 200px;
+}
+
+@media screen and (max-width: 320px) {
+  .notifications-item-list {
+    min-width: 100%;
+    max-width: 100vw;
+  }
+}
+
+.notifications-item-time-since {
+  font-size: var(--notification-label-item-font-size);
+  margin-top: 0.3rem
+}
+.time-since {
+  padding-left: 1rem;
+}
+.notifications-title-header {
+  flex: 1;
+  font-weight: var(--notifications-title-header-font-weight);
+  font-size: var(--process-icon-font-size);
+  display: contents;
+}
+
+.notifications-group-name hr{
+  margin: 0.3rem 0;
+}
+
+.only-unread-block-text {
+  margin-left: 0.4rem;
+  font-weight: 500; 
+}
+
+.only-unread-block {
+    margin: 0.5rem 0 1.3rem 0;
+}
+
+@media screen and (max-width: 40em) {
+  .only-unread-block {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.notification-action-block {
+  margin-left: auto;
+  flex: 0 0 4rem;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.5rem;
+}
+
+.notification-start-task {
+  background-color: var(--accent-btn-bg);
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  border-radius: 50%;
+  display: block;
+}
+
+.notification-start-task-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+}
+
+.notification-message {
+  text-decoration: none !important;
+  color: var(--text-color) !important;
+}
+
+i.dashboard-icon-drag-drop {
+    color: var(--dashboard-icon-drag-drop-color);
+    width: 2.357rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2.257rem;
+    vertical-align: unset;
+    cursor: move
+
+}
+
+.global-search-form {
+  width: 600px;
+}
+
+.global-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  margin-top: -0.35rem;
+  z-index: 1;
+}
+.ui-inputfield.global-search-input {
+  padding-left: 2.5rem;
+  width: 100%;
+  min-width:100px;
+}
+.task-priority-item {
+  padding: 0.1rem;
+}
+
+@media (max-width: 767px) {
+  .global-search-form {
+    width: 330px;
+  }
+  .ui-inputfield.global-search-input {
+    max-width: 200px;
+  }
+  .setting-container .user-name {
+    display: none;
+  }
+}
+
+.global-search-all-results {
+  padding-top: 0.5rem;
+}
+.global-search-input.global-default-search-bar {
+  width: 100%;
+}
+.global-search-input.global-large-search-bar {
+  width: 600px;
+}
+
+.global-search-input.global-small-search-bar {
+  width: 200px;
+}
+
+.table-configuration {
+  height: 70vh;
+  width: 95vw;
+  overflow: auto;
+}
+
+@media (max-width: 1700px) {
+  .table-configuration {
+    height: 66vh;
+  }
+}  
+
+.multiple-language-data-table{
+  overflow: auto;
+  max-height: 50vh;
+  width: fit-content;
+}
+
+.qr-container {
+	position: relative;
+	display: inline-block;
+}
+
+.qr-code {
+	height: 100%;
+	width: 100%;
+}
+.qr-logo-background {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border-radius: 6px;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 0;
+}
+
+.qr-code-image {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40px;
+	height: 40px;
+	z-index: 1; 
+}
+
+.platform-image {
+	max-width: 50%;
+	margin: -15px 0;
+}
+
+.ui-disable {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.focusable {
+  padding: 10px;
+  border: 1px solid black;
+  margin: 5px;
+  cursor: pointer;
+}
+
+body.light .focused:not(input, button) {
+  outline: 2px solid var(--ivy-primary-color);
+}
+
+body.dark .focused:not(input, button) {
+  outline: 2px solid var(--ivy-primary-light-color);
+}
+
+.screenreader-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* ============== DIALOG FOOTER - CONFIRMATION DIALOG ============================  **/
+.ui-leave-button {
+  color: var(--text-color) !important;
+  background-color: var(--ui-leave-button-color) !important;
+  border: 1px solid var(--ui-leave-button-color) !important;
+}
+.ui-leave-button,
+.ui-reserve-task-button {
+  font-weight: 600;
+}
+.warning-before-leaving-task .ui-leave-button,
+.warning-before-leaving-task .ui-reserve-task-button {
+  font-weight: 500;
+}
+/* ====END OF==== DIALOG FOOTER - CONFIRMATION DIALOG ============================  **/
+
+/* ======================= STATISTIC CHART ================================  **/
+
+.card-widget__content {
+  container-type: size;
+}
+
+.chart-number-container {
+  color: var(--chart-container-number-color);
+  -webkit-text-stroke: 1px var(--chart-container-number-color-text-stroke);
+  width: fit-content;
+  margin: auto;
+  padding: 5px 5px;
+}
+
+.chart-number-container > span {
+  padding: 0.2em;
+}
+.chart-border {
+  border: 1px solid var(--ivy-portal-color-grey-200);
+  height: 75%;
+}
+
+.chart-number-animation {
+  -webkit-transition: font-size .3s ease;
+  -moz-transition: font-size .3s ease;
+  transition: font-size .3s ease;
+}
+
+.chart-number-counting {
+  font-size: max(1rem, 0.5rem + 2cqh);
+}
+
+.chart-number-font-size {
+  font-weight: 800;
+}
+
+.chart-content-card .chart-label-container {
+  word-break: break-word;
+  height: 2em;
+  padding-top: 10px;
+}
+
+.chart-content-card .chart-icon-font-size {
+  font-size: max(1rem, 1.5rem + 5cqh);
+}
+
+.chart-content-card .chart-name-font-size {
+  font-size: max(1.5rem, 1rem + 4cqh);
+}
+
+.chart-content-card .chart-number-font-size {
+  font-size: clamp(1.5rem, min(1.5rem + 30cqh, 4.5rem / var(--card-count, 1) + 1.5rem, (100cqw - 30px * (var(--card-count, 1) - 1)) / var(--card-count, 1) * 0.8), 6rem);
+}
+
+@container (max-width: 200px) {
+  .chart-content-card .chart-icon-font-size {
+    font-size: max(2rem, 1.5rem + 1cqh);
+  }
+
+  .chart-content-card .chart-name-font-size {
+    font-size: max(1.5rem, 1rem + 5cqw);
+  }
+
+  .chart-content-card .chart-number-font-size {
+    font-size: max(2rem, 1.5rem + 15cqh);
+  }
+}
+
+@container (max-height: 200px) {
+  .chart-content-card .chart-icon-font-size {
+    font-size: max(1rem, 1.5rem + 1cqh);
+  }
+
+  .chart-content-card .chart-name-font-size {
+    font-size: max(0.5rem, 1rem + 1cqw);
+  }
+
+  .chart-content-card .chart-number-font-size {
+    font-size: clamp(1.5rem, min(1.5rem + 30cqh, 4.5rem / var(--card-count, 1) + 1.5rem, (100cqw - 30px * (var(--card-count, 1) - 1)) / var(--card-count, 1) * 0.8), 3rem);
+  }
+}
+
+.chart-content-card {
+  position: relative;
+  width: 100%;
+}
+
+.statistic-chart-widget__chart {
+  height: 100%;
+  width: 100%;
+}
+
+.statistic-chart-widget__chart.client-number-chart {
+  overflow: auto;
+}
+
+.statistic-chart-widget__canvas {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  gap: 30px;
+  cursor: default;
+}
+
+@container (max-width: 200px) {
+  .statistic-chart-widget__canvas {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    cursor: default;
+    padding: 14px 14px;
+  }
+    
+  .statistic-chart-widget__canvas > .chart-border {
+    display: none;
+  }
+}
+
+.preview-statistic-chart .empty-message-container {
+  text-align: center;
+  margin: auto;
+}
+
+.preview-statistic-chart .empty-message-container {
+  text-align: center;
+  position: absolute;
+  align-content: center;
+  display: grid;
+}
+
+.preview-statistic-chart .empty-message-container .empty-message-icon {
+  font-size: var(--dashboard-table-empty-message-icon-font-size);
+  margin-bottom: 10px;
+  font-size: 3.2em;
+}
+
+/* ======================= PREVIEW STATISTIC CHART ==========================  **/
+
+.preview-chart-box {
+  position: inherit;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 70%;
+  width: 60%;
+}
+
+@media (max-width: 1920px) {
+   .preview-chart-box {
+     width: 70%;
+     height: 80%
+   }
+}
+
+.statistic-configuration__preview {
+  max-height: fit-content;
+}
+
+canvas#preview-statistic-chart {
+  height: calc(100% - 20px) !important;
+}
+
+.dialog-responsive.ui-dialog {
+  max-width: 100vw;
+}
+
+.login-body .login-wrapper .login-panel > button > span.ui-button-icon-left {
+  font-weight: normal;
+}
+
+body a.portal-pill-btn,
+body a.portal-pill-btn:hover,
+body a.portal-pill-btn:focus {
+  text-decoration: none;
+}
+
+body .ui-dialog .ui-dialog-titlebar > .ui-button-icon-left,
+body .ui-dialog .ui-dialog-titlebar {
+  color: var(--text-color) !important;
+}
+
+/* Shared: pill button ----------------------------------------*/
+.portal-pill-btn.ui-button,
+.portal-pill-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--portal-pill-btn-border-radius);
+  border: var(--portal-icon-btn-border-width) solid var(--secondary-btn-border);
+  background: var(--secondary-btn-bg);
+  color: var(--portal-detail-value-color);
+  min-height: var(--portal-icon-btn-size-md);
+  padding: 0 1.143rem;
+  gap: 0.5rem;
+  font-size: var(--default-font-size);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.portal-pill-btn .ti,
+.portal-pill-btn .tif {
+  line-height: 1 !important;
+  margin: 0;
+}
+
+body .ui-button.portal-pill-btn {
+  border: var(--portal-icon-btn-border-width) solid var(--secondary-btn-border);
+  background: var(--secondary-btn-bg);
+  color: var(--portal-detail-value-color);
+}
+
+body .ui-button.portal-pill-btn,
+body .ui-button.portal-pill-btn.ui-state-focus,
+body .ui-button.portal-pill-btn.ui-state-active,
+body .ui-button.portal-pill-btn.ui-state-down {
+  background: var(--secondary-btn-bg);
+  border-color: var(--secondary-btn-border);
+  color: var(--portal-detail-value-color);
+}
+
+body .ui-button.portal-pill-btn.ui-state-hover,
+body .portal-pill-btn:not(.ui-state-disabled):hover {
+  background: var(--secondary-btn-hover-bg);
+  border-color: var(--secondary-btn-border);
+  color: var(--portal-detail-value-color);
+}
+
+body .ui-button.portal-pill-btn-accent {
+  border-color: var(--accent-btn-border);
+  background: var(--accent-btn-bg);
+  color: var(--accent-btn-text);
+}
+
+body .ui-button.portal-pill-btn-accent,
+body .ui-button.portal-pill-btn-accent.ui-state-focus,
+body .ui-button.portal-pill-btn-accent.ui-state-active,
+body .ui-button.portal-pill-btn-accent.ui-state-down {
+  background: var(--accent-btn-bg);
+  border-color: var(--accent-btn-border);
+  color: var(--accent-btn-text);
+}
+
+body .ui-button.portal-pill-btn-accent.ui-state-hover,
+body .ui-button.portal-pill-btn-accent:not(.ui-state-disabled):hover {
+  background: var(--accent-btn-hover-bg);
+  border-color: var(--accent-btn-border);
+  color: var(--accent-btn-text);
+}
+
+.portal-pill-btn.portal-pill-btn-accent.ui-button,
+.portal-pill-btn.portal-pill-btn-accent {
+  border-color: var(--accent-btn-border);
+  background: var(--accent-btn-bg);
+  color: var(--accent-btn-text);
+}
+
+/* Shared: "Show more" link of the note / history / document widgets ----------------------------------------*/
+.portal-detail-show-more-btn {
+  font-weight: var(--details-document-add-link-font-weight);
+  max-width: 100%;
+  min-width: 0;
+}
+
+
+/* Truncate the label with an ellipsis when the widget header is too narrow, keeping the icon visible */
+.portal-detail-show-more-btn .ui-button-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.portal-detail-show-more-btn .ui-icon {
+  flex: none;
+}
+
+
+/* min-height must be overridden too, it beats height on the base pill */
+.portal-pill-btn.portal-pill-btn-sm.ui-button,
+.portal-pill-btn.portal-pill-btn-sm {
+  height: var(--portal-icon-btn-size-sm);
+  min-height: var(--portal-icon-btn-size-sm);
+  padding: 0 0.714rem;
+  gap: 0.214rem;
+}
+/* Shared: pill button on a `p:commandButton` ----------------------------------------*/
+body .ui-button.portal-pill-btn .ui-button-text {
+  padding: 0;
+}
+body .ui-button.ui-button-text-icon-left.portal-pill-btn .ui-icon {
+  position: static;
+  top: auto;
+  left: auto;
+  margin: 0;
+}
+
+.action-container {
+  gap: 0.5rem;
+}
+
+body .ui-button.portal-pill-btn.portal-pill-btn-accent,
+body .ui-button.portal-pill-btn.portal-pill-btn-accent.ui-state-focus,
+body .ui-button.portal-pill-btn.portal-pill-btn-accent.ui-state-active,
+body .ui-button.portal-pill-btn.portal-pill-btn-accent.ui-state-down {
+  background: var(--accent-btn-bg);
+  border-color: var(--accent-btn-border);
+  color: var(--accent-btn-text);
+}
+body .ui-button.portal-pill-btn.portal-pill-btn-accent.ui-state-hover,
+body .portal-pill-btn.portal-pill-btn-accent:not(.ui-state-disabled):hover {
+  background: var(--accent-btn-hover-bg);
+  border-color: var(--accent-btn-border);
+  color: var(--accent-btn-text);
+}
+body .portal-pill-btn.ui-state-disabled,
+body .portal-pill-btn.portal-pill-btn-accent.ui-state-disabled,
+body .ui-button.portal-pill-btn.ui-state-disabled,
+body .ui-button.portal-pill-btn.portal-pill-btn-accent.ui-state-disabled {
+  background: var(--accent-btn-disabled-bg);
+  border-color: var(--accent-btn-disabled-border);
+  color: var(--accent-btn-disabled-text);
+}
+
+/* Shared: detail-page toolbar (Back + layout actions) ----------------------------------------*/
+.portal-detail-toolbar {
+  box-sizing: border-box;
+  width: calc(100% - var(--portal-detail-grid-inset) * 2);
+  margin: 0 var(--portal-detail-grid-inset) var(--portal-detail-grid-inset);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.857rem;
+  padding: 0.857rem 1.429rem;
+  border-radius: var(--portal-card-radius);
+  box-shadow: var(--portal-card-shadow);
+}
+.portal-detail-toolbar-start,
+.portal-detail-toolbar-form {
+  display: flex;
+  align-items: center;
+  gap: 0.857rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.portal-detail-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.857rem;
+  flex: 0 0 auto;
+}
+
+.portal-detail-toolbar-actions button.switch-view-mode-btn, .portal-detail-toolbar-actions button.reset-details-settings-button {
+  height: var(--portal-icon-btn-size-lg);
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+}
+
+.portal-detail-toolbar-actions 
+.portal-detail-toolbar-share-mobile {
+  margin-left: auto;
+}
+
+body a.portal-detail-toolbar-back,
+body a.portal-detail-toolbar-back:hover,
+body a.portal-detail-toolbar-back:focus,
+.portal-detail-toolbar-back {
+  flex: 0 0 auto;
+  height: var(--portal-icon-btn-size-md);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--portal-detail-accent-color);
+}
+
+.portal-detail-toolbar .portal-detail-toolbar-actions .switch-to-edit-mode-btn {
+  min-width: 8.785rem;
+  height: 3.071rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.portal-detail-toolbar .portal-detail-toolbar-actions .switch-to-edit-mode-btn .ui-button-text {
+  white-space: nowrap;
+}
+
+/* Shared: empty-state block (task & case documents/notes) ----------------------------------------*/
+/* Flex chain from the gridstack card down to .no-item-panel, so the empty state can center on both
+   axes. flex-shrink stays 0: a table taller than the card must keep scrolling, not get clipped. */
+.portal-detail-widget-card {
+  display: flex;
+  flex-direction: column;
+}
+.portal-detail-widget-card > .portal-detail-widget,
+.portal-detail-widget > .portal-detail-widget-form,
+.portal-detail-widget-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  width: 100%;
+}
+.portal-detail-widget-body > .no-item-panel {
+  flex: 1 0 auto;
+  padding: 1.143rem;
+}
+
+.no-item-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.357rem;
+  padding: 2.857rem 1.143rem;
+}
+.no-item-panel > .ti,
+.no-item-panel > .tif,
+.no-item-panel > .si {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--no-item-icon-container-size);
+  height: var(--no-item-icon-container-size);
+  border-radius: 50%;
+  background: var(--no-item-icon-background-color);
+  color: var(--no-item-icon-color);
+  font-size: var(--no-item-icon-font-size);
+  line-height: 1;
+  margin-bottom: 1.071rem;
+}
+.no-item-panel .no-item-header {
+  font-size: var(--no-item-header-font-size);
+  font-weight: var(--widget-header-font-weight);
+  line-height: 1.4;
+  color: var(--portal-detail-value-color);
+}
+.no-item-panel .no-item-detail {
+  color: var(--portal-detail-label-color);
+  font-size: var(--no-item-detail-font-size);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.no-item-panel .no-item-action-link {
+  color: var(--portal-detail-accent-color);
+  margin-top: 0.357rem;
+}
+.no-item-panel .no-item-action-link .ti {
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+}
+.no-item-panel .no-item-action-link .ti-circle-plus {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  display: inline-flex !important;
+}
+
+/* Cards: outer widget card + inner sub-cards ----------------------------------------*/
+.portal-detail-body .card.task-detail-card,
+.portal-detail-body .card.case-detail-card {
+  border: none;
+  border-radius: var(--portal-card-radius);
+  box-shadow: var(--portal-card-shadow);
+}
+/* Sub-card ("Role & User information", "Time Information", …) */
+.portal-detail-inner-card {
+  box-sizing: border-box;
+  border: 1px solid var(--portal-detail-card-border-color);
+  border-radius: var(--portal-card-radius);
+  background: var(--portal-detail-subcard-bg);
+  padding: var(--portal-detail-subcard-padding);
+}
+
+/* Left-column cards: the "summary" widget and the "information" widget ----------------------------------------*/
+.task-detail-header-card,
+.case-detail-header-card,
+.portal-detail-details-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+.portal-detail-details-card {
+  display: flow-root;
+}
+
+.portal-detail-block-title {
+  font-weight: var(--widget-header-font-weight);
+  font-size: var(--widget-header-font-size);
+  line-height: 1.4;
+  color: var(--portal-detail-value-color);
+}
+.portal-detail-widget-header-title {
+  font-weight: var(--widget-header-font-weight);
+  font-size: var(--widget-header-font-size);
+  line-height: 1.4;
+  color: inherit;
+}
+.portal-detail-subcard-title,
+.task-description-title {
+  font-weight: var(--widget-header-font-weight);
+  font-size: var(--default-font-size);
+  color: var(--portal-detail-value-color);
+}
+.portal-detail-column-title {
+  color: var(--portal-detail-label-color);
+  font-size: var(--default-font-size);
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* ---- Shared: summary card header (identity row) ---- */
+.portal-detail-body .task-detail-header-row,
+.portal-detail-body .case-detail-header-row {
+  display: flex !important;
+  align-items: center;
+  margin-bottom: 0;
+  justify-content: space-between;
+  gap: 1.143rem;
+}
+
+.task-detail-header-row .task-detail-header-actions.action-container,
+.case-detail-header-row .case-detail-header-actions.action-container {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+.task-detail-header-row .task-detail-header-actions.action-container,
+.case-detail-header-row .case-detail-header-actions.action-container {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+
+.task-detail-identity,
+.case-detail-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.071rem;
+  min-width: 0;
+}
+.task-detail-name-row,
+.case-detail-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.429rem;
+}
+.task-detail-eyebrow,
+.case-detail-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--portal-detail-eyebrow-tracking);
+  font-size: var(--small-font-size);
+  font-weight: var(--portal-detail-label-font-weight);
+  line-height: var(--portal-detail-label-line-height);
+  color: var(--portal-detail-label-color);
+}
+.task-detail-name {
+  font-size: var(--widget-header-font-size);
+  font-weight: var(--widget-header-font-weight);
+  line-height: var(--portal-detail-title-line-height);
+  color: var(--portal-detail-value-color);
+}
+.task-detail-pin-indicator {
+  color: var(--primary-color);
+}
+.task-detail-subtitle,
+.case-detail-subtitle {
+  color: var(--portal-detail-label-color);
+  font-size: var(--small-font-size);
+  font-weight: 400;
+  line-height: var(--portal-detail-label-line-height);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.task-detail-header-actions .task-action-item-label {
+  font-size: var(--default-font-size);
+}
+.task-detail-header-actions .task-action-item.start-task-action .task-action-item-label {
+  font-weight: 400;
+}
+
+/* Delegate Task link in the Role & User sub-card header */
+.task-detail-delegate-link {
+  flex: 0 1 auto;
+  color: var(--primary-color);
+}
+.task-detail-delegate-link .ti,
+.task-business-case .ti,
+.task-detail-attr .task-detail-attr-value .ti,
+.portal-pill-btn .ti {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.task-and-case-information .content-field .task-business-case,
+.task-and-case-information .content-field .ti-external-link {
+  color: var(--primary-color);
+}
+.task-and-case-information .content-field .task-business-case {
+  max-width: 100%;
+  vertical-align: middle;
+}
+.task-and-case-information .content-field .task-business-case .ti-external-link {
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+/* Shared: action-menu trigger ("...") in the summary card header ----------------------------------------*/
+.task-detail-header-actions,
+.case-detail-header-actions {
+  gap: 0.714rem;
+}
+
+/* Attribute strip: Priority | State | Due | Workflow ----------------------------------------*/
+.task-detail-attr .portal-detail-column-title,
+.case-detail-attr .portal-detail-column-title {
+  font-size: var(--small-font-size);
+  font-weight: var(--portal-detail-label-font-weight);
+  line-height: var(--portal-detail-label-line-height);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-detail-attr .task-detail-attr-value {
+  display: flex;
+  align-items: center;
+  gap: 0.429rem;
+  color: var(--portal-detail-value-color);
+  font-size: var(--default-font-size);
+  font-weight: var(--portal-detail-value-font-weight);
+  line-height: var(--portal-detail-value-line-height);
+  min-width: 0;
+  overflow: hidden;
+  cursor: default;
+}
+.task-detail-attr .task-detail-attr-value > span,
+.task-detail-attr .task-detail-attr-value > a,
+.case-detail-attr .case-detail-attr-value > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.task-detail-attr .task-detail-attr-value > a {
+  display: inline-flex;
+  align-items: center;
+}
+.task-detail-attr .task-detail-attr-value > a > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* "See details" (Workflow) is a primary-colored link, not a plain value */
+.task-detail-attr .task-detail-attr-value a[id$=":workflow-event-link"],
+.task-detail-attr .task-detail-attr-value a[id$=":workflow-event-link"] .ti {
+  color: var(--primary-color);
+}
+
+.portal-detail-body .separator-task-detail.ui-divider,
+.portal-detail-body .separator-task-detail {
+  border-color: var(--portal-detail-card-border-color);
+  margin: var(--portal-detail-card-gap) 0;
+  padding: 0;
+}
+body .portal-detail-body .separator-task-detail.ui-divider:before {
+  border-top-color: var(--portal-detail-card-border-color);
+}
+
+/* Case Detail UI redesign (IVYPORTAL-20779) ----------------------------------------*/
+
+/* ---- Summary card: identity row -------------------------------------------- */
+.task-detail-identity > .flex-column,
+.case-detail-identity > .flex-column {
+  gap: 0.357rem;
+}
+/* Overrides module.css `.case-detail-name` (list/header styling) inside the card. */
+.portal-detail-body .case-detail-name {
+  font-size: var(--widget-header-font-size);
+  font-weight: var(--widget-header-font-weight);
+  line-height: var(--portal-detail-title-line-height);
+  color: var(--portal-detail-value-color);
+}
+.case-detail-pin-indicator {
+  color: var(--portal-detail-accent-color);
+}
+
+/* Shared: summary-card attribute strip ----------------------------------------*/
+.case-detail-attr-strip,
+.task-detail-attr-strip {
+  --task-detail-gap: 1.429rem;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  column-gap: var(--task-detail-gap);
+  row-gap: 0.714rem;
+  padding: 0.714rem var(--task-detail-gap);
+  min-height: 5.286rem;
+  border: 1px solid var(--portal-detail-card-border-color);
+  border-radius: var(--portal-card-radius);
+  background: var(--portal-detail-subcard-bg);
+}
+.case-detail-attr-strip > .case-detail-attr,
+.task-detail-attr-strip > .task-detail-attr {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.case-detail-attr-strip > .case-detail-attr:not(:first-child)::before,
+.task-detail-attr-strip > .task-detail-attr:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--task-detail-gap) / -2);
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2.143rem;
+  border-left: 1px solid var(--portal-detail-table-row-border-color);
+}
+.case-detail-attr .case-detail-attr-value {
+  display: flex;
+  align-items: center;
+  gap: 0.429rem;
+  color: var(--portal-detail-value-color);
+  font-size: var(--default-font-size);
+  font-weight: var(--portal-detail-value-font-weight);
+  line-height: var(--portal-detail-value-line-height);
+  min-width: 0;
+  overflow: hidden;
+}
+.case-detail-attr .case-detail-attr-value .case-header-default-cell {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.task-detail-attr .task-detail-attr-value .ti,
+.task-detail-attr .task-detail-attr-value .tif,
+.case-detail-attr .case-detail-attr-value .ti,
+.case-detail-attr .case-detail-attr-value .tif {
+  flex: 0 0 auto;
+}
+
+/* `.priority-cell .priority-icon` floats (module.css), so it adds no height to the inline
+   `.ui-inplace-display`: its hover highlight would only paint a baseline-height strip under the row.
+   Un-float inside the strip and let the display box size itself to the content instead. */
+.task-detail-attr .task-detail-attr-value .task-details-priority .priority-cell,
+.task-detail-attr .task-detail-attr-value .task-details-priority .priority-cell .priority-icon {
+  float: none;
+  display: inline-flex;
+  align-items: center;
+}
+.task-detail-attr .task-detail-attr-value .task-details-priority .portal-edit-inplace .ui-inplace-display {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.286rem 0.429rem;
+}
+.task-detail-attr .task-detail-attr-value .task-details-priority .edit-priority-inplace .ui-inplace-display {
+  margin-left: -0.429rem;
+}
+
+/* ---- Details card: heading, description, sub-cards -------------------- */
+.portal-detail-details-card .portal-detail-details-heading {
+  margin-bottom: var(--portal-detail-card-gap);
+}
+/* Description */
+.portal-detail-details-card .case-details-description-title {
+  margin-bottom: 0.714rem;
+}
+.portal-detail-details-card .case-details-description-title .portal-detail-subcard-title {
+  display: flex;
+  align-items: center;
+  gap: 0.714rem;
+  padding: 0 !important;
+}
+.portal-detail-details-card .case-details-description-content {
+  padding: 0 !important;
+}
+.portal-detail-details-card .case-detail-description,
+.portal-detail-details-card .case-description-output {
+  font-size: var(--default-font-size);
+  font-weight: 400;
+  color: var(--portal-detail-value-color);
+}
+.portal-detail-details-card .case-detail-description {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+.portal-detail-details-card .case-detail-description > .scroll-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.portal-detail-details-card .case-detail-description-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Role & User information + Time Information side by side */
+.portal-detail-subcards-row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--portal-detail-card-gap);
+  flex-wrap: wrap;
+}
+.portal-detail-subcards-row > .portal-detail-inner-card {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+/* Business case sub-card */
+.portal-detail-trailing-card {
+  margin-top: var(--portal-detail-card-gap);
+}
+
+/* Sub-card internals: title + key/value rows */
+.portal-detail-inner-card .portal-detail-subcard-title {
+  padding: 0 0 0.714rem 0 !important;
+  border-bottom: 1px solid var(--portal-detail-card-border-color);
+}
+.portal-detail-inner-card .portal-detail-subcard-title .text-ellipsis {
+  padding: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.portal-detail-inner-card .content-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.143rem;
+  min-height: 1.786rem;
+  margin: 0;
+  padding: 0.571rem 0;
+}
+.portal-detail-inner-card .content-field + .content-field {
+  border-top: 1px solid var(--portal-detail-card-border-color);
+}
+.portal-detail-kv-label {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.portal-detail-kv-value .portal-edit-inplace .ui-inplace-display {
+  margin-right: -0.5rem;
+}
+.portal-detail-kv-value {
+  flex: 0 1 auto;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--default-font-size);
+  font-weight: 400;
+  color: var(--portal-detail-value-color);
+}
+.portal-detail-kv-value.flex {
+  justify-content: flex-end;
+  align-items: center;
+}
+.portal-detail-kv-value.flex > * {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.portal-detail-kv-value.flex > .task-expiry-activator-edit {
+  flex: none;
+}
+.responsibles {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+.responsibles > span {
+  min-width: 0;
+}
+.responsibles > .ml-1 {
+  flex: none;
+}
+.responsibles-avatar-group .ui-avatar + .ui-avatar {
+  margin-left: -0.5rem;
+}
+.responsibles-avatar-group .ui-avatar.responsibles-more {
+  font-size: 0.75rem;
+}
+
+.portal-detail-kv-value .ui-avatar,
+.portal-detail-kv-value .avatar,
+.portal-detail-kv-value img {
+  width: 1.786rem;
+  height: 1.786rem;
+}
+
+.task-general-info-responsibles.portal-detail-kv-value .responsibles-avatar-group .ui-avatar, .content-field-after-escalation.portal-detail-kv-value .responsibles-avatar-group .ui-avatar {
+  margin-left: -0.3rem !important;
+}
+
+.portal-detail-kv-value .responsibles-avatar-group .ui-avatar {
+  border: 2px solid var(--substituted-user-avatar-color);
+  box-sizing: content-box;
+}
+
+.portal-detail-kv-value .responsibles-avatar-group .ui-avatar.responsibles-more {
+  background-color: var(--portal-detail-card-border-color);
+  color: var(--portal-detail-value-color);
+}
+
+.portal-detail-body .business-case-information .case-detail-business-case {
+  color: var(--portal-detail-accent-color);
+  font-size: var(--default-font-size);
+  font-weight: 400;
+}
+
+/* Shared: widget-card header row (title + actions) ----------------------------------------*/
+.portal-detail-widget-header {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 !important;
+  padding-bottom: 1.143rem !important;
+  border-bottom: 1px solid var(--portal-detail-card-border-color);
+  margin-bottom: var(--portal-detail-card-gap);
+}
+.portal-detail-body .case-detail-header-card .case-detail-section-title,
+.portal-detail-body .task-detail-header-card .task-detail-section-title {
+  padding-bottom: 0 !important;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+/* Gap between the header actions */
+.portal-detail-widget-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.714rem;
+  row-gap: 0.429rem;
+}
+.portal-detail-widget-header-actions .u-mar-right-10 {
+  margin-right: 0;
+}
+.related-task-section-header-actions .related-task-export-to-excel,
+.related-case-section-header-actions .related-case-export-to-excel {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Tables (Documents, Related tasks, Related cases, History) ----------------------------------------*/
+.portal-detail-body .ui-datatable thead:not(.ui-datatable-scrollable-theadclone) th {
+  box-sizing: border-box;
+  height: 4.071rem;
+  padding: 1.143rem 0.857rem;
+  background: var(--portal-detail-table-cell-bg);
+  border: none;
+  border-bottom: 1px solid var(--portal-detail-card-border-color);
+  font-size: var(--default-font-size);
+  font-weight: 400;
+  color: var(--portal-detail-value-color);
+}
+.portal-detail-body .ui-datatable tbody td {
+  box-sizing: border-box;
+  height: 4.071rem;
+  padding: 1.143rem 0.857rem;
+  background: var(--portal-detail-table-cell-bg);
+  border: none;
+  border-bottom: 0.5px solid var(--portal-detail-table-row-border-color);
+  font-size: var(--default-font-size);
+  font-weight: 400;
+  color: var(--portal-detail-value-color);
+}
+/* No row striping — keep every row on the card background */
+.portal-detail-body .ui-datatable tbody tr.ui-datatable-even > td,
+.portal-detail-body .ui-datatable tbody tr.ui-datatable-odd > td {
+  background: var(--portal-detail-table-cell-bg);
+}
+.portal-detail-body .ui-datatable tbody td a,
+.portal-detail-body .ui-datatable tbody td .ui-commandlink {
+  font-weight: 500;
+}
+.portal-detail-body .ui-datatable tbody td .case-document-name-text,
+.portal-detail-body .ui-datatable tbody td .task-document-name-text {
+  color: var(--portal-detail-accent-color);
+}
+/* Avatar in a table cell */
+.portal-detail-body .ui-datatable tbody td .ui-avatar,
+.portal-detail-body .ui-datatable tbody td .avatar,
+.portal-detail-body .ui-datatable tbody td .has-avatar img {
+  width: 1.786rem;
+  height: 1.786rem;
+  border-radius: 50%;
+}
+.portal-detail-body .ui-datatable tbody td .name-after-avatar {
+  font-size: var(--small-font-size);
+  font-weight: 400;
+}
+.case-details-business-details-table {
+  clear: both;
+}
+.portal-detail-body .case-details-document-download-icon,
+.portal-detail-body .task-details-document-download-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.357rem;
+  border: var(--portal-icon-btn-border-width) solid var(--accent-btn-border);
+  border-radius: 0.5rem;
+  background: var(--accent-btn-bg);
+  color: var(--portal-detail-accent-color);
+  font-size: var(--default-font-size) !important;
+  line-height: 1 !important;
+}
+
+.portal-action-menu .case-side-steps-panel,
+.portal-action-menu .task-additional-actions-panel {
+  display: contents;
+}
+
+.portal-action-menu .case-side-steps-panel > .portal-action-menu-item:first-child,
+.portal-action-menu .task-additional-actions-panel > .portal-action-menu-item:first-child {
+  border-top-color: var(--ivy-primary-color-grey-light);
+}
+
+.portal-action-menu .portal-action-menu-trail {
+  flex: 0 0 auto;
+  margin-left: auto;
+  line-height: 1;
+  color: var(--portal-detail-accent-color);
+}
+.portal-action-menu .additional-case-details-link {
+  margin-left: 0;
+  font-size: inherit;
+  font-weight: 400;
+}
+.portal-action-menu.ui-menu .ui-menu-list {
+  padding: 0;
+  margin: 0;
+}
+.portal-action-menu.ui-menu .ui-divider.separator {
+  display: none;
+}
+.portal-action-menu.ui-menu .ui-divider.separator + .ui-menuitem > .ui-menuitem-link,
+.portal-action-menu.ui-menu .ui-menuitem:has(> .ui-divider.separator) + .ui-menuitem > .ui-menuitem-link {
+  border-top-color: var(--ivy-primary-color-grey-light);
+}
+
+/* Shared: standalone detail pages (documents / note history) ----------------------------------------*/
+.portal-detail-page-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  min-width: 0;
+  gap: var(--portal-detail-card-gap);
+  margin: var(--portal-detail-grid-inset);
+}
+.portal-detail-page-content > .card {
+  margin-bottom: 0;
+}
+
+/* Share link panel ----------------------------------------*/
+.share-link-panel.ui-overlaypanel {
+  width: 30dvw;
+  padding: 1rem;
+  margin-top: 3rem;
+  border-radius: 10px;
+}
+
+.share-link-panel.ui-overlaypanel .ui-overlaypanel-content {
+  padding: 0 !important;
+}
+
+.share-link-panel-content {
+  display: flex;
+  flex-direction: row;
+  gap: 0.857rem;
+}
+
+.share-link-panel-flush.ui-overlaypanel {
+  margin-top: 0;
+}
+
+.share-link-panel-input-group {
+  margin: 0;
+  width: 100%;
+}
+
+.share-link-panel-input-group > input {
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.share-link-panel-copy-form {
+  display: none;
+}
+
+html.js-clipboard-supported .share-link-panel-copy-form {
+  display: block;
+}
+
+
+/* Shared: mid-size dialogs (Excel export status, add note) ----------------------------------------*/
+.export-status-dialog.ui-dialog,
+.portal-detail-note-dialog.ui-dialog {
+  min-width: min(50vw, 750px);
+  max-width: 750px;
+}
+@media screen and (max-width: 40em) {
+  .export-status-dialog.ui-dialog,
+  .portal-detail-note-dialog.ui-dialog {
+    min-width: 85vw;
+    max-width: 96vw;
+  }
+}
+
+/* Responsive ----------------------------------------*/
+@media screen and (max-width: 640px) {
+  .case-detail-attr-strip > .case-detail-attr,
+  .task-detail-attr-strip > .task-detail-attr {
+    flex-basis: 100%;
+  }
+  .case-detail-attr-strip > .case-detail-attr::before,
+  .task-detail-attr-strip > .task-detail-attr::before {
+    display: none;
+  }
+  .portal-detail-subcards-row > .portal-detail-inner-card {
+    flex-basis: 100%;
+  }
+}
+
+.dashboard-configuration-page .card, .dashboard-configuration-page .ui-g > .card,
+.absences-management-page .card {
+  border-radius: 15px !important;
+  box-shadow: var(--card-box-shadow) !important;
+}
+
+/* ======================= PORTAL FIELDSET LEGEND ========================== */
+.portal-fieldset.ui-fieldset {
+  border-radius: 10px;
+}
+
+.portal-fieldset.ui-fieldset > .ui-fieldset-legend {
+  border-radius: 100px;
+  padding: 0.4rem 0.9rem;
+}
+
+.portal-fieldset.ui-fieldset > .ui-fieldset-legend .ui-fieldset-legend-text {
+  font-weight: 600;
+}
+
+.portal-fieldset.ui-fieldset > .ui-fieldset-legend .ui-fieldset-toggler {
+  background: none;
+  width: auto;
+  height: auto;
+  text-indent: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ==================== PORTAL FIELDSET LEGEND END ======================== */

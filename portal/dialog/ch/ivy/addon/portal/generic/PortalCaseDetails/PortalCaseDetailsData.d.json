@@ -1,0 +1,22 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "PortalCaseDetailsData",
+  "namespace" : "ch.ivy.addon.portal.generic.PortalCaseDetails",
+  "fields" : [ {
+    "name" : "caseInfo",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isShowBackButton",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isTaskStartedInDetails",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseLazyDataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.internal.RelatedCaseLazyDataModel",
+    "modifiers" : [ ]
+  } ]
+}

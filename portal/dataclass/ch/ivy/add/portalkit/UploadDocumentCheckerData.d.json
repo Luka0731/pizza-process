@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "UploadDocumentCheckerData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "uploadedFile",
+    "type" : "org.primefaces.model.file.UploadedFile",
+    "modifiers" : [ ]
+  }, {
+    "name" : "checkStatus",
+    "type" : "com.axonivy.portal.components.enums.UploadDocumentCheckStatus",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  } ]
+}

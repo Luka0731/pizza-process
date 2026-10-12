@@ -1,0 +1,51 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "TaskExpiryActivatorSelectionData",
+  "namespace" : "ch.ivy.addon.portalkit.component.TaskExpiryActivatorSelection",
+  "fields" : [ {
+    "name" : "canChangeTaskActivator",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "users",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.UserDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "roles",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.RoleDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedActivator",
+    "type" : "ch.ivyteam.ivy.security.ISecurityMember",
+    "modifiers" : [ ]
+  }, {
+    "name" : "queryAutoComplete",
+    "modifiers" : [ ]
+  }, {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedUser",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedRole",
+    "type" : "com.axonivy.portal.components.dto.RoleDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "comment",
+    "modifiers" : [ ]
+  }, {
+    "name" : "notes",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isUserAssigned",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isDisabledAssignButton",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaseInformationInIFrameData",
+  "namespace" : "ch.ivy.addon.portal.component.iframe.CaseInformationInIFrame",
+  "fields" : [ {
+    "name" : "currentCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "showBackButton",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "readOnly",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "uuid",
+    "modifiers" : [ ]
+  } ]
+}

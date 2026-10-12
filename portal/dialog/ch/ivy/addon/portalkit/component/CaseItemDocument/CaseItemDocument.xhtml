@@ -1,0 +1,277 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:jsf="jakarta.faces" xmlns:c="jakarta.tags.core"
+  xmlns:pc="jakarta.faces.composite/components">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="case" type="ch.ivyteam.ivy.workflow.ICase" />
+  <cc:attribute name="componentToUpdate" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set value="#{cc.attrs.case}" var="case" />
+  <f:event listener="#{logic.initData(case)}" type="preRenderComponent" />
+  <div id="#{cc.clientId}" class="case-details-item portal-detail-widget #{cc.attrs.styleClass} ui-g">
+    <p:growl id="case-document-global-messages" escape="false" />
+    <h:form id="case-document-form" prependId="false" styleClass="ui-g-12 u-padding-0 portal-detail-widget-form">
+      <div class="case-detail-section-title portal-detail-widget-header ui-g-12 flex align-items-center justify-content-between">
+        <div class="u-truncate-text u-padding-0 task-details-panel-title portal-detail-block-title portal-detail-widget-header-title" role="heading" aria-level="1">
+          #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseDetails/documents')}
+        </div>
+        <h:panelGroup layout="block" styleClass="document-case-detail-section-header-actions portal-detail-widget-header-actions u-padding-0 flex align-items-center">
+          <p:commandButton id="add-document-command" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')}"
+            title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')}"
+            styleClass="rounded-button case-details-document-add-link portal-icon-btn"
+            rendered="#{caseTaskDocumentBean.canWriteDocument(case)}"
+            icon="#{visibilityBean.generateButtonIcon('ti ti-plus')}"
+            onclick="PF('document-upload-dialog').show()" type="button" />
+          <p:button id="show-more-doc-link" rendered="#{caseTaskDocumentBean.showMoreDocument}"
+            styleClass="portal-detail-show-more-btn portal-pill-btn"
+            value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/showMoreBtn')}"
+            icon="ti ti-external-link"
+            href="#{caseTaskDocumentBean.getCaseDocumentsLink(case)}" target="_blank" />
+        </h:panelGroup>
+      </div>
+
+      <div class="ui-g-12 u-padding-0 portal-detail-widget-body">
+        <p:dataTable cellNavigation="false" id="case-details-documents" rendered="#{not empty data.documents}" var="document"
+          value="#{data.documents}" paginator="true" paginatorAlwaysVisible="false" pageLinks="3" rows="5"
+          rowsPerPageTemplate="5,10,20,50" paginatorPosition="bottom"
+          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+          emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noRecordsFound')}"
+          currentPageReportTemplate="{currentPage} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/curentReportOf')} {totalPages}"
+          styleClass="case-details-documents" lazy="false" rowIndexVar="rowIndex"
+          sortBy="#{caseDetailsBean.sortByCreationTimestamp}">
+          <p:ajax event="page" oncomplete="ResponsiveTable.init(':case-details-documents')"/>
+          <p:ajax event="sort" oncomplete="ResponsiveTable.init(':case-details-documents')"/>
+
+          <p:column id="document-name" headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/name')}"
+            sortBy="#{document.name}"
+            styleClass="u-truncate-text document-name">
+            <h:panelGroup layout="block" rendered="#{document ne null}" styleClass="case-document-name">
+              <p:commandLink ajax="false" id="download" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/download')}"
+                styleClass="case-document-name-text u-truncate-text">
+                <p:fileDownload value="#{logic.downloadDocument(document)}" />
+                <ic:ch.ivy.addon.portalkit.component.document.DocumentNameWithIcon fileName="#{document.name}" fileSize="#{masterDataBean.getReadableFileSize(document.size)}"
+                  symbolStyleClass="case-details-document-download-icon" 
+                  fileNameStyleClass="js-document-name document-name"
+                  fileSizeStyleClass="document-size" />
+                <p:tooltip for="download" trackMouse="true" hideEvent="mouseleave click" value="#{document.relativePath}" />
+              </p:commandLink>
+            </h:panelGroup>
+          </p:column>
+
+          <p:column id="document-author"
+            headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/author')}"
+            styleClass="case-document-author js-column-priority-2"
+            sortBy="#{securityMemberDisplayNameFormatBean.generateBriefDisplayNameForSecurityMember(document.creation.user, document.creation.user.name)}"
+            width="200px">
+            <pc:securityMemberNameAndAvatar securityMember="#{document.creation.user}"
+              displayName="#{securityMemberDisplayNameFormatBean.generateBriefDisplayNameForSecurityMember(document.creation.user, document.creation.user.name)}" />
+          </p:column>
+
+          <p:column id="document-creation"
+            headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/creationDate')}"
+            styleClass="case-history-date js-column-priority-3"
+            sortBy="#{document.creation.timestamp}"
+            width="150px" field="creation.timestamp" filterable="false">
+            <h:outputText value="#{document.creation.timestamp}">
+              <f:convertDateTime locale="#{localeBean.locale}" pattern="#{dateTimePatternBean.dateTimestampPattern}"/>
+            </h:outputText>
+          </p:column>
+
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}"
+            styleClass="document-actions text-center" width="80">
+            <pc:actionMenu triggerId="document-actions-menu"
+              panelWidgetVar="case-widget-document-actions-panel-#{rowIndex}"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')} #{document.name}"
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}">
+              <ui:include src="/layouts/includes/DocumentActionItems.xhtml">
+                <ui:param name="canWriteDocument" value="#{caseTaskDocumentBean.canWriteDocument(case)}" />
+                <ui:param name="previewRendered" value="#{data.isDocumentPreviewEnabled and caseTaskDocumentBean.isSupportedPreviewType(document)}" />
+                <ui:param name="previewUpdate" value="#{p:resolveFirstComponentWithId('preview-document-dialog', view).clientId}" />
+                <ui:param name="renameUpdate" value="#{p:resolveFirstComponentWithId('document-renaming-dialog', view).clientId}" />
+                <ui:param name="deleteFileLabel" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseDetails/deleteFile')}" />
+              </ui:include>
+            </pc:actionMenu>
+          </p:column>
+        </p:dataTable>
+
+        <h:panelGroup layout="block" styleClass="ui-g-12 no-item-panel" rendered="#{empty data.documents}">
+          <i class="ti ti-file-text" />
+          <h:outputText styleClass="no-item-header" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noDocumentAvailable')}" />
+          <h:outputText styleClass="no-item-detail" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/pleaseAddDocument')}"
+            rendered="#{caseTaskDocumentBean.canWriteDocument(case)}" />
+          <p:commandLink id="add-document-command-empty" global="false"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')}"
+            rendered="#{caseTaskDocumentBean.canWriteDocument(case)}"
+            styleClass="case-details-document-add-link no-item-action-link portal-link portal-detail-link"
+            onclick="PF('document-upload-dialog').show()">
+            <i class="ti ti-circle-plus" />
+            <span>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')}</span>
+          </p:commandLink>
+        </h:panelGroup>
+      </div>
+    </h:form>
+  </div>
+  
+  <p:dialog id="document-upload-dialog"
+    widgetVar="document-upload-dialog" appendTo="@(body)" dynamic="true"
+    modal="true" resizable="false" showEffect="fade" hideEffect="fade" fitViewport="true"
+    header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')}"
+    closeOnEscape="true" responsive="true" closable="true"
+    width="450px">
+    <div class="ui-g">
+      <h:form id="document-upload-form" style="width: 450px">
+      <div class="w-full">
+          <p:messages id="upload-messages" />
+          <div style="display: none;" id="error-message" />
+        </div>
+       <div class="w-full">
+        <p class="import-header-title text-style-h6">
+        <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDetails/supportFileTypes',[masterDataBean.allowedUploadFileType])}" />
+        </p>
+        </div>
+        <div class="w-full">
+          <p:fileUpload id="document-upload-panel" listener="#{logic.uploadDocument}" mode="advanced" chooseIcon="#{visibilityBean.generateButtonIcon('ti ti-plus')}" style="display: none;" dragDrop="true" label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/select')}" auto="true" multiple="true" update="#{p:resolveFirstComponentWithId('upload-messages', view).clientId} #{cc.attrs.componentToUpdate} #{p:resolveFirstComponentWithId('case-document-form', view).clientId} @form" oncomplete="handleCaseDetailsTable()" onvalidationfailure="handleUploadFileFail('documentUpload');" dropZone="document-upload-file-panel" widgetVar="documentUpload">
+            <p:validateFile sizeLimit="#{masterDataBean.fileUploadSizeLimit}" />
+          </p:fileUpload>
+        </div>
+        <div class="ui-g-12">
+          <p:outputPanel id="document-upload-file-panel" styleClass="ui-document-upload-file-panel">
+            <span class="ui-document-upload-file-label"> 
+            <i class="ti ti-file-upload" id="ui-document-upload-file-icon" />
+              <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDetails/addDocumentHelpText')}">
+                <p:link styleClass="portal-link" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/uploadHere')}"
+                  onclick="PF('documentUpload').show();return false" />
+              </p:outputLabel>
+            </span>
+          </p:outputPanel>
+        </div>
+      </h:form>
+      <div class="ui-g-12">
+        <p:commandButton id="document-upload-close-command" type="button"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/closeContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addDocument')])}"
+          onclick="PF('document-upload-dialog').hide();" styleClass="w-full" />
+      </div>
+      <p:ajax event="close" global="false"
+        listener="#{logic.resetDataUploadDialog()}"
+        update="#{p:resolveFirstComponentWithId('upload-messages', view).clientId} @this" />
+    </div>
+  </p:dialog>
+  
+  <!-- set closable to true to force to close stream by clicking Close button -->
+  <p:dialog widgetVar="preview-document-dialog" id="preview-document-dialog" appendTo="@(body)" maximizable="true"
+      width="70vw" header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/PreviewDocument')}" resizable="false"
+      modal="true" showEffect="fade" hideEffect="fade" closable="false"
+      dynamic="true" fitViewport="true" responsive="true">
+    <div class="ui-g-12">
+      <p:media value="#{data.streamedContent}" width="100%" height="600" cache="false" id="media-content" player="pdf" rendered="#{!data.isImage}"/>
+      <p:graphicImage alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/PreviewDocument')}" 
+        value="#{data.streamedContent}" stream="true" height="600" width="100%" rendered="#{data.isImage}" styleClass="preview-image" cache="false"/>
+    </div>
+    <f:facet name="footer">
+      <div class="u-dialog-footer-actions-group">
+        <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/closeContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/PreviewDocument')])}"
+          id="preview-document-close-button" actionListener="#{logic.closeStream}"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-x')}" onclick="PF('preview-document-dialog').hide();" />
+      </div>
+    </f:facet>
+  </p:dialog>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="widgetVar" value="preview-document-warning-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="styleClass" value="w-4"></ui:param>
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/warning')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/previewErrorMessage')}" />
+
+    <ui:define name="dialogFooter">
+      <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/closeContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/warning')])}" type="button"
+        id="preview-document-warning-close-button" styleClass="w-full" onclick="PF('preview-document-warning-dialog').hide();" />
+    </ui:define>
+  </ui:decorate>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="widgetVar" value="preview-document-confirmation-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="styleClass" value="w-4"></ui:param>
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/confirmation')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/confirmationUploadDocument')}" />
+
+    <ui:define name="dialogFooter">
+      <p:commandButton value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/continue')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/continue')}" styleClass="w-full" update="#{p:resolveFirstComponentWithId('preview-document-dialog', view).clientId}"
+        id="preview-encrypted-document-button" actionListener="#{logic.previewEncryptedDocument}"
+        oncomplete="PF('preview-document-confirmation-dialog').hide(); if (args &amp;&amp; !args.validationFailed) {PF('preview-document-dialog').show();}" />
+      <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/closeContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/confirmation')])}" styleClass="pt-3 flex justify-content-center portal-link"
+        id="preview-document-confirmation-close-button" onclick="PF('preview-document-confirmation-dialog').hide();" />
+    </ui:define>
+  </ui:decorate>
+
+  <p:dialog id="document-renaming-dialog" widgetVar="document-renaming-dialog" appendTo="@(body)"
+    header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/RenamingDocument')}" modal="true" resizable="false" showEffect="fade" hideEffect="fade"
+    styleClass="document-renaming-dialog" dynamic="true" fitViewport="true" responsive="true">
+    <h:form id="document-renaming-form">
+      <p:messages id="renaming-file-messages" escape="false" />
+      <p:inputText id="new-filename" value="#{data.document.name}" converter="filenameConverter" 
+        onfocus="this.select()" styleClass="w-full" maxlength="#{portalComponentUtilsBean.filenameMaxLength}"
+        required="true" requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/FilenameEmpty')}"/>
+      <h:panelGroup layout="block" styleClass="MarTop20 text-right">
+        <p:commandLink id="document-rename-cancel-button"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancelContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/RenamingDocument')])}"
+          onclick="PF('document-renaming-dialog').hide(); return false;"
+          styleClass="u-mar-right-15 portal-link" />
+        <p:commandButton id="document-rename-save-button"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/saveContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/documentFiles/RenamingDocument')])}"
+          icon="#{visibilityBean.generateButtonIcon('ti ti-device-floppy')}"
+          actionListener="#{logic.renameDocument}"
+          update="#{p:resolveFirstComponentWithId('case-details-documents', view).clientId} #{cc.attrs.componentToUpdate} #{p:resolveFirstComponentWithId('renaming-file-messages', view).clientId}"
+          oncomplete="if (document.querySelector('.ui-messages-info')) PF('document-renaming-dialog').hide(); ResponsiveTable.init(':case-details-documents')"
+        />
+      </h:panelGroup>
+    </h:form>
+  </p:dialog>
+
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="widgetVar" value="document-deletion-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/deleteDocumentHeaderText')}" />
+    <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/confirmForDelete')}" />
+    
+    <ui:define name="dialogFooter">
+      <p:commandButton id="document-deletion-command" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/delete')}"
+        process="@this"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/deleteContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/deleteDocumentHeaderText')])}"
+        update="#{cc.attrs.componentToUpdate} #{p:resolveFirstComponentWithId('case-document-global-messages', view).clientId} #{p:resolveFirstComponentWithId('case-document-form', view).clientId}"
+        actionListener="#{logic.deleteDocument}" styleClass="w-full portal-remove-button"
+        oncomplete="PF('document-deletion-dialog').hide();handleCaseDetailsTable();" />
+      <p:commandLink id="document-deletion-cancellation-command" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancelContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/deleteDocumentHeaderText')])}"
+        process="@this" onsuccess="PF('document-deletion-dialog').hide()" styleClass="pt-3 flex justify-content-center portal-link"/>
+    </ui:define>
+  </ui:decorate>
+  <script type="text/javascript">
+    function handleUploadFileFail(widgetVar) {
+      let errorMessageElement = document.getElementById('error-message');
+      let uploadErrorElement = PF(widgetVar).messageContainer[0];
+      errorMessageElement.style.display = 'block';
+      errorMessageElement.appendChild(uploadErrorElement);
+    }
+    </script>
+</cc:implementation>
+</html>

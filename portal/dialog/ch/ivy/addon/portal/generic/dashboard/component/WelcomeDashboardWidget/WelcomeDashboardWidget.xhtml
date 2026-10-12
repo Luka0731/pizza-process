@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core"
+  xmlns:jsf="jakarta.faces">
+<!-- dashboardDetailModificationBean: ch.ivy.addon.portal.generic.bean.DashboardDetailModificationBean -->
+<!-- dashboardWelcomeWidgetBean: ch.ivy.addon.portalkit.bean.DashboardWelcomeWidgetBean -->
+<!-- cloneWidgetBean: ch.ivy.addon.portal.generic.bean.CloneWidgetBean -->
+<!-- htmlSanitizerBean: com.axonivy.portal.components.bean.HtmlSanitizerBean -->
+<!-- hideActionButton: java.lang.Boolean -->
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="index" required="true" />
+  <cc:attribute name="widget" required="true" />
+  <cc:attribute name="isReadOnlyMode" type="java.lang.Boolean" default="false" />
+</cc:interface>
+
+<cc:implementation>
+  <h:outputScript name="welcome-widget.js" library="js" />
+  <c:set var="index" value="#{cc.attrs.index}" />
+  <c:set var="widget" value="#{cc.attrs.widget}" />
+
+  <h:panelGroup id="welcome-widget-panel" layout="block" styleClass="welcome-widget-panel">
+    <f:event listener="#{dashboardWelcomeWidgetBean.init()}" type="preRenderComponent" />
+    <div class="ui-g-12 widget-height-100 u-padding-0 welcome-text-container">
+      <h:form id="welcome-widget-action-group-form" styleClass="welcome-widget-action-group-form" rendered="#{!cc.attrs.isReadOnlyMode}">
+        <h:panelGroup layout="block" rendered="#{!hideActionButton}">
+          <p:commandButton id="welcome-widget-action-button" icon="ti ti-dots"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/editWidget')}"
+            styleClass="rounded-button portal-icon-btn" type="button"/>
+
+          <p:menu id="welcome-widget-action-menu" overlay="true"
+            trigger="welcome-widget-action-button"
+            my="right top" at="right bottom">
+            <p:menuitem id="edit-welcome-widget"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"
+              icon="ti ti-pencil"
+              actionListener="#{dashboardDetailModificationBean.prepareEditWidget(widget)}"
+              update="new-widget-configuration-dialog"
+              process="@this" partialSubmit="true" global="false"
+              oncomplete="PF('new-widget-configuration-dialog').show()" />
+            <p:menuitem id="clone-welcome-widget"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/Clone')}"
+              icon="ti ti-copy"
+              actionListener="#{cloneWidgetBean.setCloneWidget(widget)}"
+              process="@(this)"
+              update="clone-widget-component:clone-to-dashboard-dialog"
+              oncomplete="PF('clone-to-dashboard-dialog').show();"
+              partialSubmit="true" global="false" />
+            <p:menuitem id="delete-welcome-widget"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/delete')}"
+              icon="ti ti-trash" styleClass="color-destroy"
+              oncomplete="PF('remove-widget-dialog').show()"
+              actionListener="#{dashboardDetailModificationBean.setDeleteWidget(widget)}"
+              update="remove-widget-dialog"
+              process="@this" partialSubmit="true" global="false" />
+          </p:menu>
+        </h:panelGroup>
+      </h:form>
+      <h:outputText escape="false" value="#{dashboardWelcomeWidgetBean.sanitizeHTML(widget.welcomeText)}" id="welcome-text" styleClass="default-welcome-image welcome-text #{widget.welcomeTextStyleClass}"/>
+      <h:outputText escape="false" value="#{dashboardWelcomeWidgetBean.sanitizeHTML(widget.welcomeText)}" id="welcome-text-dark-mode" styleClass="default-welcome-image-dark welcome-text #{widget.welcomeTextStyleClass}"/>
+
+      <p:graphicImage id="default-image" cache="true" styleClass="welcome-image default-welcome-image js-welcome-image #{widget.imageStyleClass}"
+        alt="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/dashboard/component/WelcomeDashboardWidget/WelcomeToAxon')}"
+        library="ivy-cms" rendered="#{empty widget.imageContentObject}" name="#{dashboardWelcomeWidgetBean.defaultImageLink}" />
+
+      <p:graphicImage id="default-image-dark" cache="true" styleClass="welcome-image default-welcome-image-dark js-welcome-image #{widget.imageStyleClass}"
+        alt="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portal/generic/dashboard/component/WelcomeDashboardWidget/WelcomeToAxon')}"
+        library="ivy-cms" rendered="#{empty widget.imageContentObjectDarkMode}" name="#{dashboardWelcomeWidgetBean.defaultImageDarkLink}" />
+
+      <h:panelGroup rendered="#{not empty widget.imageContentObject}">
+        <p:graphicImage id="welcome-image" styleClass="default-welcome-image welcome-image js-welcome-image #{widget.imageStyleClass}"
+          library="ivy-cms"
+          alt="#{dashboardWelcomeWidgetBean.sanitizeHTML(widget.altText)}"
+          name="#{widget.imageContentObject.uri()}"/>
+      </h:panelGroup>
+      
+      <h:panelGroup rendered="#{not empty widget.imageContentObjectDarkMode}">
+        <p:graphicImage id="welcome-image-dark-mode" styleClass="default-welcome-image-dark welcome-image js-welcome-image #{widget.imageStyleClass}"
+          library="ivy-cms"
+          alt="#{dashboardWelcomeWidgetBean.sanitizeHTML(widget.altText)}"
+          name="#{widget.imageContentObjectDarkMode.uri()}"/>
+      </h:panelGroup>
+      
+    </div>
+    <p:remoteCommand id="update-welcome-text-#{widget.id}-rc" name="updateWelcomeText_#{widget.internalId}" update="welcome-text welcome-text-dark-mode" process="@this" async="true"
+      actionListener="#{dashboardWelcomeWidgetBean.updateWelcomeText(widget)}"
+      oncomplete="WelcomeWidget.updateWelcomeTextStyles('#{htmlSanitizerBean.escapeForJS(widget.id)}','#{htmlSanitizerBean.escapeForJS(widget.welcomeTextColor)}', '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextColorDarkMode)}', '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextPosition)}','#{htmlSanitizerBean.escapeForJS(widget.welcomeTextSize)}');" />
+    <script type="text/javascript">
+      $(document).ready(function() {
+        WelcomeWidget.init('#{htmlSanitizerBean.escapeForJS(widget.id)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextColor)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextColorDarkMode)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextPosition)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.welcomeTextSize)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.welcomeImageFit)}',
+            '#{htmlSanitizerBean.escapeForJS(widget.imageInlineStyle)}');
+
+        if (#{htmlSanitizerBean.escapeForJS(widget.greeting)}) {
+          const time= new Date().getHours();
+          updateWelcomeText_#{widget.internalId}([{name: 'clientTime', value: time}]);
+        }
+      });
+      
+    </script>
+  </h:panelGroup>
+</cc:implementation>
+</html>

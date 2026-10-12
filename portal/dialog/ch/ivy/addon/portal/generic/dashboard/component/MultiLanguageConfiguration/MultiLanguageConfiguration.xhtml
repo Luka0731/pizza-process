@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core"
+  xmlns:fn="jakarta.tags.functions"
+  xmlns:pt="jakarta.faces.passthrough">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="rendered" type="java.lang.Boolean" default="true"/>
+  <cc:attribute name="managedBean" required="true"/>
+  <cc:attribute name="titles" required="true" />
+  <cc:attribute name="componentToUpdateOnCreate" />
+  <cc:attribute name="componentToUpdateOnModify" />
+  <cc:attribute name="updateCurrentLanguage" />
+  <cc:attribute name="titleRequired" type="java.lang.Boolean" default="true"/>
+  <cc:attribute name="dynamic" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="useInputText" type="java.lang.Boolean" default="true" shortDescription="if true uses render input text, otherwise uses text area"/>
+  <cc:attribute name="dialogWidgetVar" default="multiple-languages-dialog" shortDescription="id and widgetVar of the dialog; override to host more than one instance on a page"/>
+  <cc:attribute name="onModifyComplete" default="" shortDescription="extra JS run after the changes are applied, e.g. to refresh a preview"/>
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="managedBean" value="#{cc.attrs.managedBean}" />
+  <c:set var="titles" value="#{cc.attrs.titles}" />
+  <c:set var="titleRequired" value="#{cc.attrs.titleRequired}" />
+  <c:set var="userLocale" value="#{managedBean.getSupportedUserLanguage()}" />
+
+  <p:dialog rendered="#{cc.attrs.rendered}" appendTo="@(body)" width="500" fitViewport="true" closeOnEscape="true"
+    header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/settingMultipleLanguages')}" resizable="false"
+    id="#{cc.attrs.dialogWidgetVar}" widgetVar="#{cc.attrs.dialogWidgetVar}" modal="true" responsive="true"
+    dynamic="#{cc.attrs.dynamic}" styleClass="dialog-responsive">
+    <h:form id="add-language-detail-form">
+      <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/emptySupportedLanguages')}"
+        rendered="#{titles.isEmpty()}" />
+    <h:panelGroup id="multiple-language-panel" layout="block" styleClass="multiple-language-data-table w-full">
+      <h:dataTable id="table-titles" value="#{titles}" rendered="#{titles.isEmpty() eq 'false'}" var="title" styleClass="w-full"
+        columnClasses="#{cc.attrs.useInputText ? '' : 'multi-language-textarea-label,'}">
+        <h:column>
+          <p:outputLabel value="#{title.locale.getDisplayName(userLocale)}" for="#{cc.attrs.useInputText ? 'title-input' : 'title-textarea'}"
+          styleClass="ui-g-12 #{cc.attrs.useInputText ? '' : 'external-link-description-label'}"/>
+        </h:column>
+        <h:column>
+          <div class="ui-g-12 ui-fluid" lang="#{title.locale.language}">
+            <p:focus for="#{cc.attrs.useInputText ? 'title-input' : 'title-textarea'}" rendered="#{managedBean.isFocus(title)}" />
+            <p:inputText value="#{title.value}" id="title-input" autocomplete="off" rendered="#{cc.attrs.useInputText}"
+              required="#{managedBean.isRequiredField(title) and titleRequired}"
+              requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/requiredFieldMessage')}">
+               <p:ajax event="click" listener="#{managedBean.translate(title)}"
+               disabled="#{managedBean.isShowTranslation(title) eq 'false'}"
+               process="@form" partialSubmit="true" global="false" update="translated-text-panel, tranlate-link" />
+            </p:inputText>
+            <p:inputTextarea value="#{title.value}" maxlength="200" rows="3" styleClass="w-full" id="title-textarea" rendered="#{!cc.attrs.useInputText}"> 
+              <p:ajax event="click" listener="#{managedBean.translateTextArea(title)}"
+               disabled="#{managedBean.isShowTranslation(title) eq 'false'}"
+               process="@form" partialSubmit="true" global="false" update="translated-text-panel, tranlate-link" />
+            </p:inputTextarea>
+            <p:overlayPanel rendered="#{managedBean.isShowTranslation(title)}"
+             for="#{cc.attrs.useInputText ? 'title-input' : 'title-textarea'}" appendTo="@(body)" my="right top" at="right bottom"
+             id="overlay-panel-input"
+             styleClass="filter-name-overlay-panel" dynamic="false" dismissable="true" showCloseIcon="true">
+              <p:commandLink styleClass="portal-link" id="tranlate-link" actionListener="#{managedBean.applyTranslatedText(title)}" update="@form" process="@this"
+                             partialSubmit="true" disabled="#{not empty managedBean.warningText}"
+                             ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/AutoTranslation')}">
+                <span class="ti ti-language language-icon-padding-right"/>
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/AutoTranslation')}" />
+              </p:commandLink>
+              <h:panelGroup id="translated-text-panel" layout="block">
+                <i id="translating-title" class="#{empty managedBean.translatedText and empty managedBean.warningText? 'pi pi-spin pi-spinner' : 'hidden'}"></i>
+                <p:outputPanel id="translated-title" styleClass="#{empty managedBean.translatedText ? 'hidden' : ''}">#{managedBean.translatedText}</p:outputPanel>
+                <p:outputLabel id="warning-text" styleClass="#{empty managedBean.warningText? 'hidden' : ''}"><span class="ui-outputlabel-rfi">#{managedBean.warningText}</span></p:outputLabel>
+              </h:panelGroup>
+            </p:overlayPanel>
+          </div>
+        </h:column>
+      </h:dataTable>
+    </h:panelGroup>
+      <div class="u-dialog-footer-actions-group">
+        <p:commandLink styleClass="portal-link" id="multi-language-cancel-button" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancelContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/settingMultipleLanguages')])}"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          onclick="PF('#{cc.attrs.dialogWidgetVar}').hide(); return false;" />
+        <p:spacer width="15px" rendered="#{!titles.isEmpty()}" />
+        <p:commandButton id="multi-language-ok-button" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ok')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/okContext', [ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/settingMultipleLanguages')])}"
+          update="#{cc.attrs.componentToUpdateOnCreate}, #{cc.attrs.componentToUpdateOnModify}, @form" process="@form"
+          oncomplete="PF('#{cc.attrs.dialogWidgetVar}').hide(); #{cc.attrs.onModifyComplete}"
+          actionListener="#{cc.attrs.updateCurrentLanguage}"
+          validateClient="true"
+          rendered="#{!titles.isEmpty()}" />
+      </div>
+    </h:form>
+  </p:dialog>
+
+</cc:implementation>
+
+</html>

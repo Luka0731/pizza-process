@@ -1,0 +1,58 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "AdminSettingsData",
+  "namespace" : "ch.ivy.addon.portalkit.admin.AdminSettings",
+  "fields" : [ {
+    "name" : "confirmMsg",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dialogTitle",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedSetting",
+    "type" : "ch.ivy.addon.portalkit.configuration.GlobalSetting",
+    "modifiers" : [ ]
+  }, {
+    "name" : "settingList",
+    "type" : "List<ch.ivy.addon.portalkit.configuration.GlobalSetting>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "resetAllSettings",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "settingInputType",
+    "type" : "ch.ivy.addon.portalkit.enums.GlobalVariableType",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dropDownValues",
+    "type" : "java.util.List<java.lang.Object>",
+    "comment" : "internal options, for example: FALSE, TRUE",
+    "modifiers" : [ ]
+  }, {
+    "name" : "externalDropDownValues",
+    "type" : "java.util.Map",
+    "comment" : "external options, for example: homepages, task/case columns sorting",
+    "modifiers" : [ ]
+  }, {
+    "name" : "filteredSettingList",
+    "type" : "List<ch.ivy.addon.portalkit.configuration.GlobalSetting>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isDefaultApplicationLanguage",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isAnnouncementActivated",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "announcement",
+    "type" : "ch.ivy.addon.portalkit.configuration.Announcement",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedMultiSettings",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  } ]
+}

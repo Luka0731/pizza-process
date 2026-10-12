@@ -1,0 +1,182 @@
+package ch.ivy.addon.portalkit.bean;
+
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
+import java.io.Serializable;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
+import com.axonivy.portal.util.WelcomeWidgetUtils;
+
+import ch.ivy.addon.portalkit.dto.DisplayName;
+import ch.ivy.addon.portalkit.dto.dashboard.Dashboard;
+import ch.ivy.addon.portalkit.dto.dashboard.WelcomeDashboardWidget;
+import ch.ivy.addon.portalkit.enums.DashboardWidgetType;
+import ch.ivy.addon.portalkit.enums.PortalVariable;
+import ch.ivy.addon.portalkit.enums.WelcomeTextPosition;
+import ch.ivy.addon.portalkit.jsf.Attrs;
+import ch.ivy.addon.portalkit.persistence.converter.BusinessEntityConverter;
+import ch.ivy.addon.portalkit.support.HtmlParser;
+import ch.ivy.addon.portalkit.util.DashboardUtils;
+import ch.ivy.addon.portalkit.util.UserUtils;
+import ch.ivyteam.ivy.cm.ContentObject;
+import ch.ivyteam.ivy.environment.Ivy;
+
+@ViewScoped
+@Named
+public class DashboardWelcomeWidgetBean implements Serializable {
+
+  private static final long serialVersionUID = 5372831531773612518L;
+
+  protected static final String DEFAULT_TEXT_COLOR = "ffffff";
+  protected static final String DEFAULT_IMAGE_CMS_URI = "/images/WelcomeWidget/DefaultImage";
+  protected static final Pattern REGEX_REPLACE_SPECIAL_CHARACTER = Pattern.compile("[^\\p{Alpha}\\p{Digit}_]+");
+
+
+  protected WelcomeDashboardWidget widget;
+
+  public void init() {
+    widget = Attrs.currentContext().getAttribute("#{cc.attrs.widget}", WelcomeDashboardWidget.class);
+
+    if (widget.getWelcomeTextColor() == null) {
+      widget.setWelcomeTextColor(DEFAULT_TEXT_COLOR);
+    }
+
+    // get font color from light mode if not set
+    if (widget.getWelcomeTextColorDarkMode() == null) {
+      widget.setWelcomeTextColorDarkMode(widget.getWelcomeTextColor());
+    }
+
+    if (widget.getWelcomeTextPosition() == null) {
+      widget.setWelcomeTextPosition(WelcomeTextPosition.BOTTOM_LEFT);
+    }
+
+    if (!CollectionUtils.isEmpty(widget.getWelcomeTexts())) {
+      String userLanguage = UserUtils.getUserLanguage();
+      widget.setWelcomeText(CollectionUtils.emptyIfNull(widget.getWelcomeTexts()).stream()
+          .filter(name -> equalsLanguageLocale(name, userLanguage)).findFirst().orElse(new DisplayName()).getValue());
+    }
+    widget.setImageContentObject(renderImage());
+    // get image from light mode if not set
+    if (StringUtils.isBlank(widget.getImageLocationDarkMode())) {
+      widget.setImageContentObjectDarkMode(widget.getImageContentObject());
+      widget.setImageContentDarkMode(widget.getImageContent());
+      widget.setImageLocationDarkMode(widget.getImageLocation());
+      widget.setImageTypeDarkMode(widget.getImageType());
+    } else {
+      widget.setImageContentObjectDarkMode(renderImageDarkMode());
+    }
+    if (StringUtils.isNotBlank(widget.getId())) {
+      String idWithoutSpecialChar = REGEX_REPLACE_SPECIAL_CHARACTER.matcher(widget.getId()).replaceAll("_");
+      widget.setInternalId(idWithoutSpecialChar);
+    }
+  }
+
+  public ContentObject renderImage() {
+    if (Optional.ofNullable(widget).map(WelcomeDashboardWidget::getImageLocation).isEmpty()) {
+      return null;
+    }
+    if (WelcomeWidgetUtils.isObsoleteImageData(widget.getImageLocation(), widget.getId())) {
+      WelcomeWidgetUtils.migrateWelcomeWidget(widget.getId(), widget.getImageType(), widget.getImageLocation());
+    }
+    if (StringUtils.isBlank(widget.getImageContent())) {
+      return WelcomeWidgetUtils.findImage(widget.getImageLocation(), widget.getImageType()).orElse(null);
+    }
+    ContentObject imageContent = WelcomeWidgetUtils.getImageContentObject(widget.getImageLocation(), widget.getImageType());
+    removeImageContentOfWidget(imageContent, false);
+    
+    return imageContent;
+  }
+
+  public ContentObject renderImageDarkMode() {
+    if (Optional.ofNullable(widget).map(WelcomeDashboardWidget::getImageLocationDarkMode).isEmpty()) {
+      return null;
+    }
+    if (StringUtils.isBlank(widget.getImageContentDarkMode())) {
+      return WelcomeWidgetUtils.findImage(widget.getImageLocationDarkMode(), widget.getImageTypeDarkMode()).orElse(null);
+    }
+    ContentObject imageContent = WelcomeWidgetUtils.getImageContentObject(widget.getImageLocationDarkMode(), widget.getImageTypeDarkMode());
+    removeImageContentOfWidget(imageContent, true);
+    
+    return imageContent;
+  }
+
+  private void removeImageContentOfWidget(ContentObject content, boolean isDarkMode) {
+    String imageContent = isDarkMode ? widget.getImageContentDarkMode() : widget.getImageContent();
+    if (StringUtils.isNotBlank(imageContent)) {
+      WelcomeWidgetUtils.readObjectValueOfDefaultLocale(content).write().bytes(Base64.getDecoder().decode(imageContent));
+      List<Dashboard> dashboards = DashboardUtils.getPublicDashboards();
+      for (Dashboard dashboard : dashboards) {
+        dashboard.getWidgets().stream()
+            .filter(item -> widget.getId().equals(item.getId()) && item.getType() == DashboardWidgetType.WELCOME)
+            .findFirst().ifPresent(item -> {
+              if (isDarkMode) {
+                ((WelcomeDashboardWidget) item).setImageContentDarkMode(null);
+              } else {
+                ((WelcomeDashboardWidget) item).setImageContent(null);
+              }
+            });
+      }
+      String dashboardJson = BusinessEntityConverter.entityToJsonValue(dashboards);
+      Ivy.var().set(PortalVariable.DASHBOARD.key, dashboardJson);
+
+      DashboardUtils.updateDashboardCache();
+    }
+  }
+
+  public void updateWelcomeText(WelcomeDashboardWidget welcomeWidget) {
+    int parseClientTime = WelcomeWidgetUtils.parseClientTime();
+    String greetingTextCms = WelcomeWidgetUtils.generateGreetingTextByTime(parseClientTime);
+    String greetingTextLocalized =
+        StringUtils.defaultString(Ivy.cms().coLocale(greetingTextCms, Ivy.session().getContentLocale()));
+    var originWelcomeText = welcomeWidget.getWelcomeText();
+    if (StringUtils.isNoneBlank(originWelcomeText) && (Strings.CS.startsWith(originWelcomeText.trim(), ",")
+        || Strings.CS.startsWith(originWelcomeText.trim(), "."))) {
+      var newWelcomeText = String.join(SPACE, greetingTextLocalized, Ivy.session().getSessionUser().getDisplayName());
+      welcomeWidget.setWelcomeText(newWelcomeText.concat(welcomeWidget.getWelcomeText()));
+      return;
+    }
+    if (StringUtils.isBlank(originWelcomeText)) {
+      welcomeWidget
+          .setWelcomeText(String.join(SPACE, greetingTextLocalized, Ivy.session().getSessionUser().getDisplayName()));
+    } else {
+      welcomeWidget.setWelcomeText(String.join(SPACE, greetingTextLocalized,
+          Ivy.session().getSessionUser().getDisplayName(), originWelcomeText));
+    }
+  }
+
+  protected static boolean equalsLanguageLocale(DisplayName displayName, String language) {
+    return Strings.CI.equals(displayName.getLocale().toString(), language);
+  }
+
+  public WelcomeDashboardWidget getWidget() {
+    return widget;
+  }
+
+  public void setWidget(WelcomeDashboardWidget widget) {
+    this.widget = widget;
+  }
+
+  public String getDefaultImageLink() {
+    return DEFAULT_IMAGE_CMS_URI;
+  }
+
+  // Light and dark mode share the same default image
+  public String getDefaultImageDarkLink() {
+    return DEFAULT_IMAGE_CMS_URI;
+  }
+
+  public String sanitizeHTML(String text) {
+    return StringUtils.isBlank(text) ? "" : HtmlParser.sanitizeHTML(text);
+  }
+}
+

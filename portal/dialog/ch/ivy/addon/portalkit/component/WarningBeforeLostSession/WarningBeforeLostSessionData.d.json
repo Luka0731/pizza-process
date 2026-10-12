@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "WarningBeforeLostSessionData",
+  "namespace" : "ch.ivy.addon.portalkit.component.WarningBeforeLostSession",
+  "fields" : [ {
+    "name" : "task",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  } ]
+}

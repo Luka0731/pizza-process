@@ -1,0 +1,25 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "DeleteDocumentData",
+  "namespace" : "ch.ivy.add.portalkit",
+  "fields" : [ {
+    "name" : "document",
+    "type" : "com.axonivy.portal.components.ivydata.bo.IvyDocument",
+    "modifiers" : [ ]
+  }, {
+    "name" : "businessCase",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  }, {
+    "name" : "hasCustomProcess",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "status",
+    "type" : "com.axonivy.portal.components.enums.UploadDocumentCheckStatus",
+    "modifiers" : [ ]
+  } ]
+}

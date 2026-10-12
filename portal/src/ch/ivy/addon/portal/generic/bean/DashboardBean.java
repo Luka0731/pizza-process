@@ -1,0 +1,647 @@
+package ch.ivy.addon.portal.generic.bean;
+
+import static ch.ivy.addon.portalkit.enums.SessionAttribute.SELECTED_DASHBOARD_ID;
+import static ch.ivy.addon.portalkit.enums.SessionAttribute.SELECTED_SUB_DASHBOARD_ID;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.event.SelectEvent;
+
+import com.axonivy.portal.components.util.HtmlUtils;
+import com.axonivy.portal.dto.TranslationResult;
+import com.axonivy.portal.dto.dashboard.filter.DashboardFilter;
+
+import ch.ivy.addon.portal.generic.navigation.PortalNavigator;
+import ch.ivy.addon.portalkit.constant.PortalConstants;
+import ch.ivy.addon.portalkit.dto.DisplayName;
+import ch.ivy.addon.portalkit.dto.dashboard.CaseDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.ColumnModel;
+import ch.ivy.addon.portalkit.dto.dashboard.CompactProcessDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.Dashboard;
+import ch.ivy.addon.portalkit.dto.dashboard.DashboardTemplate;
+import ch.ivy.addon.portalkit.dto.dashboard.DashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.ProcessDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.SingleProcessDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.WidgetFilterModel;
+import ch.ivy.addon.portalkit.enums.BehaviourWhenClickingOnLineInTaskList;
+import ch.ivy.addon.portalkit.enums.CaseEmptyMessage;
+import ch.ivy.addon.portalkit.enums.DashboardDisplayType;
+import ch.ivy.addon.portalkit.enums.DashboardWidgetType;
+import ch.ivy.addon.portalkit.enums.GlobalVariable;
+import ch.ivy.addon.portalkit.enums.PortalPage;
+import ch.ivy.addon.portalkit.enums.PortalVariable;
+import ch.ivy.addon.portalkit.enums.SessionAttribute;
+import ch.ivy.addon.portalkit.enums.TaskEmptyMessage;
+import ch.ivy.addon.portalkit.exporter.Exporter;
+import ch.ivy.addon.portalkit.ivydata.service.impl.LanguageService;
+import ch.ivy.addon.portalkit.service.GlobalSettingService;
+import ch.ivy.addon.portalkit.service.WidgetFilterService;
+import ch.ivy.addon.portalkit.support.HtmlParser;
+import ch.ivy.addon.portalkit.util.DashboardUtils;
+import ch.ivy.addon.portalkit.util.DashboardWidgetUtils;
+import ch.ivy.addon.portalkit.util.PermissionUtils;
+import ch.ivy.addon.portalkit.util.TaskUtils;
+import ch.ivy.addon.portalkit.util.UrlUtils;
+import ch.ivy.addon.portalkit.util.UserUtils;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.workflow.ICase;
+import ch.ivyteam.ivy.workflow.ITask;
+
+@ViewScoped
+@Named
+public class DashboardBean implements Serializable, IMultiLanguage {
+
+  private static final long serialVersionUID = -4224901891867040688L;
+  private static final String ACCESSIBILITY_DASHBOARD_TEMPLATE_ID = "accessibility-dashboard-template";
+  private static final String DASHBOARD_CMS_BASE = "/ch.ivy.addon.portalkit.ui.jsf/dashboard/";
+  
+  protected List<Dashboard> dashboards;
+  protected Dashboard selectedDashboard;
+  protected String selectedDashboardId;
+  protected DashboardWidget widget;
+  protected boolean isReadOnlyMode = true;
+  private int currentDashboardIndex;
+  private List<WidgetFilterModel> widgetFilters;
+  private List<WidgetFilterModel> deleteFilters;
+  private ITask selectedTask;
+  private boolean isRunningTaskWhenClickingOnTaskInList;
+  private List<DashboardTemplate> dashboardTemplates;
+  protected TranslationResult translation = TranslationResult.EMPTY;
+  protected String dashboardUrl;
+  protected List<Dashboard> importedDashboards;
+  private String statisticApiUri;
+  private String selectedDashboardName;
+  private String searchScope;
+  private boolean isShowPinnedItem;
+
+  @PostConstruct
+  public void init() {
+    currentDashboardIndex = 0;
+    
+    if (isReadOnlyMode) {
+      DashboardUtils.updateDashboardCache();
+    }
+
+    dashboards = collectDashboards();
+
+    if (CollectionUtils.isNotEmpty(DashboardUtils.getDashboardsWithoutMenuItem())
+        || isRequestPathForMainOrDetailModification() || isNavigateToDashboard()) {
+      updateSelectedDashboardIdFromSessionAttribute();
+      updateSelectedDashboard();
+      storeAndHighlightDashboardIfRequired();
+    }
+    buildWidgetModels(selectedDashboard);
+    isRunningTaskWhenClickingOnTaskInList = GlobalSettingService.getInstance()
+        .findGlobalSettingValue(GlobalVariable.DEFAULT_BEHAVIOUR_WHEN_CLICKING_ON_LINE_IN_TASK_LIST)
+        .equals(BehaviourWhenClickingOnLineInTaskList.RUN_TASK.name());
+
+    // Set responsive option for default task list and case list
+    if (DashboardUtils.isDefaultCaseListDashboard(selectedDashboard)
+        || DashboardUtils.isDefaultTaskListDashboard(selectedDashboard)) {
+      selectedDashboard.setIsResponsive(true);
+    }
+
+    buildStatisticApiUri();
+  }
+
+  public boolean isNoDashboardAvailable() {
+    // Dashboards are accessible but none is left for this page (e.g. all of them
+    // were converted to main-dashboard menu entries) — not a permission problem.
+    return CollectionUtils.isNotEmpty(dashboards)
+        && CollectionUtils.isEmpty(DashboardUtils.getDashboardsWithoutMenuItem());
+  }
+
+  private Dashboard retrieveDrillDownDashboard() {
+    Object drillDownDashboard = Ivy.session().getAttribute(SessionAttribute.DRILL_DOWN_DASHBOARD.name());
+    return drillDownDashboard instanceof Dashboard ? (Dashboard) drillDownDashboard : null;
+  }
+
+  private boolean isNavigateToDashboard() {
+    Object attr = Ivy.session().getAttribute(SessionAttribute.NAVIGATE_TO_DASHBOARD.name());
+    return attr != null && (boolean) attr;
+}
+
+  private void buildStatisticApiUri() {
+    this.statisticApiUri = FacesContext.getCurrentInstance()
+        .getExternalContext().getRequestContextPath() + "/api/statistics/data";
+  }
+
+  private boolean isRequestPathForMainOrDetailModification() {
+    String requestPath = Ivy.request().getRequestPath();
+    return requestPath.endsWith("/PortalMainDashboard.xhtml")
+        || requestPath.endsWith("/PortalDashboardDetailModification.xhtml")
+        || requestPath.endsWith("/PortalDashboard.xhtml");
+  }
+
+  private void updateSelectedDashboard() {
+    currentDashboardIndex = DashboardUtils.findIndexOfDashboardById(dashboards, selectedDashboardId);
+    if (currentDashboardIndex < 0) {
+      selectedDashboard = null;
+      return;
+    }
+    selectedDashboard = dashboards.get(currentDashboardIndex);
+
+    String selectedDashboardName = "";
+    if (CollectionUtils.isNotEmpty(selectedDashboard.getTitles())) {
+      selectedDashboardName = selectedDashboard.getTitles()
+          .stream()
+          .filter(displayName -> displayName.getLocale().equals(LanguageService.getInstance().getUserLocale())).findFirst()
+          .orElseGet(() -> selectedDashboard.getTitles().get(0)).getValue();
+    }
+    setSelectedDashboardName(selectedDashboardName);
+    initShareDashboardLink(selectedDashboard);
+  }
+
+  private void storeAndHighlightDashboardIfRequired() {
+    if (selectedDashboard == null || !isRequestPathForMainOrDetailModification()) {
+      return;
+    }
+    DashboardUtils.storeDashboardInSession(selectedDashboard.getId());
+    if (isReadOnlyMode) {
+      DashboardUtils.highlightDashboardMenuItem(selectedDashboard.getId());
+    }
+  }
+
+  protected List<Dashboard> collectDashboards() {
+    List<Dashboard> dashboards = DashboardUtils.collectDashboards();
+    Dashboard drillDownDashboard = retrieveDrillDownDashboard();
+    if (drillDownDashboard != null) {
+      dashboards.add(drillDownDashboard);
+    }
+    return dashboards;
+  }
+
+  public void loadDashboardTemplate() {
+    this.dashboardTemplates = DashboardUtils.getDashboardTemplates();
+  }
+
+  protected String readDashboardBySessionUser() {
+    return currentUser().getProperty(PortalVariable.DASHBOARD.key);
+  }
+
+  protected void buildWidgetModels(Dashboard dashboard) {
+    if (dashboard == null || CollectionUtils.isEmpty(dashboard.getWidgets())) {
+      return;
+    }
+    for (var widget : dashboard.getWidgets()) {
+      DashboardWidgetUtils.buildWidgetColumns(widget);
+      if (!(widget instanceof SingleProcessDashboardWidget)) {
+        WidgetFilterService.getInstance().applyUserFilterFromSession(widget);
+      }
+      DashboardWidgetUtils.removeStyleNewWidget(widget);
+    }
+  }
+
+  public List<Dashboard> getDashboards() {
+    return dashboards;
+  }
+
+  public void navigateToSelectedTaskDetails(SelectEvent<Object> event) {
+    String uuid = ((ITask) event.getObject()).uuid();
+    PortalNavigator.navigateToPortalTaskDetails(uuid);
+  }
+
+  public void handleRowSelectEventOnTaskWidget(SelectEvent<Object> event) throws IOException {
+    ITask task = ((ITask) event.getObject());
+    handleSelectedTask(task);
+  }
+
+  private void handleSelectedTask(ITask task) throws IOException {
+    if (isRunningTaskWhenClickingOnTaskInList) {
+      handleStartTask(task);
+    } else {
+      navigateToSelectedTaskDetails(task);
+    }
+  }
+
+  public void handleStartTask(ITask task) throws IOException {
+    selectedTask = task;
+    if (selectedDashboard != null && DashboardDisplayType.TOP_MENU.equals(selectedDashboard.getDashboardDisplayType())) {
+      TaskUtils.handleStartTask(task, PortalPage.HOME_PAGE, PortalConstants.RESET_TASK_CONFIRMATION_DIALOG,
+          selectedDashboardId);
+    } else {
+      TaskUtils.handleStartTask(task, PortalPage.HOME_PAGE, PortalConstants.RESET_TASK_CONFIRMATION_DIALOG);
+    }
+
+  }
+
+  public void navigateToSelectedTaskDetails(ITask task) {
+    PortalNavigator.navigateToPortalTaskDetails(task.uuid());
+  }
+
+  public void navigateToSelectedCaseDetails(SelectEvent<Object> event) {
+    String uuid = ((ICase) event.getObject()).uuid();
+    PortalNavigator.navigateToPortalCaseDetails(uuid);
+  }
+
+  public void resetAndOpenTask() throws IOException {
+    TaskUtils.resetTask(selectedTask);
+    FacesContext.getCurrentInstance().getExternalContext().redirect(selectedTask.getStartLinkEmbedded().getRelative());
+  }
+
+  protected IUser currentUser() {
+    return Ivy.session().getSessionUser();
+  }
+
+  public void onDashboardChange(int index) {
+    currentDashboardIndex = index;
+    selectedDashboard = dashboards.get(index);
+    buildWidgetModels(selectedDashboard);
+  }
+
+  public String createExtractedTextFromHtml(String text) {
+    return HtmlParser.extractTextFromHtml(text);
+  }
+
+  public String createParseTextFromHtml(String text) {
+    return HtmlUtils.parseTextFromHtml(text);
+  }
+
+  public int getCurrentTabIndex() {
+    return dashboards.indexOf(getSelectedDashboard());
+  }
+
+  public DashboardWidget getWidget() {
+    return widget;
+  }
+
+  public void setWidget(DashboardWidget widget) {
+    this.widget = widget;
+  }
+
+  public boolean getIsReadOnlyMode() {
+    return isReadOnlyMode;
+  }
+
+  public void setIsReadOnlyMode(boolean isReadOnlyMode) {
+    this.isReadOnlyMode = isReadOnlyMode;
+  }
+
+  public int getCurrentDashboardIndex() {
+    return currentDashboardIndex;
+  }
+
+  public void setCurrentDashboardIndex(int currentDashboardIndex) {
+    this.currentDashboardIndex = currentDashboardIndex;
+  }
+
+  public boolean getIsEditMode() {
+    return false;
+  }
+
+  protected String translate(String cms) {
+    return Ivy.cms().co(cms);
+  }
+
+  protected String translate(String cms, List<Object> params) {
+    return Ivy.cms().co(cms, params);
+  }
+
+  public Dashboard getSelectedDashboard() {
+    return selectedDashboard;
+  }
+
+  public String getSelectedDashboardId() {
+    return selectedDashboardId;
+  }
+
+  public void setSelectedDashboardId(String selectedDashboardId) {
+    this.selectedDashboardId = selectedDashboardId;
+  }
+
+  public void loadAllWidgetSavedFilters() {
+    widgetFilters = new ArrayList<>();
+    deleteFilters = new ArrayList<>();
+    widgetFilters.addAll(WidgetFilterService.getInstance().findAll());
+
+    if (selectedDashboard == null) {
+      return;
+    }
+    // Update latest widget name
+    widgetFilters.forEach(filter -> {
+      var selectedWidget = selectedDashboard.getWidgets().stream()
+          .filter(widget -> widget.getId().equals(filter.getWidgetId()))
+          .findFirst().orElse(null);
+      if (selectedWidget != null) {
+        filter.setWidgetName(selectedWidget.getName());
+      }
+    });
+  }
+
+  public void onClickSavedFilterItem(WidgetFilterModel filter, DashboardWidget widget) {
+    if (filter == null || widget == null) {
+      return;
+    }
+
+    if (widget.isSavedFilterSelected(filter)) {
+      widget.getUserFilterCollection().getSelectedWidgetFilters().removeIf(WidgetFilterModel.isEqualFilter(filter));
+    } else {
+      widget.getUserFilterCollection().getSelectedWidgetFilters().add(filter);
+    }
+
+    if (widget.getType() == DashboardWidgetType.CASE) {
+      CaseDashboardWidget caseWidget = ((CaseDashboardWidget) widget);
+
+      if (CollectionUtils.isEmpty(caseWidget.getUserFilters())) {
+        caseWidget.setUserFilters(new ArrayList<>());
+      }
+
+      List<DashboardFilter> savedFilters = caseWidget.getUserFilterCollection()
+          .getSelectedWidgetFilters().stream()
+          .map(WidgetFilterModel::getUserFilters)
+          .filter(list -> CollectionUtils.isNotEmpty(list))
+          .collect(ArrayList::new, List::addAll, List::addAll);
+      savedFilters.stream().forEach(item -> item.setTemp(true));
+      caseWidget.setUserFilters(savedFilters);
+      return;
+    }
+
+    if (widget.getType() == DashboardWidgetType.TASK) {
+      TaskDashboardWidget taskWidget = ((TaskDashboardWidget) widget);
+
+      if (CollectionUtils.isEmpty(taskWidget.getUserFilters())) {
+        taskWidget.setUserFilters(new ArrayList<>());
+      }
+
+      List<DashboardFilter> savedFilters = taskWidget.getUserFilterCollection()
+          .getSelectedWidgetFilters().stream()
+          .map(WidgetFilterModel::getUserFilters)
+          .filter(list -> CollectionUtils.isNotEmpty(list))
+          .collect(ArrayList::new, List::addAll, List::addAll);
+      savedFilters.stream().forEach(item -> item.setTemp(true));
+      taskWidget.setUserFilters(savedFilters);
+      return;
+    }
+
+
+    var filterableColumns = new ArrayList<ColumnModel>();
+
+    if (DashboardWidgetType.PROCESS == widget.getType()) {
+      filterableColumns.addAll(((CompactProcessDashboardWidget) widget).getFilterableColumns());
+    }
+    WidgetFilterService.getInstance().buildFilterOptions(widget, filterableColumns);
+    WidgetFilterService.getInstance().updateUserFilterOptionMap(widget);
+  }
+
+  public void deleteSavedFilter() {
+    CollectionUtils.emptyIfNull(deleteFilters).forEach(filter -> {
+      WidgetFilterService.getInstance().delete(filter.getId());
+    });
+    loadAllWidgetSavedFilters();
+  }
+
+  public List<WidgetFilterModel> getWidgetFilters() {
+    return widgetFilters;
+  }
+
+  public void setWidgetFilters(List<WidgetFilterModel> widgetFilters) {
+    this.widgetFilters = widgetFilters;
+  }
+
+  public List<WidgetFilterModel> getDeleteFilters() {
+    return deleteFilters;
+  }
+
+  public void setDeleteFilters(List<WidgetFilterModel> deleteFilters) {
+    this.deleteFilters = deleteFilters;
+  }
+
+  public CaseEmptyMessage getNoCasesMessage() {
+    return CaseEmptyMessage.EMPTY_MESSAGE;
+  }
+
+  public TaskEmptyMessage getNoTasksMessage() {
+    return TaskEmptyMessage.EMPTY_MESSAGE;
+  }
+
+  public List<DashboardTemplate> getDashboardTemplates() {
+    if (CollectionUtils.isEmpty(dashboardTemplates)) {
+      loadDashboardTemplate();
+    }
+    return dashboardTemplates;
+  }
+
+  public void setDashboardTemplates(List<DashboardTemplate> dashboardTemplates) {
+    this.dashboardTemplates = dashboardTemplates;
+  }
+
+  public int getMaxRowNumberInExcel() {
+    return Exporter.MAX_ROW_NUMBER_IN_EXCEL;
+  }
+
+  protected List<String> getSupportedLanguages() {
+    return LanguageService.getInstance().getIvyLanguageOfUser().getSupportedLanguages();
+  }
+
+  public String getTranslatedText() {
+    return translation.getTranslatedText();
+  }
+
+  public void applyTranslatedText(DisplayName displayName) {
+    translation = translation.applyTo(displayName);
+  }
+
+  @Override
+  public boolean isRequiredField(DisplayName displayName) {
+    String currentLanguage = UserUtils.getUserLanguage();
+    String displayLanguage = displayName.getLocale().getLanguage();
+    return currentLanguage.equals(displayLanguage);
+  }
+
+  public String getWarningText() {
+    return translation.getWarningText();
+  }
+
+  public String getDashboardUrl() {
+    return dashboardUrl;
+  }
+
+  public void setDashboardUrl(String dashboardUrl) {
+    this.dashboardUrl = dashboardUrl;
+  }
+
+  public void initShareDashboardLink(Dashboard dashboard) {
+    setDashboardUrl(UrlUtils.getServerUrl() + PortalNavigator.getDashboardPageUrl(dashboard.getId()));
+  }
+
+  public boolean isShowShareButtonOnDashboard() {
+    return PermissionUtils.hasShareDashboardPermission() && selectedDashboard != null && !getIsEditMode() && selectedDashboard.getIsPublic();
+  }
+
+  public List<Dashboard> getImportedDashboards() {
+    return importedDashboards;
+  }
+
+  public void setImportedDashboards(List<Dashboard> importedDashboards) {
+    this.importedDashboards = importedDashboards;
+  }
+
+  public String getStatisticApiUri() {
+    return this.statisticApiUri;
+  }
+
+  public boolean canEnableQuickSearch(DashboardWidget widget) {
+    return widget.getType().canEnableQuickSearch();
+  }
+
+  public boolean canShowWidgetInfoIcon(DashboardWidget widget) {
+    return widget.getType().canShowWidgetInfoOption();
+  }
+
+  public boolean canShowExpandMode(DashboardWidget widget) {
+    return widget.getType().canShowFullscreenModeOption();
+  }
+
+  public void setSelectedDashboardName(String dashboardName) {
+    this.selectedDashboardName = dashboardName;
+  }
+
+  public String getSelectedDashboardName() {
+    if (StringUtils.isBlank(selectedDashboardName)) {
+      return Ivy.cms().co("/ch.ivy.addon.portalkit.ui.jsf/common/dashboard");
+    }
+    return selectedDashboardName;
+  }
+
+  public boolean isHideCaseCreator() {
+    return GlobalSettingService.getInstance().isHideCaseCreator();
+  }
+
+  public String getScreenReaderNotificationContent() {
+    String templateId = Optional.ofNullable(this.selectedDashboard)
+        .map(Dashboard::getTemplateId).orElse(StringUtils.EMPTY);
+
+    if (StringUtils.isNotBlank(templateId)
+        && ACCESSIBILITY_DASHBOARD_TEMPLATE_ID.equals(templateId)) {
+      return Ivy.cms().co("/Dialogs/com/axonivy/portal/dashboard/component/AccessibilityShortcuts/title");
+    }
+    return StringUtils.EMPTY;
+  }
+
+  public boolean isMainDashboardSelected() {
+    return DashboardUtils.isMainDashboard(selectedDashboardId, true);
+  }
+
+
+  private void updateSelectedDashboardIdFromSessionAttribute() {
+    if (StringUtils.isNotBlank(selectedDashboardId)) {
+      return;
+    }
+    if (Ivy.request().getRequestPath().endsWith("/PortalMainDashboard.xhtml")) {
+      selectedDashboardId = (String) Ivy.session().getAttribute(SELECTED_DASHBOARD_ID.name());
+      return;
+    }
+    selectedDashboardId = (String) Ivy.session().getAttribute(SELECTED_SUB_DASHBOARD_ID.name());
+    if (StringUtils.isNotBlank(selectedDashboardId) && !DashboardUtils.isSubMenuDashboard(dashboards, selectedDashboardId)) {
+      // The remembered dashboard was later changed to a non-submenu display type (e.g. promoted to
+      // a sidebar entry) - the stale id must not be trusted, or this submenu entry point would keep
+      // rendering a dashboard that is no longer a valid submenu dashboard.
+      selectedDashboardId = null;
+    }
+  }
+
+  public void setSearchScope(DashboardWidget widget) {
+    List<String> columnList = new ArrayList<>();
+    if (widget instanceof TaskDashboardWidget taskWidget) {
+      columnList = taskWidget.getColumns().stream().filter(col -> Boolean.TRUE.equals(col.getQuickSearch()))
+          .map(ColumnModel::getHeaderText).collect(Collectors.toList());
+    } else if (widget instanceof CaseDashboardWidget caseWidget) {
+      columnList = caseWidget.getColumns().stream().filter(col -> Boolean.TRUE.equals(col.getQuickSearch()))
+          .map(ColumnModel::getHeaderText).collect(Collectors.toList());
+    } else if (widget instanceof ProcessDashboardWidget processWidget) {
+      columnList = processWidget.getFilterableColumns().stream().filter(col -> Boolean.TRUE.equals(col.getQuickSearch()))
+          .map(ColumnModel::getHeaderText).collect(Collectors.toList());
+    }
+    
+    if (columnList.isEmpty()) {
+      this.searchScope = Ivy.cms().co("/ch.ivy.addon.portalkit.ui.jsf/dashboard/NoColumnsEnabledForQuickSearch");
+    } else {
+      StringBuilder fieldNameList = appendFieldNameList(columnList);
+      this.searchScope = Ivy.cms().co("/ch.ivy.addon.portalkit.ui.jsf/dashboard/QuickSearchScope",
+          Arrays.asList(fieldNameList.toString()));
+    }
+  }
+
+  private StringBuilder appendFieldNameList(List<String> fieldList) {
+    return new StringBuilder(String.join(Ivy.cms().co("/Labels/Comma"), fieldList));
+}
+
+  public String getSearchScope() {
+    return this.searchScope;
+  }
+  
+  public String getDashboardUrlByDashboard(String id) {
+    return UrlUtils.getServerUrl() + PortalNavigator.getDashboardPageUrl(id);
+  }
+  
+  public List<String> getDashboardDisplayTypeList() {
+    return DashboardDisplayType.getTypeList();
+  }
+  
+  public String getDashboardDisplayTypeLabel(DashboardDisplayType type) {
+    return DashboardDisplayType.getDisplayLabel(type);
+  }
+  
+  public List<Dashboard> getPublicDashboards() {
+    return DashboardUtils.getPublicDashboards();
+  }
+  public boolean canShowPinnedItemToggle(DashboardWidget widget) {
+    if (widget instanceof TaskDashboardWidget) {
+      return GlobalSettingService.getInstance().isEnablePinTask()
+          && ((TaskDashboardWidget) widget).isShowPinnedToggle();
+    }
+
+    if (widget instanceof CaseDashboardWidget) {
+      return GlobalSettingService.getInstance().isEnablePinCase()
+          && ((CaseDashboardWidget) widget).isShowPinnedToggle();
+    }
+
+    return false;
+  }
+
+  public boolean getShowPinnedItem() {
+    return this.isShowPinnedItem;
+  }
+
+  public void setShowPinnedItem(boolean isShowPinnedItem) {
+    this.isShowPinnedItem = isShowPinnedItem;
+  }
+
+  public void togglePinned(DashboardWidget widget) {
+    widget.setShowPinnedItem(!widget.getShowPinnedItem());
+    widget.toggleShowPinned();
+  }
+
+  public String showPinnedItemToggleLabel(DashboardWidget widget) {
+    String cmsKey = switch (widget.getType()) {
+      case TASK -> widget.getShowPinnedItem() ? "showAllTasks" : "showPinnedTasks";
+      case CASE -> widget.getShowPinnedItem() ? "showAllCases" : "showPinnedCases";
+      default -> StringUtils.EMPTY;
+    };
+    return StringUtils.isEmpty(cmsKey) ? StringUtils.EMPTY : Ivy.cms().co(DASHBOARD_CMS_BASE + cmsKey);
+  }
+
+  public boolean isTaskWidget(DashboardWidget widget) {
+    return widget instanceof TaskDashboardWidget;
+  }
+
+  public boolean isRenderMultipleTaskItemsDelegate(DashboardWidget widget) {
+    return isTaskWidget(widget) && ((TaskDashboardWidget) widget).isShowBulkDelegateToggle();
+  }
+
+}

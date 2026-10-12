@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions">
+
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:param name="isNotRequiredLogin" value="false" />
+    <ui:param name="viewName" value="PROCESS" />
+
+    <ui:define name="title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/processes')}</ui:define>
+    <ui:define name="pageContent">
+      <ic:ch.ivy.addon.portalkit.component.ProcessWidget id="process-widget" processListStyleClass="process-start-list" />
+    </ui:define>
+
+    <ui:define name="footer">
+      <script type="text/javascript">
+          $(function() {
+          var simpleScreen = new ProcessListScreenHandler();
+          var responsiveToolkit = ResponsiveToolkit(simpleScreen);
+          Portal.init(responsiveToolkit);
+          SidebarClickMode.init($('.js-layout-wrapper').data('sidebar-mode'));
+          });
+      </script>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

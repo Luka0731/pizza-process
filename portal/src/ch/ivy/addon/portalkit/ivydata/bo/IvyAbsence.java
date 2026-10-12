@@ -1,0 +1,102 @@
+package ch.ivy.addon.portalkit.ivydata.bo;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.axonivy.portal.components.dto.UserDTO;
+import com.axonivy.portal.components.service.DateTimeGlobalSettingService;
+
+import ch.ivyteam.ivy.environment.Ivy;
+
+public class IvyAbsence {
+
+  private UserDTO user;
+  private Date from;
+  private Date until;
+  private String comment;
+
+  public UserDTO getUser() {
+    return user;
+  }
+
+  public void setUser(UserDTO user) {
+    this.user = user;
+  }
+
+  public Date getFrom() {
+    return from;
+  }
+
+  public void setFrom(Date from) {
+    this.from = from;
+  }
+
+  public Date getUntil() {
+    return until;
+  }
+
+  public void setUntil(Date until) {
+    this.until = until;
+  }
+
+  public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+  public String getUsername() {
+    return user != null ? user.getName() : StringUtils.EMPTY;
+  }
+
+  public String getFullname() {
+    return user != null ? user.getDisplayName() : StringUtils.EMPTY;
+  }
+
+  public String getPeriod() {
+    DateFormat formatter = new SimpleDateFormat(DateTimeGlobalSettingService.getInstance().getDatePattern(), Ivy.session().getFormattingLocale());
+    return String.format("%s - %s", formatter.format(from), formatter.format(until));
+  }
+
+  public String getAmount() {
+    if (from == null || until == null) {
+      return StringUtils.EMPTY;
+    }
+    LocalDate start = from.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    LocalDate end = until.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    long workingDays = ChronoUnit.DAYS.between(start, end) + 1;
+    return String.valueOf(workingDays);
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder()
+            .append(user.getName())
+            .append(from)
+            .append(until)
+            .toHashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj instanceof IvyAbsence){
+      final IvyAbsence other = (IvyAbsence) obj;
+      return new EqualsBuilder()
+          .append(user.getName(), other.user.getName())
+          .append(from, other.from)
+          .append(until, other.until)
+          .isEquals();
+    }
+    return false;
+  }
+}

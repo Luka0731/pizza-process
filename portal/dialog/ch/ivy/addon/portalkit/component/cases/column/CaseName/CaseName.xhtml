@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite" xmlns:c="jakarta.tags.core"
+  xmlns:p="primefaces" xmlns:f="jakarta.faces.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="case" type="ch.ivyteam.ivy.workflow.ICase" />
+  <cc:attribute name="caseNameId" default="case-header-name-cell" />
+  <cc:attribute name="caseDescriptionId" default="description-cell" />
+  <cc:attribute name="dataModel" />
+  <cc:attribute name="descriptionId" default="description-cell" />
+  <cc:attribute name="nameStyleClass" />
+  <cc:attribute name="responsiveStyleClass" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="case" value="#{cc.attrs.case}" />
+  <c:set var="caseName" value="#{empty case.names().current() ? ivy.cms.co('/Dialogs/ch/ivy/addon/portalkit/component/CaseWidget/caseNameNotAvailable') : case.names().current()}" />
+  <c:set var="caseDescription" value="#{caseWidgetBean.formatCaseDescription(case.descriptions().current())}" />
+  
+  <h:panelGroup rendered="#{cc.attrs.dataModel.isSelectedColumn('NAME')}">
+    <h:outputText id="#{cc.attrs.caseNameId}" styleClass="case-header-name-cell #{cc.attrs.nameStyleClass} #{cc.attrs.responsiveStyleClass}" value="#{caseName}" />
+    <p:tooltip for="#{cc.attrs.caseNameId}" value="#{caseName}" trackMouse="true" hideEvent="mouseleave click" />
+    <h:outputText id="#{cc.attrs.caseDescriptionId}" styleClass="case-header-desc-cell" value="#{caseDescription}" />
+    <p:tooltip for="#{cc.attrs.caseDescriptionId}" value="#{caseDescription}" trackMouse="true" hideEvent="mouseleave click"/>
+  </h:panelGroup>
+</cc:implementation>
+</html>

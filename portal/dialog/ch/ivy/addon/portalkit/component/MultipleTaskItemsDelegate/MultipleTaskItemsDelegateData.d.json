@@ -1,0 +1,82 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "MultipleTaskItemsDelegateData",
+  "namespace" : "ch.ivy.addon.portalkit.component.MultipleTaskItemsDelegate",
+  "fields" : [ {
+    "name" : "canDelegateTask",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "usersToDelegate",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.UserDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "rolesToDelegate",
+    "type" : "java.util.List<com.axonivy.portal.components.dto.RoleDTO>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "application",
+    "type" : "ch.ivyteam.ivy.application.app.Application",
+    "modifiers" : [ ]
+  }, {
+    "name" : "disabledDelegateButton",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isUserDelegated",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "delegatedSecurityMember",
+    "type" : "ch.ivyteam.ivy.security.ISecurityMember",
+    "modifiers" : [ ]
+  }, {
+    "name" : "queryAutoComplete",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedTasks",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedUser",
+    "type" : "com.axonivy.portal.components.dto.UserDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedRole",
+    "type" : "com.axonivy.portal.components.dto.RoleDTO",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taskDelegationComment",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isEmptyUsers",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isEmptyRoles",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "failedTasks",
+    "type" : "java.util.List<String>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "widgetIndex",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taskWidget",
+    "type" : "ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget",
+    "modifiers" : [ ]
+  }, {
+    "name" : "numberOfSelectedTasks",
+    "type" : "java.lang.Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "delegateComment",
+    "modifiers" : [ ]
+  }, {
+    "name" : "targetTask",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  } ]
+}

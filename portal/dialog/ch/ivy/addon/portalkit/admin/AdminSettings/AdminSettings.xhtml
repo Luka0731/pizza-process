@@ -1,0 +1,254 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="primefaces" xmlns:c="jakarta.tags.core"
+	xmlns:pe="primefaces.extensions" xmlns:pc="jakarta.faces.composite/components">
+
+<cc:interface componentType="IvyComponent">
+</cc:interface>
+
+<cc:implementation>
+  <p:outputPanel id="loginPanel" styleClass="admin-settings-no-permission-message" layout="block"
+    rendered="#{!permissionBean.hasAdminPermission()}">
+    <span class="ti ti-alert-circle" />
+    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/permission/noPermission')}" />
+  </p:outputPanel>
+  <h:panelGroup styleClass="w-full pt-2 pb-2 mb-4" layout="block">
+    <div class="flex justify-content-between flex-wrap">
+      <div class="flex align-items-center justify-content-center admin-setting-header">
+         <p class="text-style-h3">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/applicationMenuHeader/adminSettings')}</p>
+      </div>
+    </div>
+  </h:panelGroup>
+  <!-- TAB VIEW -->
+  <p:tabView id="adminTabView" rendered="#{permissionBean.hasAdminPermission()}" activeIndex="0" dynamic="true" styleClass="admin-setting-tab" widgetVar="adminTabView">
+    <f:event listener="#{adminSettingBean.initAdminTabViewConfig()}" type="preRenderComponent"/>
+    <p:ajax event="tabChange" listener="#{adminSettingBean.onTabChange}"/>
+
+    <!-- SETTINGS TAB -->
+    <p:tab id="setting-tab" title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/setting')}">
+      <h:form prependId="false" id="settingForm">
+        <h:panelGroup layout="block" styleClass="setting-tab-action-buttons text-right">
+          <p:commandButton id="restore-all-to-default-button" icon="#{visibilityBean.generateButtonIcon('ti ti-arrow-back-up')}"
+            styleClass="ui-button-flat font-medium"
+            value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/restoreAllToDefault')}"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/restoreAllToDefault')}"
+            actionListener="#{logic.submitResetAllSettings}" oncomplete="PF('resetConfirmation').show()"
+            update=":#{p:resolveFirstComponentWithId('resetConfirmationDialog', view).clientId}" />
+        </h:panelGroup>
+
+        <p:dataTable cellNavigation="false" id="settingTable" styleClass="admin-table global-setting-table" value="#{data.settingList}"
+          filteredValue="#{data.filteredSettingList}" var="setting" widgetVar="settingTable"
+          emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noRecordsFound')}" scrollable="true"
+          reflow="true" scrollHeight="500" lazy="false">
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/key')}"
+            filterBy="#{setting.key}" filterMatchMode="contains" styleClass="settings-table-key-column">
+            <h:outputText value="#{setting.key}" styleClass="setting-key" />
+          </p:column>
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/defaultValue')}"
+            filterBy="#{setting.defaultValue}" filterMatchMode="contains" styleClass="settings-table-default-value-column">
+            <h:panelGroup layout="block" styleClass="block w-full u-truncate-text">
+              <h:outputText value="#{setting.defaultValue}" />
+            </h:panelGroup>
+          </p:column>
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/currentValue')}"
+            filterBy="#{setting.displayValue}" filterMatchMode="contains" styleClass="settings-table-current-value-column">
+            <h:panelGroup layout="block" styleClass="block w-full u-truncate-text">
+              <h:outputText value="#{setting.displayValue}" />
+            </h:panelGroup>
+          </p:column>
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/note')}"
+            filterBy="#{setting.note}" filterMatchMode="contains">
+            <h:outputText value="#{setting.note}" />
+          </p:column>
+          <p:column id="settings-table-action-buttons"
+            headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}"
+            styleClass="text-center settings-table-action-buttons">
+            <p:commandButton id="settings-action-button" icon="ti ti-dots"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}"
+              styleClass="rounded-button portal-icon-btn portal-icon-btn--sm portal-icon-btn--plain ui-focused" type="button"/>
+            <p:menu id="settings-action-menu" overlay="true"
+              trigger="settings-action-button"
+              my="right top" at="right bottom"
+              styleClass="settings-action-menu">
+              <p:menuitem id="edit-application"
+                global="false"
+                value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"
+                icon="ti ti-pencil"
+                oncomplete="PF('settingDialog').show()"
+                actionListener="#{logic.editSetting(setting)}"
+                update=":#{p:resolveFirstComponentWithId('settingDialog', view).clientId}"
+                process="@this" />
+              <p:menuitem id="restore-default"
+                value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/restoreDefault')}"
+                icon="ti ti-arrow-back-up"
+                oncomplete="PF('resetConfirmation').show()"
+                actionListener="#{logic.submitResetSetting(setting)}"
+                update=":#{p:resolveFirstComponentWithId('resetConfirmationDialog', view).clientId}"
+                process="@this"/>
+            </p:menu>
+          </p:column>
+        </p:dataTable>
+      </h:form>
+    </p:tab>
+    
+    <!-- ANNOUNCEMENT TAB -->
+    <p:tab id="announcement-tab" 
+      title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/announcement/tabTitle')}">
+      <p:messages id="announcement-validation-messages" redisplay="false" />
+
+      <h:form prependId="false" id="announcement-form"
+        styleClass="ui-g">
+        <h:panelGroup id="action-group" styleClass="announcement-tab-action-buttons ui-g-12 u-padding-0" layout="block">
+          <div class="announcement-information">#{ivy.cms.co("/ch.ivy.addon.portalkit.ui.jsf/adminSettings/announcement/information")}</div>
+        </h:panelGroup>
+
+        <p:dataTable cellNavigation="false" id="announcement-table"
+          styleClass="announcement-table ui-g-12 u-padding-0"
+          value="#{data.announcement.contents}"
+          var="announcement"
+          widgetVar="announcement-table"
+          reflow="true" lazy="false"
+          emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noRecordsFound')}">
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/languageSetting/Language')}" styleClass="application-language-header">
+            <p:outputLabel for="announcement-input" value="#{announcement.getLanguageDisplayName()}" />
+          </p:column>
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/announcement/announcement')}">
+            <p:inputText id="announcement-input" value="#{announcement.value}" styleClass="announcement-input"
+              required="#{logic.isApplicationDefaultEmailLanguage(announcement.language)}"
+              requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/announcement/defaultLanguageRequiredMessage')}" />
+          </p:column>
+        </p:dataTable>
+        <div class="announcement-action flex justify-content-end gap-4 mt-6 w-full">
+          <div class="announcement-toggle flex align-content-center flex-wrap gap-2">
+            <h:outputText id="announcement-toggle-status" class="flex align-items-center justify-content-center font-medium" 
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/announcement/enable')}" />
+            <p:toggleSwitch id="announcement-toggle-switch" value="#{data.isAnnouncementActivated}" styleClass="flex align-items-center justify-content-center" widgetVar="announcementToggleSwitch" />
+          </div>
+          <p:commandButton id="save-changes-announcement" process="announcement-form" actionListener="#{logic.saveChangesAnnouncement()}"
+            update=":#{cc.clientId}:adminTabView:announcement-validation-messages action-group"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}">
+          </p:commandButton>
+        </div>
+      </h:form>
+    </p:tab>
+
+    <!-- ROLE MANAGEMENT  -->
+    <p:tab id="role-management-tab" rendered="#{adminSettingBean.showRoleManagementTab}"
+      title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/components/RoleManagement/TitlePage')}">
+      <ic:ch.ivy.addon.portalkit.component.RoleManagement id="role-management-component"/>
+    </p:tab>
+    
+    <!-- PASSWORD VALIDATION  -->
+    <p:tab id="password-validation-tab" rendered="#{adminSettingBean.showPasswordValidationTab}"
+      title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/components/passwordValidation/titlePage')}">
+      <ic:ch.ivy.addon.portalkit.component.PasswordValidation id="password-validation-component"/>
+    </p:tab>
+    </p:tabView>
+  <!-- SETTING DIALOG-->
+  <p:dialog header="#{data.dialogTitle}" id="settingDialog" onShow="$('body').css({overflow:'hidden'})" width="500px"
+    onHide="$('body').css({overflow:'inherit'})" widgetVar="settingDialog" dynamic="true" modal="true" resizable="false"
+    appendTo="@(body)" styleClass="setting-dialog dialog-responsive"
+    responsive="true" fitViewport="true">
+    <h:form prependId="false" id="settingDialogForm">
+      <p:messages />
+      <p:outputPanel id="settingOverview">
+        <h:panelGroup layout="block" styleClass="w-full admin-settings-container ui-fluid">
+          
+          <!-- KEY -->
+          <div class="field">
+            <p:outputLabel styleClass="font-medium"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/key')}" for="keySetting" />
+            <p:inputText value="#{data.selectedSetting.key}" id="keySetting" readonly="true" />
+          </div>
+          <!-- VALUE -->
+          <div class="field">
+            <p:outputLabel styleClass="font-medium"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/value')}" for="valueSetting" />
+            <c:if test="#{data.settingInputType.toString() == 'TEXT'}">
+              <p:inputText value="#{data.selectedSetting.value}" id="valueSetting" />
+            </c:if>
+            
+            <c:if test="#{data.settingInputType.toString() == 'NUMBER'}">
+              <p:inputText value="#{data.selectedSetting.value}" id="valueSetting"
+                onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
+            </c:if>
+            
+            <c:if test="#{data.settingInputType.toString() == 'SELECTION'}">
+              <p:selectOneMenu value="#{data.selectedSetting.value}" id="valueSetting" styleClass="w-full">
+                <f:selectItems value="#{data.dropDownValues}" var="value" itemLabel="#{adminSettingBean.getDropdownItemlabel(value)}" />
+              </p:selectOneMenu>
+            </c:if>
+            
+            <c:if test="#{data.settingInputType.toString() == 'EXTERNAL_SELECTION'}">
+              <p:selectOneMenu value="#{data.selectedSetting.value}" id="valueSetting" styleClass="w-full">
+                <f:selectItems value="#{data.externalDropDownValues.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{data.selectedSetting.key eq 'Portal.Homepage' ? entry.value : entry.value.getLabel()}" />
+              </p:selectOneMenu>
+            </c:if>
+            
+            <c:if test="#{data.settingInputType.toString() == 'MULTI_EXTERNAL_SELECTIONS'}">
+              <p:selectCheckboxMenu id="valueSetting" value="#{data.selectedMultiSettings}"
+                updateLabel="true" filter="true" panelStyleClass="value-setting-dropdown-panel"
+                styleClass="w-full" scrollHeight="250">
+                <f:selectItems value="#{data.externalDropDownValues.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value.getLabel()}" />
+              </p:selectCheckboxMenu>
+            </c:if>
+            
+            <c:if test="#{data.settingInputType.toString() == 'PASSWORD'}">
+              <p:inputText value="#{data.selectedSetting.value}" id="valueSetting" type="password"/>
+            </c:if>
+          </div>
+          <!-- NOTE -->
+          <div class="field">
+            <p:outputLabel styleClass="font-medium" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/note')}"
+              for="noteSetting" />
+            <p:inputTextarea value="#{data.selectedSetting.note}" id="noteSetting" disabled="true" />
+          </div>
+        </h:panelGroup>
+
+        <!-- Two buttons OK, Cancel -->
+        <h:panelGroup layout="block" styleClass="w-full">
+          <p:commandButton id="save-setting" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            actionListener="#{logic.saveSetting}" styleClass="confirm-save-setting-button w-full mt-2"
+            oncomplete="if (!args.validationFailed){ PF('settingDialog').hide();}"
+            update=":#{p:resolveFirstComponentWithId('settingForm', view).clientId} @form" process="@form" widgetVar="saveSettingButton"
+            onclick="PF('saveSettingButton').disable();" />
+        </h:panelGroup>
+      </p:outputPanel>
+    </h:form>
+  </p:dialog>
+
+  <!--  CONFIRMATION DIALOG TO RESET SETTING -->
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="resetConfirmationDialog" />
+    <ui:param name="widgetVar" value="resetConfirmation" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-alert-triangle" />
+    <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/resetSettingHeaderText')}" />
+    <ui:param name="dialogContent" value="#{data.confirmMsg}" />
+    
+    <ui:define name="dialogFooter">
+      <c:if test="#{data.resetAllSettings}">
+        <p:commandButton id="reset-settings" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/restore')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/restore')}"
+          actionListener="#{logic.resetValues}" styleClass="w-full"
+          oncomplete="PF('resetConfirmation').hide(); PF('settingTable').clearFilters();"
+          update="@(.admin-table.global-setting-table)" />
+      </c:if>
+      <c:if test="#{!data.resetAllSettings}">
+        <p:commandButton id="reset-setting" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/restore')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/restore')}"
+          actionListener="#{logic.resetValue}" styleClass="w-full"
+          oncomplete="PF('resetConfirmation').hide();"
+          update="@(.admin-table.global-setting-table)" />
+      </c:if>
+      <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        onclick="PF('resetConfirmation').hide()" styleClass="text-center block pt-3 w-full portal-link"/>
+    </ui:define>
+  </ui:decorate>
+</cc:implementation>
+</html>

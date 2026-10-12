@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "PortalBreadcrumbData",
+  "namespace" : "ch.ivy.addon.portal.generic.PortalBreadcrumb",
+  "fields" : [ {
+    "name" : "workingTask",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "linkToNavigateWhenLeaveTask",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isWorkingOnATask",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

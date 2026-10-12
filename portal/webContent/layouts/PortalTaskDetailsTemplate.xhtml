@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core"
+  lang="#{masterDataBean.userLanguage}"
+  
+  >
+<h:body>
+    
+    <!-- WARNING: -->
+    <!-- This template is used for Portal only. -->
+    
+    <!-- DEPRECATED:  -->
+    <!-- Since Portal 11.0 -->
+    
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:param name="viewName" value="TASK_DETAIL" />
+    <ui:param name="loadGridStack" value="true" />
+    <ui:define name="title">#{ivy.cms.co('/Labels/TaskItemDetail')}</ui:define>
+    <ui:define name="pageContent">
+      <ic:ch.ivy.addon.portalkit.component.TaskItemDetails id="task-detail-template" task="#{task}" showItemDetailsHeader="#{showItemDetailsHeader}"
+        showItemDetailsNotes="#{showItemDetailsNotes}" showItemDetailDocuments="#{showItemDetailDocuments}" dataModel="#{dataModel}"
+        portalPage="#{portalPage}" isFromTaskList="#{isFromTaskList}"
+        isTaskStartedInDetails="#{isTaskStartedInDetails}">
+
+        <f:facet name="taskItemDetailCustomPanelTop">
+          <ui:insert name="taskItemDetailCustomPanelTop" />
+        </f:facet>
+
+        <f:facet name="taskItemDetailCustomPanelBottom">
+          <ui:insert name="taskItemDetailCustomPanelBottom" />
+        </f:facet>
+
+      </ic:ch.ivy.addon.portalkit.component.TaskItemDetails>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

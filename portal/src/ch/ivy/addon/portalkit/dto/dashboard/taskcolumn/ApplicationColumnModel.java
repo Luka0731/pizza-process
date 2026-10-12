@@ -1,0 +1,86 @@
+package ch.ivy.addon.portalkit.dto.dashboard.taskcolumn;
+
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget;
+import ch.ivy.addon.portalkit.enums.DashboardColumnFormat;
+import ch.ivy.addon.portalkit.enums.DashboardStandardTaskColumn;
+import ch.ivyteam.ivy.application.app.Application;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.workflow.ITask;
+
+public class ApplicationColumnModel extends TaskColumnModel {
+  private static final long serialVersionUID = 8918150285605338212L;
+
+  @Override
+  public void initDefaultValue() {
+    super.initDefaultValue();
+    this.field = DashboardStandardTaskColumn.APPLICATION.getField();
+    this.styleToDisplay = initDefaultStyle();
+    this.styleClass = defaultIfEmpty(this.styleClass, getDefaultStyleClass());
+    this.format = DashboardColumnFormat.CUSTOM;
+    this.quickSearch = defaultIfEmpty(this.quickSearch, false);
+  }
+  
+  @Override
+  public String getDefaultHeaderCMS() {
+    return "/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/APPLICATION";
+  }
+  
+  @Override
+  protected int getDefaultColumnWidth() {
+    return TINY_WIDTH;
+  }
+  
+  @Override
+  public Object display(ITask task) {
+    if (task == null) {
+      return null;
+    }
+    return task.getApplication().name();
+  }
+  
+  @JsonIgnore
+  public List<String> getApplications() {
+    return ApplicationRepository.of(ISecurityContext.current()).all().map(Application::name).toList();
+  }
+  
+  @JsonIgnore
+  public void setApplications(List<String> applications) {
+    this.filterList = applications;
+  }
+  
+  @Override
+  public Boolean getDefaultSortable() {
+    return false;
+  }
+
+  public void updateApplications(TaskDashboardWidget widget) {
+  }
+  public void initializeApplications(TaskDashboardWidget widget) {
+  }
+  
+  @Override
+  public List<String> getUserFilterListOptions(){
+    if (CollectionUtils.isEmpty(this.userFilterListOptions)) {
+      this.userFilterListOptions = getApplications();
+    }
+    
+    return this.userFilterListOptions;
+  }
+  
+  @Override
+  public boolean canQuickSearch() {
+    return true;
+  }
+
+  @Override
+  public String getDefaultStyleClass() {
+    return "dashboard-tasks__priority text-center widget-column";
+  }
+}

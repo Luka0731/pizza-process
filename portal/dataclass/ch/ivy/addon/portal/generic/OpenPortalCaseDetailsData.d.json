@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "OpenPortalCaseDetailsData",
+  "namespace" : "ch.ivy.addon.portal.generic",
+  "fields" : [ {
+    "name" : "caseView",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isShowBackButton",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

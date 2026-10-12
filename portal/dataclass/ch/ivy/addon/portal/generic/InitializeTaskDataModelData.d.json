@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "InitializeTaskDataModelData",
+  "namespace" : "ch.ivy.addon.portal.generic",
+  "fields" : [ {
+    "name" : "dataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.TaskLazyDataModel",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:pc="jakarta.faces.composite/components">
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:param name="isNotRequiredLogin" value="false" />
+    <ui:define name="title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/taskHistoryPageTitle')}</ui:define>
+    <ui:define name="pageContent">
+      <h:form id="form" onkeypress="if (event.keyCode == 13) { return false; }" styleClass="ui-g">
+        <h:panelGroup layout="block" id="task-note-history" styleClass="card portal-detail-toolbar">
+          <h:panelGroup layout="block" styleClass="portal-detail-toolbar-start u-truncate-text">
+            <p:commandLink id="back-to-task-details" process="@this"
+              actionListener="#{caseTaskNoteHistoryBean.navigateToTaskDetails(data.task)}"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}"
+              styleClass="portal-detail-toolbar-back">
+              <i class="ti ti-chevron-left" aria-hidden="true" />
+              <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}" />
+            </p:commandLink>
+          </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup layout="block" styleClass="portal-detail-body portal-detail-page-content">
+          <h:panelGroup layout="block" styleClass="card task-detail-card">
+            <h:panelGroup layout="block" id="general-information" styleClass="task-detail-attr-strip">
+              <div class="task-detail-attr">
+                <h:outputText styleClass="portal-detail-column-title"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/name')}" />
+                <div class="task-detail-attr-value u-truncate-text">
+                  <h:outputText id="task-name" value="#{data.task.names().current()}" />
+                </div>
+              </div>
+
+              <div class="task-detail-attr">
+                <h:outputText styleClass="portal-detail-column-title"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/ID')}" />
+                <div class="task-detail-attr-value">
+                  <h:outputText id="task-id" value="#{data.task.id}" />
+                </div>
+              </div>
+
+              <div class="task-detail-attr">
+                <h:outputText styleClass="portal-detail-column-title"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/ACTIVATOR')}" />
+                <div class="task-detail-attr-value u-truncate-text">
+                  <ic:com.axonivy.portal.component.Responsibles responsibles="#{data.task.responsibles()}" />
+                </div>
+              </div>
+
+              <div class="task-detail-attr">
+                <h:outputText styleClass="portal-detail-column-title"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskList/defaultColumns/STATE')}" />
+                <div class="task-detail-attr-value">
+                  <h:panelGroup id="task-state-cell" styleClass="state-cell default-task-cell">
+                    <ic:ch.ivy.addon.portalkit.component.task.column.TaskState id="task-state" state="#{data.task.businessState}"
+                      alwaysShowState="true" responsiveStyleClass=""/>
+                  </h:panelGroup>
+                </div>
+              </div>
+            </h:panelGroup>
+          </h:panelGroup>
+
+          <h:panelGroup layout="block" styleClass="card task-detail-card">
+            <h:panelGroup layout="block" styleClass="portal-detail-widget-header">
+              <div class="portal-detail-widget-header-title u-truncate-text" role="heading" aria-level="2">
+                #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/taskHistoryPageTitle')}
+              </div>
+              <h:panelGroup layout="block" styleClass="portal-detail-widget-header-actions">
+                <p:commandLink id="export-to-excel" ajax="false" styleClass="portal-icon-btn"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/exportButton')}"
+                  title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/exportButton')}">
+                  <i class="ti ti-file-type-xls" aria-hidden="true" />
+                  <p:fileDownload value="#{caseTaskNoteHistoryBean.getExportedFileOfTaskNoteHistory(data.filteredNotes, data.exportedFileName)}" />
+                </p:commandLink>
+              </h:panelGroup>
+            </h:panelGroup>
+              <p:dataTable cellNavigation="false" id="notes-table" widgetVar="notesTable" var="note" sortBy="#{caseTaskNoteHistoryBean.taskHistorySortByCreationTimestamp}"
+                value="#{data.notes}" filteredValue="#{data.filteredNotes}"
+                emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noRecordsFound')}"
+                reflow="true" scrollable="true" lazy="false">
+
+                <p:column sortBy="#{note.content()}" filterBy="#{note.content()}" filterMatchMode="contains"
+                  width="65%">
+                  <f:facet name="header">
+                    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/columnContent')}" />
+                  </f:facet>
+                  <h:outputText value="#{note.content()}" styleClass="case-task-note-histories" />
+                </p:column>
+
+                <p:column width="200px" sortBy="#{note.author().fullName}" filterBy="#{note.author().fullName}" filterMatchMode="contains"
+                  styleClass="note-history-fullname-column u-hidden-sm-down">
+                  <f:facet name="header">
+                    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/author')}" />
+                  </f:facet>
+                  <pc:securityMemberNameAndAvatar
+                    securityMember="#{note.author()}"
+                    displayName="#{securityMemberDisplayNameFormatBean.generateBriefDisplayNameForSecurityMember(note.author(), note.authorName())}" />
+                </p:column>
+
+                <p:column width="150px" sortBy="#{note.createdAt().time}" field="creationTimestamp.time" filterable="false" styleClass="u-hidden-sm-down">
+                  <f:facet name="header">
+                    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/creationDate')}" />
+                  </f:facet>
+                  <h:outputText value="#{note.createdAt().time}">
+                    <f:convertDateTime locale="#{localeBean.locale}" pattern="#{dateTimePatternBean.dateTimestampPattern}"/>
+                  </h:outputText>
+                </p:column>
+              </p:dataTable>
+          </h:panelGroup>
+        </h:panelGroup>
+      </h:form>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

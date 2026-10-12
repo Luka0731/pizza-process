@@ -1,0 +1,47 @@
+package com.axonivy.portal.bean.dashboard;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.axonivy.portal.dto.dashboard.filter.DashboardFilter;
+
+import ch.ivyteam.ivy.application.app.Application;
+import ch.ivyteam.ivy.application.app.ApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
+@Named
+@ViewScoped
+public class WidgetApplicationFilterBean implements Serializable {
+
+  private static final long serialVersionUID = 4458514225804204212L;
+
+  private List<String> applications;
+  private String applicationString;
+
+  public void init(DashboardFilter filter) {
+    this.applications = ApplicationRepository.of(ISecurityContext.current()).all().map(Application::name).toList();
+    this.applicationString = String.join(", ",
+        new ArrayList<>(CollectionUtils.intersection(applications, filter.getValues())));
+  }
+
+  public List<String> getApplications() {
+    return applications;
+  }
+
+  public void updateApplicationsString(List<String> apps) {
+    applicationString = String.join(", ", apps);
+  }
+
+  public String getApplicationString() {
+    return applicationString;
+  }
+
+  public void setApplicationString(String applicationString) {
+    this.applicationString = applicationString;
+  }
+}

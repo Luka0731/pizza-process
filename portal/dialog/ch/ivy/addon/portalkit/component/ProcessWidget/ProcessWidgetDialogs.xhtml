@@ -1,0 +1,417 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core"
+  xmlns:pc="jakarta.faces.composite/components">
+
+<ui:composition>
+
+  <!-- Start Edit Process -->
+  <p:dialog id="edit-process-dialog" widgetVar="edit-process-dialog"
+    closeOnEscape="true" modal="true" appendTo="@(body)"
+    responsive="true" resizable="false" fitViewport="true" positionType="absolute"
+    styleClass="edit-process-dialog" header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/editDialog/dialogHeaderTitle', [processWidgetBean.editedProcess.getName()])}">
+    <p:ajax event="close" update="edit-process-dialog" resetValues="true" global="false"/>
+    <h:form id="edit-process-form" styleClass="ui-g edit-process-form">
+      <c:set var="process" value="#{processWidgetBean.editedProcess}" />
+      <c:set var="processIcon" value="#{process.getIcon()}" />
+      <div style="display: none;" id="edit-external-link-error-message" />
+      <div class="ui-g-12 edit-process-header-group u-no-padding-left u-no-padding-right">
+        <div class="ui-g-12 u-padding-0">
+          <p class="edit-process-header-sub-title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/description')}</p>
+          <p class="edit-process-header-description MarTop5">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/editDialog/dialogHeaderDescription')}</p>
+        </div>
+      </div>
+
+      <div id="edit-process-icon-group" class="ui-g-12 edit-process-icon-group MarTop20 u-no-padding-left u-no-padding-right">
+        <p class="u-mar-right-10 edit-process-header-sub-title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/editDialog/dialogCurrentIcon')}</p>
+        <div class="ui-g-12 u-no-padding-left">
+          <ic:ch.ivy.addon.portalkit.component.IconSelection id="edit-process-icon" hideIconArray="false" isImmediate="false"
+            value="#{processWidgetBean.selectedIconProcess}"
+            isReadOnly="#{!processWidgetBean.canChangeProcessIcon()}" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 u-no-padding-bottom MarTop20 edit-process-info-group u-no-padding-left u-no-padding-right">
+        <p class="edit-process-header-sub-title">
+          <span class="u-mar-right-5">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/editDialog/dialogEditInfoTitle', [process.getType().getLabel()])}</span>
+        </p>
+
+        <p:messages id="edit-external-link-error-message" styleClass="ui-g-12 u-padding-0">
+          <p:autoUpdate />
+        </p:messages>
+
+        <!-- External link -->
+        <h:panelGrid styleClass="ui-g-12 u-no-padding-left" columns="2" columnClasses="edit-process-detail-1st-cell, edit-process-detail-2nd-cell">
+          <!-- Process name -->
+          <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/displayName')}" />
+          <p:inplace editor="true" effectSpeed="fast" styleClass="external-link-edit-block"
+            saveLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            cancelLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}">
+            <f:facet name="output">
+              <h:outputText styleClass="u-mar-right-5 external-link-edit-display-text" value="#{processWidgetBean.editedExternalLink.name}" />
+              <a href="#" class="ti ti-pencil" aria-label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"/>
+            </f:facet>
+            <div class="ui-fluid ui-inputgroup">
+              <p:inputText id="external-link-name" value="#{processWidgetBean.editedExternalLink.name}" required="true"
+                maxlength="85" 
+                requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/processName')} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/isRequiredMessage')}" />
+              <p:commandButton id="edit-name-language-button"  icon="ti ti-language" 
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/addLanguages')}"
+                actionListener="#{processWidgetBean.updateNameByLocale()}"
+                process=":#{cc.clientId}:edit-process-form:external-link-name"
+                update=":#{cc.clientId}:edit-name-language-config:multiple-languages-dialog"
+                oncomplete="PF('multiple-languages-dialog').show();" />
+            </div>
+          </p:inplace>
+
+          <!-- Start link -->
+          <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/startLink')}" />
+          <p:inplace editor="true" styleClass="external-link-edit-block" effectSpeed="fast"
+            saveLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            cancelLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}">
+            <f:facet name="output">
+              <h:outputText styleClass="u-mar-right-5 external-link-edit-display-text" value="#{processWidgetBean.editedExternalLink.link}" />
+              <a href="#" class="ti ti-pencil" aria-label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}" />
+            </f:facet>
+            <p:inputText id="external-link" value="#{processWidgetBean.editedExternalLink.link}" required="true"
+              requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/startLink')} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/isRequiredMessage')}"
+              placeholder="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/webLinkExample')}" />
+          </p:inplace>
+
+          <!-- Link description -->
+          <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/linkDescription')}" />
+          <p:inplace editor="true" styleClass="" effectSpeed="fast"
+            saveLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            cancelLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}">
+            <f:facet name="output">
+              <h:outputText styleClass="u-mar-right-5 external-link-edit-display-text"
+                value="#{empty processWidgetBean.editedExternalLink.description ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/notAvailable') : processWidgetBean.editedExternalLink.description}" />
+              <a href="#" class="ti ti-pencil" aria-label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"/>
+            </f:facet>
+            <div class="ui-fluid ui-inputgroup">
+            <p:inputTextarea id="external-description" value="#{processWidgetBean.editedExternalLink.description}"
+              maxlength="200" rows="3" />
+            <p:commandButton id="edit-description-language-button" icon="ti ti-language" 
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/addLanguages')}"
+              actionListener="#{processWidgetBean.updateDescriptionByLocale()}"
+              process=":#{cc.clientId}:edit-process-form:external-description"
+              update=":#{cc.clientId}:edit-description-language-config:multiple-languages-dialog"
+              oncomplete="PF('multiple-languages-dialog').show();" />
+            </div>
+          </p:inplace>
+          <!-- Role Permissions -->
+          <h:outputText value="#{ivy.cms.co('/Labels/Permissions')}" rendered="#{processWidgetBean.editedExternalLink.isPublic}"/>
+          <p:inplace editor="true" effectSpeed="fast" rendered="#{processWidgetBean.editedExternalLink.isPublic}" id="role-permissions-editor-for-external-link"
+            styleClass="role-permissions-editor-for-external-link"
+            saveLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+            cancelLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}">
+            <p:ajax event="save" listener="#{processWidgetBean.handleSavePermissionSelections()}"
+              process="@this" update="permission-for-editing-external-link" />
+            <p:ajax event="cancel" listener="#{processWidgetBean.handleCancelPermissionSelections()}"
+              process="@this" update="permission-for-editing-external-link" resetValues="true"/>
+            <f:facet name="output">
+              <h:outputText styleClass="u-mar-right-5" value="#{processWidgetBean.displayNameOfPermissionsWhenEditingExternalLink}" />
+              <a href="#" class="ti ti-pencil" aria-label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/edit')}"/>
+            </f:facet>
+            <f:facet name="input">
+              <h:panelGroup id="permission-for-editing-external-link" layout="block"
+                styleClass="permissions-for-editing-external-link ui-fluid">
+                <p:autoComplete id="role-autocomplete-for-editing-external-link" scrollHeight="210" dropdown="true"
+                  required="true" completeMethod="#{processWidgetBean.completePermissionsWhenEditingExternalLink}"
+                  value="#{processWidgetBean.selectedSecurityMemberDTOsWhenEditingExternalLink}" var="responsible"
+                  itemValue="#{responsible}" itemLabel="#{responsible.briefDisplayNameWithState}"
+                  converter="pojoConverter" cache="true" maxResults="100" multiple="true"
+                  requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/rolePermissionsRequiredMessage')}"
+                  moreText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/more')}..." dynamic="true"
+                  forceSelection="true">
+                  <p:ajax event="itemSelect" listener="#{processWidgetBean.onSelectPermissionsWhenEditingExternalLink}"
+                    global="false" update="role-autocomplete-for-editing-external-link" process="@this"/>
+                  <p:ajax event="itemUnselect" listener="#{processWidgetBean.onUnSelectPermissionsWhenEditingExternalLink}"
+                    global="false" update="role-autocomplete-for-editing-external-link" process="@this" immediate="true"/>
+                  <p:column>
+                    <pc:securityMemberNameAndAvatar displayName="#{processWidgetBean.formatName(responsible)}"
+                      securityMember="#{responsible}">
+                      <f:facet name="alternativeAvatar">
+                        <h:outputText rendered="#{not avatarBean.isShowAvatar()}"
+                          styleClass="ti #{responsible.isUser() ? 'ti-user' : 'ti-users'} u-mar-right-5" />
+                      </f:facet>
+                    </pc:securityMemberNameAndAvatar>
+                  </p:column>
+                </p:autoComplete>
+              </h:panelGroup>
+            </f:facet>
+          </p:inplace>
+
+          <!-- Image -->
+
+          <h:outputLabel id="editing-external-link-image-label"
+            for="editing-external-link-image-upload"
+            value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/image')}" />
+
+          <h:panelGroup id="file-upload-panel" layout="block"
+            styleClass="#{empty processWidgetBean.editedExternalLink.imageLocation ? 'ui-g-12' : 'ui-g-12 ui-fluid u-padding-0 MarTop10 external-link-preview-image-panel'}">
+            <p:fileUpload id="editing-external-link-image-upload" style="display: none;" rendered="#{empty processWidgetBean.editedExternalLink.imageLocation}" listener="#{processWidgetBean.handleExternalLinkImageUpload}" chooseIcon="#{visibilityBean.generateButtonIcon('ti ti-plus')}" dragDrop="true" auto="true" widgetVar="editExternalLinkUpload" update="file-upload-panel edit-external-link-error-message" accept=".png,.jpg,.jpeg,.svg" onvalidationfailure="handleUploadFileFailOnEditExternalLink('editExternalLinkUpload');" label="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/select')}" oncomplete="hideExtendLinkPreviewLabel();" dropZone="edit-external-link-preview-image-panel" mode="advanced">
+              <p:validateFile sizeLimit="#{processWidgetBean.uploadFileLimit}" allowTypes="/(\.|\/)(png|jpg|jpeg|svg)$/i" />
+            </p:fileUpload>
+              <p:outputPanel id="edit-external-link-preview-image-panel" styleClass="ui-external-link-preview-image-panel" >
+                <h:panelGroup rendered="#{empty processWidgetBean.editedExternalLink.imageLocation}" class="ui-external-link-preview-image-label">
+                <i class="ti ti-file-upload" id="ui-external-link-preview-image-icon" />
+                <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/dragAndDropImage')}">
+                <p:link styleClass="portal-link" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/uploadOneHere')}" onclick="PF('editExternalLinkUpload').show();return false"/>
+                </p:outputLabel>
+                </h:panelGroup>
+                <p:graphicImage id="editing-external-link-preview-image"
+                  rendered="#{not empty processWidgetBean.editedExternalLink.imageLocation}"
+                  styleClass="external-link-preview-image" library="ivy-cms"
+                  name="#{processWidgetBean.editedExternalLink.imageLocation}"
+                  alt="#{processWidgetBean.editedExternalLink.name}" />
+              </p:outputPanel>
+            <h:panelGroup
+              class="external-link-preview-image-overlay-panel"
+              rendered="#{not empty processWidgetBean.editedExternalLink.imageLocation}">
+              <p:commandButton
+                id="editing-external-link-delete-image-button"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/remove')}"
+                actionListener="#{processWidgetBean.removeTempExternalLinkImage}"
+                update="file-upload-panel" immediate="true"
+                rendered="#{not empty processWidgetBean.editedExternalLink.imageLocation}"
+                styleClass="external-link-delete-image-button"
+                icon="ti ti-trash" />
+            </h:panelGroup>
+            <p:defaultCommand target="external-link-name"/>
+          </h:panelGroup>
+        </h:panelGrid>
+      </div>
+    </h:form>
+
+    <f:facet name="footer">
+      <p:commandButton id="save-process-command" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+        process=":#{cc.clientId}:edit-process-form" actionListener="#{processWidgetBean.updateProcessData()}" styleClass="w-full" validateClient="true"
+        update=":#{cc.clientId}:edit-process-form:edit-external-link-error-message :#{cc.clientId}:process-list #{cc.clientId}"
+        oncomplete="if(!args.validationFailed){PF('edit-process-dialog').hide(); processWidget.setup(); processWidget.hideLoadingText();}" form=":#{cc.clientId}:edit-process-form"/>
+    </f:facet>
+  </p:dialog>
+  <!-- End Edit Process -->
+
+  <!-- Start Delete Process -->
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="remove-process-workflow-dialog" />
+    <ui:param name="widgetVar" value="remove-process-workflow-dialog" />
+    <ui:param name="dynamic" value="true"/>
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/deleteProcessItemHeader')}" />
+    
+    <ui:define name="dialogContentSection">
+      <div class="text-center portal-dialog-content">
+         <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/deleteProcessItemConfirmation')}" />
+         <br />
+         <h:outputText value="#{processWidgetBean.deletedProcess.getName()}" styleClass="u-font-bold" />
+      </div>
+    </ui:define>
+    
+    <ui:define name="dialogFooter">
+      <h:form id="delete-process-workflow-form" styleClass="flex flex-column">
+        <p:commandButton id="remove-process-command" process="@this" update=":#{cc.clientId}:process-list #{cc.clientId}"
+          styleClass="w-full portal-remove-button"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/remove')}"
+          actionListener="#{processWidgetBean.deleteProcessWorkflow()}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/remove')}"
+          oncomplete="PF('remove-process-workflow-dialog').hide(); processWidget.setup(); processWidget.hideLoadingText();" />
+        <p:link onclick="PF('remove-process-workflow-dialog').hide()" styleClass="pt-3 flex justify-content-center portal-link"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+          href="#" />
+      </h:form>
+    </ui:define>
+  </ui:decorate>
+  <!-- End Delete Process -->
+
+  <!-- Start External Link Dialogs -->
+  <p:dialog id="add-external-link-dialog" widgetVar="add-external-link-dialog"
+    header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/addNewExternalLinkHeader')}" closeOnEscape="true" modal="true"
+    appendTo="@(body)" resizable="false" responsive="true" positionType="absolute" fitViewport="true" styleClass="add-external-link-dialog">
+    <p:ajax event="close" update="add-external-link-dialog" resetValues="true" global="false" listener="#{processWidgetBean.resetPermission}"/>
+    <div style="display: none;" id="error-message" />
+    <h:form id="add-external-link-form" styleClass="add-external-link-form ui-g">
+      <p:defaultCommand target="external-link-name"/>
+      <p:messages styleClass="ui-g-12" id="external-link-dialog-message"/>
+
+      <!-- Process Name -->
+      <div class="ui-g-12">
+        <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/processName')}"
+          for="external-link-name" />
+      </div>
+      <div class="ui-g-12 ui-fluid ui-inputgroup">
+        <p:inputText id="external-link-name" value="#{externalLinkBean.externalLink.name}" required="true"
+          maxlength="85"
+          requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/processName')} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/isRequiredMessage')}" />
+        <p:commandButton id="add-name-language-button"  icon="ti ti-language" 
+          actionListener="#{externalLinkBean.updateNameByLocale()}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/addLanguages')}"
+          process=":#{cc.clientId}:add-external-link-form:external-link-name"
+          update=":#{cc.clientId}:name-language-config:multiple-languages-dialog"
+          oncomplete="PF('multiple-languages-dialog').show();" />
+      </div>
+
+      <!-- Start link -->
+      <div class="ui-g-12">
+        <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/startLink')}"
+          for="external-link" />
+      </div>
+      <div class="ui-g-12 ui-fluid">
+        <p:inputText id="external-link" value="#{externalLinkBean.externalLink.link}" required="true"
+          styleClass="external-link-dialog-field"
+          requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/startLink')} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/isRequiredMessage')}. #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/webLinkExample')}" />
+      </div>
+
+      <!-- Description -->
+      <div class="ui-g-12">
+        <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/linkDescription')}"
+          for="external-description" />
+      </div>
+      <div class="ui-g-12 ui-fluid ui-inputgroup">
+        <p:inputTextarea id="external-description" value="#{externalLinkBean.externalLink.description}"
+          styleClass="external-description-field" maxlength="200" rows="3" />
+        <p:commandButton id="add-description-language-button" icon="ti ti-language" 
+          actionListener="#{externalLinkBean.updateDescriptionByLocale()}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/addLanguages')}"
+          process=":#{cc.clientId}:add-external-link-form:external-description"
+          update=":#{cc.clientId}:description-language-config:multiple-languages-dialog"
+          oncomplete="PF('multiple-languages-dialog').show();" />
+      </div>
+
+      <!-- Type -->
+      <div class="ui-g-12 MarTop10 u-padding-0" jsf:rendered="#{externalLinkBean.hasPublicLinkCreationPermission()}">
+        <div class="ui-g-12">
+          <p:outputLabel id="external-link-type-label" for="external-link-type-radio"
+            styleClass="external-link-type-label"
+            value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/externalLinkVisibility')}" />
+        </div>
+        <div class="ui-g-12 u-no-padding-top">
+          <p:selectOneRadio id="external-link-type-radio" value="#{externalLinkBean.externalLink.isPublic}"
+            styleClass="external-link-type-radio">
+            <f:selectItem id="only-me" itemValue="false" itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/private')}" />
+            <f:selectItem id="for-role" itemValue="true" itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/selectRoles')}" />
+            <p:ajax update="permission-for-creating-external-link permission-for-creating-external-link-label" event="valueChange" />
+          </p:selectOneRadio>
+        </div>
+        <h:panelGroup id="permission-for-creating-external-link-label">
+          <p:outputLabel for="role-autocomplete-for-creating-external-link" rendered="#{externalLinkBean.externalLink.isPublic}"
+            styleClass="ui-g-12"
+            value="#{ivy.cms.co('/Labels/Permissions')}" />
+        </h:panelGroup>
+        <h:panelGroup id="permission-for-creating-external-link" layout="block">
+          <h:panelGroup styleClass="ui-g-12 ui-fluid" rendered="#{externalLinkBean.externalLink.isPublic}">
+            <p:autoComplete id="role-autocomplete-for-creating-external-link" scrollHeight="210" dropdown="true"
+              required="true" completeMethod="#{processWidgetBean.completePermissionsWhenCreatingExternalLink}"
+              value="#{processWidgetBean.selectedSecurityMemberDTOsWhenCreatingExternalLink}" var="responsible"
+              itemValue="#{responsible}" itemLabel="#{responsible.briefDisplayNameWithState}" converter="pojoConverter"
+              cache="true" maxResults="100" multiple="true"
+              requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/rolePermissionsRequiredMessage')}"
+              moreText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/more')}..." dynamic="true"
+              forceSelection="true">
+              <p:ajax event="itemSelect" listener="#{processWidgetBean.onSelectPermissionsWhenCreatingExternalLink}"
+                update="role-autocomplete-for-creating-external-link" global="false" process="@this" immediate="true"/>
+              <p:ajax event="itemUnselect" listener="#{processWidgetBean.onUnSelectPermissionsWhenCreatingExternalLink}"
+                update="role-autocomplete-for-creating-external-link" global="false" process="@this" immediate="true" />
+              <p:column>
+                <pc:securityMemberNameAndAvatar displayName="#{processWidgetBean.formatName(responsible)}"
+                  securityMember="#{responsible}">
+                  <f:facet name="alternativeAvatar">
+                    <h:outputText rendered="#{not avatarBean.isShowAvatar()}"
+                      styleClass="ti #{responsible.isUser() ? 'ti-user' : 'ti-users'} u-mar-right-5" />
+                  </f:facet>
+                </pc:securityMemberNameAndAvatar>
+              </p:column>
+            </p:autoComplete>
+          </h:panelGroup>
+        </h:panelGroup>
+      </div>
+
+      <!-- Icon -->
+      <div class="ui-g-12 MarTop10">
+        <h:outputLabel id="external-link-icon-label" for="external-link-icon" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/icon')}" />
+      </div>
+      <div class="ui-g-12 u-no-padding-top external-process-icon">
+        <ic:ch.ivy.addon.portalkit.component.IconSelection id="external-link-icon" value="#{externalLinkBean.externalLink.icon}"/>
+      </div>
+      <!-- Image -->
+      <div class="ui-g-12 MarTop10">
+        <h:outputLabel id="external-link-image-label"
+          for="external-link-image-upload"
+          value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/image')}" />
+      </div>
+      <h:panelGroup id="file-upload-panel" layout="block"
+        styleClass="#{empty externalLinkBean.externalLink.imageLocation ? 'ui-g-12 ':'ui-g-12 ui-fluid u-padding-0 MarTop10 external-link-preview-image-panel'}">
+        <p:fileUpload id="external-link-image-upload" style="display: none;" widgetVar="externalLinkUpload" rendered="#{empty externalLinkBean.externalLink.imageLocation}" listener="#{externalLinkBean.handleImageUpload}" chooseIcon="#{visibilityBean.generateButtonIcon('ti ti-plus')}" dragDrop="true" auto="true" update="file-upload-panel external-link-dialog-message" accept=".png,.jpg,.jpeg,.svg" onvalidationfailure="handleUploadFileFail('externalLinkUpload');" dropZone="external-link-preview-image-panel" oncomplete="hideExtendLinkPreviewLabel();" mode="advanced">
+          <p:validateFile sizeLimit="#{externalLinkBean.uploadFileLimit}" allowTypes="/(\.|\/)(png|jpg|jpeg|svg)$/i" />
+        </p:fileUpload>
+          
+        <p:outputPanel id="external-link-preview-image-panel" styleClass="ui-external-link-preview-image-panel" >
+            <span class="ui-external-link-preview-image-label">
+            <i class="ti ti-file-upload" id="ui-external-link-preview-image-icon" />
+            <p:outputLabel value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/dragAndDropImage')}">
+            <p:link styleClass="portal-link" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/uploadOneHere')}" onclick="PF('externalLinkUpload').show();return false"/>
+            </p:outputLabel>
+            </span>
+            <p:graphicImage id="external-link-preview-image"
+               rendered="#{not empty externalLinkBean.externalLink.imageLocation}"
+               styleClass="external-link-preview-image" library="ivy-cms"
+               name="#{externalLinkBean.externalLink.imageLocation}"
+               alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/externalLinkImage')}" />
+        </p:outputPanel>
+
+        <h:panelGroup class="external-link-preview-image-overlay-panel"
+          rendered="#{not empty externalLinkBean.externalLink.imageLocation}">
+          <p:commandButton id="external-link-delete-image-button"
+            actionListener="#{externalLinkBean.removeImage()}"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/processwidget/remove')}"
+            process="external-link-delete-image-button"
+            partialSubmit="true" update="file-upload-panel"
+            rendered="#{not empty externalLinkBean.externalLink.imageLocation}"
+            styleClass="external-link-delete-image-button"
+            icon="ti ti-trash" />
+        </h:panelGroup>
+      </h:panelGroup>
+    </h:form>
+
+    <f:facet name="footer">
+      <p:commandButton id="adding-new-external-link-command" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addLink')}"
+        process=":#{cc.clientId}:add-external-link-form"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/addLink')}"
+        form=":#{cc.clientId}:add-external-link-form" actionListener="#{processWidgetBean.createNewExternalLink()}"
+        update=":#{cc.clientId}:add-external-link-form :#{cc.clientId}:process-list #{cc.clientId}" styleClass="w-full" validateClient="true"
+        oncomplete="if(!args.validationFailed){PF('add-external-link-dialog').hide(); processWidget.setup(); processWidget.hideLoadingText()}" />
+    </f:facet>
+  </p:dialog>
+  <!-- End External Link Dialogs -->
+  <!-- Multi language dialog-->
+  <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration
+    managedBean="#{externalLinkBean}"
+    id="name-language-config" titles="#{externalLinkBean.externalLink.names}"
+    componentToUpdateOnCreate=":#{cc.clientId}:add-external-link-form:external-link-name" 
+    componentToUpdateOnModify=":#{cc.clientId}:add-external-link-form:external-link-name"/>
+    
+  <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration
+    managedBean="#{processWidgetBean}"
+    id="edit-name-language-config" titles="#{processWidgetBean.editedExternalLink.names}"
+    componentToUpdateOnCreate=":#{cc.clientId}:edit-process-form:external-link-name"
+    componentToUpdateOnModify=":#{cc.clientId}:edit-process-form:external-link-name"/>
+    
+  <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration
+    managedBean="#{externalLinkBean}" useInputText="false"
+    id="description-language-config" titles="#{externalLinkBean.externalLink.descriptions}"
+    componentToUpdateOnCreate=":#{cc.clientId}:add-external-link-form:external-description" 
+    componentToUpdateOnModify=":#{cc.clientId}:add-external-link-form:external-description"/>
+    
+  <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration
+    managedBean="#{processWidgetBean}" useInputText="false"
+    id="edit-description-language-config" titles="#{processWidgetBean.editedExternalLink.descriptions}"
+    componentToUpdateOnCreate=":#{cc.clientId}:edit-process-form:external-description" 
+    componentToUpdateOnModify=":#{cc.clientId}:edit-process-form:external-description"/>
+    
+</ui:composition>
+</html>

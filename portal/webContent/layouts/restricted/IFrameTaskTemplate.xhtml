@@ -1,0 +1,162 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:c="jakarta.tags.core" xmlns:pe="primefaces.extensions">
+<h:body>
+  <ui:composition template="/layouts/restricted/AbstractTaskTemplate.xhtml">
+    <!-- THIS TEMPLATE IS ONLY USED BY PORTAL. DON'T USE IT. -->
+    <!-- Follow the comments to know how to pass the params in your HTML dialog to Portal area outside IFrame. -->
+    
+    <!-- Template Parameters -->
+    <!-- 
+    The following parameters are available for this template:
+
+    **Task Details:**
+    - taskName: (String) Custom text for the task name.
+    - taskIcon: (String) Icon for the task, using Tabler or Awesome font (e.g., ``ti ti-arrow-right``).
+    - isHideTaskName: (Boolean) Hides the task name when true. Default is false.
+
+    **Case Information:**
+    - caseId: (String) ID of the case to be displayed in the case information dialog.
+    - isHideCaseInfo: (Boolean) Hides the `Show Information` button when true. Default is false.
+
+    **Process Steps:**
+    - currentProcessStep: (Number/String) Current step in the process, either as an index or step name.
+    - processSteps: (Array/String) List of process steps (e.g., `["Create Investment Request", "Approve Investment Request"]`) 
+    or JSON (e.g., `#{portalComponentUtilsBean.convertToJSON(data.steps)}`).
+    - isShowAllSteps: (Boolean) Displays all steps on large screens when true. Default is false.
+    - processChainDirection: (String) Orientation of the process chain, either `VERTICAL` or `HORIZONTAL` (default).
+    - processChainShape: (String) Shape of the process chain, either `LINE` or `CIRCLE` (default).
+
+    **Task Actions:**
+    - isHideTaskAction: (Boolean) Hides the task action button when true. Default is false.
+    - isWorkingOnATask: (Boolean) Indicates if a task is currently being worked on, useful for displaying a warning when leaving the page. Default is true.
+
+    **Miscellaneous:**
+    - announcementInvisible: (Boolean) Makes the announcement invisible when true. Default is false.
+    - isCardFrame: (Boolean) Displays content of the IFrame inside a card-style container when true.
+    - viewName: (String) Defines a custom breadcrumb view. Possible values:
+    `HOME, PROCESS, TASK, TASK_DETAIL, CASE_DETAIL, CASE, TECHNICAL_CASE, RELATED_TASK, USER_PROFILE,
+     ABSENCES_MANAGEMENT, DASHBOARD_CONFIGURATION, EDIT_DASHBOARD_DETAILS, PROCESS_VIEWER, PORTAL_MANAGEMENT, NOTIFICATION`.
+
+    -->
+
+    <!-- Configuration Options -->
+    <!-- 
+    The UI can be configured using one of the following methods:
+    SANITIZE THE PARAMS INPUT BEFORE USING THEM
+
+    **1. Component-Based Configuration (Recommended):**
+    Example:
+    <ic:com.axonivy.portal.components.IFrameTaskConfig
+      taskName="Approve Investment"
+      taskIcon="ti ti-bulb"
+      isHideTaskName="false"
+      caseId="123456"
+      isHideCaseInfo="false"
+      currentProcessStep="0"
+      processSteps='["Create Investment Request", "Approve Investment Request"]'
+      isShowAllSteps="true"
+      processChainDirection="VERTICAL"
+      processChainShape="LINE"
+      isHideTaskAction="true"
+      isWorkingOnATask="false"
+      announcementInvisible="false"
+      isCardFrame="true"
+      viewName="TASK_DETAIL"
+    />
+
+    **IMPORTANT** 
+    Since Portal 12, the JavaScript-Based Configuration is deprecated, please use the Component-Based Configuration.
+    -->
+
+
+    <ui:param name="contentContainerStyleClass" value="task-frame-container js-task-frame-container" />
+    <ui:param name="layoutContentStyleClass" value="frame-container" />
+    <ui:param name="abstractTaskTemplateBean" value="#{iFrameTaskTemplateBean}" />
+    <ui:param name="actualStepIndex" value="#{iFrameTaskTemplateBean.currentProcessStep}" />
+    <ui:param name="stepIndexes" value="#{iFrameTaskTemplateBean.stepIndexes}" />
+    <ui:param name="steps" value="#{iFrameTaskTemplateBean.processSteps}" />
+    <ui:param name="isShowAllSteps" value="#{iFrameTaskTemplateBean.isShowAllSteps}" />
+    <ui:param name="isHideCaseInfo" value="#{iFrameTaskTemplateBean.isHideCaseInfo}" />
+    <ui:param name="isHideTaskName" value="#{iFrameTaskTemplateBean.isHideTaskName}" />
+    <ui:param name="isHideTaskAction" value="#{iFrameTaskTemplateBean.isHideTaskAction}" />
+    <ui:param name="isWorkingOnATask" value="#{iFrameTaskTemplateBean.isWorkingOnATask}" />
+    <ui:param name="processChainDirection" value="#{iFrameTaskTemplateBean.processChainDirection}" />
+    <ui:param name="processChainShape" value="#{iFrameTaskTemplateBean.processChainShape}" />
+    <ui:param name="announcementInvisible" value="#{iFrameTaskTemplateBean.announcementInvisible}" />
+    <ui:param name="caseId" value="#{iFrameTaskTemplateBean.caseId}" />
+    <ui:param name="announcementStyleClass" value="annoucement-in-frame-template js-annoucement-in-frame-template u-invisibility" />
+    <ui:param name="taskTemplateContainerStyleClass" value="u-invisibility" />
+    <ui:param name="viewName" value="#{iFrameTaskTemplateBean.viewName}"/>
+    <ui:param name="taskName" value="#{iFrameTaskTemplateBean.taskName}" />
+    <ui:param name="taskIcon" value="#{iFrameTaskTemplateBean.taskIcon}" />
+
+<!-- htmlSanitizerBean: com.axonivy.portal.components.bean.HtmlSanitizerBean -->
+    <ui:define name="content">
+      <script type="text/javascript">
+        $(document).ready(function() {
+          var taskUrl = '#{htmlSanitizerBean.escapeForJS(iFrameTaskTemplateBean.taskUrl)}';
+          if (!taskUrl) {
+            loadIframe();
+            return;
+          }
+          taskUrl = taskUrl.trim();
+          if (typeof isRelativeUrl !== 'function') {
+            window.isRelativeUrl = function(u) {
+              if (!u) return false;
+              u = String(u).trim();
+              const lower = u.toLowerCase();
+              if (lower.startsWith('javascript:') || lower.startsWith('data:') || lower.startsWith('vbscript:')) return false;
+              if (/^\/\//.test(u) || /[\r\n\0]/.test(u)) return false;
+              if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(u)) return false;
+              return true;
+            };
+          }
+          if (typeof updateIframeSrc !== 'function') {
+            window.updateIframeSrc = function(newSrc) {
+              var iframe = getPortalIframe();
+              if (iframe) { iframe.src = newSrc; }
+            };
+          }
+          if (isRelativeUrl(taskUrl)) {
+            updateIframeSrc(taskUrl);
+          } else {
+            const iframeEl = getPortalIframe();
+            if (iframeEl) {
+                try {
+                  const cw = iframeEl.contentWindow;
+                  if (cw) {
+                    cw.stop();
+                  }
+                } catch (e) {
+                  console.warn('Exception accessing iframe.contentWindow:', e);
+                }
+            }
+            console.warn('Blocked non-relative taskUrl:', taskUrl);
+          }
+          loadIframe();
+        });
+      </script>
+      <h:form>
+        <p:remoteCommand name="redirectToEndPageCommand" actionListener="#{iFrameTaskTemplateBean.navigateToEndPage()}" />
+        <p:remoteCommand name="redirectToUrlCommand" actionListener="#{iFrameTaskTemplateBean.navigateToUrl()}" />
+        <p:remoteCommand name="resetTaskAndRedirectToUrlCommand" actionListener="#{iFrameTaskTemplateBean.resetTaskAndNavigateToUrl()}" />
+        <p:remoteCommand name="useTaskInIFrame" actionListener="#{iFrameTaskTemplateBean.useTaskInIFrame()}" update="@([id$='portal-global-growl']) @([id$='layout-topbar-menu-wrapper']) @([id$='title'])"/>
+        <p:remoteCommand name="getDataFromIFrame" actionListener="#{iFrameTaskTemplateBean.getDataFromIFrame()}"
+          update="@([id$='header-container']) @([id$='vertical-process-chain-container']) @([id$='announcement-container']) @([id$='task-leave-warning-dialog']) @([id$='task-leave-warning-component']) @([id$='left-menu']) @([id$='logout-setting']) @([id$='breadcrumb-container'])" 
+          oncomplete="resizeIFrame();updateContentContainerClass()" global="false" />
+        <p:remoteCommand name="keepSessionInIFrame" global="false" process="@this" update="@this"
+          oncomplete="PortalSessionWarning.resetCounterAndTimeout();" />
+      </h:form>
+
+      <iframe id="iFrame" src="#{url}" class="task-frame" 
+        title="#{ivy.cms.co('/Dialogs/com/axonivy/portal/layouts/IFrameTaskTemplate/TaskIFrameTitle')}" />
+    </ui:define>
+
+    <ui:define name="javascript">
+      <h:outputScript name="iframe-task-template.js" library="js" />
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

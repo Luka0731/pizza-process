@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core">
+  
+  <c:set var="taskName" value="#{empty task.names().current() ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/components/taskStart/taskNameNotAvailable') : task.names().current()}" />
+  <c:set var="taskDescription" value="#{dashboardBean.createExtractedTextFromHtml(task.descriptions().current())}" />
+
+  <h:outputText id="task-name" value="#{taskName}"
+    styleClass="#{column.fieldStyleClass} u-hidden-sm-down"
+    style="#{column.fieldStyle}" />
+  <p:tooltip id="task-name-tooltip" for="task-name" styleClass="#{cc.attrs.stateTooltipStyleClass}" trackMouse="true" hideEvent="mouseleave click" 
+    value="#{taskName}" />
+
+  <h:panelGroup layout="block" styleClass="u-hidden-md-up">
+    <h:outputText id="task-name-sm" value="#{taskName}"
+      title="#{column.display(task)}" styleClass="dashboard-tasks__column-small-screen-name"/>
+    <p:tooltip id="task-name-tooltip-sm" for="task-name-sm" styleClass="#{cc.attrs.stateTooltipStyleClass}" trackMouse="true" hideEvent="mouseleave click" 
+      value="#{taskName}" />
+
+    <h:outputText id="task-description" styleClass="dashboard-tasks__column-small-screen-description" value="#{taskDescription}" />
+    <p:tooltip for="task-description" value="#{taskDescription}" trackMouse="true" hideEvent="mouseleave click" />
+  </h:panelGroup>
+
+</html>

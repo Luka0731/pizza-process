@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaseItemCustomFieldsData",
+  "namespace" : "ch.ivy.addon.portalkit.component.CaseItemCustomFields",
+  "fields" : [ {
+    "name" : "caze",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "customFieldList",
+    "type" : "List<ch.ivyteam.ivy.workflow.custom.field.ICustomField>",
+    "modifiers" : [ ]
+  } ]
+}

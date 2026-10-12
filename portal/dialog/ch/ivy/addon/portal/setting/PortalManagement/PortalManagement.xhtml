@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions">
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:param name="viewName" value="PORTAL_MANAGEMENT" />
+    <ui:define name="title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/PortalManagement/AdminSetting')}</ui:define>
+    <ui:define name="pageContent">
+
+      <h:panelGroup id="portal-management-container" styleClass=" ui-g">
+        <div class="ui-g-12">
+          <p:messages redisplay="false" for="portal-management-messages-information" closable="false" id="portal-management-messages"/>
+        </div>
+        <div id="admin-settings-container" class="admin-settings-container ui-g-12">
+          <div class="card ui-g admin-setting-card">
+            <ic:ch.ivy.addon.portalkit.admin.AdminSettings id="admin-setting-component" />
+          </div>
+        </div>
+      </h:panelGroup>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

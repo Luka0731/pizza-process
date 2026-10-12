@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:p="primefaces">
+  
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="case" type="ch.ivyteam.ivy.workflow.ICase" />
+  <cc:attribute name="componentId" default="case-id-cell" />
+  <cc:attribute name="styleClass" />
+  <cc:attribute name="dataModel" />
+  <cc:attribute name="responsiveStyleClass" default="u-hidden-sm-down" />
+</cc:interface>
+
+<cc:implementation>
+  <h:outputText id="#{cc.attrs.componentId}" value="#{cc.attrs.case.id}" rendered="#{cc.attrs.dataModel.isSelectedColumn('ID')}" 
+    styleClass="case-header-id-cell case-header-default-cell #{cc.attrs.styleClass} #{cc.attrs.responsiveStyleClass}" />
+  <p:tooltip for="#{cc.attrs.componentId}" value="#{cc.attrs.case.id}" trackMouse="true" hideEvent="mouseleave click" />
+</cc:implementation>
+</html>

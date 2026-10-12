@@ -1,0 +1,63 @@
+package com.axonivy.portal.validator.filter;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.FacesValidator;
+import jakarta.faces.validator.Validator;
+import jakarta.faces.validator.ValidatorException;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.axonivy.portal.dto.dashboard.filter.BaseFilter;
+import com.axonivy.portal.dto.dashboard.filter.DashboardFilter;
+
+import ch.ivyteam.ivy.environment.Ivy;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@FacesValidator(value = "dashboardDefaultListFilterValidator", managed = true)
+@ApplicationScoped
+public class DashboardDefaultListFilterValidator implements Validator<Object> {
+
+  private static final String MESSAGE_PREFIX_PATTERN = "%s(%d)";
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+    BaseFilter filter = (BaseFilter) component.getAttributes().get("filter");
+    Integer filterIndex = Optional.ofNullable((Integer) component.getAttributes().get("filterIndex")).orElse(0);
+    String messageComponentId = Optional.ofNullable((String) component.getAttributes().get("messageId")).orElse(null);
+    validateDefaultOperator((ArrayList<String>) value, filter, filterIndex, component, messageComponentId);
+  }
+
+  private void validateDefaultOperator(ArrayList<String> value, BaseFilter filter, int filterIndex,
+      UIComponent component, String messageComponentId) {
+    if (CollectionUtils.isEmpty(value)) {
+      FacesContext.getCurrentInstance().addMessage(messageComponentId,
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, getRequiredMessage((DashboardFilter) filter, filterIndex), null));
+      invalidate(component);
+    }
+  }
+
+  private void invalidate(UIComponent component) {
+    FacesContext.getCurrentInstance().validationFailed();
+    UIInput input = (UIInput) component;
+    input.setValid(false);
+  }
+
+  private String getMessagePrefix(DashboardFilter filter, int index) {
+    return filter.getFilterField() != null 
+        ? String.format(MESSAGE_PREFIX_PATTERN, filter.getFilterField().getLabel(), index + 1) 
+        : "";
+  }
+
+  public String getRequiredMessage(DashboardFilter filter, int index) {
+    return String.join(": ", getMessagePrefix(filter, index),
+        Ivy.cms().co("/ch.ivy.addon.portalkit.ui.jsf/common/requiredFieldMessage"));
+  }
+}

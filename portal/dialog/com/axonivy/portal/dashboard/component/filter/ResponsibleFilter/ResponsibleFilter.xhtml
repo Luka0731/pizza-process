@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core" xmlns:pc="jakarta.faces.composite/components"
+  xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="filter" type="com.axonivy.portal.dto.dashboard.filter.BaseFilter" />
+  <cc:attribute name="componentToUpdate" required="true" />
+  <cc:attribute name="filterIndex" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="messageId" />
+  <cc:attribute name="responsibleCompleteMethod" required="true" method-signature="java.util.List responsibleCompleteMethod(java.lang.String)"/>
+  <cc:attribute name="operators" required="true" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="filter" value="#{cc.attrs.filter}" />
+  <c:set var="filterIndex" value="#{cc.attrs.filterIndex}" />
+  <c:set var="readOnly" value="#{cc.attrs.readOnly}" />
+  <c:set var="messageId" value="#{cc.attrs.messageId}" />
+  <c:set var="operators" value="#{cc.attrs.operators}" />
+
+  <f:event listener="#{widgetResponsibleFilterBean.init(cc.attrs.filter)}" type="preRenderComponent" />
+
+  <h:panelGroup id="responsible-filter-operator-panel" layout="block"
+    styleClass="ui-fluid responsible-filter-operator-panel">
+      <p:selectOneMenu id="operator-selection" value="#{filter.operator}" disabled="#{readOnly}" pt:aria-label="#{ivy.cms.co('/Labels/SelectOperator')}">
+        <f:selectItems value="#{operators}" var="operator"
+          itemValue="#{operator}" itemLabel="#{operator.label}" />
+          <p:ajax event="itemSelect" listener="#{widgetResponsibleFilterBean.onChangeOperator(filter)}"
+            update="#{cc.attrs.componentToUpdate} responsible-list-panel" />
+          <f:param name="skipValidator" value="true" />
+      </p:selectOneMenu>
+  </h:panelGroup>
+
+  <h:panelGroup id="responsible-list-panel" layout="block"
+    styleClass="ui-fluid responsible-filter-list" rendered="#{filter.operator == 'IN' or filter.operator == 'NOT_IN'}">
+
+    <p:autoComplete id="responsibles" scrollHeight="210" dropdown="true" size="35"
+      completeMethod="#{cc.attrs.responsibleCompleteMethod}"
+      value="#{widgetResponsibleFilterBean.selectedResponsibles}"
+      var="responsible" itemValue="#{responsible}" itemLabel="#{responsible.briefDisplayNameWithState}"
+      converter="pojoConverter" cache="true" maxResults="100" multiple="true"
+      moreText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/more')}..."
+      unique="true" dynamic="true" forceSelection="true" styleClass="task-configuration__responsibles"
+      disabled="#{readOnly}" pt:aria-label="#{ivy.cms.co('/Labels/EnterValues')}">
+      <p:ajax event="itemSelect" listener="#{widgetResponsibleFilterBean.onSelectResponsible}"
+        update="responsibles" global="false" process="@this"/>
+      <p:ajax event="itemUnselect" listener="#{widgetResponsibleFilterBean.onUnselectResponsible}"
+        global="false" process="@this" />
+
+      <f:validator validatorId="dashboardDefaultListFilterValidator" disabled="#{param['skipValidator'] == 'true'}" />
+      <f:param name="skipValidator" value="true" />
+      <f:attribute name="filter" value="#{filter}" />
+      <f:attribute name="filterIndex" value="#{filterIndex}" />
+      <f:attribute name="messageId" value="#{messageId}" />
+      <p:column>
+        <pc:securityMemberNameAndAvatar
+          displayName="#{taskWidgetConfigurationFilterBean.formatName(responsible)}" securityMember="#{responsible}">
+          <f:facet name="alternativeAvatar">
+            <h:outputText  rendered="#{not avatarBean.isShowAvatar()}" styleClass="ti #{responsible.isUser() ? 'ti-user-check' : 'ti-users'} u-mar-right-5" />
+          </f:facet>
+        </pc:securityMemberNameAndAvatar>
+      </p:column>
+    </p:autoComplete>
+
+  </h:panelGroup>
+</cc:implementation>
+
+</html>

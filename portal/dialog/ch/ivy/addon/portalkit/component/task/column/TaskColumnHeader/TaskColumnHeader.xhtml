@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+  xmlns:cc="jakarta.faces.composite" xmlns:f="jakarta.faces.core"
+  xmlns:p="primefaces" xmlns:jsf="jakarta.faces" xmlns:c="jakarta.tags.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="componentId" required="true" />
+  <cc:attribute name="value" required="true" />
+  <cc:attribute name="styleClass" />
+  <cc:attribute name="sortField" required="true" />
+  <cc:attribute name="isSelected" />
+  <cc:attribute name="componentToBeUpdated" />
+  <cc:attribute name="responsiveStyleClass" />
+  <cc:attribute name="sortable" type="java.lang.Boolean" default="true" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="sortField" value="#{cc.attrs.sortField}" />
+  <c:set var="isSelected" value="#{data.dataModel.sortField eq sortField}" />
+
+  <p:commandLink id="#{cc.attrs.componentId}" styleClass="#{cc.attrs.styleClass} #{cc.attrs.responsiveStyleClass} #{isSelected ? 'is-selected' : ''}"
+    update="#{cc.attrs.componentToBeUpdated} #{p:resolveFirstComponentWithId('task-view-container', view).clientId} #{p:resolveFirstComponentWithId('task-widget-sort-menu', view).clientId}" 
+    oncomplete="taskWidget.setupScrollbar(); taskWidget.setupHeader()" 
+    rendered="#{cc.attrs.sortable and data.dataModel.isSelectedColumn(sortField)}"
+    ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskView/sort')} #{cc.attrs.value}">
+    <f:actionListener
+      binding="#{logic.sort(sortField, isSelected and !data.dataModel.sortDescending)}" />
+    <f:actionListener binding="#{taskWidgetBean.setExpandedTaskId(0, false)}" />
+    <h:outputText value="#{cc.attrs.value}" />
+    <i class="sort-icon ti ti-chevron-down"
+      jsf:rendered="#{isSelected and data.dataModel.sortDescending}" />
+    <i class="sort-icon ti ti-chevron-up"
+      jsf:rendered="#{isSelected and !data.dataModel.sortDescending}" />
+  </p:commandLink>
+  <h:panelGroup id="unsortable-#{id}" rendered="#{!cc.attrs.sortable and data.dataModel.isSelectedColumn(sortField)}" styleClass="#{cc.attrs.styleClass} #{cc.attrs.responsiveStyleClass} case-list-unsortable-header-cell js-unsortable-header-cell">
+    <h:outputText value="#{cc.attrs.value}" />
+  </h:panelGroup>
+</cc:implementation>
+</html>

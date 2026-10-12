@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:cc="jakarta.faces.composite" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core" xmlns:fn="jakarta.tags.functions" xmlns:pt="jakarta.faces.passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="taskWidget" type="ch.ivy.addon.portalkit.dto.dashboard.TaskDashboardWidget" />
+  <cc:attribute name="managedBean" />
+  <cc:attribute name="componentToUpdate" />
+  <cc:attribute name="isReadOnlyMode" type="java.lang.Boolean" default="false"/>
+</cc:interface>
+
+<cc:implementation>
+  <f:event listener="#{taskWidgetConfigurationFilterBean.preRender(cc.attrs.taskWidget)}" type="preRenderComponent" />
+  <ui:decorate template="/layouts/restricted/decorator/SidebarWidgetConfiguration.xhtml">
+    <ui:param name="widget" value="#{cc.attrs.taskWidget}" />
+    <ui:param name="managedBean" value="#{cc.attrs.managedBean}" />
+    <ui:param name="filterContainerStyleClass" value="task-widget-filter task-widget-configuration filter-messages predefined-filter" />
+    <ui:param name="componentToUpdateOnPreview" value="widget-preview configuration-filter-messages-panel" />
+    <ui:param name="taskWidgetConfigurationFilterBean" value="#{taskWidgetConfigurationFilterBean}" />
+
+    <ui:define name="widgetFilterContent">
+      <h:panelGroup id="configuration-filter-messages-panel" layout="block" styleClass="ui-g-12 u-padding-0">
+        <p:messages id="filter-messages" />
+      </h:panelGroup>
+      <h:panelGroup id="predefined-filter" layout="block" styleClass="ui-g-12 u-padding-0 dashboard-widget-filter__main-panel">
+        <c:set var="filterComponentToUpdate" value="predefined-filter" />
+
+        <div class="dashboard-widget-filter__options">
+          <h:panelGroup rendered="#{cc.attrs.taskWidget.caseOwnerEnabled}">
+            <p:selectBooleanCheckbox id="filter-tasks-by-current-case-owner"
+            value="#{cc.attrs.taskWidget.filterTasksByCurrentCaseOwner}"
+            itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/FilterTasksByCurrentCaseOwner')}" />
+          </h:panelGroup>
+          <p:selectBooleanCheckbox id="can-work-on"
+            value="#{cc.attrs.taskWidget.canWorkOn}"
+            itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/CanWorkOnAsUser')}" />
+        </div>
+
+        <p:divider layout="horizontal" />
+
+        <h:panelGroup layout="block" styleClass="filter-section--conditions">
+          <div class="filter-section__header">
+            <strong>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/FilterConditionsTitle')}</strong>
+            <div>#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/NewFilterConditionsDescription')}</div>
+          </div>
+
+          <h:panelGroup layout="block" styleClass="dashboard-widget-filter__list" rendered="#{not empty widget.filters}">
+            <ui:repeat id="filter-list" var="filter" value="#{widget.filters}" varStatus="status">
+              <div class="dashboard-widget-filter__condition">
+                <div class="dashboard-widget-filter__connector">
+                  <h:panelGroup layout="block" styleClass="filter-and-badge" rendered="#{status.index gt 0}">
+                    #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/And')}
+                  </h:panelGroup>
+                </div>
+                <ic:com.axonivy.portal.dashboard.component.filter.DashboardFilter id="filter-component" filter="#{filter}" widget="#{widget}"
+                  managedBean="#{taskWidgetConfigurationFilterBean}"
+                  componentToUpdate="#{p:resolveFirstComponentWithId(filterComponentToUpdate, view).clientId}"
+                  filterIndex="#{status.index}" readOnly="false"
+                  messageId="filter-messages"
+                  onCompleteRemoveFilter="PF('new-widget-configuration-dialog').initPosition();" />
+              </div>
+            </ui:repeat>
+          </h:panelGroup>
+          <div>
+            <p:commandButton id="add-filter" icon="#{visibilityBean.generateButtonIcon('ti ti-plus')}"
+              update="predefined-filter" process="predefined-filter" styleClass="add-condition-button"
+              actionListener="#{taskWidgetConfigurationFilterBean.addNewFilter(widget)}"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}"
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/AddCondition')}">
+              <f:param name="skipValidator" value="true" />
+            </p:commandButton>
+          </div>
+        </h:panelGroup>
+
+        <p:divider layout="horizontal" />
+      </h:panelGroup>
+    </ui:define>
+
+    <ui:param name="widgetPreviewStyleClass" value="task-preview" />
+    <ui:define name="widgetPreviewContent">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.ColumnManagement id="column-management-component" widget="#{widget}"
+        componentToUpdate="#{cc.attrs.componentToUpdate}" />
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.TaskWidget id="task-widget-preview" isReadOnlyMode="#{cc.attrs.isReadOnlyMode}"
+        taskWidget="#{widget}" renderColumnConfiguration="false" isPreviewMode="true" taskWidgetVar="dashboard-tasks-configuration" componentToUpdateTaskWidget="@widgetVar(dashboard-tasks-configuration-#{widget.id})"
+        onCompleteLoadWidget="setTimeout(function() { PF('new-widget-configuration-dialog').initPosition(); }, 100); initTableWidget(PF('dashboard-tasks-configuration-#{widget.id}'));"/>
+    </ui:define>
+
+    <ui:define name="multiLanguageDialog">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.MultiLanguageConfiguration id="title-language-config"
+        titles="#{managedBean.widget.names}"
+        managedBean="#{managedBean}" dynamic="true"
+        componentToUpdateOnCreate="#{cc.attrs.componentToUpdate}"/>
+    </ui:define>
+  </ui:decorate>
+
+</cc:implementation>
+</html>

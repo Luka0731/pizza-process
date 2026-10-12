@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core"
+  lang="#{masterDataBean.userLanguage}"
+  >
+<h:body>
+    
+    <!-- WARNING: -->
+    <!-- This template is used for Portal only. -->
+    
+    <!-- DEPRECATED:  -->
+    <!-- Since Portal 11.0 -->
+    
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+  <ui:param name="viewName" value="CASE_DETAIL" />
+  <ui:param name="case" value="#{caseInfo}" />
+  <ui:param name="loadGridStack" value="true" />
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/ch/ivy/addon/portalkit/component/CaseWidget/CaseDetail/CaseDetailTitle')}</ui:define>
+
+    <ui:define name="pageContent">
+    <f:event listener="#{caseDetailsBean.preRender(caseInfo, isShowBackButton)}" type="preRenderView" />
+
+    <ic:ch.ivy.addon.portal.component.CaseInformation id="case-item-details"
+      descriptionComponentToUpdate="#{descriptionComponentToUpdate}"
+      showItemDetailsHeader="#{showItemDetailsHeader}"
+      isWorkingOnTask="#{isWorkingOnTask}">
+
+        <f:facet name="caseItemDetailCustomTop">
+          <ui:insert name="caseItemDetailCustomTop" />
+        </f:facet>
+
+        <f:facet name="caseItemDetailCustomMiddle">
+          <ui:insert name="caseItemDetailCustomMiddle" />
+        </f:facet>
+
+        <f:facet name="caseItemDetailCustomBottom">
+          <ui:insert name="caseItemDetailCustomBottom" />
+        </f:facet>
+      </ic:ch.ivy.addon.portal.component.CaseInformation>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

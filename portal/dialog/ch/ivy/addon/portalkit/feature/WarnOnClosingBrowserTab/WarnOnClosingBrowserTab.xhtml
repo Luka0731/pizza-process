@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:cc="jakarta.faces.composite"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="primefaces"
+	xmlns:pe="primefaces.extensions">
+
+	<cc:interface componentType="IvyComponent">
+		<cc:attribute name="confirmMessage" default="" required="false"></cc:attribute>
+	</cc:interface>
+	
+	<cc:implementation>
+		<script type="text/javascript">
+			var confirmMessage = "#{cc.attrs.confirmMessage}";
+			var showConfirmDialogBeforeUnload = true;
+			
+			// Attach the event submit for all forms in the page
+			$("form").on("submit", function() {
+				showConfirmDialogBeforeUnload = false;
+			});
+
+			$(document).on('mousedown', 'a[href], :submit, :button', function(e) {
+				showConfirmDialogBeforeUnload = false;
+			}).on('mouseleave', 'a[href], :submit, :button', function(e) {
+				//find the button id if this is a mouse leave event for submit button
+				var buttonId = e.target.id;
+				//for Chrome browser
+				if (buttonId == '' &amp;&amp; !!window.chrome == true &amp;&amp; e.target.className == 'ui-button-text ui-c') {
+					buttonId = $(e.target).parent().attr('id');
+				}
+				showConfirmDialogBeforeUnload = true;
+			});
+
+			PrimeFaces.ajax.ResponseProcessor.doRedirect = function(node) {
+				showConfirmDialogBeforeUnload = false;
+				window.location = node.getAttribute('url');
+			};
+	
+			// Wire up the events as soon as the DOM tree is ready
+			$(document).ready(function() {
+				window.onbeforeunload = promptWarningOnLeavePage;
+			});
+			
+			function promptWarningOnLeavePage() {
+				if (showConfirmDialogBeforeUnload) {
+					return confirmMessage; 
+				}
+			}
+		</script>
+	</cc:implementation>
+</html>

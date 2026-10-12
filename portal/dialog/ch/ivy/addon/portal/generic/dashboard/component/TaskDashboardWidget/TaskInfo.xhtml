@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces"
+  xmlns:pc="jakarta.faces.composite/components">
+
+<p:tab id="expiry-tab">
+  <p:remoteCommand id="build-statistic-task-expiry-#{widget.id}" name="buildStatisticTaskExpiry#{widget.id}"
+    async="true" process="@this" partialSubmit="true" immediate="true" global="false"
+    actionListener="#{widget.buildTaskExpiryStatistic()}"
+    update="task-expiry-statistic-#{widget.id}"
+    oncomplete="loadWidgetFirstTime('js-loading-expiry-task-#{widget.id}', 'js-statistic-expiry-task-#{widget.id}'); focusOnTaskWidgetInformationOverlayPanel();"/>
+  <f:facet name="title">
+    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDetails/expiry')}" />
+  </f:facet>
+  <h:outputText styleClass="ui-g-12 js-loading-expiry-task-#{widget.id}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/loading')}"/>
+  <h:panelGroup id="task-expiry-statistic-#{widget.id}" layout="block" styleClass="js-statistic-expiry-task-#{widget.id} hidden">
+    <div class="ui-g-8">
+      <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/expireToday')}" />
+    </div>
+    <h:panelGroup styleClass="ui-g-4 text-right" id="expire-today" layout="block">
+      <h:outputText styleClass="expire-today" value="#{widget.numberOfTasksExpireToday}">
+        <f:convertNumber locale="#{localeBean.locale}" />
+      </h:outputText>
+    </h:panelGroup>
+    <p:tooltip for="expire-today" trackMouse="true">
+      <h:outputText value="#{widget.numberOfTasksExpireToday}">
+        <f:convertNumber locale="#{localeBean.locale}" />
+      </h:outputText>
+      <h:outputText value=" #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasks')}" />
+    </p:tooltip>
+    <div class="ui-g-8">
+      <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/expiryThisWeek')}" />
+    </div>
+    <h:panelGroup styleClass="ui-g-4 text-right" id="expire-this-week" layout="block">
+      <h:outputText styleClass="expire-this-week" value="#{widget.numberOfTasksExpireThisWeek}">
+        <f:convertNumber locale="#{localeBean.locale}" />
+      </h:outputText>
+    </h:panelGroup>
+    <p:tooltip for="expire-this-week" trackMouse="true">
+      <h:outputText value="#{widget.numberOfTasksExpireThisWeek}">
+        <f:convertNumber locale="#{localeBean.locale}" />
+      </h:outputText>
+      <h:outputText value=" #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasks')}"/>
+    </p:tooltip>
+  </h:panelGroup>
+
+  <script type="text/javascript">
+    function focusOnTaskWidgetInformationOverlayPanel() {
+      const infoOverlayPanel = $('div[id^="task-#{widget.id}:info-overlay-panel"]');
+      infoOverlayPanel.find('.statistic-filter-accordion-panel').children().first().focus();
+    }
+  </script>
+  
+</p:tab>
+
+<p:tab id="state-tab">
+  <p:remoteCommand id="build-statistic-task-states-#{widget.id}" name="buildStatisticTaskStates#{widget.id}"
+    async="true" process="@this" partialSubmit="true" immediate="true" global="false"
+    actionListener="#{widget.buildTaskByStateStatistic()}"
+    update="task-states-statistic-#{widget.id}"
+    oncomplete="loadWidgetFirstTime('js-loading-task-states-#{widget.id}', 'js-statistic-task-states-#{widget.id}');"/>
+  <f:facet name="title">
+    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasksByState')}" />
+  </f:facet>
+  <h:outputText styleClass="ui-g-12 js-loading-task-states-#{widget.id}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/loading')}"/>
+  <h:panelGroup id="task-states-statistic-#{widget.id}" layout="block" styleClass="js-statistic-task-states-#{widget.id} hidden">
+    <ui:repeat value="#{widget.taskByStateStatistic.entrySet()}" var="entry">
+      <div class="ui-g-8">
+        <ic:ch.ivy.addon.portalkit.component.task.column.TaskState state="#{entry.key}"
+          alwaysShowState="true" responsiveStyleClass="" />
+      </div>
+      <h:panelGroup styleClass="ui-g-4 text-right" id="tasks-by-state" layout="block">
+        <h:outputText styleClass="tasks-by-state" value="#{entry.value}">
+          <f:convertNumber locale="#{localeBean.locale}" />
+        </h:outputText>
+      </h:panelGroup>
+      <p:tooltip for="tasks-by-state" value="#{entry.value} #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasks')}" trackMouse="true">
+        <h:outputText value="#{entry.value}">
+          <f:convertNumber locale="#{localeBean.locale}" />
+        </h:outputText>
+        <h:outputText value=" #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasks')}"/>
+      </p:tooltip>
+    </ui:repeat>
+  </h:panelGroup>
+</p:tab>
+
+<p:tab id="category-tab">
+  <p:remoteCommand id="build-statistic-task-category-#{widget.id}" name="buildStatisticTaskCategory#{widget.id}"
+    async="true" process="@this" partialSubmit="true" immediate="true" global="false"
+    actionListener="#{widget.buildTaskByCategoryStatistic()}"
+    update="task-category-statistic-#{widget.id}"
+    oncomplete="loadWidgetFirstTime('js-loading-task-category-#{widget.id}', 'js-statistic-task-category-#{widget.id}');"/>
+  <f:facet name="title">
+    <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasksByCategory')}" />
+  </f:facet>
+  <h:outputText styleClass="ui-g-12 js-loading-task-category-#{widget.id}" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/loading')}"/>
+  <h:panelGroup id="task-category-statistic-#{widget.id}" layout="block" styleClass="js-statistic-task-category-#{widget.id} hidden">
+    <div class="ui-g" jsf:rendered="#{not empty widget.taskByCategoryStatistic}">
+      <ui:repeat value="#{widget.taskByCategoryStatistic}" var="entry" varStatus="status">
+        <div class="ui-g-8 u-truncate-text u-default-cursor">
+          <h:outputText id="category" value="#{empty entry.categoryDisplayName ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noCategory') : entry.categoryDisplayName}" />
+        </div>
+        <p:tooltip for="category" value="#{empty entry.categoryDisplayPath ? ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/noCategory') : entry.categoryDisplayPath}"
+          trackMouse="true" />
+        <h:panelGroup styleClass="ui-g-4 text-right" id="task-summary" layout="block">
+          <h:outputText styleClass="task-summary" value="#{entry.summary}">
+            <f:convertNumber locale="#{localeBean.locale}" />
+          </h:outputText>
+        </h:panelGroup>
+        <p:tooltip for="task-summary" trackMouse="true">
+          <h:outputText value="#{entry.summary}">
+            <f:convertNumber locale="#{localeBean.locale}" />
+          </h:outputText>
+          <h:outputText value=" #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/taskWidgetInfo/numberOfTasks')}" />
+        </p:tooltip>
+      </ui:repeat>
+    </div>
+    <div class="ui-g" jsf:rendered="#{empty widget.taskByCategoryStatistic}">
+      <h:outputText styleClass="ui-g-12" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noCategory')}" />
+    </div>
+  </h:panelGroup>
+</p:tab>
+</html>

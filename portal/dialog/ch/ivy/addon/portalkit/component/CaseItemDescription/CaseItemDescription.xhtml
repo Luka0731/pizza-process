@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core" xmlns:jsf="jakarta.faces">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="case" type="ch.ivyteam.ivy.workflow.ICase" />
+  <cc:attribute name="styleClass" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" default="false"/>
+</cc:interface>
+
+<cc:implementation>
+  <c:set value="#{cc.attrs.case}" var="case" />
+  <c:set value="#{caseActionBean.canChangeDescription(case)}" var="canChangeDescription"/>
+  <f:event listener="#{caseDetailsBean.initCaseDescription(case)}" type="preRenderComponent"/>
+  
+  <div class="case-details-description-title">
+    <div class="portal-detail-subcard-title #{cc.attrs.labelStyleClasses} text-ellipsis">
+      #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/description')}
+      <p:commandLink onclick="showWidgetDescriptionInplaceEditor();" ariaLabel="#{ivy.cms.co('/Labels/EditDescription')}" global="false"
+        rendered="#{caseActionBean.canChangeDescription(case) and !cc.attrs.readOnly}" id="edit-description-link">
+        <i class="ti ti-pencil" />
+      </p:commandLink>
+    </div>
+  </div>
+
+  <div>
+    <div class="u-no-padding-left case-details-description-content">
+      <h:form id="case-description-form">
+        <div class="case-detail-description">
+          <div id="description-content" class="scroll-panel long-description">
+            <p:inplace id="case-description-inplace" editor="true" styleClass="case-description-inplace js-case-description-inplace" effectSpeed="fast"
+              widgetVar="widget-description-inplace" disabled="#{!canChangeDescription or cc.attrs.readOnly}"
+              saveLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+              cancelLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+              emptyLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDetails/noDescription')}" >
+              <p:ajax event="save" listener="#{caseDetailsBean.updateCaseDescription(case)}" update="#{cc.attrs.descriptionComponentToUpdate} case-description-form" />
+              <p:ajax event="cancel" update="case-description-form" process="@none" />
+              <p:inputTextarea id="case-description-input" cols="250" rows="5" styleClass="case-detail-description-input"
+                value="#{caseDetailsBean.caseDetailsDescription}" autoResize="false" />
+            </p:inplace>
+            <h:panelGroup id="case-description-output"
+              styleClass="case-description-output js-case-description-output">
+              <h:outputText escape="false" value="#{caseWidgetBean.sanitizeHTML(case.descriptions().current())}" />
+             </h:panelGroup>
+          </div>
+        </div>
+      </h:form>
+    </div>
+  </div>
+  <h:outputScript name="case-detail-description.js" library="js" />
+</cc:implementation>
+</html>

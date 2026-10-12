@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces"
+  xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core"
+  xmlns:pc="jakarta.faces.composite/components"
+  xmlns:jsf="jakarta.faces">
+
+<cc:interface componentType="IvyComponent">
+</cc:interface>
+
+<cc:implementation>
+  <p:dialog id="clone-to-dashboard-dialog" widgetVar="clone-to-dashboard-dialog"
+    appendTo="@(body)" closeOnEscape="true"
+    fitViewport="true" responsive="true"
+    resizable="false" width="450px"
+    modal="true" dynamic="true"
+    position="center center"
+    onShow="PF('clone-to-dashboard-dialog').initPosition()">
+    <f:facet name="header">
+      <div class="inline-flex flex-auto clone-to-dashboard-dialog-header-container">
+        <h:outputText id="clone-dialog-header" styleClass="white-space-nowrap text-overflow-ellipsis overflow-hidden w-full"
+          value="#{cloneWidgetBean.cloneToDashboardDialogHeader}" />
+        <p:tooltip for="clone-dialog-header" trackMouse="true"
+          value="#{cloneWidgetBean.cloneToDashboardDialogHeader}" />
+      </div>
+    </f:facet>
+    <h:form id="clone-widget-form">
+      <h:panelGroup id="clone-widget-panel" layout="block" styleClass="flex w-full flex-column">
+        <div class="mb-3">
+          <h:outputLabel value="#{ivy.cms.co('/Dialogs/com/axonivy/portal/dashboard/component/CloneWidgetDialog/TargetDashboard')}"
+            styleClass="font-semibold" for="clone-dashboard" />
+        </div>
+        <div class="mb-3 ui-fluid">
+          <p:selectOneMenu id="clone-dashboard" converter="pojoConverter"
+            value="#{cloneWidgetBean.targetDashboard}" styleClass="flex-auto">
+            <f:selectItem value="#{null}" noSelectionOption="true" />
+            <f:selectItems value="#{cloneWidgetBean.availableDashboards}" var="dashboard"
+              itemLabel="#{dashboard.title}" itemValue="#{dashboard}" />
+            <p:ajax process="@this" update="#{p:resolveFirstComponentWithId('clone-to-footer-panel', view).clientId}" />
+          </p:selectOneMenu>
+        </div>
+      </h:panelGroup>
+    </h:form>
+
+    <f:facet name="footer">
+      <h:panelGroup id="clone-to-footer-panel" layout="block" styleClass="text-right">
+      <p:commandButton id="clone-button" styleClass="w-full"
+        disabled="#{cloneWidgetBean.targetDashboard eq null}"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/Clone')}"
+        value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/Clone')}"
+        actionListener="#{cloneWidgetBean.cloneWidget()}"
+        process="clone-widget-form"
+        oncomplete="location.reload();" />
+      </h:panelGroup>
+    </f:facet>
+  </p:dialog>
+</cc:implementation>
+</html>

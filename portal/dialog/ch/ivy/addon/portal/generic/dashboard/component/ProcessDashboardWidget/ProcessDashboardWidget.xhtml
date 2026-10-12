@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:c="jakarta.tags.core">
+<!-- dashboardProcessBean: ch.ivy.addon.portalkit.bean.DashboardProcessBean -->
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="index" required="true" />
+  <cc:attribute name="widget" required="true" />
+  <cc:attribute name="isReadOnlyMode" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="isPublicDashboard" type="java.lang.Boolean" default="true"/>
+  <cc:attribute name="isInConfiguration" type="java.lang.Boolean" default="false"/>
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="index" value="#{cc.attrs.index}" />
+  <c:set var="widget" value="#{cc.attrs.widget}" />
+  <c:set var="displayMode" value="#{cc.attrs.widget.displayMode}" />
+
+  <f:event listener="#{dashboardProcessBean.initPortalDashboardProcesses(cc.attrs.isPublicDashboard)}" type="preRenderComponent"/>
+  <c:if test="#{displayMode eq 'COMPACT_MODE'}">
+    <ui:decorate template="/layouts/restricted/decorator/TableWidget.xhtml">
+      <ui:param name="index" value="#{index}" />
+      <ui:param name="widget" value="#{widget}" />
+      <ui:param name="panelId" value="process-panel-group-#{index}" />
+      <ui:param name="isReadOnlyMode" value="#{cc.attrs.isReadOnlyMode}" />
+      <ui:param name="widgetContentStyleClass" value="process-widget" />
+      <ui:param name="componentToProcessOnApplyFilter" value="filter-container" />
+      <ui:param name="componentToUpdateOnApplyFilter" value=":#{cc.clientId}:widget-content" />
+      <ui:param name="componentToUpdateOnResetFilter" value=":#{cc.clientId}:widget-content" />
+      <ui:param name="isRenderExpandCollapse" value="#{widget.isShowFullscreenMode()}" />
+      <ui:param name="isRenderInfo" value="#{widget.isShowWidgetInfo()}" />
+    
+      <ui:define name="widgetInformationContent">
+        <ui:include src="ProcessInfo.xhtml">
+          <ui:param name="widget" value="#{widget}" />
+        </ui:include>
+      </ui:define>
+
+      <ui:define name="widgetFilterContent">
+        <ui:include src="ProcessFilter.xhtml">
+          <ui:param name="widget" value="#{widget}" />
+        </ui:include>
+      </ui:define>
+
+      <ui:define name="widgetContent">
+        <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessWidget id="process-component" processWidget="#{widget}"
+          isReadOnlyMode="#{isReadOnlyMode}" index="#{index}" isInConfiguration="#{cc.attrs.isInConfiguration}"/>
+      </ui:define>
+    </ui:decorate>
+  </c:if>
+
+  <c:if test="#{displayMode eq 'FULL_MODE' or displayMode eq 'COMBINED_MODE' or displayMode eq 'IMAGE_MODE'}">
+    <h:panelGroup id="process-panel-group-#{index}" layout="block" styleClass="widget-height-100">
+      <h:panelGroup id="widget-content" layout="block"
+        styleClass="card-widget__content #{widget.id} process-widget dashboard-widget-panel-container widget-height-100">
+        <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessWidget id="process-component" processWidget="#{widget}"
+          isReadOnlyMode="#{cc.attrs.isReadOnlyMode}" index="#{index}" />
+      </h:panelGroup>
+    </h:panelGroup>
+  </c:if>
+
+</cc:implementation>
+</html>

@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="widget" type="ch.ivy.addon.portalkit.dto.dashboard.DashboardWidget" required="true" />
+  <cc:attribute name="componentToUpdate" />
+</cc:interface>
+
+<cc:implementation>
+  <f:event listener="#{columnManagementBean.preRender(cc.attrs.widget)}" type="preRenderComponent" />
+  <p:dialog id="column-management-dialog" widgetVar="column-management-dialog" header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/columnManagement')}"
+    appendTo="@(body)" fitViewport="true" height="65vh" closeOnEscape="true" draggable="false" dynamic="true"
+    responsive="true" modal="true" styleClass="dialog-responsive">
+    <h:form id="column-management-form">
+      <p:remoteCommand name="updateColumnTable" update="column-management-datatable" />
+      <ui:include src="FieldAdd.xhtml" />
+
+      <p:dataTable cellNavigation="false" id="column-management-datatable" value="#{columnManagementBean.columnsBeforeSave}" var="column"
+        draggableRows="true" rowDragSelector="i.ti-grip-vertical" lazy="false"
+        tableStyleClass="column-management-datatable__table" styleClass="column-management-datatable">
+        <p:ajax event="rowReorder" global="false" />
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/reorder')}" width="48" styleClass="text-center column-management-datatable__reorder">
+          <i class="ti ti-grip-vertical" />
+        </p:column>
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/visible')}" width="56" styleClass="text-center">
+          <p:commandLink id="toggle-visibility" styleClass="ui-selectbooleancheckbox ui-chkbox ui-widget #{columnManagementBean.isEnableHideCaseCreator(column) ? 'ui-disable' : ''}" process="@this"
+            actionListener="#{columnManagementBean.handleVisibility(column)}" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/visible')}"
+            update="column-management-datatable" partialSubmit="true" immediate="true" global="false" >
+            <h:panelGroup styleClass="ui-chkbox-box ui-widget ui-corner-all ui-state-default #{column.visible ? 'ui-state-active':''}">
+              <span class="ui-chkbox-icon ui-icon ui-c #{column.visible ? 'ui-icon-check':'ui-icon-blank'}"></span>
+            </h:panelGroup>
+          </p:commandLink>
+        </p:column>
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/field')}" width="200">
+          #{column.field}
+        </p:column>
+          <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/displayName')}" width="200">
+          #{column.headerText}
+        </p:column>
+        <p:column
+          headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/filterLabel')}" width="56" styleClass="text-center">
+          <p:commandLink id="toggle-filter" styleClass="ui-selectbooleancheckbox ui-chkbox ui-widget" process="@this"
+            rendered="#{column.canFilter()}"
+            disabled="#{columnManagementBean.isFilterToggleDisabled(column)}"
+            ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/filterLabel')}"
+            actionListener="#{columnManagementBean.handleFilter(column)}"
+            global="false" update="column-management-datatable" partialSubmit="true" immediate="true">
+            <h:panelGroup styleClass="ui-chkbox-box ui-widget ui-corner-all ui-state-default #{column.enableFilter ? 'ui-state-active':''}">
+              <span class="ui-chkbox-icon ui-icon ui-c #{column.enableFilter ? 'ui-icon-check':'ui-icon-blank'}"></span>
+            </h:panelGroup>
+          </p:commandLink>
+        </p:column>
+        <p:column width="100" styleClass="text-center">
+          <f:facet name="header">
+            <h:panelGroup styleClass="column-management-operator-header inline-flex align-items-center">
+              <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/operators')}" />
+              <h:outputText id="operator-policy-info-icon" styleClass="ti ti-info-circle column-management-operator-info-icon" />
+            </h:panelGroup>
+            <p:tooltip for="operator-policy-info-icon"
+              value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/operatorPolicyTooltip')}"
+              hideEvent="mouseleave click" />
+          </f:facet>
+          <h:panelGroup rendered="#{column.canFilter()}">
+            <p:selectCheckboxMenu id="operator-selection" value="#{column.allowedOperators}" multiple="false" filter="false"
+              updateLabel="false" disabled="#{not column.enableFilter}"
+              panelStyleClass="task-configuration__selectcheckboxmenu-panel task-configuration__operator-selection-panel"
+              styleClass="task-configuration__selectcheckboxmenu task-configuration__operator-selection-menu js-operator-selection-#{column.field}"
+              label="#{columnManagementBean.operatorCountingLabel(column)}"
+              onHide="updateColumnTable()">
+              <f:selectItems value="#{columnManagementBean.getAvailableOperators(column)}" var="operator"
+                itemValue="#{operator}" itemLabel="#{operator.label}"
+                itemDisabled="#{not columnManagementBean.isOperatorGloballyEnabled(operator)}" />
+              <p:ajax event="change" listener="#{columnManagementBean.onOperatorSelectionChange(column)}"
+                process="@this" global="false" />
+              <p:ajax event="toggleSelect" listener="#{columnManagementBean.onOperatorSelectionChange(column)}"
+                process="@this" global="false" />
+            </p:selectCheckboxMenu>
+          </h:panelGroup>
+        </p:column>
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/QuickSearch')}" width="72" styleClass="text-center">
+          <h:panelGroup layout="block" id="quick-search-checkbox-panel"
+            rendered="#{column.canQuickSearch()}">
+            <p:commandLink id="toggle-quick-search" styleClass="ui-selectbooleancheckbox ui-chkbox ui-widget" process="@this"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/QuickSearch')}"
+              actionListener="#{columnManagementBean.handleQuickSearch(column)}"
+              global="false" update="column-management-datatable" partialSubmit="true" immediate="true">
+              <h:panelGroup styleClass="ui-chkbox-box ui-widget ui-corner-all ui-state-default #{column.quickSearch ? 'ui-state-active':''}">
+                <span class="ui-chkbox-icon ui-icon ui-c #{column.quickSearch ? 'ui-icon-check':'ui-icon-blank'}"></span>
+              </h:panelGroup>
+            </p:commandLink>
+          </h:panelGroup>
+        </p:column>
+        <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/remove')}" width="48" styleClass="text-center js-column-field-#{column.field}">
+          <p:commandLink id="remove-link" styleClass="portal-link" actionListener="#{columnManagementBean.remove(column)}" global="false" process="@this" ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/remove')}"
+            update="column-management-datatable :#{cc.clientId}:column-management-form:standard-field-selection :#{cc.clientId}:column-management-form:custom-field-selection">
+            <i class="ti ti-trash" />
+          </p:commandLink>
+        </p:column>
+      </p:dataTable>
+    </h:form>
+    <f:facet name="footer">
+      <p:link id="column-management-cancel-link" styleClass="u-mar-right-10 portal-link" href="#"
+        value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+        onclick="PF('column-management-dialog').hide()" />
+
+      <p:commandButton id="column-management-save-btn" icon="ti ti-device-floppy"
+        ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+        value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+        actionListener="#{columnManagementBean.save}" update="#{cc.attrs.componentToUpdate}"
+        oncomplete="PF('column-management-dialog').hide();" process="@this"/>
+    </f:facet>
+  </p:dialog>
+</cc:implementation>
+</html>

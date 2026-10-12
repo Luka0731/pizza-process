@@ -1,0 +1,35 @@
+package ch.ivy.addon.portalkit.constant;
+
+import java.util.Arrays;
+import java.util.List;
+
+public final class IvyCacheIdentifier {
+
+  public static final String PORTAL_ANNOUNCEMENT_CACHE_GROUP_NAME = "PORTAL_ANNOUNCEMENT";
+  public static final String LOGOUT_PAGE_CACHE_GROUP_NAME = "LOGOUT_PAGE_GROUP";
+  public static final String LOGOUT_PAGE_CACHE_ENTRY_NAME = "LOGOUT_PAGE_ID";
+  public static final String STATISTIC_COLOR = "STATISTIC_COLOR"; 
+  public static final String ROLES_IN_SECURITY_CONTEXT = "ROLES_IN_SECURITY_CONTEXT";
+  public static final String PORTAL_CUSTOM_MENU = "PORTAL_CUSTOM_MENU";
+  public static final String PORTAL_DASHBOARDS = "PORTAL_DASHBOARDS";
+  public static final String PORTAL_DASHBOARDS_MENU_ITEM = "PORTAL_DASHBOARDS_MENU_ITEM";
+  public static final String PORTAL_PRIVATE_DASHBOARDS = "PORTAL_PRIVATE_DASHBOARDS";
+  public static final String PORTAL_PUBLIC_DASHBOARDS = "PORTAL_PUBLIC_DASHBOARDS";
+  public static final String PORTAL_STARTABLE_PROCESS_LINKS = "PORTAL_STARTABLE_PROCESS_LINKS";
+  public static final String PORTAL_USER_LOCALE = "PORTAL_USER_LOCALE";
+  
+  public static final String PORTAL_CHAT_RESPONSE_HISTORY_CACHE_GROUP_NAME = "PORTAL_CHAT_RESPONSE_HISTORY";
+
+  // for caching locales
+  public static final String PORTAL_CONTENT_LOCALES = "PORTAL_CONTENT_LOCALES";
+  public static final String PORTAL_FORMATTING_LOCALES = "PORTAL_FORMATTING_LOCALES";
+
+  private IvyCacheIdentifier() {}
+
+  public static final List<String> getAllPortalCacheIdentifiers() {
+    return Arrays.asList(PORTAL_ANNOUNCEMENT_CACHE_GROUP_NAME,
+        LOGOUT_PAGE_CACHE_GROUP_NAME, LOGOUT_PAGE_CACHE_ENTRY_NAME,
+        STATISTIC_COLOR, ROLES_IN_SECURITY_CONTEXT, PORTAL_CUSTOM_MENU, PORTAL_DASHBOARDS, PORTAL_DASHBOARDS_MENU_ITEM,
+        PORTAL_STARTABLE_PROCESS_LINKS, PORTAL_CONTENT_LOCALES, PORTAL_FORMATTING_LOCALES, PORTAL_USER_LOCALE);
+  }
+}

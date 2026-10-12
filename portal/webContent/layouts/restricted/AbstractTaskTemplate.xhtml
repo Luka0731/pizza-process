@@ -1,0 +1,347 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:c="jakarta.tags.core"
+  xmlns:pe="primefaces.extensions" xmlns:pc="jakarta.faces.composite/components" >
+<!-- abstractTaskTemplateBean: ch.ivy.addon.portal.generic.bean.AbstractTaskTemplateBean -->
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <!-- THIS TEMPLATE IS ONLY USED BY PORTAL. DON'T USE IT -->
+    <ui:param name="isWorkingOnATask" value="true" />
+    <ui:param name="viewName" value="#{empty viewName ? 'TASK_DETAIL' : viewName}" />
+    <ui:param name="currentTask" value="#{not empty abstractTaskTemplateBean.task ? abstractTaskTemplateBean.task : task}" />
+    <ui:define name="pageContent">
+          <script type="text/javascript">
+        function backToPrevPage(isHistoryBack) {
+          if (document.referrer &amp;&amp; isHistoryBack) {
+            window.history.back();
+            if (event) {
+              event.preventDefault();
+            }
+          } else {
+            backToCasesList();
+          }
+        }
+
+        function setupHeightForIFrame() {
+          var dialogHeight = $('.js-iframe-container').closest('.ui-dialog-content').outerHeight(true) || 0;
+          $('.js-iframe-container').height(dialogHeight);
+        };
+
+        function reloadIFrame() {
+          var frame = document.getElementById('i-frame-case-details');
+          var link = frame.src;
+          frame.src = '';
+          frame.src = link;
+        }
+
+        $(window).resize(function() {
+          setTimeout(setupHeightForIFrame(), 1);
+        });
+      </script>
+      <p:growl id="task-template-growl" />
+      <div class="task-template-container #{taskTemplateContainerStyleClass}">
+        <p:poll autoStart="false" widgetVar="caseInfoPoll" interval="#{taskTemplateBean.intervalForPollingWhenOpenCaseDetails}"
+                process="@this" update="@this"
+                oncomplete="keepSession();" global="false" />
+      
+        <c:set var="case" value="#{caseId ne null ? caseWidgetBean.findCase(caseId) : currentTask.getCase().getBusinessCase()}" />
+        <c:set var="isSideStepDisabled" value="#{!abstractTaskTemplateBean.checkSideStepsEnabled(case)}" scope="request" />
+        <c:set var="isCaseViewable" value="#{!caseWidgetBean.isHiddenCase(case) and caseWidgetBean.isCaseFound(case)}" scope="request" />
+        <ui:insert name="breadCrumb" />
+        <p:inputText id="application-name-for-title" value="#{masterDataBean.applicationName}" type="hidden"/>
+        <c:set var="headerStages" value="#{abstractTaskTemplateBean.getStagesBaseOnCurrentStage(case, steps)}" scope="request" />
+        <c:set var="headerCurrentStageIndex" value="#{abstractTaskTemplateBean.getIndexOfCurrentStage(case)}" scope="request" />
+        <c:set var="isHeaderEmpty" value="#{(isHideTaskName or currentTask eq null) and empty steps and empty headerStages and isHideCaseInfo and isHideTaskAction}" scope="request" />
+        <h:panelGroup id="header-container" layout="block" styleClass="task-header-container js-task-header-container #{isHeaderEmpty ? '' : 'task-template-title-horizontal-container card'}">
+          <h:panelGroup id="task-template-title" layout="block" rendered="#{currentTask ne null}"
+            styleClass="task-template-title #{processChainDirection eq 'VERTICAL' ? 'js-task-name-vertical-process-chain' : ''} #{processChainShape eq 'LINE' ? 'vertical-chain-shape-line' : ''}">
+            <ui:insert name="taskName">
+              <ui:fragment rendered="#{!isHideTaskName}">
+                <span class="portal-icon-container task-template-title-icon"><i class="#{taskIcon}" /></span>
+                <h:outputText id="title" title="#{currentTask.names().current()}" value="#{not empty taskName ? taskName : currentTask.names().current()}" styleClass="task-title" />
+              </ui:fragment>
+            </ui:insert>
+          </h:panelGroup>
+  
+          <h:panelGroup layout="block" rendered="#{processChainDirection ne 'VERTICAL'}"
+            styleClass="process-chain-container horizontal-process-chain-container #{processChainShape eq 'LINE' ? 'vertical-chain-shape-line' : ''}">
+            <ui:insert name="processChainArea">
+              <ic:com.axonivy.portal.components.ProcessChain id="process-chain-component"
+                startMethod="start" componentId="process-chain-component-id"
+                shape="#{processChainShape eq 'LINE' ? 'LINE' : 'CIRCLE'}"
+                direction="HORIZONTAL"
+                isShowAllSteps="#{isShowAllSteps}"
+                actualStepIndex="#{actualStepIndex}" steps="#{steps}" stepIndexes="#{stepIndexes}"
+                currentIndex="#{headerCurrentStageIndex}"
+                stages="#{headerStages}" />
+            </ui:insert>
+          </h:panelGroup>
+  
+          <h:panelGroup id="horizontal-task-template-tasks-command" styleClass="task-template-tasks-command" rendered="#{!(isHideCaseInfo and isHideTaskAction)}">
+            <p:commandButton id="horizontal-case-info" type="button" styleClass="rounded-button portal-icon-btn portal-icon-btn--lg"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/caseInformation')}"
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/caseInformation')}" icon="ti ti-folders"
+              onclick="openCaseInfo()" rendered="#{!isHideCaseInfo}"
+              global="false" />
+            <p:commandButton id="horizontal-task-actions" type="button" rendered="#{!isHideTaskAction}" styleClass="rounded-button portal-icon-btn portal-icon-btn--lg"
+              ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}"
+              title="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/action')}" icon="ti ti-list-search" />
+          
+            <h:form id="horizontal-task-action-form">
+              <p:menu id="horizontal-task-action-menu" overlay="true" trigger="horizontal-task-actions" my="right top" at="right bottom"
+                styleClass="portal-action-menu action-steps-panel task-actions-menu" rendered="#{!isHideTaskAction}">
+    
+                <p:menuitem id="chat-group" icon="ti ti-message-plus" action="#{chatAssigneeBean.createGroupChatForConfiguredRoleList(currentTask)}"
+                  rendered="#{chatRendererBean.isGroupChatRendered and !(currentTask.state eq 'CREATED')}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/chat/createProcessChat')}" update="chat-assignee-dialog" />
+                
+                 <p:menuitem id="side-steps-process" icon="ti ti-sitemap ti-rotate-270"
+                  rendered="#{sideStepProcessBean.isRendered(currentTask)}" onclick="PF('side-step-process-dialog').show();"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/SideStep/SideStepProcess')}" />
+                <p:divider styleClass="separator"
+                    rendered="#{chatRendererBean.isGroupChatRendered and !(currentTask.state eq 'CREATED')}" />
+    
+                <p:menuitem id="side-steps-menu" styleClass="empty-side-steps" global="false"
+                  disabled="#{empty abstractTaskTemplateBean.sideStepList}" rendered="#{isSideStepDisabled}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseDetails/noSideSteps')}" />
+                  
+                <c:forEach var="sidestep" items="#{abstractTaskTemplateBean.sideStepList}" varStatus="taskStatus">
+                  <p:menuitem id="side-step-item-#{taskStatus.index}" styleClass="side-step-item"
+                    value="#{sidestep.getName()}" global="false"
+                    actionListener="#{abstractTaskTemplateBean.setSelectedSideStep(sidestep)}"
+                    oncomplete="PF('sidestep-task-reset-confirmation-dialog').show()" />
+                </c:forEach>
+              </p:menu>
+            </h:form>
+          </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup id="vertical-process-chain-container" layout="block"
+          styleClass="#{processChainDirection eq 'VERTICAL' ? 'process-chain-container vertical-process-chain-container' : ''} #{processChainDirection eq 'VERTICAL' and processChainShape eq 'LINE' ? 'vertical-chain-shape-line' : ''}">
+          <ic:com.axonivy.portal.components.ProcessChain id="vertical-process-chain-component"
+            rendered="#{processChainDirection eq 'VERTICAL'}"
+            startMethod="start" componentId="process-chain-component-id"
+            shape="#{processChainShape eq 'LINE' ? 'LINE' : 'CIRCLE'}"
+            direction="VERTICAL"
+            isShowAllSteps="#{isShowAllSteps}"
+            actualStepIndex="#{actualStepIndex}" steps="#{steps}" stepIndexes="#{stepIndexes}"
+            currentIndex="#{headerCurrentStageIndex}"
+            stages="#{headerStages}" />
+        </h:panelGroup>
+
+        <h:panelGroup id="content-container" layout="block" 
+          styleClass="task-template-content #{contentContainerStyleClass} #{processChainDirection eq 'VERTICAL' ? 'vertical-process-chain' : ''} #{processChainShape eq 'LINE' ? 'vertical-chain-shape-line' : ''}">
+          <ui:insert name="content">
+            <ui:insert name="taskForm" /> <!-- DEPRECATED -->
+          </ui:insert>
+        </h:panelGroup>
+
+        <p:remoteCommand name="openCaseInfo"
+           actionListener="#{taskTemplateBean.generateCaseDetailInFrame(case)}"
+           process="@this"
+           partialSubmit="true"
+           update="case-info-dialog"
+           oncomplete="PF('case-info-dialog').show(); handleFocusOnElementsInCaseDetailsPanel();" />
+        <p:dialog id="case-info-dialog" resizable="false" fitViewport="true" width="95vw" height="80vh"
+          closeOnEscape="true" draggable="false" responsive="true"
+          widgetVar="case-info-dialog" appendTo="@(body)" modal="true" styleClass="case-info-dialog"
+          onHide="PF('caseInfoPoll').stop();"
+          onShow="PF('caseInfoPoll').start();">
+          <f:facet name="header">
+            <h:panelGroup styleClass="case-infor-title u-truncate-text">
+              <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/searchResult/case')}" />
+              <h:outputText rendered="#{isCaseViewable and not empty case.names().current()}" value=": #{case.names().current()}" />
+            </h:panelGroup>
+          </f:facet>
+          <ui:insert name="caseDetails">
+            <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portal.generic/CaseDetailsTemplate/noCaseFound')}"
+              rendered="#{!isCaseViewable}" styleClass="no-case-found" />
+            <h:panelGroup id="case-details-panel" layout="block" rendered="#{isCaseViewable}"
+              styleClass="case-default-widget-container case-details case-details-panel">
+              <div class="ui-g js-iframe-container">
+                <div class="ui-g-12 u-padding-0">
+                  <iframe id="i-frame-case-details" src="#{taskTemplateBean.caseDetailsLink}"
+                    onload="setupHeightForIFrame(); if (PF('case-info-dialog')) focusFirstVisibleElementInPanel('case-info-dialog', '[id$=i-frame-case-details]')" class="case-information-frame js-iFrame-case-details"
+                    scrolling="no" frameborder="0"
+                    title="#{ivy.cms.co('/Dialogs/com/axonivy/portal/layouts/AbstractTaskTemplate/CaseDetailsIFrameTitle')}" />
+                </div>
+              </div>
+            </h:panelGroup>
+          </ui:insert>
+        </p:dialog>
+      
+        <p:dialog id="chat-assignee-dialog" resizable="false"
+          header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/chat/chatAssigneeDialogHeader')}" styleClass="chat-assignee-dialog"
+          rendered="#{chatRendererBean.isGroupChatRendered}" widgetVar="chat-assignee-dialog" appendTo="@(body)" modal="true"
+          dynamic="true" responsive="true">
+          <h:panelGroup id="chat-group-join-container" rendered="#{chatAssigneeBean.doesGroupChatExist()}">
+            <h:outputText value="#{chatAssigneeBean.groupChatExistMessage}" />
+            <br />
+            <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/chat/joinGroupQuestion')}" />
+          </h:panelGroup>
+          <f:facet name="footer">
+            <h:form id="chat-group-join-form" rendered="#{chatAssigneeBean.doesGroupChatExist()}">
+              <p:commandLink styleClass="portal-link" id="chat-group-cancel-button"
+                value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                onclick="PF('chat-assignee-dialog').hide()" />
+              <p:spacer width="15px" />
+              <p:commandButton id="chat-group-join-button" actionListener="#{chatAssigneeBean.joinGroupChat()}"
+                icon="#{visibilityBean.generateButtonIcon('ti ti-message-circle-share')}"
+                ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/chat/joinProcessChat')}"
+                value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/chat/joinProcessChat')}" process="@this"
+                update="@none" />
+            </h:form>
+          </f:facet>
+          <h:form id="chat-assignee-selection-form" rendered="#{!chatAssigneeBean.doesGroupChatExist()}">
+            <ui:include src="/layouts/includes/chatAssigneeSelection.xhtml">
+              <ui:param name="chatBean" value="#{chatAssigneeBean}" />
+              <ui:param name="createGroupChat" value="createGroupChat" />
+            </ui:include>
+          </h:form>
+        </p:dialog>
+        
+        <!-- START DIALOG TO CONFIGURE SIDE STEP PROCESSES -->
+        <p:dialog id="side-step-process-dialog" resizable="false" onHide="resetDataSideStep();" 
+          header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/SideStep/SideStepProcess')}" width="650px" 
+          rendered="#{sideStepProcessBean.isRendered(currentTask)}" widgetVar="side-step-process-dialog" appendTo="@(body)" modal="true"
+          dynamic="true" responsive="true">
+            <h:form id="side-step-process-form" styleClass="ui-fluid">
+            <p:messages redisplay="false" showIcon="false">
+              <p:autoUpdate/>
+            </p:messages>
+            <div class="field">
+              <p:outputLabel for="side-step-process-select" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/process')}" />
+              <p:selectOneMenu id="side-step-process-select" converter="pojoConverter" required="true" value="#{sideStepProcessBean.selectedProcess}"
+                requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/process'))}">
+                <f:selectItem itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/pleaseSelect')}"
+                  itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{sideStepProcessBean.getSideStepProcesses(currentTask)}"
+                  var="item" itemLabel="#{sideStepProcessBean.getProcessName(item)}" itemValue="#{item}" />
+                <p:ajax event="itemSelect" global="false" update="side-step-process-form"/>
+              </p:selectOneMenu>
+            </div>
+            <h:panelGroup id="step-type-panel" rendered="#{not empty sideStepProcessBean.sideStepTypes}">
+              <div class="field">
+                <p:outputLabel for="step-type" value="#{ivy.cms.co('/Labels/StepType')}" />
+                <p:selectOneMenu id="step-type" value="#{sideStepProcessBean.selectedSideStepType}" converter="pojoConverter" required="true" 
+                  requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/Labels/StepType'))}">
+                  <f:selectItem itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/adminSettings/pleaseSelect')}"
+                    itemValue="#{null}" noSelectionOption="true" />
+                  <f:selectItems value="#{sideStepProcessBean.sideStepTypes}" var="type" itemLabel="#{sideStepProcessBean.getStepTypeTitle(type)}"
+                    itemValue="#{type}" />
+                </p:selectOneMenu>
+              </div>
+            </h:panelGroup>
+            <h:panelGroup id="activator-delegate-panel" layout="block" class="field">
+              <h:panelGroup id="activator-panel" layout="block" styleClass="field">
+                <p:outputLabel for="activator-type-select" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/delegateTaskHeaderLabel')}" />
+                <p:selectOneRadio id="activator-type-select" value="#{sideStepProcessBean.userDelegated}" required="true">
+                  <f:selectItem itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toUser')}" itemValue="true" />
+                  <f:selectItem itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toGroup')}" itemValue="false"/>
+                  <p:ajax event="change" listener="#{sideStepProcessBean.changeAssignType()}" update="select-delegate-panel" process="@this"/>
+                </p:selectOneRadio> 
+              </h:panelGroup>
+
+              <h:panelGroup id="select-delegate-panel" layout="block">
+                <h:panelGroup rendered="#{sideStepProcessBean.userDelegated}" styleClass="field">
+                  <div class="field">
+                    <h:panelGroup rendered="#{not empty sideStepProcessBean.userRoles}">
+                      <ic:com.axonivy.portal.components.UserSelection componentId="assignee" fromRoleNames="#{sideStepProcessBean.userRoles}" messageStyleClass="hidden" 
+                        requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toUser'))}"
+                        selectedUser="#{sideStepProcessBean.assignee}" label="#{ivy.cms.co('/Labels/AssignToUser')}" isRequired="true"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{empty sideStepProcessBean.userRoles}">
+                      <ic:com.axonivy.portal.components.UserSelection componentId="assignee" messageStyleClass="hidden"
+                        requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toUser'))}"
+                        selectedUser="#{sideStepProcessBean.assignee}" label="#{ivy.cms.co('/Labels/AssignToUser')}" isRequired="true"/>
+                    </h:panelGroup>
+                  </div>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!sideStepProcessBean.userDelegated}">
+                  <div class="field">
+                    <h:panelGroup rendered="#{not empty sideStepProcessBean.roles}">
+                      <ic:com.axonivy.portal.components.RoleSelection componentId="assignee-role" fromRoleNames="#{sideStepProcessBean.roles}"
+                        labelPanelStyleClass="ui-g-6 pl-0" messageStyleClass="hidden" isRequired="true"
+                        requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toGroup'))}"
+                        selectedRole="#{sideStepProcessBean.assignedRole}" label="#{ivy.cms.co('/Labels/AssignToRole')}" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{empty sideStepProcessBean.roles}">
+                      <ic:com.axonivy.portal.components.RoleSelection componentId="assignee-role"
+                        requiredMessage="#{sideStepProcessBean.buildRequireMessage(ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/taskDelegate/toGroup'))}"
+                        labelPanelStyleClass="ui-g-6 pl-0" messageStyleClass="hidden" isRequired="true"
+                        selectedRole="#{sideStepProcessBean.assignedRole}" label="#{ivy.cms.co('/Labels/AssignToRole')}" />
+                    </h:panelGroup>
+
+                  </div>
+                </h:panelGroup>
+              </h:panelGroup>
+            </h:panelGroup>
+
+            <div class="field">
+              <p:outputLabel for="comment" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/comment')}" />
+              <p:inputTextarea id="comment" value="#{sideStepProcessBean.comment}" rows="5"/>
+            </div>
+            </h:form>
+
+          <f:facet name="footer">
+            <div class="field">
+              <p:commandButton id="side-step-process-submit-button"  
+                value="#{ivy.cms.co('/Labels/Submit')}"
+                ariaLabel="#{ivy.cms.co('/Labels/Submit')}"
+                styleClass="w-full"
+                actionListener="#{sideStepProcessBean.handleSelectProcess()}"
+                oncomplete="if (!args.validationFailed) {PF('side-step-process-dialog').hide();resetDataSideStep();}"
+                update="side-step-process-form"
+                form="side-step-process-form" />
+              <div class="w-full flex justify-content-center mt-2">
+                <p:commandLink styleClass="portal-link" id="side-step-process-cancel-button"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                  onclick="PF('side-step-process-dialog').hide();resetDataSideStep();" >
+                  <p:resetInput target="side-step-process-dialog"/>
+                </p:commandLink>
+              </div>
+            </div>
+          </f:facet>
+          <p:remoteCommand name="resetDataSideStep" actionListener="#{sideStepProcessBean.resetData()}" update="side-step-process-dialog" resetValues="true"/>
+        </p:dialog>
+        <!-- END DIALOG TO CONFIGURE SIDE STEP PROCESSES -->
+  
+        <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+          <ui:param name="id" value="sidestep-task-reset-confirmation-dialog" />
+          <ui:param name="widgetVar" value="sidestep-task-reset-confirmation-dialog" />
+          <ui:param name="dynamic" value="true"/>
+          <ui:param name="appendTo" value="@(body)" />
+          <ui:param name="iconClass" value="ti ti-alert-triangle" />
+          <ui:param name="iconStyleClass" value="portal-dialog-warning-icon" />
+          <ui:param name="dialogContent" value="#{ivy.cms.co('/ch.ivy.addon.portal.generic/OpenTaskTemplate/goToSidestepWarning')}" />
+          
+          <ui:define name="dialogFooter">
+            <h:form prependId="false">
+              <h:panelGroup styleClass="ui-dialog-buttonpane">
+                <p:commandLink styleClass="portal-link" id="side-step-start-cancel" onclick="PF('sidestep-task-reset-confirmation-dialog').hide()"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}" />
+                <p:spacer width="15px" />
+                <p:commandButton widgetVar="sideStepStartOkButton" id="side-step-start-ok"
+                  onclick="PF('sideStepStartOkButton').disable()"
+                  actionListener="#{abstractTaskTemplateBean.startSideStep(currentTask)}" process="@this" update="@none"
+                  icon="#{visibilityBean.generateButtonIcon('ti ti-check')}"
+                  ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ok')}"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/ok')}" />
+              </h:panelGroup>
+            </h:form>
+          </ui:define>
+        </ui:decorate>
+        
+        <ic:ch.ivy.addon.portalkit.feature.WarnOnClosingBrowserTab
+          confirmMessage="#{ivy.cms.co('/ch.ivy.addon.portal.generic/OpenTaskTemplate/browserTabClosingWarning')}" />
+      </div>
+      <p:remoteCommand name="backToCasesList" actionListener="#{caseBean.backToCasesList()}" process="@this" immediate="true" />
+      <ui:insert name="javascript" />
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

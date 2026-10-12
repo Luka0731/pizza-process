@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions">
+<cc:interface componentType="IvyComponent">
+</cc:interface>
+
+<cc:implementation>
+  <div class="login-wrapper layout-wrapper">
+    <div class="login-panel">
+      <div class="login-panel-header">
+        <p:graphicImage name="#{themeBean.themeMode eq 'dark' ? 'logo_light': 'logo'}" library="ivy-branding"
+          alt="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/loginLogo')}" />
+      </div>
+      <div class="login-panel-content">
+        <p class="text-style-h4"><i class="ti ti-alert-circle failed-message__icon"/> #{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/loginFailed')}</p>
+        <p>#{ivy.cms.co("/ch.ivy.addon.portalkit.ui.jsf/login/loginErrorMessage")}</p>
+      </div>
+    </div>
+    <div class="login-footer">
+      <p class="text-style-h4">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/AxonIvyPortal')}</p>
+      <p class="text-style-h6">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/login/Copyright')}</p>
+    </div>
+  </div>
+</cc:implementation>
+</html>

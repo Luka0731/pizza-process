@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="primefaces" xmlns:pe="primefaces.extensions"
+  xmlns:c="jakarta.tags.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="dataModel" type="ch.ivy.addon.portalkit.datamodel.CaseLazyDataModel" />
+</cc:interface>
+
+<cc:implementation>
+  <c:set var="dataModel" value="#{cc.attrs.dataModel}" />
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="name-desc-column-header" 
+    styleClass="case-list-name-desc-header-cell" 
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/NAME')}" 
+    dataModel="#{dataModel}" sortedField="NAME" />
+
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="id-column-header" 
+    styleClass="text-center"
+    responsiveStyleClass="u-hidden-sm-down" 
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/ID')}" 
+    dataModel="#{dataModel}" sortedField="ID" />
+
+    <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader
+      id="creator-column-header"
+      responsiveStyleClass="js-hidden-when-expand-menu u-hidden-md-down"
+      value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/CREATOR')}"
+      dataModel="#{dataModel}" sortable="true"
+      sortedField="CREATOR" 
+      rendered="#{!caseBean.hideCaseCreator}"/>
+
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="owner-column-header" 
+      responsiveStyleClass="js-hidden-when-expand-menu u-hidden-lg-down"
+      value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/OWNER')}" 
+      dataModel="#{dataModel}" sortedField="OWNER" sortable="false" rendered="#{caseBean.isCaseOwnerEnabled()}" />
+
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="created-date-column-header" 
+    styleClass="text-center"
+        responsiveStyleClass="u-hidden-sm-down"
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/CREATION_TIME')}" 
+    dataModel="#{dataModel}" sortedField="CREATION_TIME" />
+
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="finished-date-column-header" 
+    styleClass="text-center"
+        responsiveStyleClass="js-hidden-when-expand-menu u-hidden-md-down" 
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/FINISHED_TIME')}" 
+    dataModel="#{dataModel}" sortedField="FINISHED_TIME" />
+
+  <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="state-column-header" 
+    styleClass="text-center"
+        responsiveStyleClass="u-hidden-sm-down"  
+    value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/STATE')}" 
+    dataModel="#{dataModel}" sortedField="STATE" />
+    
+    <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="category-column-header" 
+      responsiveStyleClass="u-hidden-md-down"
+      value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/CATEGORY')}" 
+      dataModel="#{dataModel}" sortable="false" sortedField="CATEGORY" />
+    
+    <ic:ch.ivy.addon.portalkit.component.cases.column.CaseColumnHeader id="application-column-header" 
+      responsiveStyleClass="u-hidden-md-down"
+      value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/defaultColumns/APPLICATION')}" 
+      dataModel="#{dataModel}" sortable="false" sortedField="APPLICATION" />
+</cc:implementation>
+</html>

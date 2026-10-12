@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "CaseItemData",
+  "namespace" : "ch.ivy.addon.portalkit.component.CaseItem",
+  "fields" : [ {
+    "name" : "caze",
+    "type" : "ch.ivyteam.ivy.workflow.ICase",
+    "modifiers" : [ ]
+  }, {
+    "name" : "inFrame",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  } ]
+}

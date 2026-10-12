@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"      
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:cc="jakarta.faces.composite"
+      xmlns:ic="http://ivyteam.ch/jsf/component"
+      xmlns:p="primefaces"
+      xmlns:pe="primefaces.extensions">
+      
+  <cc:interface componentType="IvyComponent">
+    <cc:attribute name="componentId" />
+    <cc:attribute name="panelGroupId" />
+    <cc:attribute name="labelValue" shortDescription="Text value to show in UI"/> 
+    <cc:attribute name="dataModel" />
+    <cc:attribute name="column" shortDescription="column name - the value in Customize CaseLazyDatModel.getDefaultColumns()" />
+    <cc:attribute name="responsiveStyleClass" default="u-hidden-sm-down"/>
+  </cc:interface>
+  
+  <cc:implementation>
+    <h:panelGroup id="#{cc.attrs.panelGroupId}" rendered="#{cc.attrs.dataModel.isSelectedColumn(cc.attrs.column)}" styleClass="text-center case-custom-field-cell #{cc.attrs.responsiveStyleClass}">
+      <h:outputText id="#{cc.attrs.componentId}" value="#{cc.attrs.labelValue}" />
+      <p:tooltip for="#{cc.attrs.componentId}" styleClass="#{cc.attrs.responsiveStyleClass}" trackMouse="true"
+        hideEvent="mouseleave click" value="#{cc.attrs.labelValue}" />
+  </h:panelGroup>
+  </cc:implementation>
+</html>

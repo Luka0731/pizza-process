@@ -1,0 +1,146 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+  xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+  xmlns:cc="jakarta.faces.composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="primefaces" xmlns:pe="primefaces.extensions" xmlns:jsf="jakarta.faces"
+  xmlns:c="jakarta.tags.core">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="dataModel" shortDescription="List of cases to be displayed" />
+  <cc:attribute name="chunkSize" type="java.lang.Integer" shortDescription="Number of items to fetch for each lazy load" default="25" />
+  <cc:attribute name="emptyMessage"
+    default="#{ivy.cms.co('/Dialogs/ch/ivy/addon/portalkit/component/CaseWidget/defaultEmptyMessage')}"
+    shortDescription="A message when the cases are empty" />
+  <cc:attribute name="title" default="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/caseList/cases')}" />
+  <cc:attribute name="autoSelectCaseId" />
+  <cc:attribute name="hideWidgetHeader" default="false" type="java.lang.Boolean" />
+  <cc:attribute name="listHeaderStyleClass" />
+  <cc:attribute name="isTechnicalCaseView" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="inFrame" type="java.lang.Boolean" default="false" />
+  <cc:attribute name="destroyCaseDialogComponent" default="" />
+  <cc:facet name="emptyMessage" />
+</cc:interface>
+
+<cc:implementation>
+  <h:outputScript name="case-widget.js" library="js" />
+
+  <div id="#{cc.clientId}" class="widget case-widget case-widget-container ui-g">
+    <h:panelGroup id="case-widget-header" layout="block"
+      styleClass="widget-header ui-g-12 ui-g u-no-padding-left u-no-padding-bottom js-case-widget-header">
+      <h:panelGroup id="filter-container" styleClass="filter-container js-filter-container ui-g-12 u-no-padding-bottom">
+        <!-- Global Search fields -->
+        <h:panelGroup id="global-search-text" rendered="#{data.dataModel.criteria.globalSearch}">
+          <h:outputText value="#{caseWidgetBean.getGlobalSearchText(data.dataModel)}" />
+        </h:panelGroup>
+
+        <!-- Export to Excel, Manage Columns -->
+        <h:panelGroup id="case-list-actions" styleClass="case-list-actions u-hidden-md-down">
+          <h:form id="case-export-to-excel-form" styleClass="case-export-to-excel-form u-mar-right-20">
+            <p:commandLink ajax="false" id="case-export-to-excel"
+                           ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/exportButton')}"
+                           onclick="PrimeFaces.monitorDownload(start, stop);">
+              <i class="ti ti-file-type-xls u-mar-right-5" />
+              <span class="link-text">
+                <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/noteHistory/exportButton')}" />
+              </span>
+              <p:fileDownload value="#{logic.getExportedFile(caseWidgetBean.getColumns(data.dataModel))}" />
+            </p:commandLink>
+          </h:form>
+
+          <ic:ch.ivy.addon.portalkit.component.ColumnsConfiguration id="case-columns-configuration"
+            updatedComponent=":#{cc.clientId}:case-view :#{cc.clientId}:widget-column-header :#{cc.clientId}:hidden-case-count :#{cc.clientId}:case-list-actions"
+            dataModel="#{data.dataModel}" oncomplete="caseWidget.setUpScrollbar(); caseWidget.setupHeader(); caseWidget.updateCaseCountToBreadcrumb();"
+            configButtonId="case-config-button" overlayPanelId="case-config-columns-panel" />
+        </h:panelGroup>
+      <h:panelGroup rendered="#{cc.attrs.inFrame}" layout="block" styleClass="back-link-container">
+        <p:commandLink id="back-link" actionListener="#{logic.backToCaseDetails()}" styleClass="list-back-link js-back-link"
+                       ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}"
+                       process="@this" immediate="true" update="@none">
+          <i class="ti ti-chevron-left u-mar-right-5" />
+          <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/back')}"/>
+        </p:commandLink>
+      </h:panelGroup>
+    </h:panelGroup>
+    </h:panelGroup>
+
+    <h:panelGroup id="widget-column-header"
+      class="widget-column-header js-case-widget-column-header #{cc.attrs.listHeaderStyleClass}">
+      <cc:renderFacet name="caseListHeader" />
+      <h:panelGroup id="case-operations-container" layout="block" styleClass="operations-column u-hidden-md-down" rendered="#{!cc.attrs.readOnly}">
+        <h:outputText value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/more')}" />
+      </h:panelGroup>
+    </h:panelGroup>
+    <h:panelGroup id="case-view" layout="block" class="ui-g-12 case-view">
+      <h:panelGroup id="case-list" layout="block" styleClass="case-list">
+        <p:dataScroller id="case-list-scroller" value="#{data.dataModel}" var="case" chunkSize="#{cc.attrs.chunkSize}"
+          lazy="true" mode="inline" rowIndexVar="rowIndex" styleClass="js-case-list" widgetVar="case-list-scroller">
+          <ic:ch.ivy.addon.portalkit.component.CaseItem case="#{case}" id="case-item" destroyCaseDialogComponent="#{cc.attrs.destroyCaseDialogComponent}"
+            onDestroyComplete="PF('destroy-case-dialog').show()" rowIndex="#{rowIndex}"
+            itemStyleClass="#{rowIndex % 2 == 0 ? 'case-even-row' : 'case-odd-row'}" readOnly="#{cc.attrs.readOnly}" inFrame="#{cc.attrs.inFrame}">
+            <cc:insertFacet name="caseHeader" />
+          </ic:ch.ivy.addon.portalkit.component.CaseItem>
+        </p:dataScroller>
+        <div jsf:rendered="#{data.dataModel.rowCount eq 0}" class="case-widget-empty-message">
+          <p:outputLabel id="case-empty-message" rendered="#{empty cc.facets.emptyMessage}" value="#{cc.attrs.emptyMessage}" />
+          <cc:renderFacet name="emptyMessage" />
+        </div>
+      </h:panelGroup>
+    </h:panelGroup>
+  </div>
+  
+  <!-- Destroy case dialog -->
+  <ui:decorate template="/layouts/decorator/portal-dialog-with-icon.xhtml">
+    <ui:param name="id" value="destroy-case-confirmation-dialog" />
+    <ui:param name="widgetVar" value="destroy-case-dialog" />
+    <ui:param name="appendTo" value="@(body)" />
+    <ui:param name="iconClass" value="ti ti-trash" />
+    <ui:param name="iconStyleClass" value="portal-dialog-error-icon" />
+    <ui:param name="headerText" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroyCaseHeaderText')}" />
+    <ui:param name="dialogContent" value="#{caseWidgetBean.getDestroyCaseMessage()}" />
+    
+    <ui:define name="dialogFooter">
+      <h:panelGroup styleClass="flex flex-column">
+        <p:commandButton id="confirm-destruction" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+          ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/destroy')}"
+          styleClass="w-full portal-remove-button"
+          actionListener="#{caseWidgetBean.destroyCase(case)}"
+          oncomplete="backToPrevPage(#{caseWidgetBean.willNavigateBack()});" />
+        <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                       ariaLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                       onclick="PF('destroy-case-dialog').hide();" styleClass="pt-3 flex justify-content-center portal-link" />
+        </h:panelGroup>
+    </ui:define>
+  </ui:decorate>
+
+  <h:outputText id="hidden-case-count" styleClass="hidden js-hidden-case-count hidden-case-count" value="#{data.dataModel.rowCount}" rendered="#{not data.dataModel.disableCaseCount}" />
+  <script type="text/javascript">
+      var caseWidget = new CaseWidget();
+      $(function() {
+        var simpleScreen = new CaseListScreenHandler();
+        var responsiveToolkit = ResponsiveToolkit(simpleScreen);
+        Portal.init(responsiveToolkit);
+        caseWidget.updateCaseCountToBreadcrumb();
+      });
+
+      function start() {
+          var statusDialog = PF('status-dialog');
+          statusDialog.jq.removeAttr("download-status");
+          statusDialog.show();
+      }
+
+      function stop() {
+          var statusDialog = PF('status-dialog');
+          statusDialog.jq.attr("download-status","completed");
+          statusDialog.hide();
+      }
+  </script>
+
+  <h:form id="update-case-count-rc-form">
+    <p:remoteCommand id="update-case-count-remote-cmd" name="updateCaseCount" global="false" process="@this" immediate="true" />
+  </h:form>
+  <p:dialog modal="true" id="status-dialog" widgetVar="status-dialog" header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/status')}" draggable="false" closable="false" resizable="false" responsive="true" styleClass="export-status-dialog">
+      <div class="p-2">#{ivy.cms.co("/ch.ivy.addon.portalkit.ui.jsf/common/waitingDownloadMessage")}</div>
+      <div class="p-2">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/downloadZipFileExplanation')}</div>
+  </p:dialog>
+</cc:implementation>
+</html>

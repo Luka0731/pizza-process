@@ -1,0 +1,228 @@
+/* Common CSS variables */
+:root {
+  --default-body-font-size: 1.4rem;
+  --large-font-size: 120%;
+  --small-font-size: 0.9rem;
+  --default-font-size: 1rem;
+  --priority-font-size: 1.4rem;
+
+    /* AxonIvy Colors: */
+  --ivy-primary-color-black: hsl(0, 0%, 11%);
+  --ivy-primary-color-white: hsl(0, 0%, 100%);
+  --ivy-primary-color-dark: var(--primary-color);
+  --ivy-primary-color-medium: hsl(192, 63%, 56%);
+  --ivy-primary-color-light: hsl(186, 63%, 73%);
+  --ivy-primary-color-grey-dark: hsl(0 0% 29%);
+  --ivy-primary-color-grey-medium: hsl(0 0% 64%);
+  --ivy-primary-color-grey-light: hsl(0 0% 88%);
+  --ivy-primary-color-grey-pale: hsl(0 0% 95%);
+  --ivy-secondary-color-dark: hsl(62, 61%, 44%);
+  --ivy-secondary-color-medium: hsl(64, 70%, 49%);
+  --ivy-secondary-color-light: hsl(65, 78%, 54%);
+  --ivy-tertinary-color-red-dark: hsl(0, 63%, 52%);
+  --ivy-tertinary-color-red-medium: hsl(357, 83%, 61%);
+  --ivy-tertinary-color-red-light: hsl(0, 90%, 88%);
+  --ivy-tertinary-color-green-dark: hsl(164, 59%, 40%);
+  --ivy-tertinary-color-green-medium: hsl(137, 51%, 53%);
+  --ivy-tertinary-color-green-light: hsl(79, 65%, 78%);
+  --ivy-tertinary-color-yellow-dark: hsl(46, 100%, 58%);
+  --ivy-tertinary-color-yellow-medium: hsl(49, 99%, 65%);
+  --ivy-tertinary-color-yellow-light: hsl(47, 100%, 79%);
+  --ivy-tertinary-color-orange-dark: hsla(27, 100%, 50%, 1);
+  --ivy-tertinary-color-orange-light: hsla(26, 100%, 95%, 1);
+
+  /* Colors for Portal */
+  --ivy-portal-primary-lighter-color: hsl(var(--ivy-primary-color-h) 43% 93%);
+  --ivy-portal-primary-light-color: hsl(var(--ivy-primary-color-h) 41% 71%);
+  --ivy-portal-primary-dark-color: hsl(var(--ivy-primary-color-h) 100% 29%);
+  --ivy-portal-primary-darker-color: hsl(var(--ivy-primary-color-h) 100% 21%);
+  --ivy-portal-blue-light: hsl(188.09, 66.92%, 73.92%);
+  --ivy-portal-blue-dark: hsla(195, 100%, 29%, 1);
+  --ivy-portal-color-black: #1B1B1B;
+  --ivy-portal-color-slate-light: hsla(212.73, 26.84%, 83.92%, 1);
+
+  /* Portal grey palette */
+  --ivy-portal-color-grey-50: hsla(0, 0%, 98%, 1);
+  --ivy-portal-color-grey-100: hsla(0, 0%, 97%, 1);
+  --ivy-portal-color-grey-200: hsla(0, 0%, 92%, 1);
+  --ivy-portal-color-grey-400: hsla(0, 0%, 75%, 1);
+  --ivy-portal-color-grey-450: hsla(0, 0%, 69%, 1);
+  --ivy-portal-color-grey-500: hsla(0, 0%, 64%, 1);
+  --ivy-portal-color-grey-600: hsla(0, 0%, 49%, 1);
+  --ivy-portal-color-grey-700: hsla(0, 0%, 34%, 1);
+  --ivy-portal-color-grey-750: hsla(0, 0%, 29%, 1);
+  --ivy-portal-color-grey-800: hsla(0, 0%, 25%, 1);
+  --ivy-portal-color-grey-850: hsla(0, 0%, 20%, 1);
+  --ivy-portal-color-grey-900: hsla(0, 0%, 17%, 1);
+  --ivy-portal-color-grey-950: hsla(0, 0%, 13%, 1);
+
+  /* Portal red palette */
+  --ivy-portal-color-red-100: hsla(0, 77%, 95%, 1);
+  --ivy-portal-color-red-300: hsla(358, 79%, 79%, 1);
+
+  /* Default Portal styles */
+  --header-font-size: 2rem;
+  --portal-icon-font-family: "tabler-icons";
+  --portal-icon-font-size: 1em;
+  --portal-tabler-icon-size: calc(8 / 7 * 1rem);
+  --portal-icon-line-height: 1;
+  --portal-icon-ui-icon-font-size: 1.4rem;
+  --portal-icon-size-md: 1.286rem; /* 18px */
+  --portal-icon-size-lg: 1.429rem; /* 20px */
+  --portal-icon-size-xl: 1.857rem; /* 26px */
+  --portal-icon-btn-size-sm: 2.143rem; /* 30px */
+  --portal-icon-btn-size-md: 2.714rem; /* 38px */
+  --portal-icon-btn-size-lg: 3.071rem; /* 43px */
+  --portal-icon-btn-border-width: 1px;
+  --default-font-style: normal;
+  --login-logo-height: 50px;
+  --home-logo-height: 42px;
+  --home-logo-width: calc(100% - 72px);
+  --small-home-logo-width: 42px;
+  --border-color: var(--ivy-primary-color-grey-light);
+  --body-background-color: var(--ivy-primary-color-white);
+  --accordion-header-active-background-color: var(--ivy-primary-color-grey-light);
+  --accordion-header-background-color: var(--ivy-primary-color-grey-light);
+  --case-task-state-done-or-resume-green: #4eb41c;
+  --box-shadow-color: hsla(0, 0%, 15%, 0.2);
+  --portal-border-radius: 5px;
+  --portal-pill-btn-border-radius: 100px;
+  --item-background-hover: var(--primary-lighter-color);
+  --item-border-hover: 1px solid var(--ivy-portal-primary-light-color);
+
+  --top-bar-icon-size: 1.4rem;
+  --topbar-bg-color: var(--primary-color);
+  --first-header-bar-color: var(--topbar-bg-color);
+  --second-header-bar-color: var(--topbar-bg-color);
+  --third-header-bar-color: var(--topbar-bg-color);
+
+  /* Task priority color */
+  --task-priority-low-color: #d4d4d4;
+  --task-priority-normal-color: #96dc82;
+  --task-priority-high-color: #ffc0c0;
+  --task-priority-exception-color: #ff5a5a;
+
+  /* Text color of buttons */
+  --cancel-button-text-color: var(--ivy-primary-color-black);
+  --context-button-text-color: var(--ivy-primary-color-black);
+
+  --task-state-reserved-font-size: 1.8rem;
+  --task-state-system-font-size: 1.8rem;
+  --portal-dialog-icon-font-size: 5rem;
+  --widget-header-font-size: 1.143rem;
+  --widget-header-font-weight: 600;
+  --process-warning-icon-font-weight: bold;
+  --process-icon-font-size: 1.5rem;
+  --process-grid-icon-font-size: 4.8rem;
+  --process-grid-name-font-size: 1.8rem;
+  --process-grid-name-font-weight: 700;
+  --process-edit-name-font-size: 1.6rem;
+  --process-edit-name-font-weight: 700;
+  --process-grid-header-color: var(--text-color);
+
+  --case-item-description-font-weight: 400;
+  --case-item-description-font-style: normal;
+  --case-item-description-font-size: var(--small-font-size);
+  --case-item-description-line-height: 1.6rem;
+  --case-item-name-line-height: 2rem;
+  --case-item-name-font-weight: 700;
+
+  --task-item-description-font-size: var(--small-font-size);
+  --task-item-description-line-height: 1.6rem;
+  --task-item-name-line-height: 2rem;
+  --task-item-name-font-weight: 700;
+  --task-state-border-radius: var(--portal-pill-btn-border-radius);
+  --task-state-font-size: 1rem;
+  --task-state-line-height: 1.6rem;
+
+  --participants-list-header-font-weight: bold;
+  --message-chat-header-name-font-weight: bold;
+  --chat-contact-type-header-font-size: var(--large-font-size);
+  --close-chat-font-size: 1.4rem;
+  --contact-card-icon-font-size: 2rem;
+  --contact-card-icon-after-fontsize: 1.2rem;
+  --notification-badge-font-size: 1.2rem;
+  --notification-badge-icon-font-size: 2rem;
+
+  --delete-deputy-icon-font-size: var(--large-font-size);
+
+  --no-item-icon-font-size: 3.786rem;
+  --no-item-icon-container-size: 7.143rem;
+  --no-item-header-font-size: var(--widget-header-font-size);
+  --no-item-detail-font-size: var(--default-font-size);
+  --breadcrumb-font-size: 1.2rem;
+  --breadcrumb-home-icon-font-size: 2rem;
+  
+  --security-member-header-font-size: 12px;
+  --security-member-item-font-size: 10px;
+  --security-member-header-font-weight: bold;
+
+  --image-process-header-font-size: 12px;
+  --process-info-icon-font-size: 4rem;
+  --process-info-step-icon-font-size: 2rem;
+  --widget-filter-noti-font-size: var(--small-font-size);
+  --widget-filter-noti-font-weight: 700;
+
+  --dashboard-table-column-small-screen-name-font-weight: bold;
+  --dashboard-table-column-small-screen-description-font-weight: 400;
+  --dashboard-table-column-small-screen-description-font-style: normal;
+  --dashboard-table-column-small-screen-description-font-size: inherit;
+
+  --new-widget-dialog-description-font-weight: 400;
+  --new-widget-dialog-description-font-style: normal;
+  --new-widget-dialog-description-font-size: 1rem;
+  --dashboard-table-empty-message-icon-font-size: 6rem;
+  --new-widget-dialog-title-font-weight: bold;
+  --new-widget-dialog-title-font-style: normal;
+  --new-widget-dialog-title-font-size: 1.1rem;
+  --dashboard-template-selection-section-title-font-size: 1.1429rem; /* 16px */
+
+  /* News feed widget */
+  --news-feed-item-border-radius: 1rem;
+  --news-feed-item-title-line-height: 1rem;
+  --news-feed-item-title-font-weight: bold;
+
+  /* Statistics color pallete */
+  --statistics-1-color: #00a8e1;
+  --statistics-2-color: #0095c7;
+  --statistics-3-color: #0082ae;
+  --statistics-4-color: #006f94;
+  --statistics-5-color: #005c7b;
+  --statistics-6-color: #004961;
+  --statistics-7-color: #003648;
+  --statistics-8-color: #00232f;
+  
+  /* Notification */
+  --notification-background-color: #2c2c2c;
+  --notification-label-font-size: 12px;
+  --notification-label-item-font-size: 0.75em;
+  --notifications-title-header-font-weight: bold;
+  --notification-indicator-size: 0.65rem;
+
+  /* Project info dialog (theme-independent) */
+  --project-info-dialog-box-shadow-color: hsla(0, 0%, 0%, 0.15);
+  
+  /* Detail pages (Task Details, Case Details) - theme independent geometry */
+  --portal-card-radius: 15px;
+  --portal-card-shadow: 0 0 1.945rem 0 hsla(0, 0%, 0%, 0.05);
+  --portal-detail-card-gap: 1.429rem;
+  --portal-detail-subcard-padding: 1.071rem;
+  --portal-detail-label-font-weight: 500;
+  --portal-detail-label-line-height: 1.2;
+  --portal-detail-value-font-weight: 500;
+  --portal-detail-value-line-height: 1.214;
+  --portal-detail-title-line-height: 1.25;
+  --portal-detail-eyebrow-tracking: 0.06em;
+  --portal-link-gap: 0.429rem;
+  --portal-link-font-weight: 500;
+  --portal-detail-grid-inset: 10px;
+  --portal-action-menu-radius: 10px;
+
+  --dashboard-widget-dashed-outline-mask: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='black' stroke-width='2' stroke-dasharray='10%2c 11' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+
+  /* Dashboard Icons */
+  --ivy-dashboard-icon-bg-light: hsl(0, 0%, 97.25%);
+  --ivy-dashboard-icon-border-light: var(--ivy-portal-color-grey-200);
+  --ivy-dashboard-icon-bg-dark: hsl(0, 0%, 21.96%);
+  --ivy-dashboard-icon-border-dark: var(--ivy-portal-color-grey-750);
+}

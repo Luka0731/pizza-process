@@ -1,0 +1,511 @@
+package ch.ivy.addon.portal.generic.bean;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.ws.rs.core.MediaType;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import com.axonivy.portal.dto.menu.MenuOrderEntry;
+import com.axonivy.portal.menu.management.enums.MenuSource;
+import com.axonivy.portal.service.MenuOrderService;
+import com.axonivy.portal.components.dto.SecurityMemberDTO;
+import com.axonivy.portal.components.util.RoleUtils;
+import com.axonivy.portal.dto.dashboard.NavigationDashboardWidget;
+import com.axonivy.portal.service.IvyTranslationService;
+import com.axonivy.portal.util.WelcomeWidgetUtils;
+
+import ch.ivy.addon.portal.generic.navigation.PortalNavigator;
+import ch.ivy.addon.portalkit.dto.DisplayName;
+import ch.ivy.addon.portalkit.dto.dashboard.Dashboard;
+import ch.ivy.addon.portalkit.dto.dashboard.DashboardWidget;
+import ch.ivy.addon.portalkit.dto.dashboard.WelcomeDashboardWidget;
+import ch.ivy.addon.portalkit.enums.DashboardDisplayType;
+import ch.ivy.addon.portalkit.enums.PortalVariable;
+import ch.ivy.addon.portalkit.enums.SessionAttribute;
+import ch.ivy.addon.portalkit.ivydata.mapper.SecurityMemberDTOMapper;
+import ch.ivy.addon.portalkit.persistence.converter.BusinessEntityConverter;
+import ch.ivy.addon.portalkit.util.DashboardUtils;
+import ch.ivy.addon.portalkit.util.DashboardWidgetUtils;
+import ch.ivy.addon.portalkit.util.NavigationWidgetUtils;
+import ch.ivy.addon.portalkit.util.PermissionUtils;
+import ch.ivy.addon.portalkit.util.SecurityServiceUtils;
+import ch.ivy.addon.portalkit.util.UserUtils;
+import ch.ivyteam.ivy.environment.Ivy;
+
+@ViewScoped
+@Named
+public class DashboardModificationBean extends DashboardBean {
+
+  private static final long serialVersionUID = 1L;
+  protected static final String PUBLIC_DASHBOARD_DEFAULT_ICON = "ti-world-share";
+  protected static final String PRIVATE_DASHBOARD_DEFAULT_ICON = "ti-lock-square-rounded";
+  private static final String JSON_FILE_SUFFIX = "_Dashboard_Export.json";
+
+  protected boolean isPublicDashboard;
+  protected List<String> selectedDashboardPermissions;
+  private Dashboard dashboardToExport;
+  private List<String> referencedDashboardTitles = new ArrayList<>();
+  private List<Dashboard> hiddenDashboards = new ArrayList<>();
+  private List<Dashboard> topMenuDashboards = new ArrayList<>();
+
+  public void initConfigration(boolean isPublicDashboard) {
+    this.isPublicDashboard = isPublicDashboard;
+    this.selectedDashboardPermissions = new ArrayList<>();
+    collectDashboardsForManagement();
+  }
+
+  protected void collectDashboardsForManagement() {
+    this.dashboards = new ArrayList<>();
+    String dashboardInUserProperty = readDashboardBySessionUser();
+    List<Dashboard> allDashboards;
+    if (isPublicDashboard) {
+      allDashboards = DashboardUtils.getPublicDashboards();
+    } else if (StringUtils.isNoneEmpty(dashboardInUserProperty)) {
+      allDashboards = DashboardUtils.getPrivateDashboards();
+    } else {
+      allDashboards = new ArrayList<>();
+    }
+    Map<DashboardDisplayType, List<Dashboard>> groupedDashboardFollowingType = allDashboards.stream()
+        .collect(Collectors.groupingBy(dashboard ->
+            dashboard.getDashboardDisplayType() != null ? dashboard.getDashboardDisplayType() : DashboardDisplayType.SUB_MENU));
+    topMenuDashboards = sortByMenuOrder(groupedDashboardFollowingType.getOrDefault(DashboardDisplayType.TOP_MENU, new ArrayList<>()));
+    hiddenDashboards = groupedDashboardFollowingType.getOrDefault(DashboardDisplayType.HIDDEN, new ArrayList<>());
+    this.dashboards = groupedDashboardFollowingType.getOrDefault(DashboardDisplayType.SUB_MENU, new ArrayList<>());
+  }
+
+  public void openDashboardDetailDialog(Dashboard dashboard) {
+    this.selectedDashboardPermissions = new ArrayList<>();
+    this.selectedDashboard = dashboard;
+    if (StringUtils.isBlank(this.selectedDashboard.getIcon())) {
+      this.selectedDashboard
+          .setIcon(this.isPublicDashboard ? PUBLIC_DASHBOARD_DEFAULT_ICON
+              : PRIVATE_DASHBOARD_DEFAULT_ICON);
+    }
+
+    initDashboardPermissions(dashboard);
+  }
+
+  private void initDashboardPermissions(Dashboard dashboard) {
+    dashboard.setPermissionDTOs(Optional.ofNullable(dashboard)
+        .map(Dashboard::getPermissions).orElse(new ArrayList<>()).stream()
+        .filter(Objects::nonNull).distinct()
+        .map(permission -> findSecurityMemberDtoByName(permission))
+        .collect(Collectors.toList()));
+
+    this.selectedDashboardPermissions = Optional.ofNullable(dashboard)
+        .map(Dashboard::getPermissionDTOs).orElse(new ArrayList<>()).stream()
+        .map(SecurityMemberDTO::getName).collect(Collectors.toList());
+  }
+  
+  private SecurityMemberDTO findSecurityMemberDtoByName(String permission) {
+    return permission.startsWith("#")
+        ? new SecurityMemberDTO(UserUtils.findUserByUsername(permission))
+        : new SecurityMemberDTO(RoleUtils.findRole(permission));
+  }
+
+  public List<SecurityMemberDTO> completePermissions(String query) {
+    return RoleUtils.findRoles(null, selectedDashboardPermissions, query).stream()
+        .map(SecurityMemberDTOMapper::mapFromRoleDTO).collect(Collectors.toList());
+  }
+
+  public void saveDashboardDetail() {
+    String currentTitle = this.selectedDashboard.getTitle();
+    initMultipleLanguagesForDashboardName(currentTitle);
+    List<SecurityMemberDTO> responsibles = this.selectedDashboard.getPermissionDTOs();
+    List<String> permissions = new ArrayList<>();
+    String displayedPermission = "";
+    if (CollectionUtils.isNotEmpty(responsibles)) {
+      Collection<SecurityMemberDTO> distinctPermissionDTOs = responsibles.stream()
+          .collect(Collectors
+              .toMap(SecurityMemberDTO::getMemberName, responsible -> responsible, (responsible1, _) -> responsible1)).values();
+      responsibles.clear();
+      responsibles.addAll(distinctPermissionDTOs);
+      displayedPermission = responsibles.stream().map(SecurityMemberDTO::getDisplayName).collect(Collectors.joining(", "));
+      permissions = responsibles.stream().map(SecurityMemberDTO::getMemberName).collect(Collectors.toList());
+    }
+    this.selectedDashboard.setDisplayedPermission(displayedPermission);
+    this.selectedDashboard.setPermissions(permissions);
+    if (!this.dashboards.contains(selectedDashboard) && !topMenuDashboards.contains(selectedDashboard)
+        && !hiddenDashboards.contains(selectedDashboard)) {
+      // Versioning now lives on the export wrapper container, not on individual entities.
+      this.dashboards.add(selectedDashboard);
+    }
+    
+    saveDashboards(new ArrayList<>(this.dashboards));
+    updateSessionAttributeWhenDisplayTypeIsHidden();
+    collectDashboardsForManagement();
+  }
+  
+  private void updateSessionAttributeWhenDisplayTypeIsHidden() {
+    if (!DashboardDisplayType.HIDDEN.equals(this.selectedDashboard.getDashboardDisplayType())) {
+      return;
+    }
+    SecurityServiceUtils.removeSessionAttribute(SessionAttribute.SELECTED_SUB_DASHBOARD_ID.name());
+  }
+  
+  public void removeDashboard() {
+    removeWidgetImagesOfDashboard(selectedDashboard);
+
+    this.dashboards.remove(selectedDashboard);
+    topMenuDashboards.remove(selectedDashboard);
+    hiddenDashboards.remove(selectedDashboard);
+    saveDashboards(new ArrayList<>(this.dashboards));
+    collectDashboardsForManagement();
+  }
+
+  /**
+   * Remove images of welcome widgets of a dashboard
+   * @param selectedDashboard
+   */
+  private void removeWidgetImagesOfDashboard(Dashboard selectedDashboard) {
+    if (CollectionUtils.isEmpty(selectedDashboard.getWidgets())) {
+      return;
+    }
+    for (DashboardWidget selectedWidget : selectedDashboard.getWidgets()) {
+      switch (selectedWidget.getType()) {
+        case WELCOME:
+          removeWelcomeWidgetImage(selectedWidget);
+          break;
+        case NAVIGATION_DASHBOARD:
+          NavigationDashboardWidget navWid = (NavigationDashboardWidget) selectedWidget;
+          NavigationWidgetUtils.removeNavigateWidgetImage(navWid);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  /**
+   * Remove the image of welcome widget from CMS
+   */
+  private void removeWelcomeWidgetImage(DashboardWidget selectedWidget) {
+    WelcomeDashboardWidget welcomeWidget = (WelcomeDashboardWidget) selectedWidget;
+    if (StringUtils.isNotBlank(welcomeWidget.getImageLocation())) {
+      WelcomeWidgetUtils.removeWelcomeImage(welcomeWidget.getImageLocation(), welcomeWidget.getImageType());
+    }
+    if (StringUtils.isNotBlank(welcomeWidget.getImageLocationDarkMode())) {
+      WelcomeWidgetUtils.removeWelcomeImage(welcomeWidget.getImageLocationDarkMode(), welcomeWidget.getImageTypeDarkMode());
+    }
+  }
+
+  protected void saveDashboards(List<Dashboard> dashboards) {
+    List<Dashboard> allDashboards = new ArrayList<>(topMenuDashboards);
+    allDashboards.addAll(dashboards);
+    allDashboards.addAll(hiddenDashboards);
+    String dashboardJson = BusinessEntityConverter.entityToJsonValue(allDashboards);
+    if (isPublicDashboard) {
+      Ivy.var().set(PortalVariable.DASHBOARD.key, dashboardJson);
+    } else {
+      currentUser().setProperty(PortalVariable.DASHBOARD.key, dashboardJson);
+    }
+    updateDashboardCache();
+  }
+
+  public void navigateToDashboardDetailsPage(String dashboardId) {
+    PortalNavigator.navigateToDashboardDetailsPage(dashboardId, isPublicDashboard);
+  }
+
+  public void navigateToPublicDashBoardListPage() {
+    PortalNavigator.navigateToDashboardConfigurationEditPageUrl(isPublicDashboard);
+  }
+
+  public void navigateToPrivateDashboardPage() {
+    PortalNavigator.navigateToDashboardConfigurationEditPageUrl(isPublicDashboard);
+  }
+
+  public void onSelectedDeleteDashboard(Dashboard dashboard) {
+    this.selectedDashboard = dashboard;
+  }
+
+  public void onSelectPermissionForDashboard(SelectEvent<Object> event) {
+    SecurityMemberDTO selectedItem = (SecurityMemberDTO) event.getObject();
+    this.selectedDashboardPermissions.add(selectedItem.getName());
+  }
+
+  public void onUnSelectPermissionForDashboard(UnselectEvent<Object> event) {
+    SecurityMemberDTO selectedItem = (SecurityMemberDTO) event.getObject();
+    this.selectedDashboardPermissions.remove(selectedItem.getName());
+  }
+
+  public void createDashboard() {
+    collectDashboardsForManagement();
+    saveDashboardDetail();
+    navigateToDashboardDetailsPage(this.selectedDashboard.getId());
+  }
+
+  public void createDashboards() {
+    collectDashboardsForManagement();
+    saveDashboardDetail();
+  }
+
+  public boolean isPublicDashboard() {
+    return isPublicDashboard;
+  }
+
+  public void setPublicDashboard(boolean isPublicDashboard) {
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public String generateDashboardPermisisonForDisplay(Dashboard dashboard) {
+    return Optional.ofNullable(dashboard)
+        .map(Dashboard::getPermissions)
+        .filter(l -> CollectionUtils.isNotEmpty(l))
+        .isPresent() ? String.join(", ", RoleUtils.getDisplayNameOfRoles(dashboard.getPermissions())) : "";
+  }
+
+  public void updateDashboardTitleByLocale() {
+    String currentTitle = this.selectedDashboard.getTitle();
+    initMultipleLanguagesForDashboardName(currentTitle);
+    String currentLanguage = Locale.forLanguageTag(UserUtils.getUserLanguage()).getLanguage();
+    Optional<DisplayName> optional = this.selectedDashboard.getTitles().stream()
+        .filter(lang -> currentLanguage.equals(lang.getLocale().getLanguage())).findFirst();
+    if (optional.isPresent()) {
+      optional.get().setValue(currentTitle);
+    }
+  }
+
+  public void updateCurrentLanguage() {
+    List<DisplayName> languages = this.selectedDashboard.getTitles();
+    String currentLanguage = Locale.forLanguageTag(UserUtils.getUserLanguage()).getLanguage();
+    Optional<DisplayName> optional = languages.stream()
+        .filter(lang -> currentLanguage.equals(lang.getLocale().getLanguage()))
+        .findFirst();
+    if (optional.isPresent()) {
+      this.selectedDashboard.setTitle(optional.get().getValue());
+    }
+  }
+
+  public List<DisplayName> getTitles() {
+    if (this.selectedDashboard == null) {
+      return new ArrayList<>();
+    }
+
+    if (this.selectedDashboard.getTitles().isEmpty()) {
+      List<String> supportedLanguages = getSupportedLanguages();
+      for (String language : supportedLanguages) {
+        DisplayName displayName = new DisplayName();
+        displayName.setLocale(Locale.forLanguageTag(language));
+        this.selectedDashboard.getTitles().add(displayName);
+      }
+    }
+    deduplicateTitles();
+    return this.selectedDashboard.getTitles();
+  }
+
+  private void deduplicateTitles() {
+    List<DisplayName> titles = this.selectedDashboard.getTitles();
+    Set<String> seen = new LinkedHashSet<>();
+    titles.removeIf(title -> title.getLocale() == null || !seen.add(title.getLocale().getLanguage()));
+  }
+
+  private Map<String, DisplayName> getMapLanguages() {
+    List<DisplayName> languages = this.selectedDashboard.getTitles();
+    return languages.stream()
+        .filter(o -> o.getLocale() != null)
+        .collect(Collectors.toMap(o -> o.getLocale().getLanguage(), o -> o, (existing, _) -> existing));
+  }
+
+  private void initMultipleLanguagesForDashboardName(String currentTitle) {
+    deduplicateTitles();
+    Map<String, DisplayName> mapLanguage = getMapLanguages();
+    List<String> supportedLanguages = getSupportedLanguages();
+    for (String language : supportedLanguages) {
+      String langCode = Locale.forLanguageTag(language).getLanguage();
+      DisplayName localeLanguage = mapLanguage.get(langCode);
+      if (localeLanguage == null) {
+        DisplayName displayName = new DisplayName();
+        displayName.setLocale(Locale.forLanguageTag(language));
+        displayName.setValue(currentTitle);
+        this.selectedDashboard.getTitles().add(displayName);
+      } else if (StringUtils.isBlank(localeLanguage.getValue())) {
+        localeLanguage.setValue(currentTitle);
+      }
+    }
+  }
+
+  public void translate(DisplayName title) {
+    translation = IvyTranslationService.getInstance().translate(title, selectedDashboard.getTitles());
+  }
+
+  public boolean hasExportDashboardPermission() {
+    return isPublicDashboard ?
+        PermissionUtils.hasDashboardExportPublicPermission() : PermissionUtils.hasDashboardExportOwnPermission();
+  }
+
+  public boolean hasImportDashboardPermission(boolean isPublicDashboard) {
+    return isPublicDashboard ?
+        PermissionUtils.hasDashboardImportPublicPermission() : PermissionUtils.hasDashboardImportOwnPermission();
+  }
+
+  public void prepareExportInfo(Dashboard dashboard) {
+    this.dashboardToExport = dashboard;
+    Map<String, Dashboard> dashboardById = collectAllAvailableDashboardsById();
+    this.referencedDashboardTitles = Optional.ofNullable(dashboard.getWidgets())
+        .orElse(Collections.emptyList()).stream()
+        .filter(w -> w instanceof NavigationDashboardWidget)
+        .map(w -> ((NavigationDashboardWidget) w).getTargetDashboardId())
+        .filter(StringUtils::isNotBlank)
+        .distinct()
+        .map(dashboardById::get)
+        .filter(Objects::nonNull)
+        .map(Dashboard::getTitle)
+        .collect(Collectors.toList());
+    PrimeFaces.current().ajax().addCallbackParam("hasReferencedDashboards", !referencedDashboardTitles.isEmpty());
+  }
+
+  public StreamedContent exportStoredDashboard() {
+    return exportToJsonFile(this.dashboardToExport);
+  }
+
+  public StreamedContent exportToJsonFile(Dashboard dashboard) {
+    Dashboard dashboardForExport = detachFromCache(dashboard);
+    prepareDashboardForExport(dashboardForExport);
+
+    return DefaultStreamedContent
+        .builder()
+        .stream(() -> new ByteArrayInputStream(
+            BusinessEntityConverter.prettyPrintEntityToJsonValue(dashboardForExport)
+                .getBytes(StandardCharsets.UTF_8)))
+        .contentType(MediaType.APPLICATION_JSON)
+        .name(getFileName(dashboard.getTitle()))
+        .build();
+  }
+
+  private Dashboard detachFromCache(Dashboard dashboard) {
+    Dashboard detached = new Dashboard(dashboard);
+    if (CollectionUtils.isNotEmpty(dashboard.getWidgets())) {
+      Dashboard roundTripped = BusinessEntityConverter
+          .jsonValueToEntity(BusinessEntityConverter.entityToJsonValue(dashboard), Dashboard.class);
+      detached.setWidgets(roundTripped.getWidgets());
+    }
+    return detached;
+  }
+
+  private Map<String, Dashboard> collectAllAvailableDashboardsById() {
+    List<Dashboard> all = new ArrayList<>();
+    all.addAll(DashboardUtils.getPublicDashboards());
+    all.addAll(DashboardUtils.getPrivateDashboards());
+    return all.stream().filter(d -> d.getId() != null)
+        .collect(Collectors.toMap(Dashboard::getId, d -> d, (a, _) -> a));
+  }
+
+  private void prepareDashboardForExport(Dashboard dashboard) {
+    dashboard.setOldId(null);
+    // Versioning now lives on the export wrapper container, not on individual entities.
+    if (!dashboard.getIsPublic()) {
+      dashboard.setPermissions(null);
+    }
+    Optional.ofNullable(dashboard.getWidgets()).orElse(Collections.emptyList()).forEach(widget -> {
+      if (widget instanceof WelcomeDashboardWidget) {
+        WelcomeDashboardWidget welcomeWidget = (WelcomeDashboardWidget) widget;
+        WelcomeWidgetUtils.prepareWidgetForExport(welcomeWidget);
+      } else if (widget instanceof NavigationDashboardWidget) {
+        NavigationWidgetUtils.prepareWidgetForExport((NavigationDashboardWidget) widget);
+      }
+    });
+    Optional.ofNullable(dashboard.getWidgets()).orElse(Collections.emptyList())
+        .forEach(DashboardWidgetUtils::simplifyWidgetColumnData);
+  }
+
+  private String getFileName(String dashboardName) {
+    return dashboardName + JSON_FILE_SUFFIX;
+  }
+
+  public List<String> getReferencedDashboardTitles() {
+    return referencedDashboardTitles;
+  }
+
+  public boolean isShowShareButtonOnConfig(boolean isPublicDashboard) {
+    return isPublicDashboard && PermissionUtils.hasShareDashboardPermission();
+  }
+
+  public void saveArrangment() {
+    if (isPublicDashboard) {
+      savePublicArrangement();
+    } else {
+      savePrivateArrangement();
+    }
+    updateDashboardCache();
+  }
+
+  public void savePublicArrangement() {
+    List<Dashboard> dashboards = DashboardUtils.getPublicDashboards();
+    for (Dashboard dashboard : dashboards) {
+      if (dashboard.getId() == null) {
+        dashboard.setId(DashboardUtils.generateId());
+      }
+    }
+
+    Map<String, Dashboard> idToDashboard = DashboardUtils.createMapIdToDashboard(dashboards);
+    List<Dashboard> newDashboards = new ArrayList<>();
+    for (Dashboard dashboardOrder : this.dashboards) {
+      if (idToDashboard.containsKey(dashboardOrder.getId())) {
+        newDashboards.add(idToDashboard.remove(dashboardOrder.getId()));
+      }
+    }
+    newDashboards.addAll(idToDashboard.values());
+    String dashboardsAsSJSON = BusinessEntityConverter.entityToJsonValue(newDashboards);
+    Ivy.var().set(PortalVariable.DASHBOARD.key, dashboardsAsSJSON);
+  }
+
+  public void savePrivateArrangement() {
+    List<Dashboard> allDashboards = new ArrayList<>(topMenuDashboards);
+    allDashboards.addAll(this.dashboards);
+    allDashboards.addAll(hiddenDashboards);
+    String dashboardJson = BusinessEntityConverter.entityToJsonValue(allDashboards);
+    Ivy.session().getSessionUser().setProperty(PortalVariable.DASHBOARD.key, dashboardJson);
+  }
+
+  private void updateDashboardCache() {
+    DashboardUtils.updateDashboardCache();
+  }
+
+  public List<Dashboard> getTopMenuDashboards() {
+    return topMenuDashboards;
+  }
+
+  public List<Dashboard> getHiddenDashboards() {
+    return hiddenDashboards;
+  }
+
+  private List<Dashboard> sortByMenuOrder(List<Dashboard> dashboards) {
+    List<MenuOrderEntry> manifest = MenuOrderService.getInstance().findAll();
+    if (CollectionUtils.isEmpty(manifest)) {
+      return dashboards;
+    }
+    Map<String, Integer> dashboardIdToIndex = new HashMap<>();
+    for (int i = 0; i < manifest.size(); i++) {
+      MenuOrderEntry entry = manifest.get(i);
+      if (entry.getSource() == MenuSource.DASHBOARD && entry.getId() != null) {
+        dashboardIdToIndex.put(entry.getId(), i);
+      }
+    }
+    dashboards.sort(Comparator.comparingInt(
+        d -> dashboardIdToIndex.getOrDefault(d.getId(), Integer.MAX_VALUE)));
+    return dashboards;
+  }
+}

@@ -1,0 +1,210 @@
+package ch.ivy.addon.portal.generic.bean;
+
+import java.io.Serializable;
+import java.util.Optional;
+
+import com.axonivy.portal.bean.menu.MenuManagementBean;
+
+import ch.ivy.addon.portalkit.jsf.Attrs;
+import ch.ivy.addon.portalkit.util.PermissionUtils;
+import ch.ivy.addon.portalkit.util.RequestUtils;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
+@Named
+@ViewScoped
+public class DashboardConfigurationBean implements Serializable {
+
+  private static final long serialVersionUID = 3541979834658757687L;
+
+  private boolean isMobileDevice;
+  private boolean canEditPrivateDashboard;
+  private boolean canEditPublicDashboard;
+  private boolean canManageSidebarNavigation;
+  private boolean canManagePackages;
+  private boolean isPublicDashboard;
+  private boolean isSelectingAction = true;
+  private boolean isSelectingTemplate;
+  private boolean isEditingDashboard;
+  private boolean isReorderingDashboard;
+  private boolean isMenuManagement;
+  private boolean isPackageManagement;
+
+  @PostConstruct
+  public void initConfigurationBean() {
+    initPermissions();
+    resetAllIndicators();
+    String isPublicDashboardString = Attrs.currentContext().getAttribute("#{data.isPublicDashboard}", String.class);
+    boolean requestedPublicDashboard = Optional.ofNullable(isPublicDashboardString).map(Boolean::parseBoolean).orElse(false);
+    if (canEditPrivateDashboard || canEditPublicDashboard) {
+      isSelectingAction = true;
+      isEditingDashboard = true;
+      isPublicDashboard = requestedPublicDashboard ? canEditPublicDashboard : !canEditPrivateDashboard;
+    } else if (canManageSidebarNavigation) {
+      accessToMenuManagement();
+    } else if (canManagePackages) {
+      accessToPackageManagement();
+    }
+  }
+
+  private void initPermissions() {
+    isMobileDevice = RequestUtils.isMobileDevice();
+    if (!isMobileDevice) {
+      canEditPrivateDashboard = PermissionUtils.hasDashboardWriteOwnPermission();
+      canEditPublicDashboard = PermissionUtils.hasDashboardWritePublicPermission();
+      canManageSidebarNavigation = PermissionUtils.hasPortalSidebarConfigurationPermission();
+      canManagePackages = PermissionUtils.hasPortalPackageManagementPermission();
+    }
+  }
+
+  private void resetAllIndicators() {
+    isSelectingAction = false;
+    isSelectingTemplate = false;
+    isEditingDashboard = false;
+    isReorderingDashboard = false;
+    isMenuManagement = false;
+    isPackageManagement = false;
+  }
+
+  public void switchDashboardType(boolean isPublicDashboard) {
+    resetAllIndicators();
+    this.isSelectingAction = true;
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public void backToConfigurationTab() {
+    resetAllIndicators();
+    isSelectingAction = true;
+  }
+
+  public void addNewDashboard(boolean isPublicDashboard) {
+    resetAllIndicators();
+    this.isSelectingTemplate = true;
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public void accessToEditDashboard(boolean isPublicDashboard) {
+    resetAllIndicators();
+    this.isEditingDashboard = true;
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public void accessToReorderDashboard(boolean isPublicDashboard) {
+    resetAllIndicators();
+    this.isReorderingDashboard = true;
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public void accessToMenuManagement() {
+    // Re-check server-side: the tab link is hidden for non-admins but the action
+    // can be posted directly by anyone who can open the configuration page.
+    if (!canManageSidebarNavigation) {
+      return;
+    }
+    resetAllIndicators();
+    this.isMenuManagement = true;
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    MenuManagementBean menuBean = ctx.getApplication().evaluateExpressionGet(ctx, "#{menuManagementBean}", MenuManagementBean.class);
+    if (menuBean != null) {
+      menuBean.loadMenus();
+    }
+  }
+
+  public void accessToPackageManagement() {
+    if (!canManagePackages) {
+      return;
+    }
+    resetAllIndicators();
+    this.isPackageManagement = true;
+  }
+
+  public boolean isMobileDevice() {
+    return isMobileDevice;
+  }
+
+  public void setMobileDevice(boolean isMobileDevice) {
+    this.isMobileDevice = isMobileDevice;
+  }
+
+  public boolean isCanEditPrivateDashboard() {
+    return canEditPrivateDashboard;
+  }
+
+  public void setCanEditPrivateDashboard(boolean canEditPrivateDashboard) {
+    this.canEditPrivateDashboard = canEditPrivateDashboard;
+  }
+
+  public boolean isCanEditPublicDashboard() {
+    return canEditPublicDashboard;
+  }
+
+  public void setCanEditPublicDashboard(boolean canEditPublicDashboard) {
+    this.canEditPublicDashboard = canEditPublicDashboard;
+  }
+
+  public boolean isCanManageSidebarNavigation() {
+    return canManageSidebarNavigation;
+  }
+
+  public boolean isCanManagePackages() {
+    return canManagePackages;
+  }
+
+  public boolean isPublicDashboard() {
+    return isPublicDashboard;
+  }
+
+  public void setPublicDashboard(boolean isPublicDashboard) {
+    this.isPublicDashboard = isPublicDashboard;
+  }
+
+  public boolean isSelectingAction() {
+    return isSelectingAction;
+  }
+
+  public void setSelectingAction(boolean isSelectingAction) {
+    this.isSelectingAction = isSelectingAction;
+  }
+
+  public boolean isSelectingTemplate() {
+    return isSelectingTemplate;
+  }
+
+  public void setSelectingTemplate(boolean isSelectingTemplate) {
+    this.isSelectingTemplate = isSelectingTemplate;
+  }
+
+  public boolean isEditingDashboard() {
+    return isEditingDashboard;
+  }
+
+  public void setEditingDashboard(boolean isEditingDashboard) {
+    this.isEditingDashboard = isEditingDashboard;
+  }
+
+  public boolean isReorderingDashboard() {
+    return isReorderingDashboard;
+  }
+
+  public void setReorderingDashboard(boolean isReorderingDashboard) {
+    this.isReorderingDashboard = isReorderingDashboard;
+  }
+
+  public boolean isMenuManagement() {
+    return isMenuManagement;
+  }
+
+  public void setMenuManagement(boolean isMenuManagement) {
+    this.isMenuManagement = isMenuManagement;
+  }
+
+  public boolean isPackageManagement() {
+    return isPackageManagement;
+  }
+
+  public void setPackageManagement(boolean isPackageManagement) {
+    this.isPackageManagement = isPackageManagement;
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "LoginData",
+  "namespace" : "ch.ivy.addon.portalkit.singleapp.general.Login",
+  "fields" : [ {
+    "name" : "username",
+    "modifiers" : [ ]
+  }, {
+    "name" : "password",
+    "modifiers" : [ ]
+  }, {
+    "name" : "loginOk",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "callbackUrl",
+    "modifiers" : [ ]
+  }, {
+    "name" : "oauthProviders",
+    "type" : "java.util.List<ch.ivy.addon.portalkit.bo.OAuthProvider>",
+    "modifiers" : [ ]
+  } ]
+}

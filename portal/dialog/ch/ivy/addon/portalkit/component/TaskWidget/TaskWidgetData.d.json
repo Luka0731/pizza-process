@@ -1,0 +1,106 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "TaskWidgetData",
+  "namespace" : "ch.ivy.addon.portalkit.component.TaskWidget",
+  "fields" : [ {
+    "name" : "count",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.TaskLazyDataModel",
+    "modifiers" : [ ]
+  }, {
+    "name" : "expandedTaskId",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "filterSetName",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isFilterExisted",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "keyword",
+    "modifiers" : [ ]
+  }, {
+    "name" : "latestTaskDate",
+    "type" : "java.util.Date",
+    "modifiers" : [ ]
+  }, {
+    "name" : "latestTasks",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedSort",
+    "modifiers" : [ ]
+  }, {
+    "name" : "newTaskSearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.TaskSearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "numberOfNewTask",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "scrollPosition",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "sortDescending",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "sortField",
+    "modifiers" : [ ]
+  }, {
+    "name" : "startIndex",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "tasks",
+    "type" : "java.util.List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "taskSearchCriteria",
+    "type" : "ch.ivy.addon.portalkit.ivydata.searchcriteria.TaskSearchCriteria",
+    "modifiers" : [ ]
+  }, {
+    "name" : "totalTasks",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "selectedTask",
+    "type" : "ch.ivyteam.ivy.workflow.ITask",
+    "comment" : "Task is selected for reset or delegate",
+    "modifiers" : [ ]
+  }, {
+    "name" : "currentPortalPage",
+    "modifiers" : [ ]
+  }, {
+    "name" : "exportedFile",
+    "type" : "org.primefaces.model.StreamedContent",
+    "modifiers" : [ ]
+  }, {
+    "name" : "caseId",
+    "type" : "ch.ivy.addon.portalkit.dto.GlobalCaseId",
+    "modifiers" : [ ]
+  }, {
+    "name" : "loopCounter",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "maxResultNumberPerQuery",
+    "type" : "Integer",
+    "modifiers" : [ ]
+  }, {
+    "name" : "collectedTasksForExporting",
+    "type" : "List<ch.ivyteam.ivy.workflow.ITask>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "columnsVisibility",
+    "type" : "List<String>",
+    "modifiers" : [ ]
+  } ]
+}

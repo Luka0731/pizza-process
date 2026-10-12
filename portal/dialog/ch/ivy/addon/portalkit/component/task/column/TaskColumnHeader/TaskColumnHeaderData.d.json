@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "TaskColumnHeaderData",
+  "namespace" : "ch.ivy.addon.portalkit.component.task.column.TaskColumnHeader",
+  "fields" : [ {
+    "name" : "field",
+    "modifiers" : [ ]
+  }, {
+    "name" : "isDescending",
+    "type" : "Boolean",
+    "modifiers" : [ ]
+  }, {
+    "name" : "dataModel",
+    "type" : "ch.ivy.addon.portalkit.datamodel.TaskLazyDataModel",
+    "modifiers" : [ ]
+  } ]
+}

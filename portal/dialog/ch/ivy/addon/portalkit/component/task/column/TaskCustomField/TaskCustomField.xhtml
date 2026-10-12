@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"      
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:cc="jakarta.faces.composite"
+      xmlns:ic="http://ivyteam.ch/jsf/component"
+      xmlns:p="primefaces"
+      xmlns:pe="primefaces.extensions">
+      
+  <cc:interface componentType="IvyComponent">
+    <cc:attribute name="componentId" />
+    <cc:attribute name="labelValue" shortDescription="Text value to show in UI"/> 
+    <cc:attribute name="dataModel" />
+    <cc:attribute name="column" shortDescription="column name - the value in Customize TaskLazyDatModel.getDefaultColumns()" />
+    <cc:attribute name="responsiveStyleClass" default="u-hidden-sm-down" shortDescription="responsive style class for custom field" />
+  </cc:interface>
+  
+  <cc:implementation>
+    <h:panelGroup id="#{cc.attrs.componentId}" rendered="#{cc.attrs.dataModel.isSelectedColumn(cc.attrs.column)}" styleClass="u-text-align-center task-custom-field-cell #{cc.attrs.responsiveStyleClass}" >
+      <h:outputText id="task-custom-field" value="#{cc.attrs.labelValue}" />
+      <p:tooltip id="task-custom-field-tooltip" for="task-custom-field" styleClass="#{cc.attrs.responsiveStyleClass}" trackMouse="true" hideEvent="mouseleave click" 
+        value="#{cc.attrs.labelValue}" />
+    </h:panelGroup>
+  </cc:implementation>
+</html>
