@@ -7,29 +7,27 @@
   xmlns:hdr="jakarta.faces.composite/components/generic/header"
 >
   <h:outputScript name="resources/pages/eatthepizzadialog/EatThePizzaPage.js" target="head"/>
-  <h:outputStylesheet name="resources/pages/eatthepizzadialog/EatThePizzaPage.css" target="head"/>
+  <h:outputStylesheet name="resources/pages/eatthepizzadialog/EatThePizzaPage.css"/>
 
 
 
-  <div class="eat-page" id="eatPage">
+  <div class="eat-the-pizza-page" id="eatThePizzaPage">
 
     <hdr:Header
       title="Enjoy your pizza!"
     />
 
-    <!-- ordered pizzas -->
-    <div class="eat-page__table" data-eat-sound="#{resource['resources/assets/audio/eat.mp3']}">
+    <div class="eat-the-pizza-page__table" data-eat-sound="#{resource['resources/assets/audio/eat.mp3']}">
       <ui:repeat value="#{eatThePizzaDialogBean.pizzas}" var="pizza">
-        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="eat-page__pizza" alt="#{pizza.name}" title="#{pizza.name}">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="eat-the-pizza-page__pizza" alt="#{pizza.name}" title="#{pizza.name}">
           <f:param name="imageId" value="#{pizza.image.id}"/>
         </p:graphicImage>
       </ui:repeat>
     </div>
 
-    <!-- thanks message -->
-    <div class="eat-page__thanks card">
-      <i class="pi pi-heart-fill eat-page__thanks-icon"></i>
-      <h2 class="eat-page__thanks-title">Thank you for supporting Babajabuka's Pizzeria!</h2>
+    <div class="eat-the-pizza-page__thanks card">
+      <i class="pi pi-heart-fill eat-the-pizza-page__thanks-icon"></i>
+      <h2 class="eat-the-pizza-page__thanks-title">Thank you for supporting Babajabuka's Pizzeria!</h2>
       <p:commandButton
         id="doneButton"
         value="Done"

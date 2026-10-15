@@ -10,23 +10,23 @@
   object-fit: cover;
   border-bottom: 6px solid var(--olive);
 }
-/* the recipe is html from the editor, so the plain tags get styled here */
 .recipe-page__text {
   max-width: 44rem;
   font-size: 1.0625rem;
   line-height: 1.65;
-}
-.recipe-page__text p + p,
-.recipe-page__text ul,
-.recipe-page__text ol {
-  margin-top: var(--space-3);
-}
-.recipe-page__text li::marker {
-  color: var(--ochre);
-  font-weight: 700;
-}
-.recipe-page__text strong {
-  color: var(--ochre);
+
+  & p + p,
+  & ul,
+  & ol {
+    margin-top: var(--space-3);
+  }
+  & li::marker {
+    color: var(--ochre);
+    font-weight: 700;
+  }
+  & strong {
+    color: var(--ochre);
+  }
 }
 
 @media (max-width: 48rem) {

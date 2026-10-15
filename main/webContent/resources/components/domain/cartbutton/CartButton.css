@@ -1,4 +1,3 @@
-/* outlined like the secondary buttons, so it never competes with the main action next to it. the count is an ochre block */
 :is(.pizza-process, #pizza-process) .cart-button {
   display: inline-flex;
   align-items: center;
@@ -9,16 +8,17 @@
   color: var(--bone);
   text-decoration: none;
   transition: border-color var(--duration-fast) linear, background-color var(--duration-fast) linear;
-}
-:is(.pizza-process, #pizza-process) .cart-button:hover {
-  border-color: var(--bone);
-  background: var(--ink-2);
-  color: var(--bone);
-}
-:is(.pizza-process, #pizza-process) .cart-button--empty,
-:is(.pizza-process, #pizza-process) .cart-button.ui-state-disabled {
-  opacity: 0.45;
-  cursor: default;
+
+  &:hover {
+    border-color: var(--bone);
+    background: var(--ink-2);
+    color: var(--bone);
+  }
+  &.cart-button--empty,
+  &.ui-state-disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
 }
 .cart-button__icon {
   font-size: 1.25rem;

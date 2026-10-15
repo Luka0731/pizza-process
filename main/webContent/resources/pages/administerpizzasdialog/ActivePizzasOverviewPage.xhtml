@@ -12,7 +12,7 @@
 
 
 
-  <div class="pizza-list-page" id="pizzaListPage">
+  <div class="active-pizzas-overview-page" id="activePizzasOverviewPage">
 
     <hdr:Header
       title="Activated Pizzas"
@@ -30,7 +30,6 @@
       </div>
     </fb:FilterBar>
 
-    <!-- loaded state -->
     <div class="stack">
       <ui:repeat value="#{administerPizzasDialogBean.activePizzas}" var="pizza" varStatus="loop">
         <pr:PizzaRow pizza="#{pizza}" index="#{loop.index}" sizes="#{administerPizzasDialogBean.possiblePizzaSizes}">
@@ -57,7 +56,6 @@
       </ui:repeat>
     </div>
 
-    <!-- empty state -->
     <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty administerPizzasDialogBean.activePizzas}">
       <i class="pi pi-inbox empty-state__icon"></i>
       <span class="empty-state__text">No pizza is on the menu. Put one back from the deactivated pizzas.</span>
@@ -65,12 +63,11 @@
 
     <ftr:Footer>
       <f:facet name="summary">
-        <span class="footer__label">On the menu</span>
-        <span class="footer__value">
+        <span class="app-footer__label">On the menu</span>
+        <span class="app-footer__value">
           <h:outputText value="#{administerPizzasDialogBean.activePizzaCount} pizza(s)"/>
         </span>
       </f:facet>
-      <!-- new pizzas always start deactivated, so "New pizza" lives on the deactivated page where the new pizza shows up -->
       <p:commandButton
         id="deactivatedButton"
         value="Deactivated pizzas"

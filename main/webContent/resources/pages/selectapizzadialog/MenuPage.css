@@ -1,4 +1,3 @@
-/* 4, 2 or 1 columns: the four price colors of the pizza cards repeat every 4, so they always line up in columns */
 .menu-page__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

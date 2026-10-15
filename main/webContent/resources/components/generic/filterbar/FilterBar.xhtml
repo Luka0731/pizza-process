@@ -25,7 +25,6 @@
 
 
 
-      <!-- the domain specific fields come in as children, the sort is the same for every filter -->
       <h:panelGroup id="fields" layout="block" styleClass="filter-bar__fields">
         <cc:insertChildren/>
 
@@ -38,7 +37,6 @@
       </h:panelGroup>
 
       <div class="filter-bar__actions">
-        <!-- process @composite: only the filter inputs are sent, not the whole form -->
         <p:commandButton
           id="searchButton"
           value="Search"
@@ -46,8 +44,8 @@
           styleClass="button button--primary"
           process="@composite"
           action="#{cc.attrs.searchAction}"
-          update="@composite #{cc.attrs.update}"/>
-        <!-- process @this + resetValues: nothing is validated and the inputs forget what was typed in, so they show the new empty filter -->
+          update="@composite #{cc.attrs.update}"
+        />
         <p:commandButton
           id="resetButton"
           value="Reset"
@@ -56,10 +54,10 @@
           process="@this"
           resetValues="true"
           action="#{cc.attrs.resetAction}"
-          update="@composite #{cc.attrs.update}"/>
+          update="@composite #{cc.attrs.update}"
+        />
       </div>
 
-      <!-- enter inside the filter fields searches, instead of pressing the first button in the form -->
       <p:defaultCommand target="searchButton" scope="fields"/>
 
 

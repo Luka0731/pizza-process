@@ -12,7 +12,7 @@
 
 
 
-  <div class="pizza-list-page" id="deactivatedPizzasPage">
+  <div class="deactivated-pizzas-overview-page" id="deactivatedPizzasOverviewPage">
 
     <hdr:Header
       title="Deactivated Pizzas"
@@ -30,9 +30,7 @@
       </div>
     </fb:FilterBar>
 
-    <!-- loaded state -->
     <div class="stack">
-      <!-- adding is not navigation, so it is not in the footer. it sits on top of the list, where the new pizza shows up -->
       <p:commandLink
         id="addButton"
         styleClass="add-row"
@@ -79,13 +77,11 @@
       </ui:repeat>
     </div>
 
-    <!-- empty state -->
     <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty administerPizzasDialogBean.deactivatedPizzas}">
       <i class="pi pi-check-circle empty-state__icon"></i>
       <span class="empty-state__text">Nothing is deactivated. New pizzas you add show up here first.</span>
     </h:panelGroup>
 
-    <!-- confirm dialog -->
     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="420">
       <p:commandButton value="Cancel" type="button" styleClass="button button--ghost ui-confirmdialog-no"/>
       <p:commandButton value="Delete" type="button" icon="pi pi-trash" styleClass="button button--danger ui-confirmdialog-yes"/>
@@ -93,8 +89,8 @@
 
     <ftr:Footer>
       <f:facet name="summary">
-        <span class="footer__label">Deactivated</span>
-        <span class="footer__value">
+        <span class="app-footer__label">Deactivated</span>
+        <span class="app-footer__value">
           <h:outputText value="#{administerPizzasDialogBean.deactivatedPizzaCount} pizza(s)"/>
         </span>
       </f:facet>

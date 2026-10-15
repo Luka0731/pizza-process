@@ -42,7 +42,6 @@
 
     <p:outputPanel id="catalog" layout="block">
 
-      <!-- loaded state -->
       <h:panelGroup layout="block" styleClass="menu-page__grid" rendered="#{not empty selectAPizzaDialogBean.catalog}">
         <ui:repeat value="#{selectAPizzaDialogBean.catalog}" var="pizza" varStatus="loop">
           <pc:PizzaCard
@@ -54,7 +53,6 @@
         </ui:repeat>
       </h:panelGroup>
 
-      <!-- empty state -->
       <h:panelGroup layout="block" styleClass="empty-state" rendered="#{empty selectAPizzaDialogBean.catalog}">
         <i class="pi pi-search empty-state__icon"></i>
         <span class="empty-state__text">No pizza matches this search. Try a wider price range or reset the filter.</span>
@@ -64,8 +62,8 @@
 
     <ftr:Footer>
       <f:facet name="summary">
-        <span class="footer__label">Cart total</span>
-        <span class="footer__value">
+        <span class="app-footer__label">Cart total</span>
+        <span class="app-footer__value">
           <h:outputText value="#{selectAPizzaDialogBean.cartTotal}">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>

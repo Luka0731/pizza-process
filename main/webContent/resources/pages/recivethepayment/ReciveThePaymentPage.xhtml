@@ -11,15 +11,14 @@
 
 
 
-  <div class="payment-page" id="paymentPage">
+  <div class="recive-the-payment-page" id="reciveThePaymentPage">
 
     <hdr:Header
       title="Receive the payment"
     />
 
-    <rcp:Receipt order="#{reciveThePaymentBean.order}" totalLabel="To collect" onlyTotal="true" styleClass="narrow"/>
+    <rcp:Receipt order="#{reciveThePaymentBean.order}" totalLabel="To collect" onlyTotal="true" styleClass="narrow centered"/>
 
-    <!-- closing the dialog ends the worker process -->
     <ftr:Footer>
       <p:commandButton
         id="paidButton"

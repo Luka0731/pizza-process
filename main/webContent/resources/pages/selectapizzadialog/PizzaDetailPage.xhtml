@@ -12,28 +12,26 @@
 
 
 
-  <div class="detail-page" id="detailPage">
+  <div class="pizza-detail-page" id="pizzaDetailPage">
 
     <hdr:Header
       title="#{selectAPizzaDialogBean.selectedPizza.name}"
     />
 
-    <!-- loaded state -->
-    <h:panelGroup layout="block" styleClass="detail-page__body" rendered="#{selectAPizzaDialogBean.pizzaSelected}">
+    <h:panelGroup layout="block" styleClass="pizza-detail-page__body" rendered="#{selectAPizzaDialogBean.pizzaSelected}">
 
-      <div class="detail-page__media">
-        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
+      <div class="pizza-detail-page__media">
+        <p:graphicImage value="#{imageBean.image}" cache="false" styleClass="pizza-detail-page__image" alt="#{selectAPizzaDialogBean.selectedPizza.name}">
           <f:param name="imageId" value="#{selectAPizzaDialogBean.selectedPizza.image.id}"/>
         </p:graphicImage>
       </div>
 
-      <div class="detail-page__info">
-        <p class="detail-page__description">
+      <div class="pizza-detail-page__info">
+        <p class="pizza-detail-page__description">
           <h:outputText value="#{selectAPizzaDialogBean.selectedPizza.description}"/>
         </p>
 
-        <!-- the price follows the size, the size buttons only redraw this one element -->
-        <div class="detail-page__price">
+        <div class="pizza-detail-page__price">
           <h:outputText id="selectedPrice" value="#{selectAPizzaDialogBean.selectedPrice}" styleClass="fx-scramble">
             <f:convertNumber type="currency" currencySymbol="CHF " minFractionDigits="2"/>
           </h:outputText>
@@ -55,7 +53,6 @@
 
     </h:panelGroup>
 
-    <!-- empty state -->
     <h:panelGroup layout="block" styleClass="empty-state" rendered="#{not selectAPizzaDialogBean.pizzaSelected}">
       <i class="pi pi-question-circle empty-state__icon"></i>
       <span class="empty-state__text">No pizza selected. Go back to the menu and pick one.</span>
@@ -77,7 +74,7 @@
         icon="pi pi-plus"
         styleClass="button button--primary"
         disabled="#{not selectAPizzaDialogBean.pizzaSelected}"
-        action="#{selectAPizzaDialogBean.addToCart}"
+        action="#{selectAPizzaDialogBean.addToCart()}"
         update="form:pageContent form:messages"
       />
       <cb:CartButton

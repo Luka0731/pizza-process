@@ -1,5 +1,4 @@
-/* what the customer wrote, big and in quotes so it is clear who is talking */
-.calm-page__question {
+.calm-customer-down-page__question {
   margin: 0;
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
   border-left: 6px solid var(--ochre);
@@ -10,15 +9,17 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
-.calm-page__question-text::before {
-  content: "\201C";
-  color: var(--ochre);
+.calm-customer-down-page__question-text {
+  &::before {
+    content: "\201C";
+    color: var(--ochre);
+  }
+  &::after {
+    content: "\201D";
+    color: var(--ochre);
+  }
 }
-.calm-page__question-text::after {
-  content: "\201D";
-  color: var(--ochre);
-}
-.calm-page__question-from {
+.calm-customer-down-page__question-from {
   display: block;
   margin-top: var(--space-3);
   font-family: var(--font-body);
@@ -26,18 +27,18 @@
   font-weight: 400;
   color: var(--color-text-muted);
 }
-.calm-page__mail-footer {
+.calm-customer-down-page__mail-footer {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-3);
   border: 1px dashed var(--ink-4);
 }
-.calm-page__mail-footer-hint {
+.calm-customer-down-page__mail-footer-hint {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
 }
-.calm-page__mail-footer-text {
+.calm-customer-down-page__mail-footer-text {
   margin: 0;
   font-family: var(--font-body);
   font-size: var(--font-size-sm);

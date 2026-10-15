@@ -18,7 +18,6 @@
   font-weight: 800;
   letter-spacing: -0.035em;
   overflow-wrap: anywhere;
-  /* chunky reveal, eight hard steps instead of a soft fade */
 }
 .app-header__actions {
   display: flex;
@@ -26,8 +25,6 @@
   gap: var(--space-4);
 }
 
-
-/* the palette strip under the title, every block has its own width like the swatches on the moodboard */
 .app-header__strip {
   position: absolute;
   left: 0;
@@ -35,18 +32,25 @@
   display: flex;
   width: 100%;
   height: 6px;
-}
-.app-header__strip i {
-  height: 100%;
-  transform-origin: left;
-}
-.app-header__strip i:nth-child(1) { flex: 5; background: var(--terracotta); }
-.app-header__strip i:nth-child(2) { flex: 2; background: var(--ochre);      animation-delay: 40ms; }
-.app-header__strip i:nth-child(3) { flex: 3; background: var(--clay);       animation-delay: 80ms; }
-.app-header__strip i:nth-child(4) { flex: 1; background: var(--olive);      animation-delay: 120ms; }
-.app-header__strip i:nth-child(5) { flex: 2; background: var(--emerald);    animation-delay: 160ms; }
-.app-header__strip i:nth-child(6) { flex: 6; background: var(--plum);       animation-delay: 200ms; }
 
+  & i {
+    height: 100%;
+    transform-origin: left;
+  }
+  & i:nth-child(1) { flex: 5; background: var(--terracotta); }
+  & i:nth-child(2) { flex: 2; background: var(--ochre);      --delay: 40ms; }
+  & i:nth-child(3) { flex: 3; background: var(--clay);       --delay: 80ms; }
+  & i:nth-child(4) { flex: 1; background: var(--olive);      --delay: 120ms; }
+  & i:nth-child(5) { flex: 2; background: var(--emerald);    --delay: 160ms; }
+  & i:nth-child(6) { flex: 6; background: var(--plum);       --delay: 200ms; }
+}
+
+.fx-enter .app-header__title {
+  animation: header-title-in 240ms steps(8, end) both;
+}
+.fx-enter .app-header__strip i {
+  animation: header-strip-in 300ms steps(5, end) var(--delay, 0ms) both;
+}
 
 @keyframes header-title-in {
   from { clip-path: inset(0 100% 0 0); }
@@ -55,14 +59,4 @@
 @keyframes header-strip-in {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
-}
-
-/* entrance, only when the page is new (see effects.js) */
-.fx-enter .app-header__title {
-  animation: header-title-in 240ms steps(8, end) both;
-}
-
-/* entrance, only when the page is new (see effects.js) */
-.fx-enter .app-header__strip i {
-  animation: header-strip-in 300ms steps(5, end) both;
 }

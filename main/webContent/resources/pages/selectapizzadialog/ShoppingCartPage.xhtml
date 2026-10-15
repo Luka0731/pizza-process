@@ -9,38 +9,35 @@
   xmlns:cic="jakarta.faces.composite/components/domain/itemcard"
   xmlns:rcp="jakarta.faces.composite/components/domain/receipt"
 >
-  <h:outputStylesheet name="resources/pages/selectapizzadialog/ShoppingCartPage.css"/>
 
 
 
-  <div class="cart-page" id="cartPage">
+  <div class="shopping-cart-page" id="shoppingCartPage">
 
     <hdr:Header
       title="Your Cart"
     />
 
-    <div class="cart-page__body">
-
-      <!-- loaded state -->
-      <h:panelGroup layout="block" styleClass="stack" rendered="#{not selectAPizzaDialogBean.cartEmpty}">
-        <ui:repeat value="#{selectAPizzaDialogBean.order.items}" var="item" varStatus="loop">
-          <cic:ItemCard
-            item="#{item}"
-            index="#{loop.index}"
-            removeAction="#{selectAPizzaDialogBean.removeFromCart(item)}"
-            update="form:pageContent form:messages"
-          />
-        </ui:repeat>
-      </h:panelGroup>
-
-      <!-- empty state -->
-      <h:panelGroup layout="block" styleClass="empty-state" rendered="#{selectAPizzaDialogBean.cartEmpty}">
-        <i class="pi pi-shopping-cart empty-state__icon"></i>
-        <span class="empty-state__text">Your cart is empty. Add a pizza from the menu first.</span>
-      </h:panelGroup>
-
-      <rcp:Receipt order="#{selectAPizzaDialogBean.order}" styleClass="cart-page__receipt"/>
-
+    <div class="split">
+      <div class="split__main">
+        <h:panelGroup layout="block" styleClass="stack" rendered="#{not selectAPizzaDialogBean.cartEmpty}">
+          <ui:repeat value="#{selectAPizzaDialogBean.order.items}" var="item" varStatus="loop">
+            <cic:ItemCard
+              item="#{item}"
+              index="#{loop.index}"
+              removeAction="#{selectAPizzaDialogBean.removeFromCart(item)}"
+              update="form:pageContent form:messages"
+            />
+          </ui:repeat>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="empty-state" rendered="#{selectAPizzaDialogBean.cartEmpty}">
+          <i class="pi pi-shopping-cart empty-state__icon"></i>
+          <span class="empty-state__text">Your cart is empty. Add a pizza from the menu first.</span>
+        </h:panelGroup>
+      </div>
+      <div class="split__side">
+        <rcp:Receipt order="#{selectAPizzaDialogBean.order}"/>
+      </div>
     </div>
 
     <ftr:Footer>

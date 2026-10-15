@@ -19,16 +19,18 @@
   font-weight: 600;
   color: var(--color-text-muted);
   text-decoration: none;
-}
-:is(.pizza-process, #pizza-process) .profile__link:hover {
-  color: var(--color-text);
+
+  &:hover {
+    color: var(--color-text);
+  }
 }
 :is(.pizza-process, #pizza-process) .profile__link--primary {
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--ochre);
   color: var(--ochre);
-}
-:is(.pizza-process, #pizza-process) .profile__link--primary:hover {
-  background: var(--ochre);
-  color: var(--color-on-primary);
+
+  &:hover {
+    background: var(--ochre);
+    color: var(--color-on-primary);
+  }
 }

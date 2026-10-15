@@ -20,7 +20,6 @@
 
   <cc:implementation>
     <h:outputStylesheet name="resources/components/domain/cartbutton/CartButton.css"/>
-    <!-- the count jumps when it goes up, see effects.js -->
     <p:commandLink
       id="cartButton"
       styleClass="cart-button #{cc.attrs.count eq 0 ? 'cart-button--empty' : ''} #{cc.attrs.styleClass}"

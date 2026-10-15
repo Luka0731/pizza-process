@@ -1,18 +1,3 @@
-/**
- * Visual effects for every dialog. Everything in here is decoration: if it breaks, the pages still work.
- *
- * - page change:  the entrance animations only run inside an element with the class "fx-enter".
- *                 it is added when a different page arrives, or a list (e.g. the search results) gets new content.
- *                 the same page coming back (validation error, poll, removing a cart item) never animates.
- * - loading bar:  thin terracotta bar on top, only if a request takes longer than LOADING_DELAY.
- *                 quick requests never show it, requests with global="false" (e.g. checking a field) neither.
- * - cart button:  the number jumps when it goes up.
- * - scramble:     text with the class "fx-scramble" rolls through random digits before it settles, e.g. the price.
- * - field errors: jsf writes "Label: message" under a field, the label is already right above, so it gets cut off.
- * - enter:        enter in a field of a card presses the "form-submit" button of that card, e.g. log in.
- *
- * Registered at the bottom with PizzaProcess.register(), see logic.js.
-**/
 class Effects {
   static LOADING_DELAY = 300;
   static #pageId = null;
@@ -40,7 +25,6 @@ class Effects {
   static #markEntrance(root) {
     if (Effects.#reducedMotion) return;
 
-    // a whole page: animate only if it is another page than before
     const container = root === document ? document.querySelector('.dialog-content') : root;
     if (container && container.classList && container.classList.contains('dialog-content')) {
       const page = container.querySelector(':scope > div[id]');
@@ -103,7 +87,6 @@ class Effects {
 
   // |----- enter -----|
 
-  // capture phase, so it runs before primefaces and the browser pick some other button
   static #mountEnterSubmit() {
     if (Effects.#enterReady) return;
     Effects.#enterReady = true;
@@ -164,7 +147,6 @@ class Effects {
 
     const timer = setInterval(() => {
       frame++;
-      // digits lock in from left to right, the rest keep rolling
       const locked = Math.floor((digitPositions.length * frame) / frames);
       const chars = [...finalText];
       digitPositions.slice(locked).forEach((i) => (chars[i] = String(Math.floor(Math.random() * 10))));
@@ -182,6 +164,4 @@ class Effects {
 
 
 
-// |----- lifecycle -----|
-
-PizzaProcess.register('Effects', Effects);
+Registry.register('Effects', Effects);

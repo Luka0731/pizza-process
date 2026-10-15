@@ -26,7 +26,6 @@
 
 
 
-      <!-- logged in state -->
       <h:panelGroup layout="block" styleClass="profile__user" rendered="#{sessionBean.loggedIn}">
         <p:avatar label="#{sessionBean.initials}" shape="square" styleClass="profile__avatar"/>
         <span class="profile__name">
@@ -42,7 +41,6 @@
         />
       </h:panelGroup>
 
-      <!-- logged out state -->
       <h:panelGroup layout="block" styleClass="profile__guest" rendered="#{not sessionBean.loggedIn and cc.attrs.showAccountLinks}">
         <i class="pi pi-user profile__icon"></i>
         <p:commandLink

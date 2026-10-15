@@ -8,12 +8,7 @@
   xmlns:p="primefaces"
 >
 
-<!--
-  every dialog uses this template and only sets three things:
-  - ui:param "page":   the page to show, e.g. #{exampleDialogBean.router()}
-  - ui:define "title": the name of the dialog, shown in the tab and the top bar
-  - ui:define "info":  what the user does in this dialog, opens with the (i) next to the name
--->
+
 
   <h:head>
     <!-- meta -->
@@ -32,10 +27,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"/>
     <!-- pizza process theme -->
-    <h:outputStylesheet name="resources/global/style.css"/>
-    <h:outputStylesheet name="resources/global/primefaces.css"/>
-    <h:outputScript name="resources/global/logic.js" target="head"/>
-    <h:outputScript name="resources/global/effects.js" target="head"/>
+    <h:outputStylesheet name="resources/global/Style.css"/>
+    <h:outputStylesheet name="resources/global/PrimefacesOverride.css"/>
+    <h:outputScript name="resources/global/Registry.js" target="head"/>
+    <h:outputScript name="resources/global/Effects.js" target="head"/>
   </h:head>
 
 
@@ -43,13 +38,12 @@
   <h:body class="body-hd #{ivyFreyaTheme.mode} pizza-process">
     <ui:include src="/ivy-form/layouts/includes/progress-loader.xhtml"/>
 
-    <!-- brand bar, the logo hides itself if the file does not exist (see docs/LOGO.txt) -->
+    <!-- brand bar -->
     <header class="brand">
       <img class="brand__logo" src="#{resource['resources/assets/images/logo.jpg']}" alt="" onerror="this.remove()"/>
       <span class="brand__name">Babajabuka's Pizzeria</span>
       <span class="brand__dialog">
         <ui:insert name="title"/>
-        <!-- the browser opens and closes the popover by itself, no script needed -->
         <button type="button" class="brand__info" popovertarget="dialogInfo" title="What happens here?" aria-label="What happens here?">
           <i class="pi pi-info"></i>
         </button>

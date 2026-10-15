@@ -30,7 +30,6 @@
         </span>
       </h:panelGroup>
 
-      <!-- subtotal and discount only appear when there is a discount, otherwise the subtotal would just repeat the total -->
       <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{not cc.attrs.onlyTotal and cc.attrs.order.discountAmount gt 0}">
         <span class="receipt__label">Subtotal</span>
         <span class="receipt__value">

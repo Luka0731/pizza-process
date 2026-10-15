@@ -12,7 +12,7 @@
 
 
 
-  <div class="bake-page" id="bakePage">
+  <div class="overview-page" id="overviewPage">
 
     <hdr:Header
       title="Bake the pizza"
@@ -27,7 +27,7 @@
       <div class="stack">
         <ui:repeat value="#{bakeThePizzaTaskBean.order.items}" var="item" varStatus="loop">
           <p:commandLink
-            styleClass="bake-page__item"
+            styleClass="overview-page__item"
             process="@this"
             action="#{bakeThePizzaTaskBean.goToRecipePage(item.pizza)}"
             update="form:pageContent form:messages"
@@ -38,7 +38,6 @@
       </div>
     </div>
 
-    <!-- closing the dialog finishes the user task, the process continues with the delivery -->
     <ftr:Footer>
       <p:commandButton
         id="readyButton"

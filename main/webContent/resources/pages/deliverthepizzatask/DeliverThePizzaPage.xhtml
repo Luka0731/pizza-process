@@ -12,11 +12,10 @@
 
 
 
-  <div class="delivery-page" id="deliveryPage">
+  <div class="deliver-the-pizza-page" id="deliverThePizzaPage">
 
     <hdr:Header title="Deliver the pizza"/>
 
-    <!-- read only and without prices, the money comes in the "receive the payment" task -->
     <div class="split">
       <div class="split__main">
         <dtc:DetailsCard customerProfile="#{deliverThePizzaTaskBean.order.customerProfile}" editable="false"/>
@@ -26,7 +25,6 @@
       </div>
     </div>
 
-    <!-- closing the dialog finishes the user task -->
     <ftr:Footer>
       <p:commandButton
         id="deliveredButton"

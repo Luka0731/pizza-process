@@ -19,7 +19,6 @@
 
 
   <cc:implementation>
-    <h:outputStylesheet name="resources/components/domain/ordercard/OrderCard.css"/>
     <div id="#{cc.clientId}" class="order-card card #{cc.attrs.styleClass}">
 
 
@@ -30,7 +29,7 @@
         </h2>
       </div>
 
-      <div class="order-card__list">
+      <div class="stack">
         <ui:repeat value="#{cc.attrs.order.items}" var="item" varStatus="loop">
           <cic:ItemCard
             item="#{item}"

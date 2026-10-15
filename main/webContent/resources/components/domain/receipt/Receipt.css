@@ -1,4 +1,3 @@
-/* the only light surface: a paper slip with a torn bottom edge */
 .receipt {
   --tooth: 14px;
   display: flex;
@@ -16,7 +15,6 @@
   justify-content: space-between;
   gap: var(--space-4);
 }
-/* one ink color for every line except the discount, size and weight make the difference */
 .receipt__label {
   font-weight: 500;
 }
@@ -24,7 +22,6 @@
   font-weight: 600;
   white-space: nowrap;
 }
-/* the discount is the one line in color: money you save */
 .receipt__row--discount {
   color: var(--olive);
 }
@@ -33,26 +30,27 @@
   margin-top: var(--space-2);
   padding-top: var(--space-3);
   border-top: 2px dashed #b9ad98;
-}
-.receipt__row--sum .receipt__label {
-  font-weight: 600;
-}
-.receipt__row--sum .receipt__value {
-  font-family: var(--font-display);
-  font-size: var(--font-size-xl);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+
+  & .receipt__label {
+    font-weight: 600;
+  }
+  & .receipt__value {
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
 }
 
-/* only the total, e.g. for the payment: no line above it, the amount gets big */
 .receipt--only-total .receipt__row--sum {
   flex-direction: column;
   gap: var(--space-1);
   margin: 0;
   padding: 0;
   border: 0;
-}
-.receipt--only-total .receipt__row--sum .receipt__value {
-  font-size: clamp(2.5rem, 7vw, 4rem);
-  line-height: 1;
+
+  & .receipt__value {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    line-height: 1;
+  }
 }

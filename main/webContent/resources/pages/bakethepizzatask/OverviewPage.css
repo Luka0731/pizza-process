@@ -1,15 +1,16 @@
-/* the whole item card is the link to the recipe, the text keeps its colors on hover */
-:is(.pizza-process, #pizza-process) .bake-page__item,
-:is(.pizza-process, #pizza-process) .bake-page__item:hover,
-:is(.pizza-process, #pizza-process) .bake-page__item:focus {
+:is(.pizza-process, #pizza-process) .overview-page__item,
+:is(.pizza-process, #pizza-process) .overview-page__item:hover,
+:is(.pizza-process, #pizza-process) .overview-page__item:focus {
   display: block;
   color: var(--bone);
   text-decoration: none;
 }
-.bake-page__item .item-card {
-  transition: border-color var(--duration-fast) linear, transform var(--duration-fast) linear;
-}
-.bake-page__item:hover .item-card {
-  border-color: var(--ochre);
-  transform: translateX(4px);
+.overview-page__item {
+  & .item-card {
+    transition: border-color var(--duration-fast) linear, transform var(--duration-fast) linear;
+  }
+  &:hover .item-card {
+    border-color: var(--ochre);
+    transform: translateX(4px);
+  }
 }

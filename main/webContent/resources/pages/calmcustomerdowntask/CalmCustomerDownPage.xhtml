@@ -13,7 +13,7 @@
 
 
 
-  <div class="calm-page" id="calmPage">
+  <div class="calm-customer-down-page" id="calmCustomerDownPage">
 
     <hdr:Header
       title="Calm the customer down"
@@ -21,9 +21,9 @@
 
     <div class="split">
       <div class="split__main">
-        <blockquote class="calm-page__question">
-          <h:outputText value="#{calmCustomerDownTaskBean.customerQuestion}" styleClass="calm-page__question-text"/>
-          <footer class="calm-page__question-from">
+        <blockquote class="calm-customer-down-page__question">
+          <h:outputText value="#{calmCustomerDownTaskBean.customerQuestion}" styleClass="calm-customer-down-page__question-text"/>
+          <footer class="calm-customer-down-page__question-from">
             <h:outputText value="#{calmCustomerDownTaskBean.order.customerProfile.fullName}"/>
           </footer>
         </blockquote>
@@ -42,10 +42,9 @@
             placeholder="Sorry for the wait, your pizza ..."
             styleClass="textarea"
           />
-          <!-- these lines get added to the mail by themselves, the clerk does not have to type them -->
-          <div class="calm-page__mail-footer">
-            <span class="calm-page__mail-footer-hint">Added underneath automatically</span>
-            <pre class="calm-page__mail-footer-text"><h:outputText value="#{calmCustomerDownTaskBean.automaticFooter}"/></pre>
+          <div class="calm-customer-down-page__mail-footer">
+            <span class="calm-customer-down-page__mail-footer-hint">Added underneath automatically</span>
+            <pre class="calm-customer-down-page__mail-footer-text"><h:outputText value="#{calmCustomerDownTaskBean.automaticFooter}"/></pre>
           </div>
         </div>
       </div>
@@ -55,7 +54,6 @@
       </div>
     </div>
 
-    <!-- sending the answer finishes the user task -->
     <ftr:Footer>
       <p:commandButton
         id="sendButton"

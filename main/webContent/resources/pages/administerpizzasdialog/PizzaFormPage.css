@@ -4,7 +4,6 @@
   gap: var(--space-5);
   align-items: start;
 }
-/* name/description and prices belong together: 6px apart, without the margin freya gives every card */
 .pizza-form-page__fields {
   display: flex;
   flex-direction: column;

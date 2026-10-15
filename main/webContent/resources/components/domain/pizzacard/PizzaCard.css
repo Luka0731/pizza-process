@@ -1,8 +1,6 @@
-/* every card takes the next palette color for its price block, like the swatches on the moodboard */
 .pizza-card {
   --accent: var(--terracotta);
   --accent-text: var(--color-on-primary);
-  animation-delay: calc(min(var(--i, 0), 12) * 35ms);
 }
 .pizza-card:nth-child(4n + 2) { --accent: var(--ochre);   --accent-text: var(--color-on-primary); }
 .pizza-card:nth-child(4n + 3) { --accent: var(--olive);   --accent-text: var(--bone); }
@@ -17,10 +15,11 @@
   color: var(--color-text);
   text-decoration: none;
   transition: border-color var(--duration-fast) linear, transform var(--duration-fast) linear;
-}
-:is(.pizza-process, #pizza-process) .pizza-card__link:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
+
+  &:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
 }
 .pizza-card__media {
   display: block;
@@ -76,12 +75,11 @@
   font-weight: 500;
 }
 
+.fx-enter .pizza-card {
+  animation: pizza-card-in 200ms var(--ease-snap) calc(min(var(--i, 0), 12) * 35ms) both;
+}
+
 @keyframes pizza-card-in {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
-}
-
-/* entrance, only when the page is new (see effects.js) */
-.fx-enter .pizza-card {
-  animation: pizza-card-in 200ms var(--ease-snap) both;
 }

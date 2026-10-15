@@ -18,32 +18,27 @@
       title="#{administerPizzasDialogBean.formTitle}"
     />
 
-    <!-- loaded state -->
     <div class="pizza-form-page__body">
 
-      <!-- image -->
       <div class="pizza-form-page__media card">
         <div class="card__head">
           <span class="card__title">Picture</span>
         </div>
         <p:outputPanel id="imagePreview" layout="block" styleClass="pizza-form-page__preview">
-          <!-- loaded image state -->
           <p:graphicImage
             value="#{imageBean.image}"
             cache="false"
             styleClass="pizza-form-page__image"
             alt="#{administerPizzasDialogBean.formPizza.name}"
-            rendered="#{administerPizzasDialogBean.isFormImagePresent()}"
+            rendered="#{administerPizzasDialogBean.formImagePresent}"
           >
             <f:param name="imageId" value="#{administerPizzasDialogBean.formPizza.image.id}"/>
           </p:graphicImage>
-          <!-- empty image state -->
           <h:panelGroup layout="block" styleClass="pizza-form-page__no-image empty-state" rendered="#{not administerPizzasDialogBean.formImagePresent}">
             <i class="pi pi-image empty-state__icon"></i>
             <span class="empty-state__text">No picture yet</span>
           </h:panelGroup>
         </p:outputPanel>
-        <!-- image upload -->
         <p:fileUpload
           id="imageUpload"
           mode="advanced"
@@ -59,10 +54,8 @@
         />
       </div>
 
-      <!-- name, description and prices stack right next to each other, beside the picture -->
       <div class="pizza-form-page__fields">
 
-        <!-- name & description -->
         <div class="pizza-form-page__details card input-grid">
           <div class="card__head">
             <span class="card__title">The pizza</span>
@@ -88,7 +81,6 @@
           />
         </div>
 
-        <!-- price -->
         <div class="pizza-form-page__prices card">
           <div class="card__head">
             <span class="card__title">Prices</span>
@@ -117,7 +109,6 @@
 
       </div>
 
-      <!-- recipe -->
       <div class="pizza-form-page__recipe card">
         <div class="card__head">
           <span class="card__title">Recipe</span>
@@ -136,8 +127,8 @@
 
     <ftr:Footer>
       <f:facet name="summary">
-        <span class="footer__label">#{administerPizzasDialogBean.newPizza ? 'New' : 'Editing'}</span>
-        <span class="footer__value">
+        <span class="app-footer__label">#{administerPizzasDialogBean.newPizza ? 'New' : 'Editing'}</span>
+        <span class="app-footer__value">
           <h:outputText value="#{administerPizzasDialogBean.formPizza.name}" rendered="#{not empty administerPizzasDialogBean.formPizza.name}"/>
         </span>
       </f:facet>

@@ -12,7 +12,7 @@
 
 
 
-  <div class="ask-page" id="askPage">
+  <div class="ask-for-the-pizza-page" id="askForThePizzaPage">
 
     <hdr:Header
       title="Where is my pizza?"
@@ -41,8 +41,6 @@
             disabled="#{askForThePizzaDialogBean.questionAsked}"
             styleClass="textarea"
           />
-          <!-- sending the question gives the clerk the task "calm customer down", the dialog stays open.
-               one question per order (Order.questionAsked), after that the form is disabled -->
           <p:commandButton
             id="askButton"
             value="#{askForThePizzaDialogBean.questionAsked ? 'Question sent' : 'Send question'}"
@@ -66,7 +64,6 @@
       </div>
     </div>
 
-    <!-- done without a question just closes the dialog -->
     <ftr:Footer>
       <p:commandButton
         id="doneButton"
