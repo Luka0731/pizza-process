@@ -21,6 +21,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -65,7 +66,6 @@ public class Pizza extends GenericEntity<UUID> {
         <
         PizzaSize,
 
-        @NotNull(groups = OnActivation.class, message = "Please set a price for every size.")
         @PositiveOrZero(message = "A price can't be negative.")
         @DecimalMax(value = "999999.99", message = "A price can be CHF 999'999.99 at most.")
         @Digits(integer = 6, fraction = 2, message = "A price can have 2 decimal places at most.")
@@ -73,7 +73,7 @@ public class Pizza extends GenericEntity<UUID> {
         >
     prices = new EnumMap<>(PizzaSize.class);
     
-    // only exists so the db can filter and sort by price
+    // NOTE: only exists so the db can filter and sort by price
     @Setter(AccessLevel.NONE)
     @Column(name = "lowest_price", nullable = false)
     private BigDecimal lowestPrice;
@@ -100,6 +100,15 @@ public class Pizza extends GenericEntity<UUID> {
 
 
     // |----- price methods -----|
+
+    @AssertTrue(groups = OnActivation.class, message = "Please set a price for every size.")
+    public boolean isEveryPriceSet() {
+        if (prices == null) return false;
+        for (PizzaSize pizzaSize : PizzaSize.values()) {
+            if (prices.get(pizzaSize) == null) return false;
+        }
+        return true;
+    }
 
     public BigDecimal getPriceOfSize(PizzaSize pizzaSize) {
         return prices.get(pizzaSize);

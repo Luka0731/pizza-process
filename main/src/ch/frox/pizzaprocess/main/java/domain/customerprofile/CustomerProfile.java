@@ -62,6 +62,8 @@ public class CustomerProfile extends GenericEntity<UUID> {
 
 
 
+    // |----- copy methods -----|
+    
     public void pasteIn(CustomerProfile other) {
         email = other.email;
         fullName = other.fullName;

@@ -1,0 +1,19 @@
+=============
+Pizza Process
+=============
+
+
+Todo:
+---------------------
+/ axonivy protal
+* mailing service
+* postalcode api
+* cross dialog pages
+
+
+Further Todo:
+---------------------------
+* Database Migration Flyway
+* Pagination
+* CRUD'L' 
+* Process Test Data
