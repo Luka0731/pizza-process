@@ -11,7 +11,6 @@
   <cc:interface>
     <cc:attribute name="order" type="ch.frox.pizzaprocess.main.java.domain.order.Order" required="true" shortDescription="the order whose prices get summed up"/>
     <cc:attribute name="totalLabel" type="java.lang.String" default="Total" shortDescription="e.g. 'To pay' or 'To collect'"/>
-    <cc:attribute name="onlyTotal" type="java.lang.Boolean" default="false" shortDescription="true shows only the total, without the pizza count and the discount"/>
     <cc:attribute name="styleClass" type="java.lang.String" default=""/>
   </cc:interface>
 
@@ -19,18 +18,18 @@
 
   <cc:implementation>
     <h:outputStylesheet name="resources/components/domain/receipt/Receipt.css"/>
-    <div id="#{cc.clientId}" class="receipt #{cc.attrs.onlyTotal ? 'receipt--only-total' : ''} #{cc.attrs.styleClass}">
+    <div id="#{cc.clientId}" class="receipt #{cc.attrs.styleClass}">
 
 
 
-      <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{not cc.attrs.onlyTotal}">
+      <div class="receipt__row">
         <span class="receipt__label">Pizzas</span>
         <span class="receipt__value">
           <h:outputText value="#{cc.attrs.order.totalPizzasAmount}"/>
         </span>
-      </h:panelGroup>
+      </div>
 
-      <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{not cc.attrs.onlyTotal and cc.attrs.order.discountAmount gt 0}">
+      <h:panelGroup layout="block" styleClass="receipt__row" rendered="#{cc.attrs.order.discountAmount gt 0}">
         <span class="receipt__label">Subtotal</span>
         <span class="receipt__value">
           <h:outputText value="#{cc.attrs.order.subtotalPrice}">
@@ -39,7 +38,7 @@
         </span>
       </h:panelGroup>
 
-      <h:panelGroup layout="block" styleClass="receipt__row receipt__row--discount" rendered="#{not cc.attrs.onlyTotal and cc.attrs.order.discountAmount gt 0}">
+      <h:panelGroup layout="block" styleClass="receipt__row receipt__row--discount" rendered="#{cc.attrs.order.discountAmount gt 0}">
         <span class="receipt__label">
           <h:outputText value="Member discount #{cc.attrs.order.discountPercent}%"/>
         </span>

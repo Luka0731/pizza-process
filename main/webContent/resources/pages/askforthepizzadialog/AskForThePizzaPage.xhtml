@@ -52,12 +52,6 @@
             update="form:pageContent form:messages"
           />
         </h:panelGroup>
-        <dl class="data-list">
-          <div class="data-list__row">
-            <dt class="data-list__label">Order number</dt>
-            <dd class="data-list__value"><h:outputText value="#{askForThePizzaDialogBean.order.id}"/></dd>
-          </div>
-        </dl>
       </div>
       <div class="split__side">
         <odc:OrderCard order="#{askForThePizzaDialogBean.order}"/>
