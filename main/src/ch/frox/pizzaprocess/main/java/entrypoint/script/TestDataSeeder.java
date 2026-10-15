@@ -5,7 +5,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.util.FileUtil;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfile;
 import ch.frox.pizzaprocess.main.java.domain.customerprofile.CustomerProfileService;

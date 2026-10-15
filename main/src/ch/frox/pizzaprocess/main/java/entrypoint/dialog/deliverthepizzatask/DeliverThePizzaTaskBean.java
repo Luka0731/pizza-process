@@ -3,7 +3,7 @@ package ch.frox.pizzaprocess.main.java.entrypoint.dialog.deliverthepizzatask;
 import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.DELIVERED;
 
 import ch.frox.pizzaprocess.DeliverThePizzaTask.DeliverThePizzaTaskData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
@@ -33,7 +33,7 @@ public class DeliverThePizzaTaskBean extends GenericDialogBean<DeliverThePizzaTa
 
     @Override 
     public void close() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             order.setStatus(DELIVERED);
             order = orderService.update(order);
         })) return;
@@ -50,5 +50,4 @@ public class DeliverThePizzaTaskBean extends GenericDialogBean<DeliverThePizzaTa
     public Order getOrder() {
         return order;
     }
-
 }

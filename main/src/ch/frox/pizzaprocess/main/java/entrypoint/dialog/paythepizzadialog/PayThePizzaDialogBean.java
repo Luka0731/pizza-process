@@ -4,7 +4,7 @@ import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.DELIVERED;
 import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.PAID;
 
 import ch.frox.pizzaprocess.PayThePizzaDialog.PayThePizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
@@ -33,14 +33,14 @@ public class PayThePizzaDialogBean extends GenericDialogBean<PayThePizzaDialogDa
     // |----- actions -----|
 
     public void refresh() {
-        ExceptionHandler.run(() -> {
+        ExceptionHandler.guard(() -> {
             order = orderService.getById(order.getId());
         });
     }
 
     @Override
     public void close() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             order = orderService.getById(order.getId());
             if (order.getStatus() != DELIVERED) return;
 
@@ -49,7 +49,7 @@ public class PayThePizzaDialogBean extends GenericDialogBean<PayThePizzaDialogDa
         })) return;
 
         if (!isPaid()) {
-            UserNotifier.warning("Not here yet", "You can pay as soon as the driver handed over your pizza.");
+            UserNotifier.warn("Not here yet", "You can pay as soon as the driver handed over your pizza.");
             return;
         }
 

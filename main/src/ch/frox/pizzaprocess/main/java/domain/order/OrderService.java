@@ -5,9 +5,9 @@ import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.ORDERED;
 
 import java.util.UUID;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
-import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityStateException;
+import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;

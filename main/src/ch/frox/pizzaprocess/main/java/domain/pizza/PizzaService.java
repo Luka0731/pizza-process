@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;

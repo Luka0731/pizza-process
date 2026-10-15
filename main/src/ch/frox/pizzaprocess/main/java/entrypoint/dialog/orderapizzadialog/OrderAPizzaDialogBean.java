@@ -7,7 +7,7 @@ import static ch.frox.pizzaprocess.main.java.entrypoint.dialog.orderapizzadialog
 import static ch.frox.pizzaprocess.main.java.entrypoint.dialog.orderapizzadialog.OrderAPizzaDialogPage.SIGNUP_PAGE;
 
 import ch.frox.pizzaprocess.OrderAPizzaDialog.OrderAPizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.security.AuthenticationService;
@@ -33,7 +33,6 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     private static final OrderService orderService = Registry.get(OrderService.class);
     private static final CustomerProfileService customerProfileService = Registry.get(CustomerProfileService.class);
     private static final AuthenticationService authenticationService = Registry.get(AuthenticationService.class);
-    
     private Order order;
     private CustomerProfile customerProfile;
     private Credentials credentials;
@@ -60,7 +59,7 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     public void placeOrder() {
         GuestAccount[] guest = { null };
 
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             if (!SessionUtil.isLoggedIn()) {
                 guest[0] = authenticationService.createGuest(customerProfile.getFullName(), customerProfile.getEmail());
                 customerProfile.setCustomerReference(guest[0].user().getSecurityMemberId());
@@ -87,7 +86,7 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     }
 
     public void login() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             authenticationService.login(credentials);
         })) return;
 
@@ -98,7 +97,7 @@ public class OrderAPizzaDialogBean extends GenericDialogBean<OrderAPizzaDialogDa
     }
 
     public void signUp() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             authenticationService.signupCustomer(credentials, customerProfile.getFullName(), customerProfile.getEmail());
         })) return;
         

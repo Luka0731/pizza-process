@@ -16,18 +16,21 @@ import jakarta.faces.context.FacesContext;
 
 
 
-/**
- * Shows messages to the user.
- * A violation with a field goes to the input with that id (red border and text under it, like jsf validation),
- * e.g. field "userName" finds <tif:TextInputField id="userName"/>. Without a matching input it is a normal message.
-**/
 public final class UserNotifier {
 
     private UserNotifier() {}
 
 
+    
+    public static void message(String title, String text) {
+        add(null, FacesMessage.SEVERITY_INFO, title, text);
+    }
 
-    public static void message(UserException ex) {
+    public static void warn(String title, String text) {
+        add(null, FacesMessage.SEVERITY_WARN, title, text);
+    }
+
+    public static void warn(UserException ex) {
         faces().validationFailed();
         if (ex instanceof ValidationException validationEx) {
             for (Violation problem : validationEx.getViolations()) {
@@ -38,24 +41,15 @@ public final class UserNotifier {
         }
     }
 
-    public static void message(SystemException ex) {
+    public static void warn(SystemException ex) {
         faces().validationFailed();
         add(null, FacesMessage.SEVERITY_FATAL, ex.getTitle(), ex.getText());
-    }
-
-    public static void message(String title, String text) {
-        add(null, FacesMessage.SEVERITY_INFO, title, text);
-    }
-
-    public static void warning(String title, String text) {
-        add(null, FacesMessage.SEVERITY_WARN, title, text);
     }
 
 
 
     // |----- helper methods -----|
 
-    // under a field it is an error (red like jsf validation), as a general message a warning
     private static void addToField(String field, String title, String text) {
         UIInput input = field == null ? null : findInput(field);
         if (input == null) {

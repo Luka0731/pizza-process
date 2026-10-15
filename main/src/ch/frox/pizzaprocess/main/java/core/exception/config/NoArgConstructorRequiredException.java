@@ -1,4 +1,4 @@
-package ch.frox.pizzaprocess.main.java.core.exception.crash;
+package ch.frox.pizzaprocess.main.java.core.exception.config;
 
 
 

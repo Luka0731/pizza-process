@@ -11,10 +11,6 @@ import jakarta.validation.Payload;
 
 
 
-/**
- * The username does not belong to an axon ivy user yet.
- * Jsf checks it as soon as the field is left, so the signup tells right away if a name is taken.
-**/
 @Target(FIELD)
 @Retention(RUNTIME)
 @Constraint(validatedBy = AvailableUserNameValidator.class)

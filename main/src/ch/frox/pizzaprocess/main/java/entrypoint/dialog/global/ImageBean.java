@@ -5,7 +5,7 @@ import java.io.ByteArrayInputStream;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.domain.image.Image;
 import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
 import jakarta.enterprise.context.ApplicationScoped;

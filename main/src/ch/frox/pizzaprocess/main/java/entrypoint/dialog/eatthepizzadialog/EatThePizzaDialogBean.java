@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.frox.pizzaprocess.EatThePizzaDialog.EatThePizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;

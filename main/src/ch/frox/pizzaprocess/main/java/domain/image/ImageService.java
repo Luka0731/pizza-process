@@ -6,13 +6,12 @@ import java.util.HexFormat;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityNotFoundException;
 import ch.frox.pizzaprocess.main.java.core.exception.system.TechnicalException;
 import ch.frox.pizzaprocess.main.java.core.exception.user.ValidationException;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.ivyteam.ivy.environment.Ivy;
-
 
 
 

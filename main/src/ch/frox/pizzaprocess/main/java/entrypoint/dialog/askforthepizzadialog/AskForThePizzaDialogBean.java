@@ -4,7 +4,7 @@ import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.DELIVERED;
 import static ch.frox.pizzaprocess.main.java.domain.order.OrderStatus.PAID;
 
 import ch.frox.pizzaprocess.AskForThePizzaDialog.AskForThePizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
@@ -35,12 +35,8 @@ public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDi
 
     // |----- actions -----|
 
-    /**
-     * Sends the question to the pizzeria, the dialog stays open. Leaving is the normal close().
-     * Only one question per order, the OrderService refuses a second one.
-    **/
     public void ask() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             order = orderService.getById(order.getId());
             if (isPizzaHere()) return;
 

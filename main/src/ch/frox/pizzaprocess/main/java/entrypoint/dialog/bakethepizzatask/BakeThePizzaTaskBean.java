@@ -8,7 +8,7 @@ import static ch.frox.pizzaprocess.main.java.entrypoint.dialog.bakethepizzatask.
 import static ch.frox.pizzaprocess.main.java.entrypoint.dialog.bakethepizzatask.BakeThePizzaTaskPage.RECIPE_PAGE;
 
 import ch.frox.pizzaprocess.BakeThePizzaTask.BakeThePizzaTaskData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.security.Role;
@@ -40,7 +40,7 @@ public class BakeThePizzaTaskBean extends GenericDialogBean<BakeThePizzaTaskData
 
     @Override 
     public void close() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             order.setStatus(READY_FOR_DELIVERY);
             order = orderService.update(order);
         })) return;

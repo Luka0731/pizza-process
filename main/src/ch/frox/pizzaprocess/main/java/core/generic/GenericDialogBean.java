@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 import org.primefaces.PrimeFaces;
 
-import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.exception.config.ConfigurationException;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.context.FacesContext;
+
 
 
 /**

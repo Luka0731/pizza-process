@@ -12,15 +12,15 @@ public class ExceptionHandler {
     /**
      * @return true if it failed
     **/
-    public static boolean run(Runnable runnable, Runnable finallyRunnable) {
+    public static boolean guard(Runnable runnable, Runnable finallyRunnable) {
         try {
             runnable.run();
             return false;
         } catch (UserException ex) {
-            UserNotifier.message(ex);
+            UserNotifier.warn(ex);
         } catch (SystemException ex) {
             Ivy.log().fatal(ex.getMessage(), ex);
-            UserNotifier.message(ex);
+            UserNotifier.warn(ex);
         } finally {
             finallyRunnable.run();
         }
@@ -30,7 +30,7 @@ public class ExceptionHandler {
     /**
      * @return true if it failed
     **/
-    public static boolean run(Runnable runnable) {
-        return run(runnable, () -> {});
+    public static boolean guard(Runnable runnable) {
+        return guard(runnable, () -> {});
     }
 }

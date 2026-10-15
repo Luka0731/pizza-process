@@ -1,6 +1,6 @@
 package ch.frox.pizzaprocess.main.java.core.security;
 
-import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.exception.config.ConfigurationException;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.exec.Sudo;

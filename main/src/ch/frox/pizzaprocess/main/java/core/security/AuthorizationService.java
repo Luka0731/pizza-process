@@ -4,7 +4,7 @@ import static ch.frox.pizzaprocess.main.java.core.security.Role.ADMIN;
 
 import java.util.Collection;
 
-import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.exception.config.ConfigurationException;
 import ch.frox.pizzaprocess.main.java.core.exception.user.AccessDeniedException;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -26,11 +26,7 @@ public class AuthorizationService {
         throw new AccessDeniedException(permission);
     }
 
-
-    /**
-     * Checks if the session user has a specific role.
-     * Inherited roles count.
-    **/
+    // NOTE: Inherited roles count
     public boolean hasRole(Role role) {
         if (!SessionUtil.isLoggedIn()) return false;
         String roleName = role.getRoleName();

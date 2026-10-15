@@ -37,12 +37,10 @@ public final class Signaler {
 
     public static void orderDelivered(UUID orderId) {
         signalWaitingEvent("order:delivered:" + orderId, null);
-        // "Where is my pizza?" is gone after delivery, also when it is already in the customer's task list
         cancelWaitingEvent("order:askable:" + orderId, TaskState.DELAYED, TaskState.SUSPENDED);
     }
 
     public static void orderPaid(UUID orderId) {
-        // only the clerk task that is still waiting. a question that was already asked must stay with the clerk
         cancelWaitingEvent("order:asked:" + orderId, TaskState.DELAYED);
     }
 

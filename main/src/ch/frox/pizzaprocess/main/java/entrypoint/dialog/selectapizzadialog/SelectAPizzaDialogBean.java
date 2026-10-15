@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import ch.frox.pizzaprocess.SelectAPizzaDialog.SelectAPizzaDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.util.UserNotifier;
@@ -49,7 +49,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
 
     @Override
     public void close() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             order = orderService.save(order);
         })) return;
         dialogData.setOrderId(order.getId());
@@ -77,7 +77,7 @@ public class SelectAPizzaDialogBean extends GenericDialogBean<SelectAPizzaDialog
     // |----- catalog -----|
 
     public void search() {
-        ExceptionHandler.run(() -> {
+        ExceptionHandler.guard(() -> {
             catalog = pizzaService.getAll(filter, ACTIVE);
         });
     }

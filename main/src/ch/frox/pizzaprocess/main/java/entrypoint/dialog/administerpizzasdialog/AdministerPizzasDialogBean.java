@@ -12,7 +12,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
 import ch.frox.pizzaprocess.AdministerPizzasDialog.AdministerPizzasDialogData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.security.AuthorizationService;
@@ -63,7 +63,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     // |----- actions -----|
 
     public void deactivate(Pizza pizza) {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             pizzaService.deactivate(pizza);
         }, () -> {
             reloadLists();
@@ -73,7 +73,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     }
 
     public void activate(Pizza pizza) {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             pizzaService.activate(pizza);
         }, () -> {
             reloadLists();
@@ -84,7 +84,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     }
 
     public void delete(Pizza pizza) {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             pizzaService.delete(pizza);
         }, () -> {
             reloadLists();
@@ -102,7 +102,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     }
 
     public void saveForm() {
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             if (isNewPizza) pizzaService.save(formPizza);
             else pizzaService.update(formPizza);
         })) return;
@@ -124,7 +124,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
         UploadedFile file = event.getFile();
         Image previousImage = formPizza.getImage();
 
-        if (ExceptionHandler.run(() -> {
+        if (ExceptionHandler.guard(() -> {
             formPizza.setImage(imageService.save(file.getContent(), FileUtil.extensionOf(file.getFileName())));
         })) return;
 
@@ -215,7 +215,7 @@ public class AdministerPizzasDialogBean extends GenericDialogBean<AdministerPizz
     // |----- helper methods -----|
 
     private void reloadLists() {
-        ExceptionHandler.run(() -> {
+        ExceptionHandler.guard(() -> {
             activePizzas = pizzaService.getAll(filter, ACTIVE);
             deactivatedPizzas = pizzaService.getAll(filter, DEACTIVATED);
         });

@@ -1,7 +1,7 @@
 package ch.frox.pizzaprocess.main.java.entrypoint.dialog.calmcustomerdowntask;
 
 import ch.frox.pizzaprocess.CalmCustomerDownTask.CalmCustomerDownTaskData;
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.core.util.UserNotifier;
@@ -35,7 +35,7 @@ public class CalmCustomerDownTaskBean extends GenericDialogBean<CalmCustomerDown
     @Override
     public void close() {
         if (answer == null || answer.isBlank()) {
-            UserNotifier.warning("No answer yet", "Please write the customer a few words.");
+            UserNotifier.warn("No answer yet", "Please write the customer a few words.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class CalmCustomerDownTaskBean extends GenericDialogBean<CalmCustomerDown
             );
         } catch (Exception ex) {
             Ivy.log().error("could not send the answer for " + order.getEntityName() + " to the customer", ex);
-            UserNotifier.warning("Not sent", "The mail could not be sent. Check the mail settings and try again.");
+            UserNotifier.warn("Not sent", "The mail could not be sent. Check the mail settings and try again.");
             return;
         }
 

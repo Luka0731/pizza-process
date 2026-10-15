@@ -1,4 +1,4 @@
-package ch.frox.pizzaprocess.main.java.core.config;
+package ch.frox.pizzaprocess.main.java.core.dependencyinjection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import ch.frox.pizzaprocess.main.java.core.exception.crash.CircularDependencyException;
-import ch.frox.pizzaprocess.main.java.core.exception.crash.NoArgConstructorRequiredException;
+import ch.frox.pizzaprocess.main.java.core.exception.config.CircularDependencyException;
+import ch.frox.pizzaprocess.main.java.core.exception.config.NoArgConstructorRequiredException;
 import ch.frox.pizzaprocess.main.java.core.workflow.AxonivyVariables;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.process.data.persistence.IIvyEntityManager;

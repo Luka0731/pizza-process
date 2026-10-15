@@ -73,7 +73,7 @@ public class Pizza extends GenericEntity<UUID> {
         >
     prices = new EnumMap<>(PizzaSize.class);
     
-    // Only exists so the db can filter and sort by price
+    // only exists so the db can filter and sort by price
     @Setter(AccessLevel.NONE)
     @Column(name = "lowest_price", nullable = false)
     private BigDecimal lowestPrice;

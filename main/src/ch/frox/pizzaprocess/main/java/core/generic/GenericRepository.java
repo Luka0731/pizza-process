@@ -2,7 +2,7 @@ package ch.frox.pizzaprocess.main.java.core.generic;
 
 import java.util.List;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
 import ch.ivyteam.ivy.process.data.persistence.IIvyEntityManager;
 

@@ -1,7 +1,7 @@
 package ch.frox.pizzaprocess.main.java.entrypoint.dialog.global;
 
-import ch.frox.pizzaprocess.main.java.core.config.Registry;
-import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
+import ch.frox.pizzaprocess.main.java.core.exception.config.ConfigurationException;
 import ch.frox.pizzaprocess.main.java.core.security.AuthorizationService;
 import ch.frox.pizzaprocess.main.java.core.security.Permission;
 import jakarta.enterprise.context.ApplicationScoped;

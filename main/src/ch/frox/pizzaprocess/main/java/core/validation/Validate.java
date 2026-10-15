@@ -10,6 +10,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 
+
 public final class Validate {
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
     private final List<Violation> violations;
