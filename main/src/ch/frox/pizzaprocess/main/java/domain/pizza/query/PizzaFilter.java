@@ -31,6 +31,8 @@ public class PizzaFilter extends GenericFilter<PizzaSort> {
 
     
 
+    // |----- query getters -----|
+
     public String queryName() {
         return (name == null || name.isBlank())? "%" : ("%" + name.trim().toLowerCase() + "%");
     }
@@ -41,5 +43,17 @@ public class PizzaFilter extends GenericFilter<PizzaSort> {
 
     public BigDecimal queryMaxPrice() {
         return (maxPrice == null || maxPrice.signum() == 0)? new BigDecimal("999999.99") : maxPrice;
+    }
+    
+    
+    
+    // |----- getters & setters -----|
+
+    public void setMinPrice(BigDecimal minPrice) {
+        this.minPrice = (minPrice == null || minPrice.signum() == 0)? null : minPrice;;
+    }
+
+    public void setMaxPrice(BigDecimal maxPrice) {
+        this.maxPrice = (maxPrice == null || maxPrice.signum() == 0)? null : maxPrice;;
     }
 }
