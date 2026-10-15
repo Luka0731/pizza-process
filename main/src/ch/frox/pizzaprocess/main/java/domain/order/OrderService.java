@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.system.EntityStateException;
-import ch.frox.pizzaprocess.main.java.core.exception.user.ConflictException;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
 import ch.frox.pizzaprocess.main.java.core.util.SessionUtil;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;
@@ -46,14 +45,6 @@ public class OrderService extends GenericService<Order, UUID, OrderRepository> {
         order.setStatus(ORDERED);
 
         return super.update(order);
-    }
-
-    public Order markQuestionAsked(Order order) {
-        Order current = reload(order);
-        if (current.isQuestionAsked()) throw new ConflictException("You already asked about this order. For more questions, please write us an e-mail.");
-
-        current.setQuestionAsked(true);
-        return super.update(current);
     }
 
     public void applyMemberDiscount(Order order) {

@@ -21,7 +21,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 public final class Signaler {
     private static final String PREFIX = "pizzaprocess:";
     private static final String SIGNALCODE_FIELD_NAME = "signalCode";
-    private static final String PAYLOAD_FIELD_NAME = "signalPayload";
+    private static final String PAYLOAD_SEPARATOR = ":";
 
     private Signaler() {}
 
@@ -32,16 +32,24 @@ public final class Signaler {
     }
 
     public static void orderAsked(UUID orderId, String question) {
-        signalWaitingEvent("order:asked:" + orderId, question);
+        signalStartEvent("order:asked", orderId + PAYLOAD_SEPARATOR + question);
     }
 
     public static void orderDelivered(UUID orderId) {
-        signalWaitingEvent("order:delivered:" + orderId, null);
+        signalWaitingEvent("order:delivered:" + orderId);
         cancelWaitingEvent("order:askable:" + orderId, TaskState.DELAYED, TaskState.SUSPENDED);
     }
 
-    public static void orderPaid(UUID orderId) {
-        cancelWaitingEvent("order:asked:" + orderId, TaskState.DELAYED);
+
+
+    // |----- payload readers -----|
+
+    public static UUID orderAskedReadId(Object payload) {
+        return UUID.fromString(payload.toString().split(PAYLOAD_SEPARATOR, 2)[0]);
+    }
+
+    public static String orderAskedReadQuestion(Object payload) {
+        return payload.toString().split(PAYLOAD_SEPARATOR, 2)[1];
     }
 
 
@@ -52,12 +60,11 @@ public final class Signaler {
         Ivy.wf().signals().create().data(payload).send(PREFIX + signalCode);
     }
 
-    private static int signalWaitingEvent(String signalCode, String payload) {
+    private static int signalWaitingEvent(String signalCode) {
         String fullSignalCode = PREFIX + signalCode;
         int released = Sudo.get(() -> {
             int count = 0;
             for (ITask task : findTasks(fullSignalCode, TaskState.DELAYED)) {
-                if (payload != null) task.customFields().stringField(PAYLOAD_FIELD_NAME).set(payload);
                 task.setDelayTimestamp(null);
                 count++;
             }

@@ -52,10 +52,6 @@ public class Order extends GenericEntity<UUID> {
     @Column(name = "discount_percent", nullable = false)
     private Integer discountPercent;
 
-    // a customer can ask "where is my pizza" once per order, after that only by e-mail
-    @Column(name = "question_asked", nullable = false)
-    private boolean questionAsked;
-
 
 
     public void addItem(Pizza pizza, PizzaSize pizzaSize, int amount) {

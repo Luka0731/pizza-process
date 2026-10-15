@@ -6,5 +6,9 @@
     "name" : "orderId",
     "type" : "java.util.UUID",
     "modifiers" : [ ]
+  }, {
+    "name" : "questionAsked",
+    "type" : "Boolean",
+    "modifiers" : [ ]
   } ]
 }

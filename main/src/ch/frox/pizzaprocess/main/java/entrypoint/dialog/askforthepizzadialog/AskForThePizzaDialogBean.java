@@ -36,17 +36,17 @@ public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDi
     // |----- actions -----|
 
     public void ask() {
-        if (ExceptionHandler.guard(() -> {
-            order = orderService.getById(order.getId());
-            if (isPizzaHere()) return;
+        if (isQuestionAsked()) return;
 
-            order = orderService.markQuestionAsked(order);
-            Signaler.orderAsked(order.getId(), (question == null || question.isBlank())? DEFAULT_QUESTION : question.trim());
-        }, () -> {
+        if (ExceptionHandler.guard(() -> {
             order = orderService.getById(order.getId());
         })) return;
         if (isPizzaHere()) return;
 
+        Signaler.orderAsked(order.getId(), (question == null || question.isBlank())? DEFAULT_QUESTION : question.trim());
+
+        // goes back to the process with close(), so the next "Where is my pizza?" task knows it too
+        dialogData.setQuestionAsked(true);
         question = null;
         UserNotifier.message("Sent", "We got your question and answer by e-mail.");
     }
@@ -68,7 +68,7 @@ public class AskForThePizzaDialogBean extends GenericDialogBean<AskForThePizzaDi
     }
 
     public boolean isQuestionAsked() {
-        return order.isQuestionAsked();
+        return Boolean.TRUE.equals(dialogData.getQuestionAsked());
     }
 
     public boolean isPizzaHere() {

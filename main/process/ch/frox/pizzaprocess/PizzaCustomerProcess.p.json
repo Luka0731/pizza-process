@@ -107,10 +107,17 @@
       "type" : "DialogCall",
       "name" : "ask for the pizza",
       "config" : {
-        "dialog" : "ch.frox.pizzaprocess.AskForThePizzaDialog:start(java.util.UUID)",
+        "dialog" : "ch.frox.pizzaprocess.AskForThePizzaDialog:start(java.util.UUID,Boolean)",
         "call" : {
           "map" : {
-            "param.orderId" : "in.orderId"
+            "param.orderId" : "in.orderId",
+            "param.questionAsked" : "in.questionAsked"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.questionAsked" : "result.questionAsked"
           }
         }
       },

@@ -7,7 +7,6 @@ import ch.frox.pizzaprocess.main.java.core.dependencyinjection.Registry;
 import ch.frox.pizzaprocess.main.java.core.exception.ExceptionHandler;
 import ch.frox.pizzaprocess.main.java.core.generic.GenericDialogBean;
 import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
-import ch.frox.pizzaprocess.main.java.core.workflow.Signaler;
 import ch.frox.pizzaprocess.main.java.domain.order.Order;
 import ch.frox.pizzaprocess.main.java.domain.order.OrderService;
 import jakarta.faces.view.ViewScoped;
@@ -37,8 +36,6 @@ public class ReciveThePaymentBean extends GenericDialogBean<ReciveThePaymentData
             order.setStatus(PAID);
             order = orderService.update(order);
         })) return;
-
-        Signaler.orderPaid(order.getId());
 
         runProcessMethod("close");
     }
