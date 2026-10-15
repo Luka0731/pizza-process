@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import ch.frox.pizzaprocess.main.java.core.generic.GenericRepository;
-import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
+import ch.frox.pizzaprocess.main.java.domain.pizza.query.PizzaFilter;
 
 
 

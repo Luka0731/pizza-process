@@ -30,9 +30,9 @@
       "config" : {
         "output" : {
           "code" : [
-            "import ch.frox.pizzaprocess.main.java.entrypoint.TestDataSeeder;",
+            "import ch.frox.pizzaprocess.main.java.entrypoint.script.TestDataSeeder;",
             "",
-            "TestDataSeeder.seed();"
+            "TestDataSeeder.run();"
           ]
         },
         "sudo" : true

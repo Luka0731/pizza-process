@@ -15,7 +15,7 @@ import ch.frox.pizzaprocess.main.java.core.generic.GenericService;
 import ch.frox.pizzaprocess.main.java.core.validation.Validate;
 import ch.frox.pizzaprocess.main.java.core.validation.validationgroup.OnActivation;
 import ch.frox.pizzaprocess.main.java.domain.image.ImageService;
-import ch.frox.pizzaprocess.main.java.domain.pizza.filter.PizzaFilter;
+import ch.frox.pizzaprocess.main.java.domain.pizza.query.PizzaFilter;
 import ch.ivyteam.ivy.environment.Ivy;
 
 
