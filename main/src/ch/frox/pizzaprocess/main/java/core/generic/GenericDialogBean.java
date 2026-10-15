@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.primefaces.PrimeFaces;
 
 import ch.frox.pizzaprocess.main.java.core.exception.crash.ConfigurationException;
+import ch.frox.pizzaprocess.main.java.core.generic.preset.SingleDialogPage;
 import ch.frox.pizzaprocess.main.java.core.util.TypesUtil;
 import ch.ivyteam.ivy.scripting.objects.CompositeObject;
 import jakarta.annotation.PostConstruct;
@@ -64,7 +65,16 @@ public abstract class GenericDialogBean<D extends CompositeObject, P extends Enu
     public final String router() {
         String packageName = getClass().getPackageName();
         String folderName = packageName.substring(packageName.lastIndexOf('.') + 1);
-        return "/resources/pages/" + folderName + "/" + currentPage.getFile() + ".xhtml";
+        String file = (currentPage instanceof SingleDialogPage) ? singlePageFile() : currentPage.getFile();
+        return "/resources/pages/" + folderName + "/" + file + ".xhtml";
+    }
+
+    private String singlePageFile() {
+        return getClass()
+            .getSimpleName()
+            .replaceFirst("Bean$", "")
+            .replaceFirst("(Dialog|Task)$", "")
+            + "Page";
     }
 
 
